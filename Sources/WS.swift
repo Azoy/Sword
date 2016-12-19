@@ -47,9 +47,7 @@ class WS {
   }
 
   func getPacket(_ text: String) -> [String: Any] {
-    print("test here")
     let packet = try? JSONSerialization.jsonObject(with: text.data(using: .utf8)!, options: .allowFragments) as! [String: Any]
-    print("test her 2")
 
     return packet!
   }
@@ -63,16 +61,16 @@ class WS {
   }
 
   func event(_ packet: [String: Any]) {
-    var info: [String: Any] = [:]
+    let data = packet["d"]
 
-    if packet["d"] != nil {
-      info = packet["d"] as! [String: Any]
+    if let sequenceNumber = packet["s"] as? Int {
+      self.heartbeat?.sequence.append(sequenceNumber)
     }
 
     guard let eventName = packet["t"] as? String else {
-      switch packet["op"] as! Int {
-        case OPCode.hello.rawValue:
-          self.heartbeat = Heartbeat(self.session!, interval: info["heartbeat_interval"] as! Int)
+      switch packet["op"] as! OPCode {
+        case OPCode.hello:
+          self.heartbeat = Heartbeat(self.session!, interval: (data as! [String: Any])["heartbeat_interval"] as! Int)
           self.heartbeat?.start()
           self.identify()
           break

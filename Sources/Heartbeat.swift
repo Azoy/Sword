@@ -20,7 +20,7 @@ class Heartbeat {
     let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(self.interval)
 
     queue.asyncAfter(deadline: deadline) {
-      let heartbeat: [String: Any] = ["op": OPCode.heartbeat.rawValue, "d": NSNull()]
+      let heartbeat = ["op": OPCode.heartbeat.rawValue, "d": nil]
 
       let data = try? JSONSerialization.data(withJSONObject: heartbeat, options: [])
 
@@ -35,7 +35,9 @@ class Heartbeat {
 
     queue.asyncAfter(deadline: deadline) {
       let heartbeat = ["op": OPCode.heartbeat.rawValue, "d": self.sequence.first ?? nil]
-      self.sequence.remove(at: 0)
+      if self.sequence.count > 0 {
+        self.sequence.remove(at: 0)
+      }
 
       let data = try? JSONSerialization.data(withJSONObject: heartbeat, options: [])
 
