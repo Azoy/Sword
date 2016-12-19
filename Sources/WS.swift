@@ -60,7 +60,11 @@ class WS {
   }
 
   func event(_ packet: [String: Any]) {
-    let info = packet["d"] as! [String: Any]
+    var info: [String: Any] = [:]
+
+    if packet["d"] != nil {
+      info = packet["d"] as! [String: Any]
+    }
 
     guard let eventName = packet["t"] as? String else {
       switch packet["op"] as! Int {
