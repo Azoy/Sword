@@ -3,8 +3,8 @@ import Foundation
 open class Eventer {
   var listeners: [String: [(Any...) -> Void]] = [:]
 
-  open func on(_ eventName: String, completion: @escaping (_ data: Any...) -> Void) {
-    guard self.listeners[eventName] == nil else {
+  open func on(_ eventName: String, _ completion: @escaping (_ data: Any...) -> Void) {
+    guard self.listeners[eventName] != nil else {
       self.listeners[eventName] = [completion]
       return
     }
