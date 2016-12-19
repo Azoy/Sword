@@ -32,7 +32,7 @@ public class Sword {
     }
   }
 
-  public func on(_ eventName: String, completion: @escaping (_ data: Any...) -> Void) {
+  public func on(_ eventName: String, completion: @escaping (_ data: [Any]) -> Void) {
     self.eventer.on(eventName, completion)
   }
 

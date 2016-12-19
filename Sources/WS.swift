@@ -66,7 +66,7 @@ class WS {
           self.identify()
           break
         case OPCode.heartbeatACK.rawValue:
-          self.eventer.emit("heartbeat", "hello")
+          self.eventer.emit("heartbeat")
           break
         default:
           print("Some other opcode")
