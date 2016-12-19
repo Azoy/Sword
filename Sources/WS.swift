@@ -68,8 +68,8 @@ class WS {
     }
 
     guard let eventName = packet["t"] as? String else {
-      switch packet["op"] as! OPCode {
-        case OPCode.hello:
+      switch packet["op"] as! Int {
+      case OPCode.hello.rawValue:
           self.heartbeat = Heartbeat(self.session!, interval: (data as! [String: Any])["heartbeat_interval"] as! Int)
           self.heartbeat?.start()
           self.identify()
