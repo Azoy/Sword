@@ -1,4 +1,5 @@
 import Foundation
+import WebSockets
 
 public class Sword {
 
@@ -6,6 +7,7 @@ public class Sword {
 
   let requester: Request
   let endpoint: Endpoint
+  var session: WebSocket?
 
   var gatewayUrl: String?
   var shardCount: Int?
