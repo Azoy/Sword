@@ -16,20 +16,6 @@ class Heartbeat {
     self.interval = interval
   }
 
-  func start() {
-    let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(self.interval)
-
-    queue.asyncAfter(deadline: deadline) {
-      let heartbeat = ["op": OPCode.heartbeat.rawValue, "d": nil]
-
-      let data = try? JSONSerialization.data(withJSONObject: heartbeat, options: [])
-
-      try? self.session.send(String(data: data!, encoding: .utf8)!)
-
-      self.send()
-    }
-  }
-
   func send() {
     let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(self.interval)
 
