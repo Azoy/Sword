@@ -34,10 +34,7 @@ class WS {
       self.session = ws
 
       ws.onText = { ws, text in
-        print(text)
-        let packet = self.getPacket(text)
-
-        self.event(packet)
+        self.event(text.decode() as! [String: Any])
       }
 
       ws.onClose = { ws, _, _, _ in
@@ -46,18 +43,10 @@ class WS {
     }
   }
 
-  func getPacket(_ text: String) -> [String: Any] {
-    let packet = try? JSONSerialization.jsonObject(with: text.data(using: .utf8)!, options: .allowFragments) as! [String: Any]
-
-    return packet!
-  }
-
   func identify() {
-    let identity: [String: Any] = ["op": OPCode.identify.rawValue, "d": ["token": self.requester.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": true, "large_threshold": 50]]
+    let identity = ["op": OPCode.identify.rawValue, "d": ["token": self.requester.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": true, "large_threshold": 50]].encode()
 
-    let data = try? JSONSerialization.data(withJSONObject: identity, options: [])
-
-    try? self.session?.send(String(data: data!, encoding: .utf8)!)
+    try? self.session?.send(identity)
   }
 
   func event(_ packet: [String: Any]) {
@@ -73,6 +62,8 @@ class WS {
           self.heartbeat = Heartbeat(self.session!, interval: (data as! [String: Any])["heartbeat_interval"] as! Int)
           self.heartbeat?.send()
           self.identify()
+          break
+        case OPCode.heartbeatACK.rawValue:
           break
         default:
           print("Some other opcode")
