@@ -8,6 +8,7 @@ public class Sword {
   let endpoint: Endpoint
 
   var gatewayUrl: String?
+  var shardCount: Int?
 
   public init(token: String) {
     self.token = token
@@ -16,14 +17,16 @@ public class Sword {
   }
 
   public func connect() {
-    getGateway() { error, gatewayUrl in
+    getGateway() { error, data in
       if error != nil {
         print(error!)
         sleep(2)
         self.connect()
       }else {
-        self.gatewayUrl = gatewayUrl!
-        print(self.gatewayUrl!)
+        self.gatewayUrl = "\(data!["url"]!)/?encoding"
+        self.shardCount = data!["shards"] as? Int
+
+        self.startWS()
       }
     }
   }
