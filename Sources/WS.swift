@@ -31,8 +31,6 @@ class WS {
 
   func startWS(_ gatewayUrl: String) {
     try? WebSocket.connect(to: gatewayUrl) { ws in
-      print("Connected to \(gatewayUrl)")
-
       self.session = ws
 
       ws.onText = { ws, text in
