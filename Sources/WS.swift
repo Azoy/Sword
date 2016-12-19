@@ -41,9 +41,13 @@ extension Sword {
     return packet!
   }
 
+  func identify() {
+
+  }
+
   func event(_ packet: [String: Any]) {
     guard let eventName = packet["t"] as? String else {
-      switch packet["op"]! {
+      switch packet["op"] as! Int {
         case OPCode.hello:
           print("Hello")
           break
