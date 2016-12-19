@@ -8,9 +8,11 @@ class WS {
   var heartbeat: Heartbeat?
 
   var session: WebSocket?
+  let eventer: Eventer
 
-  init(_ requester: Request) {
+  init(_ eventer: Eventer, _ requester: Request) {
     self.requester = requester
+    self.eventer = eventer
   }
 
   func getGateway(completion: @escaping (Error?, [String: Any]?) -> Void) {
@@ -64,6 +66,7 @@ class WS {
           self.identify()
           break
         case OPCode.heartbeatACK.rawValue:
+          self.eventer.emit("heartbeat", "hello")
           break
         default:
           print("Some other opcode")

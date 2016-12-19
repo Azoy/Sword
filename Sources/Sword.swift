@@ -6,6 +6,7 @@ public class Sword {
 
   let requester: Request
   let ws: WS
+  let eventer = Eventer()
 
   var gatewayUrl: String?
   var shardCount: Int?
@@ -13,7 +14,7 @@ public class Sword {
   public init(token: String) {
     self.token = token
     self.requester = Request(token)
-    self.ws = WS(requester)
+    self.ws = WS(self.eventer, requester)
   }
 
   public func connect() {
@@ -29,6 +30,10 @@ public class Sword {
         self.ws.startWS(self.gatewayUrl!)
       }
     }
+  }
+
+  public func on(eventName: String, completion: @escaping (_ data: Any...) -> Void) {
+    self.eventer.on(eventName, completion: completion)
   }
 
 }
