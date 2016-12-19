@@ -26,7 +26,7 @@ extension Sword {
       ws.onText = { ws, text in
         let packet = self.getPacket(text)
 
-        print(packet)
+        self.event(packet)
       }
 
       ws.onClose = { ws, _, _, _ in
@@ -41,8 +41,19 @@ extension Sword {
     return packet!
   }
 
-  func event(packet: [String: Any]) {
+  func event(_ packet: [String: Any]) {
+    if packet["t"] == nil {
+      switch packet["op"]! {
+      case OPCode.hello:
+          print("Hello")
+        default:
+          print(packet["op"]!)
+      }
 
+      return
+    }
+
+    print("Hmmm")
   }
 
 }
