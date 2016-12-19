@@ -15,7 +15,12 @@ extension Sword {
         return
       }
 
-      completion(nil, "\(data["url"])")
+      if data["url"] == nil {
+        completion(.unknown, nil)
+        return
+      }else {
+        completion(nil, "\(data["url"]!)")
+      }
     }
   }
 

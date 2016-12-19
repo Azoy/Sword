@@ -1,7 +1,7 @@
 import Foundation
 
 public enum Error {
-case ok, created, noContent, notModified, badRequest, unauthorized, forbidden, notFound, methodNotAllowed, tooManyRequests, gatewayUnavailable, serverError, unknown
+  case ok, created, noContent, notModified, badRequest, unauthorized, forbidden, notFound, methodNotAllowed, tooManyRequests, gatewayUnavailable, serverError, unknown
 }
 
 extension HTTPURLResponse {

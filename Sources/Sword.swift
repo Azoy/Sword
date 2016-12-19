@@ -22,7 +22,7 @@ public class Sword {
         sleep(2)
         self.connect()
       }else {
-        self.gatewayUrl = gatewayUrl
+        self.gatewayUrl = gatewayUrl!
         print(self.gatewayUrl!)
       }
     }
