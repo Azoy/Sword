@@ -22,8 +22,6 @@ class Heartbeat {
     queue.asyncAfter(deadline: deadline) {
       let heartbeat: [String: Any] = ["op": OPCode.heartbeat.rawValue, "d": NSNull()]
 
-      print(heartbeat)
-
       let data = try? JSONSerialization.data(withJSONObject: heartbeat, options: [])
 
       try? self.session.send(String(data: data!, encoding: .utf8)!)

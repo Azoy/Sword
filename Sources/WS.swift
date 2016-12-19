@@ -47,7 +47,9 @@ class WS {
   }
 
   func getPacket(_ text: String) -> [String: Any] {
+    print("test here")
     let packet = try? JSONSerialization.jsonObject(with: text.data(using: .utf8)!, options: .allowFragments) as! [String: Any]
+    print("test her 2")
 
     return packet!
   }
