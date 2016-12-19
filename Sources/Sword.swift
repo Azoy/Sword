@@ -23,7 +23,7 @@ public class Sword {
         sleep(2)
         self.connect()
       }else {
-        self.gatewayUrl = "\(data!["url"]!)/?encoding"
+        self.gatewayUrl = "\(data!["url"]!)/?encoding=json&v=6"
         self.shardCount = data!["shards"] as? Int
 
         self.startWS()
