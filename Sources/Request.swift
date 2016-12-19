@@ -11,10 +11,14 @@ struct Request {
     self.token = token
   }
 
-  func request(_ url: String, with headers: [String: String] = [:], with method: String = "GET", completion: @escaping (Error?, Any?) -> Void) {
+  func request(_ url: String, headers: [String: String] = [:], authorization: Bool = false, method: String = "GET", completion: @escaping (Error?, Any?) -> Void) {
 
     var request = URLRequest(url: URL(string: url)!)
     request.httpMethod = method
+
+    if authorization {
+      request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
+    }
 
     for (header, value) in headers {
       request.addValue(value, forHTTPHeaderField: header)
@@ -37,7 +41,7 @@ struct Request {
 
       do {
         let returnedData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-        completion(nil, returnedData as Any?)
+        completion(nil, returnedData)
       }catch {
         completion(.unknown, nil)
       }

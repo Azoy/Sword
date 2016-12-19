@@ -1,9 +1,11 @@
 import Foundation
 
-extension Sword {
+struct Endpoint  {
 
-  enum Endpoint: String {
-    case gateway = "https://discordapp.com/api/gateway/bot"
+  let base = "https://discordapp.com/api"
+
+  var gateway: String {
+    return base + "/gateway/bot"
   }
 
 }
