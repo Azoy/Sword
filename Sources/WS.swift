@@ -5,7 +5,7 @@ extension Sword {
 
   func getGateway() {
     requester.request(Endpoint.gateway.rawValue, with: ["Authorization": "Bot \(token)"]) { error, data in
-      if error == nil {
+      if error != nil {
         print(error!)
         return
       }
