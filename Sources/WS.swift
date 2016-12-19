@@ -34,6 +34,7 @@ class WS {
       self.session = ws
 
       ws.onText = { ws, text in
+        print(text)
         let packet = self.getPacket(text)
 
         self.event(packet)
