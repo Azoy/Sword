@@ -1,7 +1,16 @@
 import Foundation
 import WebSockets
 
-extension Sword {
+class SwordWS {
+
+  let requester: Request
+  let endpoint = Endpoint()
+
+  var session: WebSocket?
+
+  init(_ requester: Request) {
+    self.requester = requester
+  }
 
   func getGateway(completion: @escaping (Error?, [String: Any]?) -> Void) {
     requester.request(endpoint.gateway, authorization: true) { error, data in
@@ -19,9 +28,9 @@ extension Sword {
     }
   }
 
-  func startWS() {
-    try? WebSocket.connect(to: gatewayUrl!) { ws in
-      print("Connected to \(self.gatewayUrl!)")
+  func startWS(_ gatewayUrl: String) {
+    try? WebSocket.connect(to: gatewayUrl) { ws in
+      print("Connected to \(gatewayUrl)")
 
       self.session = ws
 
@@ -44,7 +53,7 @@ extension Sword {
   }
 
   func identify() {
-    let identity: [String: Any] = ["token": self.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": true, "large_threshold": 50, "shard": [1, 1]]
+    let identity: [String: Any] = ["token": self.requester.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": true, "large_threshold": 50]
 
     let data = try? JSONSerialization.data(withJSONObject: identity, options: [])
 
