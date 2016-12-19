@@ -5,7 +5,7 @@ public class Sword {
   let token: String
 
   let requester: Request
-  let ws: SwordWS
+  let ws: WS
 
   var gatewayUrl: String?
   var shardCount: Int?
@@ -13,7 +13,7 @@ public class Sword {
   public init(token: String) {
     self.token = token
     self.requester = Request(token)
-    self.ws = SwordWS(requester)
+    self.ws = WS(requester)
   }
 
   public func connect() {

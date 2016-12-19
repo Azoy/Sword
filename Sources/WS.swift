@@ -1,10 +1,11 @@
 import Foundation
 import WebSockets
 
-class SwordWS {
+class WS {
 
   let requester: Request
   let endpoint = Endpoint()
+  var heartbeat: Heartbeat?
 
   var session: WebSocket?
 
@@ -61,9 +62,13 @@ class SwordWS {
   }
 
   func event(_ packet: [String: Any]) {
+    let info = packet["d"] as! [String: Any]
+
     guard let eventName = packet["t"] as? String else {
       switch packet["op"] as! Int {
         case OPCode.hello.rawValue:
+          self.heartbeat = Heartbeat(self.session!, interval: info["heartbeat_interval"] as! Int)
+          self.heartbeat?.start()
           self.identify()
           break
         default:
