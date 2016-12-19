@@ -53,7 +53,7 @@ class SwordWS {
   }
 
   func identify() {
-    let identity: [String: Any] = ["token": self.requester.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": true, "large_threshold": 50]
+    let identity: [String: Any] = ["op": OPCode.identify.rawValue, "d": ["token": self.requester.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": true, "large_threshold": 50]]
 
     let data = try? JSONSerialization.data(withJSONObject: identity, options: [])
 
