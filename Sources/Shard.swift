@@ -5,6 +5,7 @@ class Shard {
 
   let id: Int
   let shardCount: Int
+  var sessionId: String?
   var heartbeat: Heartbeat?
 
   var session: WebSocket?
@@ -43,37 +44,17 @@ class Shard {
   }
 
   func event(_ payload: Payload) {
-    let data = payload.d
-
     if let sequenceNumber = payload.s {
       self.heartbeat?.sequence.append(sequenceNumber)
       self.lastSeq = sequenceNumber
     }
 
     guard let eventName = payload.t else {
-      switch OPCode(rawValue: payload.op)! {
-        case .hello:
-          self.heartbeat = Heartbeat(self.session!, interval: (data as! [String: Any])["heartbeat_interval"] as! Int)
-          self.heartbeat?.send()
-          self.identify()
-          break
-        case .heartbeatACK:
-          break
-        default:
-          print(payload.op)
-      }
-
+      self.handleGateway(payload)
       return
     }
 
-    switch Event(rawValue: eventName)! {
-      case .ready:
-        self.sword.user = User((data as! [String: Any])["user"] as! [String: Any])
-        self.sword.emit("ready", with: self.sword.user!)
-        break
-      default:
-        print(eventName)
-    }
+    self.handleEvents(payload, eventName)
   }
 
 }
