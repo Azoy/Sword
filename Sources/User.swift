@@ -2,14 +2,14 @@ import Foundation
 
 public struct User {
 
-  let id: Int?
-  let username: String?
-  let discriminator: String?
-  let avatar: String?
-  let bot: Bool?
-  let mfaEnabled: Bool?
-  let verified: Bool?
-  let email: String?
+  public let id: Int?
+  public let username: String?
+  public let discriminator: String?
+  public let avatar: String?
+  public let bot: Bool?
+  public let mfaEnabled: Bool?
+  public let verified: Bool?
+  public let email: String?
 
   init(_ json: [String: Any]) {
     if let id = json["id"] as? String {

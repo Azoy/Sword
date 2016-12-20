@@ -6,7 +6,7 @@ enum OPCode: Int {
 
 enum Event: String {
   case ready = "READY"
-  case resumed = "RESUMED"
+  case resume = "RESUMED"
   case channelCreate = "CHANNEL_CREATE"
   case channelUpdate = "CHANNEL_UPDATE"
   case channelDelete = "CHANNEL_DELETE"
