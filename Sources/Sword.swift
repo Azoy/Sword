@@ -18,6 +18,14 @@ public class Sword {
     self.requester = Request(token)
   }
 
+  public func on(_ eventName: String, completion: @escaping (_ data: Any) -> Void) {
+    self.eventer.on(eventName, completion)
+  }
+
+  public func emit(_ eventName: String, with data: Any...) {
+    self.eventer.emit(eventName, with: data)
+  }
+
   public func connect() {
     self.ws = WS(self, requester)
     self.ws!.getGateway() { error, data in
@@ -34,12 +42,16 @@ public class Sword {
     }
   }
 
-  public func on(_ eventName: String, completion: @escaping (_ data: Any) -> Void) {
-    self.eventer.on(eventName, completion)
-  }
+  public func editStatus(to status: String, playing game: [String: Any]?) {
+    var packet: [String: Any] = ["op": OPCode.statusUpdate.rawValue, "d": ["afk": status == "idle", "since": status == "idle" ? Date().milliseconds : 0, status: status]]
 
-  public func emit(_ eventName: String, with data: Any...) {
-    self.eventer.emit(eventName, with: data)
+    if game != nil {
+      var data = packet["d"] as! [String: Any]
+      data.updateValue(game!, forKey: "game")
+      packet["d"] = data
+    }
+
+    self.ws!.send(packet.encode())
   }
 
 }

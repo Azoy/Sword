@@ -45,6 +45,10 @@ class WS {
     }
   }
 
+  func send(_ text: String) {
+    try? self.session!.send(text)
+  }
+
   func identify() {
     let identity = ["op": OPCode.identify.rawValue, "d": ["token": self.requester.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": false, "large_threshold": 50]].encode()
 
@@ -79,10 +83,6 @@ class WS {
         self.sword.user = User((data as! [String: Any])["user"] as! [String: Any])
         self.sword.emit("ready", with: self.sword.user!)
         break
-      case .resume:
-        break
-      case .guildCreate:
-        print("\(data)")
       default:
         print(eventName)
     }
