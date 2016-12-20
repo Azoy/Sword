@@ -8,11 +8,11 @@ class WS {
   var heartbeat: Heartbeat?
 
   var session: WebSocket?
-  let eventer: Eventer
+  let sword: Sword
 
-  init(_ eventer: Eventer, _ requester: Request) {
+  init(_ sword: Sword, _ requester: Request) {
     self.requester = requester
-    self.eventer = eventer
+    self.sword = sword
   }
 
   func getGateway(completion: @escaping (Error?, [String: Any]?) -> Void) {
@@ -46,7 +46,7 @@ class WS {
   }
 
   func identify() {
-    let identity = ["op": OPCode.identify.rawValue, "d": ["token": self.requester.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": true, "large_threshold": 50]].encode()
+    let identity = ["op": OPCode.identify.rawValue, "d": ["token": self.requester.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": false, "large_threshold": 50]].encode()
 
     try? self.session?.send(identity)
   }
@@ -59,14 +59,13 @@ class WS {
     }
 
     guard let eventName = packet["t"] as? String else {
-      switch packet["op"] as! Int {
-        case OPCode.hello.rawValue:
+      switch OPCode(rawValue: packet["op"] as! Int)! {
+        case .hello:
           self.heartbeat = Heartbeat(self.session!, interval: (data as! [String: Any])["heartbeat_interval"] as! Int)
           self.heartbeat?.send()
           self.identify()
           break
-        case OPCode.heartbeatACK.rawValue:
-          self.eventer.emit("heartbeat")
+        case .heartbeatACK:
           break
         default:
           print("Some other opcode")
@@ -75,7 +74,11 @@ class WS {
       return
     }
 
-    print(eventName)
+    switch Event(rawValue: eventName)! {
+      case .ready:
+        self.sword.user = User((data as! [String: Any])["user"] as! [String: Any])
+        break
+    }
   }
 
 }

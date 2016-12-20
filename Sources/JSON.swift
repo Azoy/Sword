@@ -18,14 +18,14 @@ extension String {
 
 }
 
-protocol JSONable {
+protocol Encodable {
   func encode() -> String
 }
 
-extension Dictionary: JSONable {}
-extension Array: JSONable {}
+extension Dictionary: Encodable {}
+extension Array: Encodable {}
 
-extension JSONable {
+extension Encodable {
   func encode() -> String {
     let data = try? JSONSerialization.data(withJSONObject: self, options: [])
     return String(data: data!, encoding: .utf8)!
