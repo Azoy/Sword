@@ -44,15 +44,15 @@ public class Sword {
 
   public func editStatus(to status: String, playing game: [String: Any]? = nil) {
     guard self.ws != nil else { return }
-    var packet: [String: Any] = ["op": OPCode.statusUpdate.rawValue, "d": ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]]
+    var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
 
     if game != nil {
-      var data = packet["d"] as! [String: Any]
-      data.updateValue(game!, forKey: "game")
-      packet["d"] = data
+      data["game"] = game
     }
 
-    self.ws!.send(packet.encode())
+    let payload = Payload(op: .statusUpdate, data: data).encode()
+
+    self.ws!.send(payload)
   }
 
 }

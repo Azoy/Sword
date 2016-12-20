@@ -35,7 +35,7 @@ class WS {
       self.session = ws
 
       ws.onText = { ws, text in
-        self.event(text.decode() as! [String: Any])
+        self.event(Payload(with: text))
       }
 
       ws.onClose = { ws, _, _, _ in
@@ -49,20 +49,20 @@ class WS {
   }
 
   func identify() {
-    let identity = ["op": OPCode.identify.rawValue, "d": ["token": self.requester.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": false, "large_threshold": 50]].encode()
+    let identity = Payload(op: .identify, data: ["token": self.sword.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": false, "large_threshold": 50]).encode()
 
     try? self.session?.send(identity)
   }
 
-  func event(_ packet: [String: Any]) {
-    let data = packet["d"]
+  func event(_ payload: Payload) {
+    let data = payload.d
 
-    if let sequenceNumber = packet["s"] as? Int {
+    if let sequenceNumber = payload.s {
       self.heartbeat?.sequence.append(sequenceNumber)
     }
 
-    guard let eventName = packet["t"] as? String else {
-      switch OPCode(rawValue: packet["op"] as! Int)! {
+    guard let eventName = payload.t else {
+      switch OPCode(rawValue: payload.op)! {
         case .hello:
           self.heartbeat = Heartbeat(self.session!, interval: (data as! [String: Any])["heartbeat_interval"] as! Int)
           self.heartbeat?.send()
@@ -71,7 +71,7 @@ class WS {
         case .heartbeatACK:
           break
         default:
-          print("Some other opcode")
+          print(payload.op)
       }
 
       return
