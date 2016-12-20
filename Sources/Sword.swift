@@ -53,9 +53,9 @@ public class Sword {
         self.shardCount = data!["shards"] as? Int
 
         for id in 0..<self.shardCount! {
-          let shard = Shard(self, id: id, shardCount: self.shardCount!)
-          shard.startWS(self.gatewayUrl!)
+          let shard = Shard(self, id, self.shardCount!)
           self.shards.append(shard)
+          shard.startWS(self.gatewayUrl!)
         }
 
       }

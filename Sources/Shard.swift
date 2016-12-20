@@ -12,7 +12,7 @@ class Shard {
 
   var lastSeq: Int?
 
-  init(_ sword: Sword, id: Int, shardCount: Int) {
+  init(_ sword: Sword, _ id: Int, _ shardCount: Int) {
     self.sword = sword
     self.id = id
     self.shardCount = shardCount
