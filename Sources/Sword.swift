@@ -5,7 +5,7 @@ public class Sword {
   let token: String
 
   let requester: Request
-  var ws: WS?
+  var shards: [Shard] = []
   let eventer = Eventer()
 
   var gatewayUrl: String?
@@ -26,9 +26,24 @@ public class Sword {
     self.eventer.emit(eventName, with: data)
   }
 
+  func getGateway(completion: @escaping (Error?, [String: Any]?) -> Void) {
+    self.requester.request(Endpoint.gateway.description, authorization: true) { error, data in
+      if error != nil {
+        completion(error, nil)
+        return
+      }
+
+      guard let data = data as? [String: Any] else {
+        completion(.unknown, nil)
+        return
+      }
+
+      completion(nil, data)
+    }
+  }
+
   public func connect() {
-    self.ws = WS(self, requester)
-    self.ws!.getGateway() { error, data in
+    self.getGateway() { error, data in
       if error != nil {
         print(error!)
         sleep(2)
@@ -37,13 +52,18 @@ public class Sword {
         self.gatewayUrl = "\(data!["url"]!)/?encoding=json&v=6"
         self.shardCount = data!["shards"] as? Int
 
-        self.ws!.startWS(self.gatewayUrl!)
+        for id in 0..<self.shardCount! {
+          let shard = Shard(self, id: id, shardCount: self.shardCount!)
+          shard.startWS(self.gatewayUrl!)
+          self.shards.append(shard)
+        }
+
       }
     }
   }
 
   public func editStatus(to status: String, playing game: [String: Any]? = nil) {
-    guard self.ws != nil else { return }
+    guard self.shards.count > 0 else { return }
     var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
 
     if game != nil {
@@ -52,7 +72,9 @@ public class Sword {
 
     let payload = Payload(op: .statusUpdate, data: data).encode()
 
-    self.ws!.send(payload)
+    for shard in self.shards {
+      shard.send(payload)
+    }
   }
 
 }

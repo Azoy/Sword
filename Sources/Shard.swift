@@ -1,33 +1,21 @@
 import Foundation
 import WebSockets
 
-class WS {
+class Shard {
 
-  let requester: Request
+  let id: Int
+  let shardCount: Int
   var heartbeat: Heartbeat?
 
   var session: WebSocket?
   let sword: Sword
 
-  init(_ sword: Sword, _ requester: Request) {
-    self.requester = requester
+  var lastSeq: Int?
+
+  init(_ sword: Sword, id: Int, shardCount: Int) {
     self.sword = sword
-  }
-
-  func getGateway(completion: @escaping (Error?, [String: Any]?) -> Void) {
-    requester.request(Endpoint.gateway.description, authorization: true) { error, data in
-      if error != nil {
-        completion(error, nil)
-        return
-      }
-
-      guard let data = data as? [String: Any] else {
-        completion(.unknown, nil)
-        return
-      }
-
-      completion(nil, data)
-    }
+    self.id = id
+    self.shardCount = shardCount
   }
 
   func startWS(_ gatewayUrl: String) {
@@ -49,7 +37,7 @@ class WS {
   }
 
   func identify() {
-    let identity = Payload(op: .identify, data: ["token": self.sword.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": false, "large_threshold": 50]).encode()
+    let identity = Payload(op: .identify, data: ["token": self.sword.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": false, "large_threshold": 50, "shard": [self.id, self.shardCount]]).encode()
 
     try? self.session?.send(identity)
   }
@@ -59,6 +47,7 @@ class WS {
 
     if let sequenceNumber = payload.s {
       self.heartbeat?.sequence.append(sequenceNumber)
+      self.lastSeq = sequenceNumber
     }
 
     guard let eventName = payload.t else {
