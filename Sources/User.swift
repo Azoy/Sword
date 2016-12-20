@@ -12,8 +12,8 @@ public struct User {
   let email: String?
 
   init(_ json: [String: Any]) {
-    if let id = json["id"] as? Int {
-      self.id = id
+    if let id = json["id"] as? String {
+      self.id = Int(id)
     }else {
       self.id = nil
     }

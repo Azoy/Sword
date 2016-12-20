@@ -77,6 +77,7 @@ class WS {
     switch Event(rawValue: eventName)! {
       case .ready:
         self.sword.user = User((data as! [String: Any])["user"] as! [String: Any])
+        self.sword.emit("ready", self.sword.user!)
         break
     }
   }
