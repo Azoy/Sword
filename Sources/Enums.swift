@@ -1,12 +1,25 @@
 import Foundation
 
+enum Endpoint: CustomStringConvertible {
+  var baseUrl: String {
+    return "https://discordapp.com/api"
+  }
+  case gateway
+  var description: String {
+    switch self {
+      case .gateway:
+        return self.baseUrl + "/gateway/bot"
+    }
+  }
+}
+
 enum OPCode: Int {
   case dispatch, heartbeat, identify, statusUpdate, voiceStateUpdate, voiceServerPing, resume, reconnect, requestGuildMember, invalidSession, hello, heartbeatACK
 }
 
 enum Event: String {
   case ready = "READY"
-  case resume = "RESUMED"
+  case resume = "RESUME"
   case channelCreate = "CHANNEL_CREATE"
   case channelUpdate = "CHANNEL_UPDATE"
   case channelDelete = "CHANNEL_DELETE"

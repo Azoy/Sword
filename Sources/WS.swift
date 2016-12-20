@@ -4,7 +4,6 @@ import WebSockets
 class WS {
 
   let requester: Request
-  let endpoint = Endpoint()
   var heartbeat: Heartbeat?
 
   var session: WebSocket?
@@ -16,7 +15,7 @@ class WS {
   }
 
   func getGateway(completion: @escaping (Error?, [String: Any]?) -> Void) {
-    requester.request(endpoint.gateway, authorization: true) { error, data in
+    requester.request(Endpoint.gateway.description, authorization: true) { error, data in
       if error != nil {
         completion(error, nil)
         return
