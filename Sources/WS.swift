@@ -79,6 +79,12 @@ class WS {
         self.sword.user = User((data as! [String: Any])["user"] as! [String: Any])
         self.sword.emit("ready", self.sword.user!)
         break
+      case .resume:
+        break
+      case .guildCreate:
+        print("\(data)")
+      default:
+        print(eventName)
     }
   }
 
