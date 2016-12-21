@@ -8,7 +8,7 @@ public struct Member {
   public let joinedAt: Date
   public let mute: Bool
   public let nick: String?
-  public var roles: [String] = []
+  public internal(set) var roles: [String] = []
   public let user: User
 
   init(_ sword: Sword, _ json: [String: Any]) {

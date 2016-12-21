@@ -6,23 +6,23 @@ public struct Guild {
 
   public let afkChannelId: String?
   public let afkTimeout: Int?
-  public var channels: [Channel] = []
+  public internal(set) var channels: [Channel] = []
   public let defaultMessageNotifications: Int
   public let embedChannelId: Int?
   public let embedEnabled: Bool?
-  public var emojis: [Emoji] = []
-  public var features: [String] = []
+  public internal(set) var emojis: [Emoji] = []
+  public private(set) var features: [String] = []
   public let icon: String?
   public let id: String
   public let joinedAt: Date?
   public let large: Bool?
   public let memberCount: Int
-  public var members: [Member] = []
+  public internal(set) var members: [Member] = []
   public let mfaLevel: Int
   public let name: String
   public let ownerId: String
   public let region: String
-  public var roles: [Role] = []
+  public internal(set) var roles: [Role] = []
   public let shard: Int
   public let splash: String?
   public let verificationLevel: Int

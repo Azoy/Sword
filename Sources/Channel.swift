@@ -10,7 +10,7 @@ public struct Channel {
   public let lastMessageId: String?
   public let lastPinTimestamp: Date?
   public let name: String
-  public var permissionOverwrites: [Overwrite] = []
+  public private(set) var permissionOverwrites: [Overwrite] = []
   public let position: Int
   public let topic: String?
   public let type: Int
