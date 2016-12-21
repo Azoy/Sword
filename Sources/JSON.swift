@@ -5,7 +5,12 @@ extension String {
   func decode() -> Any {
     let data = try? JSONSerialization.jsonObject(with: self.data(using: .utf8)!, options: .allowFragments)
 
-    if let dictionary = data as? [String: Any] {
+    if var dictionary = data as? [String: Any] {
+      for (key, value) in dictionary {
+        if let _ = value as? NSNull {
+          dictionary.removeValue(forKey: key)
+        }
+      }
       return dictionary
     }
 
