@@ -1,4 +1,4 @@
-# Sword [![Build Status](https://travis-ci.org/Azoy/Sword.svg?branch=master)](https://travis-ci.org/Azoy/Sword)
+# Sword
 A Swift Package for the Discord API - **This is very early in development**
 
 ## Install - You can't yet lel
