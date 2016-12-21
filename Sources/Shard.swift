@@ -38,14 +38,19 @@ class Shard {
   }
 
   func identify() {
-    let identity = Payload(op: .identify, data: ["token": self.sword.token, "properties": ["$os": "linux", "$browser": "Sword", "$device": "Sword", "$referrer": "", "$referring_domain": ""], "compress": false, "large_threshold": 50, "shard": [self.id, self.shardCount]]).encode()
+    #if os(macOS)
+    let os = "macOS"
+    #else
+    let os = "Linux"
+    #endif
+    let identity = Payload(op: .identify, data: ["token": self.sword.token, "properties": ["$os": os, "$browser": "Sword", "$device": "Sword"], "compress": false, "large_threshold": 50, "shard": [self.id, self.shardCount]]).encode()
 
     try? self.session?.send(identity)
   }
 
   func event(_ payload: Payload) {
     if let sequenceNumber = payload.s {
-      self.heartbeat?.sequence.append(sequenceNumber)
+      self.heartbeat?.sequence = sequenceNumber
       self.lastSeq = sequenceNumber
     }
 

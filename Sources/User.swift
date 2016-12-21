@@ -2,6 +2,8 @@ import Foundation
 
 public struct User {
 
+  let sword: Sword
+
   public let id: Int?
   public let username: String?
   public let discriminator: String?
@@ -11,7 +13,9 @@ public struct User {
   public let verified: Bool?
   public let email: String?
 
-  init(_ json: [String: Any]) {
+  init(_ sword: Sword, _ json: [String: Any]) {
+    self.sword = sword
+
     if let id = json["id"] as? String {
       self.id = Int(id)
     }else {

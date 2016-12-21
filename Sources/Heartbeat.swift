@@ -7,7 +7,7 @@ class Heartbeat {
   let session: WebSocket
 
   let interval: Int
-  var sequence: [Int] = []
+  var sequence: Int?
 
   let queue = DispatchQueue(label: "gg.azoy.sword.heartbeat", qos: .userInitiated)
 
@@ -20,10 +20,7 @@ class Heartbeat {
     let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(self.interval)
 
     queue.asyncAfter(deadline: deadline) {
-      let heartbeat = Payload(op: .heartbeat, data: self.sequence.first ?? NSNull()).encode()
-      if self.sequence.count > 0 {
-        self.sequence.remove(at: 0)
-      }
+      let heartbeat = Payload(op: .heartbeat, data: self.sequence ?? NSNull()).encode()
 
       try? self.session.send(heartbeat)
 

@@ -62,7 +62,7 @@ public class Sword {
     }
   }
 
-  public func editStatus(to status: String, playing game: [String: Any]? = nil) {
+  public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {
     guard self.shards.count > 0 else { return }
     var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
 
@@ -75,6 +75,10 @@ public class Sword {
     for shard in self.shards {
       shard.send(payload)
     }
+  }
+
+  public func setUsername(to name: String, _ completion: (_ data: User) -> Void) {
+
   }
 
 }
