@@ -73,7 +73,7 @@ public class Sword {
     let payload = Payload(op: .statusUpdate, data: data).encode()
 
     for shard in self.shards {
-      shard.send(payload)
+      shard.send(payload, presence: true)
     }
   }
 

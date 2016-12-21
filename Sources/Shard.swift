@@ -10,6 +10,8 @@ class Shard {
 
   var session: WebSocket?
   let sword: Sword
+  let globalBucket: Bucket
+  let presenceBucket: Bucket
 
   var lastSeq: Int?
 
@@ -17,6 +19,9 @@ class Shard {
     self.sword = sword
     self.id = id
     self.shardCount = shardCount
+
+    self.globalBucket = Bucket(name: "gg.azoy.sword.gateway.global", limit: 120, interval: 60)
+    self.presenceBucket = Bucket(name: "gg.azoy.sword.gateway.presence", limit: 5, interval: 60)
   }
 
   func startWS(_ gatewayUrl: String) {
@@ -33,8 +38,11 @@ class Shard {
     }
   }
 
-  func send(_ text: String) {
-    try? self.session!.send(text)
+  func send(_ text: String, presence: Bool = false) {
+    let item = DispatchWorkItem {
+      try? self.session!.send(text)
+    }
+    presence ? self.presenceBucket.queue(item) : self.globalBucket.queue(item)
   }
 
   func identify() {
