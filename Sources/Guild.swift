@@ -4,15 +4,15 @@ public struct Guild {
 
   let sword: Sword
 
-  public let afkChannelId: String
-  public let afkTimeout: Int
+  public let afkChannelId: String?
+  public let afkTimeout: Int?
   public var channels: [Channel] = []
   public let defaultMessageNotifications: Int
   public let embedChannelId: Int?
   public let embedEnabled: Bool?
   public var emojis: [Emoji] = []
   public var features: [String] = []
-  public let icon: String
+  public let icon: String?
   public let id: String
   public let joinedAt: Date?
   public let large: Bool?
@@ -30,8 +30,8 @@ public struct Guild {
   init(_ sword: Sword, _ json: [String: Any], _ shard: Int) {
     self.sword = sword
 
-    self.afkChannelId = json["afk_channel_id"] as! String
-    self.afkTimeout = json["afk_timeout"] as! Int
+    self.afkChannelId = json["afk_channel_id"] as? String
+    self.afkTimeout = json["afk_timeout"] as? Int
 
     if let channels = json["channels"] as? [[String: Any]] {
       for channel in channels {
@@ -55,7 +55,7 @@ public struct Guild {
       }
     }
 
-    self.icon = json["icon"] as! String
+    self.icon = json["icon"] as? String
     self.id = json["id"] as! String
 
     if let joinedAt = json["joined_at"] as? String {
@@ -75,7 +75,7 @@ public struct Guild {
 
     self.mfaLevel = json["mfa_level"] as! Int
     self.name = json["name"] as! String
-    self.ownerId = json["ownerId"] as! String
+    self.ownerId = json["owner_id"] as! String
     self.region = json["region"] as! String
 
     let roles = json["roles"] as! [[String: Any]]
@@ -118,9 +118,10 @@ public struct Emoji {
     self.name = json["name"] as! String
     self.requireColons = json["require_colons"] as! Bool
 
-    let roles = json["roles"] as! [[String: Any]]
-    for role in roles {
-      self.roles.append(Role(role))
+    if let roles = json["roles"] as? [[String: Any]] {
+      for role in roles {
+        self.roles.append(Role(role))
+      }
     }
   }
 

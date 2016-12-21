@@ -8,7 +8,7 @@ public struct Member {
   public let joinedAt: Date
   public let mute: Bool
   public let nick: String?
-  public var roles: [Role] = []
+  public var roles: [String] = []
   public let user: User
 
   init(_ sword: Sword, _ json: [String: Any]) {
@@ -22,9 +22,9 @@ public struct Member {
     self.mute = json["mute"] as! Bool
     self.nick = json["nick"] as? String
 
-    let roles = json["roles"] as! [[String: Any]]
+    let roles = json["roles"] as! [String]
     for role in roles {
-      self.roles.append(Role(role))
+      self.roles.append(role)
     }
 
     self.user = User(self.sword, json["user"] as! [String: Any])

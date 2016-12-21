@@ -3,8 +3,8 @@ import Foundation
 public struct Role {
 
   public let color: Int
-  public let id: String
   public let hoist: Bool
+  public let id: String
   public let managed: Bool
   public let mentionable: Bool
   public let name: String
@@ -13,8 +13,8 @@ public struct Role {
 
   init(_ json: [String: Any]) {
     self.color = json["color"] as! Int
-    self.id = json["id"] as! String
     self.hoist = json["hoist"] as! Bool
+    self.id = json["id"] as! String
     self.managed = json["managed"] as! Bool
     self.mentionable = json["mentionable"] as! Bool
     self.name = json["name"] as! String

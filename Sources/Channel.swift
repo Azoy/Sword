@@ -5,10 +5,10 @@ public struct Channel {
   let sword: Sword
 
   public let bitrate: Int?
-  public let guildId: String
   public let id: String
-  public let isPrivate: Bool
+  public let isPrivate: Bool?
   public let lastMessageId: String?
+  public let lastPinTimestamp: Date?
   public let name: String
   public var permissionOverwrites: [Overwrite] = []
   public let position: Int
@@ -20,10 +20,16 @@ public struct Channel {
     self.sword = sword
 
     self.bitrate = json["bitrate"] as? Int
-    self.guildId = json["guild_id"] as! String
     self.id = json["id"] as! String
-    self.isPrivate = json["is_private"] as! Bool
+    self.isPrivate = json["is_private"] as? Bool
     self.lastMessageId = json["last_message_id"] as? String
+
+    if let lastPinTimestamp = json["last_pin_timestamp"] as? String {
+      self.lastPinTimestamp = lastPinTimestamp.date
+    }else {
+      self.lastPinTimestamp = nil
+    }
+
     self.name = json["name"] as! String
 
     let overwrites = json["permission_overwrites"] as! [[String: Any]]

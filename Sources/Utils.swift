@@ -12,7 +12,7 @@ extension String {
 
   var date: Date {
     let dateFormat = DateFormatter()
-    dateFormat.dateFormat = "yyyy-MM-dd hh:mm:ss.SSSSxxx"
+    dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
 
     return dateFormat.date(from: self)!
   }
