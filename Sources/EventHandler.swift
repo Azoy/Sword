@@ -12,7 +12,7 @@ extension Shard {
       case .presenceUpdate:
         let data = payload.d as! [String: Any]
         let user = User(data["user"] as! [String: Any])
-        self.sword.emit("presenceUpdate", with: user, ["status": data["status"] as! String, "game": data["game"]])
+        self.sword.emit("presenceUpdate", with: user.id!, ["status": data["status"] as! String, "game": data["game"]])
         break
       default:
         print(eventName)
