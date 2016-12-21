@@ -49,12 +49,12 @@ class Shard {
       self.lastSeq = sequenceNumber
     }
 
-    guard let eventName = payload.t else {
+    guard payload.t != nil else {
       self.handleGateway(payload)
       return
     }
 
-    self.handleEvents(payload, eventName)
+    self.handleEvents(payload, payload.t!)
   }
 
 }
