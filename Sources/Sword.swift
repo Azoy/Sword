@@ -11,6 +11,8 @@ public class Sword {
   var gatewayUrl: String?
   var shardCount: Int?
 
+  public var guilds: [String: Guild] = [:]
+  public var unavailableGuilds: [String: UnavailableGuild] = [:]
   public var user: User?
 
   public init(token: String) {

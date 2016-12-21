@@ -11,16 +11,8 @@ struct Payload {
     let data = text.decode() as! [String: Any]
     self.op = data["op"] as! Int
     self.d = data["d"]!
-    if let s = data["s"] as? Int {
-      self.s = s
-    }else {
-      self.s = nil
-    }
-    if let t = data["t"] as? String {
-      self.t = t
-    }else {
-      self.t = nil
-    }
+    self.s = data["s"] as? Int
+    self.t = data["t"] as? String
   }
 
   init(op: OPCode, data: Any) {
