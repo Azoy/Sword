@@ -7,7 +7,7 @@ public struct Message {
   public internal(set) var attachments: [Attachment] = []
   public let author: User?
   public let content: String
-  public let channelId: String
+  public internal(set) var channel: Channel? = nil
   public let editedTimestamp: Date?
   public internal(set) var embeds: [Embed] = []
   public let id: String
@@ -36,7 +36,14 @@ public struct Message {
     }
 
     self.content = json["content"] as! String
-    self.channelId = json["channel_id"] as! String
+
+    let channelId = json["channel_id"] as! String
+    for (_, guild) in sword.guilds {
+      if guild.channels[channelId] != nil {
+        self.channel = guild.channels[channelId]
+        break
+      }
+    }
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date
@@ -53,8 +60,9 @@ public struct Message {
 
     if json["webhook_id"] == nil {
       for (_, guild) in sword.guilds {
-        if guild.channels[self.channelId] != nil {
+        if guild.channels[channelId] != nil {
           self.member = guild.members[self.author!.id]
+          break
         }
       }
     }else {
