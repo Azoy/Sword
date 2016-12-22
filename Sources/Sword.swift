@@ -5,6 +5,7 @@ public class Sword {
   let token: String
 
   let requester: Request
+  let endpoints = Endpoints()
   var shards: [Shard] = []
   let eventer = Eventer()
 
@@ -29,7 +30,7 @@ public class Sword {
   }
 
   func getGateway(completion: @escaping (Error?, [String: Any]?) -> Void) {
-    self.requester.request(Endpoint.gateway.description, authorization: true) { error, data in
+    self.requester.request(self.endpoints.gateway, authorization: true) { error, data in
       if error != nil {
         completion(error, nil)
         return
@@ -62,6 +63,11 @@ public class Sword {
 
       }
     }
+  }
+
+  public func createMessage(_ content: String, to channelId: String, _ completion: @escaping (Error?, Any?) -> Void) {
+    let data = ["content": content].createBody()
+    self.requester.request(endpoints.createMessage(channelId), body: data, authorization: true, method: "POST", rateLimited: true, completion: completion)
   }
 
   public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {

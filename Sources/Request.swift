@@ -28,7 +28,7 @@ class Request {
     return matches.first!
   }
 
-  func request(_ url: String, headers: [String: String] = [:], authorization: Bool = false, method: String = "GET", rateLimited: Bool = true, completion: @escaping (Error?, Any?) -> Void) {
+  func request(_ url: String, body: Data? = nil, authorization: Bool = false, method: String = "GET", rateLimited: Bool = true, completion: @escaping (Error?, Any?) -> Void) {
     let route = self.getRoute(for: url)
 
     var request = URLRequest(url: URL(string: url)!)
@@ -38,8 +38,11 @@ class Request {
       request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
     }
 
-    for (header, value) in headers {
-      request.addValue(value, forHTTPHeaderField: header)
+    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.1.0)", forHTTPHeaderField: "User-Agent")
+
+    if method == "POST" {
+      request.httpBody = body!
+      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     }
 
     let task = session.dataTask(with: request) { data, response, error in
