@@ -14,7 +14,7 @@ extension Request {
     }
 
     for path in paths {
-      let url = URL(fileURLWithPath: path)
+      let url = URL(string: path)!
       let filename = url.lastPathComponent
       let data = try Data(contentsOf: url)
       let mimetype = mimeType(for: path)
