@@ -30,7 +30,7 @@ public class Sword {
   }
 
   func getGateway(completion: @escaping (Error?, [String: Any]?) -> ()) {
-    self.requester.request(self.endpoints.gateway, authorization: true) { error, data in
+    self.requester.request(self.endpoints.gateway, rateLimited: false) { error, data in
       if error != nil {
         completion(error, nil)
         return
@@ -65,6 +65,31 @@ public class Sword {
     }
   }
 
+  public func delete(channel channelId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
+    self.requester.request(endpoints.deleteChannel(channelId), method: "DELETE") { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        let channelData = data as! [String: Any]
+        if channelData["recipient"] == nil {
+          completion(Channel(self, channelData))
+        }else {
+          completion(DMChannel(self, channelData))
+        }
+      }
+    }
+  }
+
+  public func edit(channel channelId: String, options: [String: Any] = [:], _ completion: @escaping (Channel?) -> () = {_ in}) {
+    self.requester.request(endpoints.modifyChannel(channelId), body: options.createBody(), method: "PATCH") { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(Channel(self, data as! [String: Any]))
+      }
+    }
+  }
+
   public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {
     guard self.shards.count > 0 else { return }
     var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
@@ -80,13 +105,82 @@ public class Sword {
     }
   }
 
-  public func getChannel(_ channelId: String, _ completion: @escaping (Error?, Any?) -> ()) {
-
+  public func get(message messageId: String, from channelId: String, _ completion: @escaping (Message?) -> () = {_ in}) {
+    self.requester.request(endpoints.getChannelMessage(channelId, messageId)) { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(Message(self, data as! [String: Any]))
+      }
+    }
   }
 
-  public func send(_ content: String, to channelId: String, _ completion: @escaping (Error?, Any?) -> () = {_ in}) {
-    let data = ["content": content].createBody()
-    self.requester.request(endpoints.createMessage(channelId), body: data, authorization: true, method: "POST", rateLimited: true, completion: completion)
+  public func getMessages(from channelId: String, _ completion: @escaping ([Message]?) -> () = {_ in}) {
+    self.requester.request(endpoints.getChannelMessages(channelId)) { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        var returnMessages: [Message] = []
+        let messages = data as! [[String: Any]]
+        for message in messages {
+          returnMessages.append(Message(self, message))
+        }
+        completion(returnMessages)
+      }
+    }
+  }
+
+  public func getREST(channel channelId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
+    self.requester.request(endpoints.getChannel(channelId)) { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        let channelData = data as! [String: Any]
+        if channelData["recipient"] == nil {
+          completion(Channel(self, channelData))
+        }else {
+          completion(DMChannel(self, channelData))
+        }
+      }
+    }
+  }
+
+  public func send(_ content: Any, to channelId: String, _ completion: @escaping (Message?) -> () = {_ in}) {
+    guard let message = content as? [String: Any] else {
+      let data = ["content": content].createBody()
+      self.requester.request(endpoints.createMessage(channelId), body: data, method: "POST") { error, data in
+        if error != nil {
+          completion(nil)
+        }else {
+          completion(Message(self, data as! [String: Any]))
+        }
+      }
+      return
+    }
+    var file: [String: Any] = [:]
+    var parameters: [String: String] = [:]
+
+    file["file"] = message["file"] as! String
+
+    if message["content"] != nil {
+      parameters["content"] = (message["content"] as! String)
+    }
+    if message["tts"] != nil {
+      parameters["tts"] = (message["tts"] as! String)
+    }
+    if message["embed"] != nil {
+      parameters["payload_json"] = (message["embed"] as! [String: Any]).encode()
+    }
+
+    file["parameters"] = parameters
+
+    self.requester.request(endpoints.createMessage(channelId), file: file, method: "POST") { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(Message(self, data as! [String: Any]))
+      }
+    }
   }
 
   public func setUsername(to name: String, _ completion: (_ data: User) -> () = {_ in}) {

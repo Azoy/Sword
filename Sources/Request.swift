@@ -27,7 +27,7 @@ class Request {
     return matches.first!
   }
 
-  func request(_ url: String, body: Data? = nil, authorization: Bool = false, method: String = "GET", rateLimited: Bool = true, completion: @escaping (Error?, Any?) -> ()) {
+  func request(_ url: String, body: Data? = nil, file: [String: Any]? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, completion: @escaping (Error?, Any?) -> ()) {
     let sema = DispatchSemaphore(value: 0)
 
     let route = rateLimited ? self.getRoute(for: url) : ""
@@ -43,7 +43,13 @@ class Request {
 
     request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.1.0)", forHTTPHeaderField: "User-Agent")
 
-    if method == "POST" {
+    if file != nil {
+      let boundary = generateBoundaryString()
+      let path = file!["path"] as! String
+
+      request.httpBody = try? createBody(with: file!["parameters"] as? [String: String], fileKey: "file", paths: [path], boundary: boundary)
+      request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+    }else if method == "POST" {
       request.httpBody = body
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     }
@@ -67,9 +73,14 @@ class Request {
       if response.statusCode != 200 && response.statusCode != 201 {
 
         if response.statusCode == 429 {
-          print(self.rateLimits[route]![method]!.queue)
+          sleep(5)
         }
 
+        if response.statusCode >= 500 {
+          sleep(3)
+        }
+
+        completion(response.status, nil)
         sema.signal()
         return
       }

@@ -26,6 +26,10 @@ struct Endpoints {
     return "/channels/\(channelId)/invites"
   }
 
+  func createDM() -> String {
+    return "/users/@me/channels"
+  }
+
   func createGuildBan(_ guildId: String, _ userId: String) -> String {
     return "/guilds/\(guildId)/members/\(userId)"
   }
@@ -55,6 +59,10 @@ struct Endpoints {
     }
   }
 
+  func createWebhook(_ channelId: String) -> String {
+    return "/channels/\(channelId)/webhooks"
+  }
+
   func deleteAllReactions(_ channelId: String, _ messageId: String) -> String {
     return "/channels/\(channelId)/messages/\(messageId)/reactions"
   }
@@ -77,6 +85,10 @@ struct Endpoints {
 
   func deleteGuildRole(_ guildId: String, _ roleId: String) -> String {
     return "/guilds/\(guildId)/roles/\(roleId)"
+  }
+
+  func deleteInvite(_ inviteId: String) -> String {
+    return "/invites/\(inviteId)"
   }
 
   func deleteMessage(_ channelId: String, _ messageId: String) -> String {
@@ -105,12 +117,28 @@ struct Endpoints {
     }
   }
 
+  func deleteWebhook(_ webhookId: String, _ webhookToken: String? = nil) -> String {
+    if webhookToken != nil {
+      return "/webhooks/\(webhookId)/\(webhookToken)"
+    }else {
+      return "/webhooks/\(webhookId)"
+    }
+  }
+
   func editChannelPermissions(_ channelId: String, _ overwriteId: String) -> String {
     return "/channels/\(channelId)/permissions/\(overwriteId)"
   }
 
   func editMessage(_ channelId: String, _ messageId: String) -> String {
     return "/channels/\(channelId)/messages/\(messageId)"
+  }
+
+  func executeSlackWebhook(_ webhookId: String, _ webhookToken: String) -> String {
+    return "/webhooks/\(webhookId)/\(webhookToken)/slack"
+  }
+
+  func executeWebhook(_ webhookId: String, _ webhookToken: String) -> String {
+    return "/webhooks/\(webhookId)/\(webhookToken)"
   }
 
   func getChannel(_ channelId: String) -> String {
@@ -127,6 +155,18 @@ struct Endpoints {
 
   func getChannelMessages(_ channelId: String) -> String {
     return "/channels/\(channelId)/messages"
+  }
+
+  func getChannelWebhooks(_ channelId: String) -> String {
+    return "/channels/\(channelId)/webhooks"
+  }
+
+  func getCurrentUser() -> String {
+    return "/users/@me"
+  }
+
+  func getCurrentUserGuilds() -> String {
+    return "/users/@me/guilds"
   }
 
   func getGuild(_ guildId: String) -> String {
@@ -169,6 +209,14 @@ struct Endpoints {
     return "/guilds/\(guildId)/regions"
   }
 
+  func getGuildWebhooks(_ guildId: String) -> String {
+    return "/guilds/\(guildId)/webhooks"
+  }
+
+  func getInvite(_ inviteId: String) -> String {
+    return "/invites/\(inviteId)"
+  }
+
   func getPinnedMessages(_ channelId: String) -> String {
     return "/channels/\(channelId)/pins"
   }
@@ -182,8 +230,28 @@ struct Endpoints {
     }
   }
 
+  func getUser(_ userId: String) -> String {
+    return "/users/\(userId)"
+  }
+
+  func getUserDM() -> String {
+    return "/users/@me/channels"
+  }
+
+  func getWebhook(_ webhookId: String, _ webhookToken: String? = nil) -> String {
+    if webhookToken != nil {
+      return "/webhooks/\(webhookId)/\(webhookToken)"
+    }else {
+      return "/webhooks/\(webhookId)"
+    }
+  }
+
   func groupDMRemoveRecipient(_ channelId: String, _ userId: String) -> String {
     return "/channels/\(channelId)/recipients/\(userId)"
+  }
+
+  func leaveGuild(_ guildId: String) -> String {
+    return "/users/@me/guilds/\(guildId)"
   }
 
   func listGuildMembers(_ guildId: String) -> String {
@@ -192,6 +260,10 @@ struct Endpoints {
 
   func modifyChannel(_ channelId: String) -> String {
     return "/channels/\(channelId)"
+  }
+
+  func modifyCurrentUser() -> String {
+    return "/users/@me"
   }
 
   func modifyGuild(_ guildId: String) -> String {
@@ -220,6 +292,14 @@ struct Endpoints {
 
   func modifyGuildRolePositions(_ guildId: String) -> String {
     return "/guilds/\(guildId)/roles"
+  }
+
+  func modifyWebhook(_ webhookId: String, _ webhookToken: String? = nil) -> String {
+    if webhookToken != nil {
+      return "/webhooks/\(webhookId)/\(webhookToken)"
+    }else {
+      return "/webhooks/\(webhookId)"
+    }
   }
 
   func removeGuildBan(_ guildId: String, _ userId: String) -> String {
