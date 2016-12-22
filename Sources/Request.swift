@@ -20,7 +20,7 @@ class Request {
       return ""
     }
 
-    let matches = (1..<result.numberOfRanges).map {
+    let matches = (0..<result.numberOfRanges).map {
       string.substring(with: result.rangeAt($0))
     }
 

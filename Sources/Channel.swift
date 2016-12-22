@@ -60,3 +60,21 @@ public struct Overwrite {
   }
 
 }
+
+public struct DMChannel {
+
+  private let sword: Sword
+
+  public let id: String
+  public let recipient: User
+  public let lastMessageId: String
+
+  init(_ sword: Sword, _ json: [String: Any]) {
+    self.sword = sword
+
+    self.id = json["id"] as! String
+    self.recipient = User(sword, json["recipient"] as! [String: Any])
+    self.lastMessageId = json["last_message_id"] as! String
+  }
+
+}

@@ -65,15 +65,6 @@ public class Sword {
     }
   }
 
-  public func send(_ content: String, to channelId: String) {
-    self.send(content, to: channelId, {error, data in})
-  }
-
-  public func send(_ content: String, to channelId: String, _ completion: @escaping (Error?, Any?) -> Void) {
-    let data = ["content": content].createBody()
-    self.requester.request(endpoints.createMessage(channelId), body: data, authorization: true, method: "POST", rateLimited: true, completion: completion)
-  }
-
   public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {
     guard self.shards.count > 0 else { return }
     var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
@@ -87,6 +78,23 @@ public class Sword {
     for shard in self.shards {
       shard.send(payload, presence: true)
     }
+  }
+
+  public func getChannel(_ channelId: String, _ completion: @escaping (Error?, Any?) -> Void) {
+
+  }
+
+  public func send(_ content: String, to channelId: String) {
+    self.send(content, to: channelId, {error, data in})
+  }
+
+  public func send(_ content: String, to channelId: String, _ completion: @escaping (Error?, Any?) -> Void) {
+    let data = ["content": content].createBody()
+    self.requester.request(endpoints.createMessage(channelId), body: data, authorization: true, method: "POST", rateLimited: true, completion: completion)
+  }
+
+  public func setUsername(to name: String) {
+    self.setUsername(to: name, {user in})
   }
 
   public func setUsername(to name: String, _ completion: (_ data: User) -> Void) {
