@@ -20,7 +20,7 @@ extension String {
 
 protocol Encodable {
   func encode() -> String
-  func createBody() -> Data
+  func createBody() -> Data?
 }
 
 extension Dictionary: Encodable {}
@@ -32,7 +32,8 @@ extension Encodable {
     return String(data: data!, encoding: .utf8)!
   }
 
-  func createBody() -> Data {
-    return try! JSONSerialization.data(withJSONObject: self, options: [])
+  func createBody() -> Data? {
+    let json = self.encode()
+    return json.data(using: .utf8)
   }
 }

@@ -6,7 +6,7 @@ public struct Guild {
 
   public let afkChannelId: String?
   public let afkTimeout: Int?
-  public internal(set) var channels: [Channel] = []
+  public internal(set) var channels: [String: Channel] = [:]
   public let defaultMessageNotifications: Int
   public let embedChannelId: Int?
   public let embedEnabled: Bool?
@@ -17,7 +17,7 @@ public struct Guild {
   public let joinedAt: Date?
   public let large: Bool?
   public let memberCount: Int
-  public internal(set) var members: [Member] = []
+  public internal(set) var members: [String: Member] = [:]
   public let mfaLevel: Int
   public let name: String
   public let ownerId: String
@@ -35,7 +35,7 @@ public struct Guild {
 
     if let channels = json["channels"] as? [[String: Any]] {
       for channel in channels {
-        self.channels.append(Channel(sword, channel))
+        self.channels[channel["id"] as! String] = Channel(sword, channel)
       }
     }
 
@@ -69,7 +69,7 @@ public struct Guild {
 
     if let members = json["members"] as? [[String: Any]] {
       for member in members {
-        self.members.append(Member(sword, member))
+        self.members[member["user"]!["id"] as! String] = Member(sword, member)
       }
     }
 
