@@ -65,6 +65,10 @@ public class Sword {
     }
   }
 
+  public func send(_ content: String, to channelId: String) {
+    self.send(content, to: channelId, {error, data in})
+  }
+
   public func send(_ content: String, to channelId: String, _ completion: @escaping (Error?, Any?) -> Void) {
     let data = ["content": content].createBody()
     self.requester.request(endpoints.createMessage(channelId), body: data, authorization: true, method: "POST", rateLimited: true, completion: completion)

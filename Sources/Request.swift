@@ -100,13 +100,15 @@ class Request {
     if rateLimited && self.rateLimits[route] != nil && self.rateLimits[route]?[method] != nil {
       let item = DispatchWorkItem {
         task.resume()
+
+        sema.wait()
       }
       self.rateLimits[route]![method]!.queue(item)
     }else {
       task.resume()
-    }
 
-    sema.wait()
+      sema.wait()
+    }
 
   }
 

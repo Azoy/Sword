@@ -22,6 +22,9 @@ extension Shard {
         }
 
         break
+      case .messageCreate:
+        self.sword.emit("messageCreate", with: Message(self.sword, data))
+        break
       case .ready:
         self.sessionId = data["session_id"] as? String
 

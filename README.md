@@ -18,8 +18,11 @@ import Sword
 
 let bot = Sword(token: "tokenhere")
 
-bot.on("ready") { _ in
-  bot.editStatus(playing: ["name": "with Swords"])
+bot.on("messageCreate") { msg in
+  let msg = (msg as! [Message])[0]
+  if msg.content == "!ping" {
+    bot.send("Pong!", to: msg.channelId)
+  }
 }
 
 bot.connect()
