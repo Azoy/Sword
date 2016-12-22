@@ -21,7 +21,7 @@ class Bucket {
 
   func queue(_ item: DispatchWorkItem) {
     self.queue.append(item)
-    check()
+    self.check()
   }
 
   func take(_ num: Int) {
@@ -37,7 +37,7 @@ class Bucket {
       self.lastResetDispatch = DispatchTime.now()
     }
 
-    guard self.tokens > 0 else {
+    if self.tokens == 0 {
       self.worker.asyncAfter(deadline: self.lastResetDispatch + .seconds(self.interval)) {
         self.check()
       }
@@ -50,6 +50,7 @@ class Bucket {
 
   func execute() {
     let item = self.queue.remove(at: 0)
+    self.tokens -= 1
     self.worker.async(execute: item)
   }
 
