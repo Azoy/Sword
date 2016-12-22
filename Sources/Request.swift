@@ -45,7 +45,7 @@ class Request {
 
     if file != nil {
       let boundary = generateBoundaryString()
-      let path = file!["path"] as! String
+      let path = file!["file"] as! String
 
       request.httpBody = try? createBody(with: file!["parameters"] as? [String: String], fileKey: "file", paths: [path], boundary: boundary)
       request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
