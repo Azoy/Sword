@@ -110,30 +110,30 @@ public struct Embed {
 
   public let author: [String: Any]
   public let color: Int
-  public let description: String
-  public let fields: [[String: Any]]
-  public let footer: [String: Any]
-  public let image: [String: Any]
-  public let provider: [String: Any]
-  public let thumbnail: [String: Any]
-  public let title: String
+  public let description: String?
+  public let fields: [[String: Any]]?
+  public let footer: [String: Any]?
+  public let image: [String: Any]?
+  public let provider: [String: Any]?
+  public let thumbnail: [String: Any]?
+  public let title: String?
   public let type: String
-  public let url: String
-  public let video: [String: Any]
+  public let url: String?
+  public let video: [String: Any]?
 
   init(_ json: [String: Any]) {
     self.author = json["author"] as! [String: Any]
     self.color = json["color"] as! Int
-    self.description = json["description"] as! String
-    self.fields = json["fields"] as! [[String: Any]]
-    self.footer = json["footer"] as! [String: Any]
-    self.image = json["image"] as! [String: Any]
-    self.provider = json["provider"] as! [String: Any]
-    self.thumbnail = json["thumbnail"] as! [String: Any]
-    self.title = json["title"] as! String
+    self.description = json["description"] as? String
+    self.fields = json["fields"] as? [[String: Any]]
+    self.footer = json["footer"] as? [String: Any]
+    self.image = json["image"] as? [String: Any]
+    self.provider = json["provider"] as? [String: Any]
+    self.thumbnail = json["thumbnail"] as? [String: Any]
+    self.title = json["title"] as? String
     self.type = json["type"] as! String
-    self.url = json["url"] as! String
-    self.video = json["video"] as! [String: Any]
+    self.url = json["url"] as? String
+    self.video = json["video"] as? [String: Any]
   }
 
 }
