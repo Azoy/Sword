@@ -27,7 +27,7 @@ class Request {
     return matches.first!
   }
 
-  func request(_ url: String, body: Data? = nil, authorization: Bool = false, method: String = "GET", rateLimited: Bool = true, completion: @escaping (Error?, Any?) -> Void) {
+  func request(_ url: String, body: Data? = nil, authorization: Bool = false, method: String = "GET", rateLimited: Bool = true, completion: @escaping (Error?, Any?) -> ()) {
     let sema = DispatchSemaphore(value: 0)
 
     let route = rateLimited ? self.getRoute(for: url) : ""

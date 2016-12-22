@@ -21,7 +21,7 @@ public class Sword {
     self.requester = Request(token)
   }
 
-  public func on(_ eventName: String, _ completion: @escaping (_ data: Any) -> Void) {
+  public func on(_ eventName: String, _ completion: @escaping (_ data: Any) -> ()) {
     self.eventer.on(eventName, completion)
   }
 
@@ -29,7 +29,7 @@ public class Sword {
     self.eventer.emit(eventName, with: data)
   }
 
-  func getGateway(completion: @escaping (Error?, [String: Any]?) -> Void) {
+  func getGateway(completion: @escaping (Error?, [String: Any]?) -> ()) {
     self.requester.request(self.endpoints.gateway, authorization: true) { error, data in
       if error != nil {
         completion(error, nil)
@@ -80,24 +80,16 @@ public class Sword {
     }
   }
 
-  public func getChannel(_ channelId: String, _ completion: @escaping (Error?, Any?) -> Void) {
+  public func getChannel(_ channelId: String, _ completion: @escaping (Error?, Any?) -> ()) {
 
   }
 
-  public func send(_ content: String, to channelId: String) {
-    self.send(content, to: channelId, {error, data in})
-  }
-
-  public func send(_ content: String, to channelId: String, _ completion: @escaping (Error?, Any?) -> Void) {
+  public func send(_ content: String, to channelId: String, _ completion: @escaping (Error?, Any?) -> () = {_ in}) {
     let data = ["content": content].createBody()
     self.requester.request(endpoints.createMessage(channelId), body: data, authorization: true, method: "POST", rateLimited: true, completion: completion)
   }
 
-  public func setUsername(to name: String) {
-    self.setUsername(to: name, {user in})
-  }
-
-  public func setUsername(to name: String, _ completion: (_ data: User) -> Void) {
+  public func setUsername(to name: String, _ completion: (_ data: User) -> () = {_ in}) {
 
   }
 

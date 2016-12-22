@@ -1,9 +1,9 @@
 import Foundation
 
 open class Eventer {
-  var listeners: [String: [(Any) -> Void]] = [:]
+  var listeners: [String: [(Any) -> ()]] = [:]
 
-  open func on(_ eventName: String, _ completion: @escaping (_ data: Any) -> Void) {
+  open func on(_ eventName: String, _ completion: @escaping (_ data: Any) -> ()) {
     guard self.listeners[eventName] != nil else {
       self.listeners[eventName] = [completion]
       return
