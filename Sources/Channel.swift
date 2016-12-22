@@ -2,7 +2,7 @@ import Foundation
 
 public struct Channel {
 
-  let sword: Sword
+  private let sword: Sword
 
   public let bitrate: Int?
   public let id: String

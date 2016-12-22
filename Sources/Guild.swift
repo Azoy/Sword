@@ -2,7 +2,7 @@ import Foundation
 
 public struct Guild {
 
-  let sword: Sword
+  private let sword: Sword
 
   public let afkChannelId: String?
   public let afkTimeout: Int?

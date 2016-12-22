@@ -2,7 +2,7 @@ import Foundation
 
 public struct Member {
 
-  let sword: Sword
+  private let sword: Sword
 
   public let deaf: Bool
   public let joinedAt: Date

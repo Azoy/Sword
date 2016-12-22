@@ -24,6 +24,10 @@ class Bucket {
     check()
   }
 
+  func take(_ num: Int) {
+    self.tokens -= 1
+  }
+
   func check() {
     let now = Date()
 

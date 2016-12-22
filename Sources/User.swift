@@ -2,7 +2,7 @@ import Foundation
 
 public struct User {
 
-  let sword: Sword
+  private let sword: Sword
 
   public let avatar: String?
   public let bot: Bool?
