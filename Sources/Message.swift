@@ -29,7 +29,7 @@ public struct Message {
       self.attachments.append(Attachment(attachment))
     }
 
-    if let _ = json["webhook_id"] as? NSNull {
+    if json["webhook_id"] == nil {
       self.author = User(sword, json["author"] as! [String: Any])
     }else {
       self.author = nil
@@ -51,7 +51,7 @@ public struct Message {
 
     self.id = json["id"] as! String
 
-    if let _ = json["webhook_id"] as? NSNull {
+    if json["webhook_id"] == nil {
       for (_, guild) in sword.guilds {
         if guild.channels[self.channelId] != nil {
           self.member = guild.members[self.author!.id]
@@ -73,7 +73,9 @@ public struct Message {
       self.mentionedRoles.append(Role(mentionedRole))
     }
 
-    self.reactions = json["reactions"] as! [[String: Any]]
+    if let reactions = json["reactions"] as? [[String: Any]] {
+      self.reactions = reactions
+    }
     self.pinned = json["pinned"] as! Bool
     self.timestamp = (json["timestamp"] as! String).date
     self.tts = json["tts"] as! Bool
