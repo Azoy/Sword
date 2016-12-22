@@ -11,7 +11,7 @@ public struct Message {
   public let editedTimestamp: Date?
   public internal(set) var embeds: [Embed] = []
   public let id: String
-  public let member: Member?
+  public private(set) var member: Member?
   public let mentionEveryone: Bool
   public internal(set) var mentions: [User] = []
   public internal(set) var mentionedRoles: [Role] = []
@@ -29,7 +29,7 @@ public struct Message {
       self.attachments.append(Attachment(attachment))
     }
 
-    if let webhookId = json["webhook_id"] as? NSNull {
+    if let _ = json["webhook_id"] as? NSNull {
       self.author = User(sword, json["author"] as! [String: Any])
     }else {
       self.author = nil
@@ -40,6 +40,8 @@ public struct Message {
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date
+    }else {
+      self.editedTimestamp = nil
     }
 
     let embeds = json["embeds"] as! [[String: Any]]
@@ -49,10 +51,10 @@ public struct Message {
 
     self.id = json["id"] as! String
 
-    if let webhookId = json["webhook_id"] as? NSNull {
-      for (guildId, guild) in sword.guilds {
+    if let _ = json["webhook_id"] as? NSNull {
+      for (_, guild) in sword.guilds {
         if guild.channels[self.channelId] != nil {
-          self.member = guild.members[self.author.id]
+          self.member = guild.members[self.author!.id]
         }
       }
     }else {

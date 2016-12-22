@@ -3,7 +3,7 @@ import Foundation
 struct Endpoints {
 
   var gateway: String {
-    return self.baseUrl + "/gateway/bot"
+    return "/gateway/bot"
   }
 
   func createMessage(_ channelId: String) -> String {

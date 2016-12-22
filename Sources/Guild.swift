@@ -69,7 +69,7 @@ public struct Guild {
 
     if let members = json["members"] as? [[String: Any]] {
       for member in members {
-        self.members[member["user"]!["id"] as! String] = Member(sword, member)
+        self.members[(member["user"] as! [String: Any])["id"] as! String] = Member(sword, member)
       }
     }
 
