@@ -102,7 +102,7 @@ class Request {
 
       if rateLimited && route != "" && self.rateLimits[route]?[method] == nil {
         let limit = Int(headers["x-ratelimit-limit"] as! String)!
-        let interval = Int(Double(headers["x-ratelimit-reset"] as! String)! - Date().timeIntervalSince1970)
+        let interval = Int(Double(headers["x-ratelimit-reset"] as! String)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
         let bucket = Bucket(name: "gg.azoy.sword.\(route).\(method)", limit: limit, interval: interval)
         bucket.take(1)
 

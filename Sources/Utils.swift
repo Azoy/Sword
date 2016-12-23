@@ -19,6 +19,14 @@ extension String {
     return dateFormat.date(from: self)!
   }
 
+  //Computed property to get date from string (specifically the Date header from requests)
+  var dateNorm: Date {
+    let dateFormat = DateFormatter()
+    dateFormat.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
+
+    return dateFormat.date(from: self)!
+  }
+
 }
 
 extension Data {

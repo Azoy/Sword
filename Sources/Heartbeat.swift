@@ -10,6 +10,8 @@ class Heartbeat {
   let interval: Int
   var sequence: Int?
 
+  var received = false
+
   let queue = DispatchQueue(label: "gg.azoy.sword.heartbeat", qos: .userInitiated)
 
   /* Creates Heartbeat
@@ -29,6 +31,7 @@ class Heartbeat {
       let heartbeat = Payload(op: .heartbeat, data: self.sequence ?? NSNull()).encode()
 
       try? self.session.send(heartbeat)
+      self.received = false
 
       self.send()
     }
