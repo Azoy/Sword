@@ -119,6 +119,19 @@ public class Sword {
     }
   }
 
+  /* Delete an invite
+    @param inviteId: String - ID of invite
+  */
+  public func delete(invite inviteId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
+    self.requester.request(endpoints.deleteInvite(inviteId), method: "DELETE") { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(data as! [String: Any])
+      }
+    }
+  }
+
   /* Deletes permissions for overwrite in channel
     @param channelId: String - Channel to delete permisson from
     @param overwriteId: String - Overwrite to delete
@@ -202,6 +215,19 @@ public class Sword {
           returnMessages.append(Message(self, message))
         }
         completion(returnMessages)
+      }
+    }
+  }
+
+  /* Get an invite
+    @param inviteId: String - ID of invite
+  */
+  public func get(invite inviteId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
+    self.requester.request(endpoints.getInvite(inviteId)) { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(data as! [String: Any])
       }
     }
   }
