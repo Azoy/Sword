@@ -128,6 +128,11 @@ public struct Message {
     self.channel.get(reaction: reaction, from: self.id, completion)
   }
 
+  // Pins self
+  public func pin(_ completion: @escaping () -> () = {_ in}) {
+    self.channel.pin(self.id, completion)
+  }
+
 }
 
 //Attachment Type

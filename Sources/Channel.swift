@@ -79,6 +79,15 @@ public struct Channel {
     }
   }
 
+  /* Deletes a pinned message
+    @param messageId: String - Message to delete from pins
+  */
+  public func delete(pinnedMessage messageId: String, _ completion: @escaping () -> () = {_ in}) {
+    self.sword.requester.request(self.sword.endpoints.deletePinnedChannelMessage(self.id, messageId), method: "DELETE") { error, data in
+      if error == nil { completion() }
+    }
+  }
+
   /* Delete a reaction from a message
     @param reaction: String - Either unicode or custom emoji to delete from message
     @param messageId: String - Message to delete reaction from
@@ -137,6 +146,32 @@ public struct Channel {
 
         completion(returnUsers)
       }
+    }
+  }
+
+  // Get Pinned messages
+  public func getPinnedMessages(_ completion: @escaping ([Message]?) -> () = {_ in}) {
+    self.sword.requester.request(self.sword.endpoints.getPinnedMessages(self.id)) { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        var returnMessages: [Message] = []
+        let messages = data as! [[String: Any]]
+        for message in messages {
+          returnMessages.append(Message(self.sword, message))
+        }
+
+        completion(returnMessages)
+      }
+    }
+  }
+
+  /* Pin a message
+    @param messageId: String - Message to pin
+  */
+  public func pin(_ messageId: String, _ completion: @escaping () -> () = {_ in}) {
+    self.sword.requester.request(self.sword.endpoints.addPinnedChannelMessage(self.id, messageId), method: "PUT") { error, data in
+      if error == nil { completion() }
     }
   }
 

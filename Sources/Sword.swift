@@ -87,6 +87,20 @@ public class Sword {
     }
   }
 
+  /* Creates an invite for channel
+    @param channelId: String - Channel to create invite for
+    @param options: [String: Any] - Options for invite
+  */
+  public func createInvite(for channelId: String, with options: [String: Any] = [:], _ completion: @escaping (Any?) -> () = {_ in}) {
+    self.requester.request(endpoints.createChannelInvite(channelId), body: options.createBody(), method: "POST") { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(data)
+      }
+    }
+  }
+
   /* Deletes a channel
     @param channelId: String - Channel to delete
   */
@@ -102,6 +116,16 @@ public class Sword {
           completion(DMChannel(self, channelData))
         }
       }
+    }
+  }
+
+  /* Deletes permissions for overwrite in channel
+    @param channelId: String - Channel to delete permisson from
+    @param overwriteId: String - Overwrite to delete
+  */
+  public func deletePermission(for channelId: String, with overwriteId: String, _ completion: @escaping () -> () = {_ in}) {
+    self.requester.request(endpoints.deleteChannelPermission(channelId, overwriteId), method: "DELETE") { error, data in
+      if error == nil { completion() }
     }
   }
 
@@ -125,7 +149,9 @@ public class Sword {
     @param overwriteId: String - Overwrite id to change perms for
   */
   public func edit(permissions: [String: Any], for channelId: String, with overwriteId: String, _ completion: @escaping () -> () = {_ in}) {
-
+    self.requester.request(endpoints.editChannelPermissions(channelId, overwriteId), body: permissions.createBody(), method: "PUT") { error, data in
+      if error == nil { completion() }
+    }
   }
 
   /* Edits status
@@ -176,6 +202,19 @@ public class Sword {
           returnMessages.append(Message(self, message))
         }
         completion(returnMessages)
+      }
+    }
+  }
+
+  /* Gets channel invites
+    @param channelId: String - Channel to get invites from
+  */
+  public func getInvites(for channelId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
+    self.requester.request(endpoints.getChannelInvites(channelId)) { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(data)
       }
     }
   }
@@ -237,6 +276,15 @@ public class Sword {
       }else {
         completion(Message(self, data as! [String: Any]))
       }
+    }
+  }
+
+  /* Sets bot to typing in channel
+    @param channelId: String - Channel to start "typing" in
+  */
+  public func setTyping(for channelId: String, _ completion: @escaping () -> () = {_ in}) {
+    self.requester.request(endpoints.triggerTypingIndicator(channelId), method: "POST") { error, data in
+      if error == nil { completion() }
     }
   }
 
