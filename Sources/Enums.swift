@@ -4,6 +4,10 @@ enum OPCode: Int {
   case dispatch, heartbeat, identify, statusUpdate, voiceStateUpdate, voiceServerPing, resume, reconnect, requestGuildMember, invalidSession, hello, heartbeatACK
 }
 
+enum CloseCode: Int {
+  case unknownError = 4000, unknownOPCode, decodeError, notAuthenticated, authenticationFailed, alreadyAuthenticated, invalidSeq, rateLimited, sessionTimeout, invalidShard
+}
+
 enum Event: String {
   case ready = "READY"
   case resume = "RESUME"

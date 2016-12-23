@@ -32,8 +32,15 @@ class Shard {
         self.event(Payload(with: text))
       }
 
-      ws.onClose = { ws, _, _, _ in
-        print("WS Closed")
+      ws.onClose = { ws, code, _, _ in
+        switch CloseCode(rawValue: Int(code!))! {
+          case .authenticationFailed:
+            print("[Sword] - Invalid Bot Token")
+            break
+          default:
+            self.startWS(gatewayUrl)
+            break
+        }
       }
     }
   }

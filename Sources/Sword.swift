@@ -100,6 +100,10 @@ public class Sword {
     }
   }
 
+  public func edit(permissions: [String: Any], for channelId: String, with overwriteId: String, _ completion: @escaping () -> () = {_ in}) {
+    
+  }
+
   public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {
     guard self.shards.count > 0 else { return }
     var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]

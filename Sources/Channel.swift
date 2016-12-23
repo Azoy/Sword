@@ -5,6 +5,7 @@ public struct Channel {
   private let sword: Sword
 
   public let bitrate: Int?
+  public let guildId: String?
   public let id: String
   public let isPrivate: Bool?
   public let lastMessageId: String?
@@ -20,6 +21,7 @@ public struct Channel {
     self.sword = sword
 
     self.bitrate = json["bitrate"] as? Int
+    self.guildId = json["guild_id"] as? String
     self.id = json["id"] as! String
     self.isPrivate = json["is_private"] as? Bool
     self.lastMessageId = json["last_message_id"] as? String
@@ -127,15 +129,11 @@ public struct Overwrite {
 
 public struct DMChannel {
 
-  private let sword: Sword
-
   public let id: String
   public let recipient: User
   public let lastMessageId: String
 
   init(_ sword: Sword, _ json: [String: Any]) {
-    self.sword = sword
-
     self.id = json["id"] as! String
     self.recipient = User(sword, json["recipient"] as! [String: Any])
     self.lastMessageId = json["last_message_id"] as! String
