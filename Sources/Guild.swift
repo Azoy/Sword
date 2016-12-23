@@ -22,7 +22,7 @@ public struct Guild {
   public let name: String
   public let ownerId: String
   public let region: String
-  public internal(set) var roles: [Role] = []
+  public internal(set) var roles: [String: Role] = [:]
   public let shard: Int
   public let splash: String?
   public let verificationLevel: Int
@@ -80,7 +80,8 @@ public struct Guild {
 
     let roles = json["roles"] as! [[String: Any]]
     for role in roles {
-      self.roles.append(Role(role))
+      let role = Role(role)
+      self.roles[role.id] = role
     }
 
     self.shard = shard

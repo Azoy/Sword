@@ -28,10 +28,10 @@ extension Shard {
         self.sword.emit("channelUpdate", with: Channel(self.sword, data))
         break
       case .guildBanAdd:
-        self.emit("guildBanAdd", with: data["guild_id"] as! String, User(data))
+        self.sword.emit("guildBanAdd", with: data["guild_id"] as! String, User(self.sword, data))
         break
       case .guildBanRemove:
-        self.emit("guildBanRemove", with: data["guild_id"] as! String, User(data))
+        self.sword.emit("guildBanRemove", with: data["guild_id"] as! String, User(self.sword, data))
         break
       case .guildCreate:
         let guildId = data["id"] as! String
@@ -76,18 +76,19 @@ extension Shard {
       case .guildMemberAdd:
         let guildId = data["guild_id"] as! String
         let member = Member(self.sword, data)
-        self.sword.guilds[guildId]!.members[member.id] = member
+        self.sword.guilds[guildId]!.members[member.user.id] = member
         self.sword.emit("guildMemberAdd", with: guildId, member)
         break
       case .guildMemberRemove:
         let guildId = data["guild_id"] as! String
         let user = User(self.sword, data)
-        self.guilds[guildId]!.members.removeValue(forKey: user.id)
+        self.sword.guilds[guildId]!.members.removeValue(forKey: user.id)
         self.sword.emit("guildMemberRemove", with: guildId, user)
         break
       case .guildMemberUpdate:
+        let guildId = data["guild_id"] as! String
         let member = Member(self.sword, data)
-        self.sword.guilds[guildId]!.members[member.id] = member
+        self.sword.guilds[guildId]!.members[member.user.id] = member
         self.sword.emit("guildMemberUpdate", with: member)
         break
       case .guildRoleCreate:
@@ -145,7 +146,7 @@ extension Shard {
         self.sword.emit("typingStart", with: data["channel_id"] as! String, data["user_id"] as! String, timestamp)
         break
       case .userUpdate:
-        self.sword.emit("userUpdate", with: User(data))
+        self.sword.emit("userUpdate", with: User(self.sword, data))
         break
       default:
         break
