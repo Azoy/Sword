@@ -50,13 +50,8 @@ struct Endpoints {
     return "/channels/\(channelId)/messages"
   }
 
-  func createReaction(_ channelId: String, _ messageId: String, _ reaction: Any) -> String {
-    let base = "/channels/\(channelId)/messages/\(messageId)/reactions"
-    if let reaction = reaction as? Emoji {
-      return base + "/\(reaction.name):\(reaction.id)/@me"
-    }else {
-      return base + "/\(reaction as! String)/@me"
-    }
+  func createReaction(_ channelId: String, _ messageId: String, _ reaction: String) -> String {
+    return "/channels/\(channelId)/messages/\(messageId)/reactions/\(reaction)/@me"
   }
 
   func createWebhook(_ channelId: String) -> String {
@@ -95,26 +90,16 @@ struct Endpoints {
     return "/channels/\(channelId)/messages/\(messageId)"
   }
 
-  func deleteOwnReaction(_ channelId: String, _ messageId: String, _ reaction: Any) -> String {
-    let base = "/channels/\(channelId)/messages/\(messageId)/reactions"
-    if let reaction = reaction as? Emoji {
-      return base + "/\(reaction.name):\(reaction.id)/@me"
-    }else {
-      return base + "/\(reaction as! String)/@me"
-    }
+  func deleteOwnReaction(_ channelId: String, _ messageId: String, _ reaction: String) -> String {
+    return "/channels/\(channelId)/messages/\(messageId)/reactions/\(reaction)/@me"
   }
 
   func deletePinnedChannelMessage(_ channelId: String, _ messageId: String) -> String {
     return "/channels/\(channelId)/pins/\(messageId)"
   }
 
-  func deleteUserReaction(_ channelId: String, _ messageId: String, _ reaction: Any, _ userId: String) -> String {
-    let base = "/channels/\(channelId)/messages/\(messageId)/reactions"
-    if let reaction = reaction as? Emoji {
-      return base + "/\(reaction.name):\(reaction.id)/\(userId)"
-    }else {
-      return base + "/\(reaction as! String)/\(userId)"
-    }
+  func deleteUserReaction(_ channelId: String, _ messageId: String, _ reaction: String, _ userId: String) -> String {
+    return "/channels/\(channelId)/messages/\(messageId)/reactions/\(reaction)/\(userId)"
   }
 
   func deleteWebhook(_ webhookId: String, _ webhookToken: String? = nil) -> String {
@@ -221,13 +206,8 @@ struct Endpoints {
     return "/channels/\(channelId)/pins"
   }
 
-  func getReactions(_ channelId: String, _ messageId: String, _ reaction: Any) -> String {
-    let base = "/channels/\(channelId)/messages/\(messageId)/reactions"
-    if let reaction = reaction as? Emoji {
-      return base + "/\(reaction.name):\(reaction.id)"
-    }else {
-      return base + "/\(reaction as! String)"
-    }
+  func getReactions(_ channelId: String, _ messageId: String, _ reaction: String) -> String {
+    return "/channels/\(channelId)/messages/\(messageId)/reactions/\(reaction)"
   }
 
   func getUser(_ userId: String) -> String {

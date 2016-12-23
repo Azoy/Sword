@@ -65,6 +65,16 @@ public class Sword {
     }
   }
 
+  public func add(user userId: String, to guildId: String, with options: [String: Any] = [:], _ completion: @escaping (Member?) -> () = {_ in}) {
+    self.requester.request(endpoints.addGuildMember(guildId, userId), body: options.createBody(), method: "PUT") { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(Member(self, data as! [String: Any]))
+      }
+    }
+  }
+
   public func delete(channel channelId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
     self.requester.request(endpoints.deleteChannel(channelId), method: "DELETE") { error, data in
       if error != nil {

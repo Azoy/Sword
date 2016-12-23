@@ -49,7 +49,7 @@ class Request {
 
       request.httpBody = try? createBody(with: file!["parameters"] as? [String: String], fileKey: "file", paths: [path], boundary: boundary)
       request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-    }else if method == "POST" {
+    }else if body != nil {
       request.httpBody = body
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     }

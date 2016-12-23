@@ -7,7 +7,7 @@ public struct Message {
   public internal(set) var attachments: [Attachment] = []
   public let author: User?
   public let content: String
-  public internal(set) var channel: Channel? = nil
+  public internal(set) var channel: Channel
   public let editedTimestamp: Date?
   public internal(set) var embeds: [Embed] = []
   public let id: String
@@ -37,13 +37,7 @@ public struct Message {
 
     self.content = json["content"] as! String
 
-    let channelId = json["channel_id"] as! String
-    for (_, guild) in sword.guilds {
-      if guild.channels[channelId] != nil {
-        self.channel = guild.channels[channelId]
-        break
-      }
-    }
+    self.channel = Channel(sword, ["id": json["channel_id"] as! String])
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date
@@ -60,7 +54,7 @@ public struct Message {
 
     if json["webhook_id"] == nil {
       for (_, guild) in sword.guilds {
-        if guild.channels[channelId] != nil {
+        if guild.channels[self.channel.id] != nil {
           self.member = guild.members[self.author!.id]
           break
         }
@@ -88,6 +82,30 @@ public struct Message {
     self.timestamp = (json["timestamp"] as! String).date
     self.tts = json["tts"] as! Bool
     self.webhookId = json["webhook_id"] as? String
+  }
+
+  public func add(reaction: String, _ completion: @escaping () -> () = {_ in}) {
+    self.channel.add(reaction: reaction, to: self.id, completion)
+  }
+
+  public func delete(_ completion: @escaping () -> () = {_ in}) {
+    self.channel.delete(message: self.id, completion)
+  }
+
+  public func delete(reaction: String, from userId: String? = nil, _ completion: @escaping () -> () = {_ in}) {
+    self.channel.delete(reaction: reaction, from: self.id, by: userId ?? nil, completion)
+  }
+
+  public func deleteReactions(_ completion: @escaping () -> () = {_ in}) {
+    self.channel.deleteReactions(from: self.id, completion)
+  }
+
+  public func edit(to content: String, _ completion: @escaping (Message?) -> () = {_ in}) {
+    self.channel.edit(message: self.id, to: content, completion)
+  }
+
+  public func get(reaction: String, _ completion: @escaping ([User]?) -> ()) {
+    self.channel.get(reaction: reaction, from: self.id, completion)
   }
 
 }
