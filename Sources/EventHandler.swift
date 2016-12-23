@@ -142,7 +142,7 @@ extension Shard {
         self.sword.emit("ready", with: self.sword.user!)
         break
       case .typingStart:
-        let timestamp = (data["timestamp"] as! String).date
+        let timestamp = Date(timeIntervalSince1970: data["timestamp"] as! Double)
         self.sword.emit("typingStart", with: data["channel_id"] as! String, data["user_id"] as! String, timestamp)
         break
       case .userUpdate:
