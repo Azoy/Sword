@@ -31,4 +31,15 @@ public struct User {
     self.verified = json["verified"] as? Bool
   }
 
+  //Gets DM for user
+  public func getDM(_ completion: @escaping (DMChannel?) -> ()) {
+    self.sword.requester.request(self.sword.endpoints.createDM(), body: ["recipient_id": self.id].createBody(), method: "POST") { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(DMChannel(self.sword, data as! [String: Any]))
+      }
+    }
+  }
+
 }

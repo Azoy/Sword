@@ -39,7 +39,7 @@ struct Endpoints {
     return "/guilds/\(guildId)/channels"
   }
 
-  func createGuildIntegrations(_ guildId: String) -> String {
+  func createGuildIntegration(_ guildId: String) -> String {
     return "/guilds/\(guildId)/integrations"
   }
 
@@ -251,7 +251,7 @@ struct Endpoints {
     return "/guilds/\(guildId)"
   }
 
-  func modifyGuildChannelPosition(_ guildId: String) -> String {
+  func modifyGuildChannelPositions(_ guildId: String) -> String {
     return "/guilds/\(guildId)/channels"
   }
 

@@ -61,6 +61,19 @@ public struct Channel {
     }
   }
 
+  /* Creates a webhook for channel
+    @param options: [String: Any] - Options for webhook
+  */
+  public func createWebhook(with options: [String: Any] = [:], _ completion: @escaping ([String: Any]?) -> () = {_ in}) {
+    self.sword.requester.request(self.sword.endpoints.createWebhook(self.id), body: options.createBody(), method: "POST") { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(data as? [String: Any])
+      }
+    }
+  }
+
   /* Delete a message from channel
     @param messageId: String - Message to delete
   */
@@ -162,6 +175,17 @@ public struct Channel {
         }
 
         completion(returnMessages)
+      }
+    }
+  }
+
+  //Gets channel's webhooks
+  public func getWebhooks(_ completion: @escaping ([[String: Any]]?) -> ()) {
+    self.sword.requester.request(self.sword.endpoints.getChannelWebhooks(self.id)) { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(data as? [[String: Any]])
       }
     }
   }
