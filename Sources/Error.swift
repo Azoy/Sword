@@ -1,11 +1,18 @@
 import Foundation
 
+//Organize all possible status responses from api
 public enum Error {
+
   case ok, created, noContent, notModified, badRequest, unauthorized, forbidden, notFound, methodNotAllowed, tooManyRequests, gatewayUnavailable, serverError, unknown
+
 }
 
+
 extension HTTPURLResponse {
+
+  //Create computed variable to get Error enum from statusCode
   var status: Error {
+
     switch self.statusCode {
       case 200:
         return .ok
@@ -32,5 +39,7 @@ extension HTTPURLResponse {
       default:
         return .serverError
     }
+
   }
+
 }

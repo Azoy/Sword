@@ -1,5 +1,6 @@
 import Foundation
 
+//This is self explanitory... Structure to create dynamic links
 struct Endpoints {
 
   var gateway: String {
