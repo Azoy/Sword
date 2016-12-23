@@ -7,7 +7,6 @@ open class Eventer {
 
   /* Function thats called when the same eventName is emitted
     @param eventName: String - Name of the event to listen for
-    @param completion: (Any) -> () - Code block to execute when emitted
   */
   open func on(_ eventName: String, _ completion: @escaping (Any) -> ()) {
     guard self.listeners[eventName] != nil else {

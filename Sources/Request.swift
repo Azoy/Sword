@@ -1,5 +1,6 @@
 import Foundation
 
+//HTTP Handler
 class Request {
 
   let token: String
@@ -8,10 +9,16 @@ class Request {
 
   var rateLimits: [String: [String: Bucket]] = [:]
 
+  /* Creates Request Class
+    @param token: String - Bot token to use for Authorization
+  */
   init(_ token: String) {
     self.token = token
   }
 
+  /* Gets the "route" for an HTTP request
+    @param url: String - URL to get route from
+  */
   func getRoute(for url: String) -> String {
     let regex = try! NSRegularExpression(pattern: "/([a-z-]+)/(?:[0-9]{17,})+?", options: .caseInsensitive)
 
@@ -27,8 +34,16 @@ class Request {
     return matches.first!
   }
 
+  /* Actual HTTP Request
+    @param url: String - URL to request
+    @param body: Data? - Optional Data to send to server
+    @param file: [String: Any]? - Optional for when files
+    @param authorization: Bool - Whether or not the Authorization header is required by Discord
+    @param method: String - Type of HTTP Method
+    @param rateLimited: Bool - Whether or not the HTTP request needs to be rate limited
+  */
   func request(_ url: String, body: Data? = nil, file: [String: Any]? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, completion: @escaping (Error?, Any?) -> ()) {
-    let sema = DispatchSemaphore(value: 0)
+    let sema = DispatchSemaphore(value: 0) //Provide a way to urlsession from command line
 
     let route = rateLimited ? self.getRoute(for: url) : ""
 
@@ -85,7 +100,7 @@ class Request {
         return
       }
 
-      if rateLimited && self.rateLimits[route]?[method] == nil {
+      if rateLimited && route != "" && self.rateLimits[route]?[method] == nil {
         let limit = Int(headers["x-ratelimit-limit"] as! String)!
         let interval = Int(Double(headers["x-ratelimit-reset"] as! String)! - Date().timeIntervalSince1970)
         let bucket = Bucket(name: "gg.azoy.sword.\(route).\(method)", limit: limit, interval: interval)

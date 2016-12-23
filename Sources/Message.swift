@@ -1,5 +1,6 @@
 import Foundation
 
+//Message Type
 public struct Message {
 
   private let sword: Sword
@@ -21,6 +22,10 @@ public struct Message {
   public let tts: Bool
   public let webhookId: String?
 
+  /* Creates Message struct
+    @param sword: Sword - Parent class to get guilds from
+    @param json: [String: Any] - JSON to decode into Message struct
+  */
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 
@@ -84,32 +89,48 @@ public struct Message {
     self.webhookId = json["webhook_id"] as? String
   }
 
+  /* Adds a reaction to self
+    @param reaction: String - Either unicode or custom emoji
+  */
   public func add(reaction: String, _ completion: @escaping () -> () = {_ in}) {
     self.channel.add(reaction: reaction, to: self.id, completion)
   }
 
+  //Deletes self
   public func delete(_ completion: @escaping () -> () = {_ in}) {
     self.channel.delete(message: self.id, completion)
   }
 
+  /* Deletes reaction from self
+    @param reaction: String - Either unicode or custom emoji reaction
+    @param userId: String? - If nil, delete from self else delete from userId
+  */
   public func delete(reaction: String, from userId: String? = nil, _ completion: @escaping () -> () = {_ in}) {
     self.channel.delete(reaction: reaction, from: self.id, by: userId ?? nil, completion)
   }
 
+  // Deletes all reactions from self
   public func deleteReactions(_ completion: @escaping () -> () = {_ in}) {
     self.channel.deleteReactions(from: self.id, completion)
   }
 
+  /* Edit self's content
+    @param content: String - Content to edit from self
+  */
   public func edit(to content: String, _ completion: @escaping (Message?) -> () = {_ in}) {
     self.channel.edit(message: self.id, to: content, completion)
   }
 
+  /* Get array of users from reaction
+    @param reaction: String - Either unicode or custom emoji reaction
+  */
   public func get(reaction: String, _ completion: @escaping ([User]?) -> ()) {
     self.channel.get(reaction: reaction, from: self.id, completion)
   }
 
 }
 
+//Attachment Type
 public struct Attachment {
 
   public let filename: String
@@ -120,6 +141,9 @@ public struct Attachment {
   public let url: String
   public let width: Int?
 
+  /* Creates an Attachment struct
+    @param json: [String: Any] - JSON to decode into Attachment struct
+  */
   init(_ json: [String: Any]) {
     self.filename = json["filename"] as! String
     self.height = json["height"] as? Int
@@ -132,6 +156,7 @@ public struct Attachment {
 
 }
 
+//Embed Type
 public struct Embed {
 
   public let author: [String: Any]
@@ -147,6 +172,9 @@ public struct Embed {
   public let url: String?
   public let video: [String: Any]?
 
+  /* Creates Embed struct
+    @param json: [String: Any] - JSON to decode into Embed struct
+  */
   init(_ json: [String: Any]) {
     self.author = json["author"] as! [String: Any]
     self.color = json["color"] as! Int

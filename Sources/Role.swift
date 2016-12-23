@@ -1,5 +1,6 @@
 import Foundation
 
+//Role Type
 public struct Role {
 
   public let color: Int
@@ -11,6 +12,9 @@ public struct Role {
   public let permissions: Int
   public let position: Int
 
+  /* Creates Role struct
+    @param json: [String: Any] - JSON to decode into Role struct
+  */
   init(_ json: [String: Any]) {
     self.color = json["color"] as! Int
     self.hoist = json["hoist"] as! Bool

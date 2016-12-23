@@ -16,19 +16,25 @@ public class Sword {
   public var unavailableGuilds: [String: UnavailableGuild] = [:]
   public var user: User?
 
+  /* Sword Initializer
+    @param token: String - Bot Token
+  */
   public init(token: String) {
     self.token = token
     self.requester = Request(token)
   }
 
+  // Alias for Eventer().on(_:, _:)
   public func on(_ eventName: String, _ completion: @escaping (_ data: Any) -> ()) {
     self.eventer.on(eventName, completion)
   }
 
+  // Alias for Eventer().emit(_:, with:)
   public func emit(_ eventName: String, with data: Any...) {
     self.eventer.emit(eventName, with: data)
   }
 
+  // Used to get gateway URL
   func getGateway(completion: @escaping (Error?, [String: Any]?) -> ()) {
     self.requester.request(self.endpoints.gateway, rateLimited: false) { error, data in
       if error != nil {
@@ -45,6 +51,7 @@ public class Sword {
     }
   }
 
+  // Starts WS with Discord
   public func connect() {
     self.getGateway() { error, data in
       if error != nil {
@@ -65,6 +72,11 @@ public class Sword {
     }
   }
 
+  /* Add User to Guild
+    @param userId: String - User to add to guild
+    @param guildId: String - Guild to add user in
+    @param options: [String: Any] - Options to give new member
+  */
   public func add(user userId: String, to guildId: String, with options: [String: Any] = [:], _ completion: @escaping (Member?) -> () = {_ in}) {
     self.requester.request(endpoints.addGuildMember(guildId, userId), body: options.createBody(), method: "PUT") { error, data in
       if error != nil {
@@ -75,6 +87,9 @@ public class Sword {
     }
   }
 
+  /* Deletes a channel
+    @param channelId: String - Channel to delete
+  */
   public func delete(channel channelId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
     self.requester.request(endpoints.deleteChannel(channelId), method: "DELETE") { error, data in
       if error != nil {
@@ -90,7 +105,11 @@ public class Sword {
     }
   }
 
-  public func edit(channel channelId: String, options: [String: Any] = [:], _ completion: @escaping (Channel?) -> () = {_ in}) {
+  /* Edits channel with options
+    @param channelId: String - Channel to edit
+    @param options: [String: Any] - Options to append to channel
+  */
+  public func edit(channel channelId: String, with options: [String: Any] = [:], _ completion: @escaping (Channel?) -> () = {_ in}) {
     self.requester.request(endpoints.modifyChannel(channelId), body: options.createBody(), method: "PATCH") { error, data in
       if error != nil {
         completion(nil)
@@ -100,10 +119,19 @@ public class Sword {
     }
   }
 
+  /* Edits permissions for channel
+    @param permissions: [String: Any] - Permissions to add/remove from channel
+    @param channelId: String - Channel to edit perms for
+    @param overwriteId: String - Overwrite id to change perms for
+  */
   public func edit(permissions: [String: Any], for channelId: String, with overwriteId: String, _ completion: @escaping () -> () = {_ in}) {
-    
+
   }
 
+  /* Edits status
+    @param status: String - "online" | "idle" | "dnd" | "invisible"
+    @param game: [String: Any]? - Game to set status to/set streaming
+  */
   public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {
     guard self.shards.count > 0 else { return }
     var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
@@ -119,6 +147,10 @@ public class Sword {
     }
   }
 
+  /* Get message from channel
+    @param messageId: String - Message to get
+    @param channelId: String - Channel to get message from
+  */
   public func get(message messageId: String, from channelId: String, _ completion: @escaping (Message?) -> () = {_ in}) {
     self.requester.request(endpoints.getChannelMessage(channelId, messageId)) { error, data in
       if error != nil {
@@ -129,8 +161,12 @@ public class Sword {
     }
   }
 
-  public func getMessages(from channelId: String, _ completion: @escaping ([Message]?) -> () = {_ in}) {
-    self.requester.request(endpoints.getChannelMessages(channelId)) { error, data in
+  /* Gets messages from channel
+    @param limit: Int - Amount of messages to get
+    @param channelId: String - Channel to get messages from
+  */
+  public func get(_ limit: Int, messagesFrom channelId: String, _ completion: @escaping ([Message]?) -> () = {_ in}) {
+    self.requester.request(endpoints.getChannelMessages(channelId), body: ["limit": limit].createBody()) { error, data in
       if error != nil {
         completion(nil)
       }else {
@@ -144,6 +180,9 @@ public class Sword {
     }
   }
 
+  /* Restfully get channel
+    @param channelId: String - Channel to get
+  */
   public func getREST(channel channelId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
     self.requester.request(endpoints.getChannel(channelId)) { error, data in
       if error != nil {
@@ -159,6 +198,10 @@ public class Sword {
     }
   }
 
+  /* Send message to channel
+    @param content: Any - Either a string or a dictionary with info on embeds, files, tts, etc..
+    @param channelId: String - Channel to send message to
+  */
   public func send(_ content: Any, to channelId: String, _ completion: @escaping (Message?) -> () = {_ in}) {
     guard let message = content as? [String: Any] else {
       let data = ["content": content].createBody()
@@ -197,6 +240,9 @@ public class Sword {
     }
   }
 
+  /* Sets bot's username
+    @param name: String - Name to change to
+  */
   public func setUsername(to name: String, _ completion: (_ data: User) -> () = {_ in}) {
 
   }

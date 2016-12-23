@@ -1,8 +1,16 @@
 import Foundation
 
+//Image Handler
 extension Request {
 
+  /* Creates HTTP Body for file uploads
+    @param parameters: [String: String]? - Optional data to send
+    @param fileKey: String - Key for the file
+    @param paths: [String] - Array of URLS to get file data from
+    @param boundary: String - UUID Boundary
+  */
   func createBody(with parameters: [String: String]?, fileKey: String, paths: [String], boundary: String) throws -> Data {
+
     var body = Data()
 
     if parameters != nil {
@@ -28,16 +36,21 @@ extension Request {
 
     body.append("--\(boundary)--\r\n")
     return body
+
   }
 
 }
 
+// UUID Boundary Generator
 func generateBoundaryString() -> String {
   return "Boundary-\(NSUUID().uuidString)"
 }
 
+/* Gets mimeType for URL
+  @param path: String - URL to get mimeType for
+*/
 func mimeType(for path: String) -> String {
-  let url = NSURL(fileURLWithPath: path)
+  let url = NSURL(string: path)!
   let pathExtension = url.pathExtension
 
   if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension! as NSString, nil)?.takeRetainedValue() {

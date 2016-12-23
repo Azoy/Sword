@@ -74,7 +74,7 @@ class Shard {
       return
     }
 
-    self.handleEvents(payload, payload.t!)
+    self.handleEvents(payload.d as! [String: Any], payload.t!)
   }
 
 }

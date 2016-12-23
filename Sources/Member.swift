@@ -1,5 +1,6 @@
 import Foundation
 
+//Member Type
 public struct Member {
 
   private let sword: Sword
@@ -11,6 +12,10 @@ public struct Member {
   public internal(set) var roles: [String] = []
   public let user: User
 
+  /* Creates a Member struct
+    @param sword: Sword - Parent class to get requester from (and otras properties)
+    @param json: [String: Any] - JSON to decode into Member struct
+  */
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 

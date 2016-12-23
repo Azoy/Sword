@@ -1,5 +1,6 @@
 import Foundation
 
+//User Type
 public struct User {
 
   private let sword: Sword
@@ -13,6 +14,10 @@ public struct User {
   public let username: String?
   public let verified: Bool?
 
+  /* Creates User struct
+    @param sword: Sword - Parent class to get properties from
+    @param json: [String: Any] - JSON to decode into User struct
+  */
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 

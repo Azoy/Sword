@@ -1,7 +1,9 @@
 import Foundation
 
+//JSON BBY
 extension String {
 
+  //EZPZ String JSON -> Array | Dictionary | Other
   func decode() -> Any {
     let data = try? JSONSerialization.jsonObject(with: self.data(using: .utf8)!, options: .allowFragments)
 
@@ -18,20 +20,26 @@ extension String {
 
 }
 
+//Used to add same function to two different types once
 protocol Encodable {
   func encode() -> String
   func createBody() -> Data?
 }
 
+//Make Dictionary & Array Encaodable
 extension Dictionary: Encodable {}
 extension Array: Encodable {}
 
+//Make Dictionary & Array conform to Encodable
 extension Encodable {
+
+  //Encode Array | Dictionary -> JSON String
   func encode() -> String {
     let data = try? JSONSerialization.data(withJSONObject: self, options: [])
     return String(data: data!, encoding: .utf8)!
   }
 
+  //Create Data from Array | Dictionary to send over HTTP
   func createBody() -> Data? {
     let json = self.encode()
     return json.data(using: .utf8)

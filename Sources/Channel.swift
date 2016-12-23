@@ -1,5 +1,6 @@
 import Foundation
 
+//Channel Type
 public struct Channel {
 
   private let sword: Sword
@@ -17,6 +18,10 @@ public struct Channel {
   public let type: Int?
   public let userLimit: Int?
 
+  /* Creates a Channel structure
+    @param sword: Sword - Parent class to get requester from (and other properties)
+    @param json: [String: Any] - JSON Data to decode into a channel structure
+  */
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 
@@ -46,24 +51,39 @@ public struct Channel {
     self.userLimit = json["user_limit"] as? Int
   }
 
+  /* Add a reaction to a message
+    @param reaction: String - Either unicode or custom emoji to add to message
+    @param messageId: String - Message to add reaction to
+  */
   public func add(reaction: String, to messageId: String, _ completion: @escaping () -> () = {_ in}) {
     self.sword.requester.request(self.sword.endpoints.createReaction(self.id, messageId, reaction), method: "PUT") { error, data in
       if error == nil { completion() }
     }
   }
 
+  /* Delete a message from channel
+    @param messageId: String - Message to delete
+  */
   public func delete(message messageId: String, _ completion: @escaping () -> () = {_ in}) {
     self.sword.requester.request(self.sword.endpoints.deleteMessage(self.id, messageId), method: "DELETE") { error, data in
       if error == nil { completion() }
     }
   }
 
+  /* Delete messages from channel
+    @param messages: [String] - Array of messageIds to delete
+  */
   public func delete(messages: [String], _ completion: @escaping () -> () = {_ in}) {
     self.sword.requester.request(self.sword.endpoints.bulkDeleteMessages(self.id), body: messages.createBody(), method: "POST") { error, data in
       if error == nil { completion() }
     }
   }
 
+  /* Delete a reaction from a message
+    @param reaction: String - Either unicode or custom emoji to delete from message
+    @param messageId: String - Message to delete reaction from
+    @param userId: String? - If nil, delete a message from @me : else delete a message from userId
+  */
   public func delete(reaction: String, from messageId: String, by userId: String? = nil, _ completion: @escaping () -> () = {_ in}) {
     var url = ""
     if userId != nil {
@@ -77,12 +97,19 @@ public struct Channel {
     }
   }
 
+  /* Delete all reactions from message
+    @param messageId: String - Message to delete reactions from
+  */
   public func deleteReactions(from messageId: String, _ completion: @escaping () -> () = {_ in}) {
     self.sword.requester.request(self.sword.endpoints.deleteAllReactions(self.id, messageId), method: "DELETE") { error, data in
       if error == nil { completion() }
     }
   }
 
+  /* Edit a message's content
+    @param messageId: String - Message to edit
+    @param content: String - New content to make message
+  */
   public func edit(message messageId: String, to content: String, _ completion: @escaping (Message?) -> () = {_ in}) {
     self.sword.requester.request(self.sword.endpoints.editMessage(self.id, messageId), body: ["content": content].createBody(), method: "PATCH") { error, data in
       if error != nil {
@@ -93,6 +120,10 @@ public struct Channel {
     }
   }
 
+  /* Get an array of users with reaction from message
+    @param reaction: String - Either unicode or custom emoji to get from message
+    @param messageId: String - Message to get reaction from
+  */
   public func get(reaction: String, from messageId: String, _ completion: @escaping ([User]?) -> ()) {
     self.sword.requester.request(self.sword.endpoints.getReactions(self.id, messageId, reaction)) { error, data in
       if error != nil {
@@ -111,6 +142,7 @@ public struct Channel {
 
 }
 
+//Permission Overwrite Type
 public struct Overwrite {
 
   public let allow: Int
@@ -118,6 +150,9 @@ public struct Overwrite {
   public let id: String
   public let type: String
 
+  /* Creates an Overwrite struct
+    @param json: [String: Any] - JSON Data to decode into an Overwrite struct
+  */
   init(_ json: [String: Any]) {
     self.allow = json["allow"] as! Int
     self.deny = json["deny"] as! Int
@@ -127,12 +162,17 @@ public struct Overwrite {
 
 }
 
+//DMChannel Type
 public struct DMChannel {
 
   public let id: String
   public let recipient: User
   public let lastMessageId: String
 
+  /* Creates a DMChannel struct
+    @param sword: Sword - Parent class to get requester from
+    @param json: [String: Any] - JSON Data to decode into a DMChannel struct
+  */
   init(_ sword: Sword, _ json: [String: Any]) {
     self.id = json["id"] as! String
     self.recipient = User(sword, json["recipient"] as! [String: Any])

@@ -2,6 +2,7 @@ import Foundation
 
 extension Date {
 
+  //Computed variable to get milliseconds since 1970
   var milliseconds: Int {
     return Int((self.timeIntervalSince1970 * 1000.0).rounded())
   }
@@ -10,6 +11,7 @@ extension Date {
 
 extension String {
 
+  //Computed property to get date from string
   var date: Date {
     let dateFormat = DateFormatter()
     dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
@@ -21,6 +23,7 @@ extension String {
 
 extension Data {
 
+  //Function to append data
   mutating func append(_ string: String) {
     if let data = string.data(using: .utf8) {
       append(data)
