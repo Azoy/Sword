@@ -156,7 +156,7 @@ extension Shard {
 
       //MESSAGE_DELETE
       case .messageDelete:
-        self.sword.emit("messageDelete", with: ["id": data["id"] as! String, "channelId": data["channel_id"] as! String])
+        self.sword.emit("messageDelete", with: data["id"] as! String, data["channel_id"] as! String)
         break
 
       //MESSAGE_BULK_DELETE
@@ -167,7 +167,7 @@ extension Shard {
 
       //MESSAGE_UPDATE
       case .messageUpdate:
-        self.sword.emit("messageUpdate", with: ["id": data["id"] as! String, "channelId": data["channel_id"] as! String])
+        self.sword.emit("messageUpdate", with: data["id"] as! String, data["channel_id"] as! String)
         break
 
       //PRESENCE_UPDATE
