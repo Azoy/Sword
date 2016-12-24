@@ -1,23 +1,42 @@
+//
+//  Request.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 
-//HTTP Handler
+/// HTTP Handler
 class Request {
 
+  // MARK: Properties
+  
+  /// The bot token
   let token: String
 
+  /// Global URLSession (trust me i saw it on a wwdc talk, this is legit lmfao)
   let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue())
 
+  /// Collection of Collections of buckets mapped by method mapped by route
   var rateLimits: [String: [String: Bucket]] = [:]
 
-  /* Creates Request Class
-    @param token: String - Bot token to use for Authorization
+  // MARK: Initializer
+  
+  /**
+   Creates Request Class
+   
+   - parameter token: Bot token to use for Authorization
   */
   init(_ token: String) {
     self.token = token
   }
 
-  /* Gets the "route" for an HTTP request
-    @param url: String - URL to get route from
+  /**
+   Gets the "route" for an HTTP request
+   
+   - parameter url: URL to get route from
   */
   func getRoute(for url: String) -> String {
     let regex = try! NSRegularExpression(pattern: "/([a-z-]+)/(?:[0-9]{17,})+?", options: .caseInsensitive)
@@ -34,13 +53,15 @@ class Request {
     return matches.first!
   }
 
-  /* Actual HTTP Request
-    @param url: String - URL to request
-    @param body: Data? - Optional Data to send to server
-    @param file: [String: Any]? - Optional for when files
-    @param authorization: Bool - Whether or not the Authorization header is required by Discord
-    @param method: String - Type of HTTP Method
-    @param rateLimited: Bool - Whether or not the HTTP request needs to be rate limited
+  /**
+   Actual HTTP Request
+   
+   - parameter url: URL to request
+   - parameter body: Optional Data to send to server
+   - parameter file: Optional for when files
+   - parameter authorization: Whether or not the Authorization header is required by Discord
+   - parameter method: Type of HTTP Method
+   - parameter rateLimited: Whether or not the HTTP request needs to be rate limited
   */
   func request(_ url: String, body: Data? = nil, file: [String: Any]? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, completion: @escaping (Error?, Any?) -> ()) {
     let sema = DispatchSemaphore(value: 0) //Provide a way to urlsession from command line

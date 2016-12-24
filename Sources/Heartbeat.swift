@@ -1,29 +1,51 @@
+//
+//  Heartbeat.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 import Dispatch
 import WebSockets
 
-//<3
+/// <3
 class Heartbeat {
 
+  // MARK: Properties
+  
+  /// Current websocket
   let session: WebSocket
 
+  /// Interval to send heartbeats
   let interval: Int
+  
+  /// Last received sequence
   var sequence: Int?
 
+  /// Whether or not the server received our last heartbeat
   var received = false
 
+  /// The Dispatch Queue to handle heartbeats
   let queue = DispatchQueue(label: "gg.azoy.sword.heartbeat", qos: .userInitiated)
 
-  /* Creates Heartbeat
-    @param ws: WebSocket - The websocket to send heartbeat payloads to
-    @param interval: Int - The interval at which Discord wants heartbeats
-  */
+  // MARK: Initializer
+  
+  /**
+   Creates the heartbeat
+   
+   - parameter ws: Websocket connection
+   - parameter interval: Interval to set heartbeats at
+   */
   init(_ ws: WebSocket, interval: Int) {
     self.session = ws
     self.interval = interval
   }
 
-  // Starts/Sends heartbeat payload
+  // MARK: Functions
+  
+  /// Starts/Sends heartbeat payload
   func send() {
     let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(self.interval)
 

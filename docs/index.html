@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+
+
+    <a title="  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+           Docs
+        </a>
+         (100% documented)
+      </p>
+    
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html"> Reference</a>
+      <img class="carat" src="img/carat.png" />
+        Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/Sword.html">Sword</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/Error.html">Error</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Attachment.html">Attachment</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Channel.html">Channel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DMChannel.html">DMChannel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Embed.html">Embed</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Emoji.html">Emoji</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Guild.html">Guild</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Member.html">Member</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Message.html">Message</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Overwrite.html">Overwrite</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Role.html">Role</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/UnavailableGuild.html">UnavailableGuild</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/User.html">User</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            
+            <a href='#sword-a-discord-library-for-swift' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='sword-a-discord-library-for-swift'>Sword - A Discord Library for Swift</h1>
+<a href='#requirements' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='requirements'>Requirements</h1>
+
+<ol>
+<li>macOS (Linux and iOS soon!)</li>
+<li>Swift 3.0</li>
+<li>An internet connection</li>
+</ol>
+<a href='#adding-sword' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='adding-sword'>Adding Sword</h1>
+
+<p>In order to add Sword as a dependency, you must first create a Swift executable in a designated folder, like so <code>swift package init --type executable</code>. Then in the newly created Package.swift, open it and add Sword as a dependency</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">PackageDescription</span>
+
+<span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
+    <span class="nv">name</span><span class="p">:</span> <span class="s">"yourswiftexecutablehere"</span><span class="p">,</span>
+    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+        <span class="o">.</span><span class="kt">Package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/Azoy/Sword"</span><span class="p">,</span> <span class="kt">Version</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre>
+
+<p>After that, open Sources/main.swift and remove everything and replace it with the example below.</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">Sword</span>
+
+<span class="k">let</span> <span class="nv">bot</span> <span class="o">=</span> <span class="kt">Sword</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="s">"Your bot token here"</span><span class="p">)</span>
+
+<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="s">"ready"</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
+  <span class="n">bot</span><span class="o">.</span><span class="nf">editStatus</span><span class="p">(</span><span class="nv">playing</span><span class="p">:</span> <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"with Swords!"</span><span class="p">])</span>
+<span class="p">}</span>
+
+<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="s">"messageCreate"</span><span class="p">)</span> <span class="p">{</span> <span class="n">msg</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="nv">msg</span> <span class="o">=</span> <span class="p">(</span><span class="n">msg</span> <span class="k">as!</span> <span class="p">[</span><span class="kt">Message</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="s">"!ping"</span> <span class="p">{</span>
+    <span class="n">bot</span><span class="o">.</span><span class="nf">send</span><span class="p">(</span><span class="s">"Pong!"</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="n">msg</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">bot</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span>
+</code></pre>
+<a href='#links' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='links'>Links</h1>
+
+<p><a href="http://azoy.github.io/Sword">http://azoy.github.io/Sword</a> - Docs (created with <a href="https://github.com/Realm/Jazzy">https://github.com/Realm/Jazzy</a>)</p>
+
+<p><a href="https://github.com/Azoy/Sword/wiki">https://github.com/Azoy/Sword/wiki</a> - For more information on Installation and Events</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-12-24)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

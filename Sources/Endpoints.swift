@@ -1,6 +1,14 @@
+//
+//  Endpoints.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 
-//This is self explanitory... Structure to create dynamic links
+/// Structure to create dynamic links
 struct Endpoints {
 
   var gateway: String {

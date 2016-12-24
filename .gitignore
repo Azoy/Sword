@@ -2,3 +2,7 @@
 /.build
 /Packages
 /*.xcodeproj
+/build
+/docs/undocumented.json
+/docs/docsets
+/Tests

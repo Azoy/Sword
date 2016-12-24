@@ -1,22 +1,52 @@
+//
+//  User.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 
-//User Type
+/// User Type
 public struct User {
 
+  // MARK: Properties
+  
+  /// Parent class
   private let sword: Sword
 
+  /// Avatar hash
   public let avatar: String?
+  
+  /// Whether or not this user is a bot
   public let bot: Bool?
+  
+  /// Discriminator of user
   public let discriminator: String?
+  
+  /// Email of user (will probably be empty forever)
   public let email: String?
+  
+  /// ID of user
   public let id: String
+  
+  /// Whether of not user has mfa enabled (will probably be empty forever)
   public let mfaEnabled: Bool?
+  
+  /// Username of user
   public let username: String?
+  
+  /// Whether user is verified or not
   public let verified: Bool?
 
-  /* Creates User struct
-    @param sword: Sword - Parent class to get properties from
-    @param json: [String: Any] - JSON to decode into User struct
+  // MARK: Initializer
+  
+  /**
+   Creates User struct
+   
+   - parameter sword: Parent class to get properties from
+   - parameter json: JSON to decode into User struct
   */
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
@@ -31,7 +61,9 @@ public struct User {
     self.verified = json["verified"] as? Bool
   }
 
-  //Gets DM for user
+  // MARK: Functions
+  
+  /// Gets DM for user
   public func getDM(_ completion: @escaping (DMChannel?) -> ()) {
     self.sword.requester.request(self.sword.endpoints.createDM(), body: ["recipient_id": self.id].createBody(), method: "POST") { error, data in
       if error != nil {

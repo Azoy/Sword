@@ -1,26 +1,60 @@
+//
+//  Shard.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 import WebSockets
 
+/// WS class
 class Shard {
 
+  // MARK: Properties
+  
+  /// ID of shard
   let id: Int
+  
+  /// Amount of shards bot should be connected to
   let shardCount: Int
+  
+  /// Session ID of gateway
   var sessionId: String?
+  
+  /// Heartbeat worker
   var heartbeat: Heartbeat?
 
+  /// Gateway URL for gateway
   var gatewayUrl = ""
+  
+  /// WS
   var session: WebSocket?
+  
+  /// Parent class
   let sword: Sword
+  
+  /// Global Event Rate Limiter
   let globalBucket: Bucket
+  
+  /// Presence Event Rate Limiter
   let presenceBucket: Bucket
 
+  /// Whether or not the shard is connected to gateway
   var connected: Bool = false
+  
+  /// The last sequence sent by Discord
   var lastSeq: Int?
 
-  /* Creates Shard Handler
-    @param sword: Sword - Parent class
-    @param id: Int - ID of the current shard
-    @param shardCount: Int - Total number of shards bot needs to be connected to
+  // MARK: Initializer
+  
+  /**
+   Creates Shard Handler
+   
+   - parameter sword: Parent class
+   - parameter id: ID of the current shard
+   - parameter shardCount: Total number of shards bot needs to be connected to
   */
   init(_ sword: Sword, _ id: Int, _ shardCount: Int) {
     self.sword = sword
@@ -31,8 +65,12 @@ class Shard {
     self.presenceBucket = Bucket(name: "gg.azoy.sword.gateway.presence", limit: 5, interval: 60)
   }
 
-  /* Starts WS connection with Discord
-    @param gatewayUrl: String - URL that WS should connect to
+  // MARK: Functions
+  
+  /**
+   Starts WS connection with Discord
+   
+   - parameter gatewayUrl: URL that WS should connect to
   */
   func startWS(_ gatewayUrl: String, reconnect: Bool = false, reconnectPayload: String? = nil) {
     self.gatewayUrl = gatewayUrl
@@ -63,25 +101,31 @@ class Shard {
     }
   }
 
-  /* Used to reconnect to gateway
-    @param payload: Payload - Reconnect payload to send to connection
+  /**
+   Used to reconnect to gateway
+   
+   - parameter payload: Reconnect payload to send to connection
   */
   func reconnect(_ payload: Payload) {
     try? self.session!.close()
     self.connected = false
+    self.heartbeat = nil
 
     self.startWS(self.gatewayUrl, reconnect: true, reconnectPayload: payload.encode())
   }
 
-  // Used to stop WS connection
+  /// Used to stop WS connection
   func stop() {
     try? self.session!.close()
     self.connected = false
+    self.heartbeat = nil
   }
 
-  /* Sends a payload through WS connection
-    @param text: String - JSON text to send through WS connection
-    @param presence: Bool - Whether or not this WS payload updates shard presence
+  /**
+   Sends a payload through WS connection
+   
+   - parameter text: JSON text to send through WS connection
+   - parameter presence: Whether or not this WS payload updates shard presence
   */
   func send(_ text: String, presence: Bool = false) {
     let item = DispatchWorkItem {
@@ -90,7 +134,7 @@ class Shard {
     presence ? self.presenceBucket.queue(item) : self.globalBucket.queue(item)
   }
 
-  // Sends shard identity to WS connection
+  /// Sends shard identity to WS connection
   func identify() {
     #if os(macOS)
     let os = "macOS"
@@ -102,8 +146,10 @@ class Shard {
     try? self.session?.send(identity)
   }
 
-  /* Handles gateway events from WS connection with Discord
-    @param payload: Payload - Payload struct that Discord sent as JSON
+  /**
+   Handles gateway events from WS connection with Discord
+   
+   - parameter payload: Payload struct that Discord sent as JSON
   */
   func event(_ payload: Payload) {
     if let sequenceNumber = payload.s {

@@ -1,30 +1,76 @@
+//
+//  Message.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 
-//Message Type
+/// Message Type
 public struct Message {
 
+  // MARK: Properties
+  
+  /// Parent class
   private let sword: Sword
 
+  /// Array of Attachment structs that was sent with the message
   public internal(set) var attachments: [Attachment] = []
+  
+  /// User struct of the author (not returned if webhook)
   public let author: User?
+  
+  /// Content of the message
   public let content: String
+  
+  /// Channel struct of the message
   public internal(set) var channel: Channel
+  
+  /// If message was edited, this is the time it happened
   public let editedTimestamp: Date?
+  
+  /// Array of embeds sent with message
   public internal(set) var embeds: [Embed] = []
+  
+  /// Message ID
   public let id: String
+  
+  /// Member struct for message
   public private(set) var member: Member?
+  
+  /// Whether or not this message mentioned everyone
   public let mentionEveryone: Bool
+  
+  /// Array of Users that were mentioned
   public internal(set) var mentions: [User] = []
+  
+  /// Array of Roles that were mentioned
   public internal(set) var mentionedRoles: [Role] = []
+  
+  /// Array of reactions with message
   public internal(set) var reactions: [[String: Any]] = []
+  
+  /// Whether or not this message is pinned in it's channel
   public let pinned: Bool
+  
+  /// Time when message was sent
   public let timestamp: Date
+  
+  /// Whether or not this messaged was ttsed
   public let tts: Bool
+  
+  /// If message was sent by webhook, this is that webhook's ID
   public let webhookId: String?
 
-  /* Creates Message struct
-    @param sword: Sword - Parent class to get guilds from
-    @param json: [String: Any] - JSON to decode into Message struct
+  // MARK: Initializer
+  
+  /**
+   Creates Message struct
+   
+   - parameter sword: Parent class to get guilds from
+   - parameter json: JSON representable as a dictionary
   */
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
@@ -89,65 +135,94 @@ public struct Message {
     self.webhookId = json["webhook_id"] as? String
   }
 
-  /* Adds a reaction to self
-    @param reaction: String - Either unicode or custom emoji
+  // MARK: Functions
+  
+  /**
+   Adds a reaction to self
+   
+   - parameter reaction: Either unicode or custom emoji to add to this message
   */
   public func add(reaction: String, _ completion: @escaping () -> () = {_ in}) {
     self.channel.add(reaction: reaction, to: self.id, completion)
   }
 
-  //Deletes self
+  /// Deletes self
   public func delete(_ completion: @escaping () -> () = {_ in}) {
     self.channel.delete(message: self.id, completion)
   }
 
-  /* Deletes reaction from self
-    @param reaction: String - Either unicode or custom emoji reaction
-    @param userId: String? - If nil, delete from self else delete from userId
+  /**
+   Deletes reaction from self
+   
+   - parameter reaction: Either unicode or custom emoji reaction to remove
+   - parameter userId: If nil, delete from self else delete from userId
   */
   public func delete(reaction: String, from userId: String? = nil, _ completion: @escaping () -> () = {_ in}) {
     self.channel.delete(reaction: reaction, from: self.id, by: userId ?? nil, completion)
   }
 
-  // Deletes all reactions from self
+  /// Deletes all reactions from self
   public func deleteReactions(_ completion: @escaping () -> () = {_ in}) {
     self.channel.deleteReactions(from: self.id, completion)
   }
 
-  /* Edit self's content
-    @param content: String - Content to edit from self
+  /**
+   Edit self's content
+   
+   - parameter content: Content to edit from self
   */
   public func edit(to content: String, _ completion: @escaping (Message?) -> () = {_ in}) {
     self.channel.edit(message: self.id, to: content, completion)
   }
 
-  /* Get array of users from reaction
-    @param reaction: String - Either unicode or custom emoji reaction
+  /**
+   Get array of users from reaction
+   
+   - parameter reaction: Either unicode or custom emoji reaction to get users from
   */
   public func get(reaction: String, _ completion: @escaping ([User]?) -> ()) {
     self.channel.get(reaction: reaction, from: self.id, completion)
   }
 
-  // Pins self
+  /// Pins self
   public func pin(_ completion: @escaping () -> () = {_ in}) {
     self.channel.pin(self.id, completion)
   }
 
 }
 
-//Attachment Type
+/// Attachment Type
 public struct Attachment {
 
+  // MARK: Properties
+  
+  /// The filename for this Attachment
   public let filename: String
+  
+  /// Height of image (if image)
   public let height: Int?
+  
+  /// ID of attachment
   public let id: String
+  
+  /// The proxied URL for this attachment
   public let proxyUrl: String
+  
+  /// Size of the file in bytes
   public let size: Int
+  
+  /// The original URL of the attachment
   public let url: String
+  
+  /// Width of image (if image)
   public let width: Int?
 
-  /* Creates an Attachment struct
-    @param json: [String: Any] - JSON to decode into Attachment struct
+  // MARK: Initializer
+  
+  /**
+   Creates an Attachment struct
+   
+   - parameter json: JSON to decode into Attachment struct
   */
   init(_ json: [String: Any]) {
     self.filename = json["filename"] as! String
@@ -161,24 +236,53 @@ public struct Attachment {
 
 }
 
-//Embed Type
+/// Embed Type
 public struct Embed {
 
+  // MARK: Properties
+  
+  /// Author dictionary from embed
   public let author: [String: Any]
+  
+  /// Side panel color of embed
   public let color: Int
+  
+  /// Description of the embed
   public let description: String?
+  
+  /// Fields for the embed
   public let fields: [[String: Any]]?
+  
+  /// Footer dictionary from embed
   public let footer: [String: Any]?
+  
+  /// Image data from embed
   public let image: [String: Any]?
+  
+  /// Provider from embed
   public let provider: [String: Any]?
+  
+  /// Thumbnail data from embed
   public let thumbnail: [String: Any]?
+  
+  /// Title of the embed
   public let title: String?
+  
+  /// Type of embed
   public let type: String
+  
+  /// URL of the embed
   public let url: String?
+  
+  /// Video data from embed
   public let video: [String: Any]?
 
-  /* Creates Embed struct
-    @param json: [String: Any] - JSON to decode into Embed struct
+  // MARK: Initializer
+  
+  /**
+   Creates Embed struct
+   
+   - parameter json: JSON representable as a dictionary
   */
   init(_ json: [String: Any]) {
     self.author = json["author"] as! [String: Any]

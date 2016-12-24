@@ -1,40 +1,80 @@
+//
+//  Sword.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 
+/// Main Class for Sword
 public class Sword {
 
+  // MARK: Properties
+  
+  /// The bot token
   let token: String
 
+  /// Requester class
   let requester: Request
+  
+  /// Endpoints structure
   let endpoints = Endpoints()
+  
+  /// Array of Shard class
   var shards: [Shard] = []
+  
+  /// Eventer class
   let eventer = Eventer()
 
   var gatewayUrl: String?
   var shardCount: Int?
 
+  /// Array of guilds the bot is currently connected to
   public var guilds: [String: Guild] = [:]
+  
+  /// Array of unavailable guilds the bot is currently connected to
   public var unavailableGuilds: [String: UnavailableGuild] = [:]
+  
+  /// The user account for the bot
   public var user: User?
 
-  /* Sword Initializer
-    @param token: String - Bot Token
-  */
+  // MARK: Initializer
+  
+  /** 
+   Initializes the Sword class
+   
+   - parameter token: The bot token
+   */
   public init(token: String) {
     self.token = token
     self.requester = Request(token)
   }
 
-  // Alias for Eventer().on(_:, _:)
-  public func on(_ eventName: String, _ completion: @escaping (_ data: Any) -> ()) {
+  // MARK: Functions
+  
+  /**
+   Listens for events
+   
+   - parameter eventName: The event to listen for
+   - parameter completion: Code block to execute when the event is fired
+   */
+  public func on(_ eventName: String, _ completion: @escaping (Any) -> ()) {
     self.eventer.on(eventName, completion)
   }
 
-  // Alias for Eventer().emit(_:, with:)
+  /**
+   Emits listeners for event
+   
+   - parameter eventName: The event to emit listeners for
+   - parameter data: Variadic set of Any(s) to send to listener
+   */
   public func emit(_ eventName: String, with data: Any...) {
     self.eventer.emit(eventName, with: data)
   }
 
-  // Used to get gateway URL
+  /// Gets the gateway URL to connect to
   func getGateway(completion: @escaping (Error?, [String: Any]?) -> ()) {
     self.requester.request(self.endpoints.gateway, rateLimited: false) { error, data in
       if error != nil {
@@ -51,7 +91,7 @@ public class Sword {
     }
   }
 
-  // Starts WS with Discord
+  /// Starts the bot
   public func connect() {
     self.getGateway() { error, data in
       if error != nil {
@@ -72,11 +112,13 @@ public class Sword {
     }
   }
 
-  /* Add User to Guild
-    @param userId: String - User to add to guild
-    @param guildId: String - Guild to add user in
-    @param options: [String: Any] - Options to give new member
-  */
+  /**
+   Adds a user to guild
+   
+   - parameter userId: User to add
+   - parameter guildId: The guild to add user in
+   - parameter options: Initial options to equip user with in guild
+   */
   public func add(user userId: String, to guildId: String, with options: [String: Any] = [:], _ completion: @escaping (Member?) -> () = {_ in}) {
     self.requester.request(endpoints.addGuildMember(guildId, userId), body: options.createBody(), method: "PUT") { error, data in
       if error != nil {
@@ -87,10 +129,12 @@ public class Sword {
     }
   }
 
-  /* Creates an invite for channel
-    @param channelId: String - Channel to create invite for
-    @param options: [String: Any] - Options for invite
-  */
+  /**
+   Creates an invite for channel
+   
+   - parameter channelId: Channel to create invite for
+   - parameter options: Options to give invite
+   */
   public func createInvite(for channelId: String, with options: [String: Any] = [:], _ completion: @escaping (Any?) -> () = {_ in}) {
     self.requester.request(endpoints.createChannelInvite(channelId), body: options.createBody(), method: "POST") { error, data in
       if error != nil {
@@ -101,9 +145,11 @@ public class Sword {
     }
   }
 
-  /* Deletes a channel
-    @param channelId: String - Channel to delete
-  */
+  /**
+   Deletes a channel
+   
+   - parameter channelId: Channel to delete
+   */
   public func delete(channel channelId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
     self.requester.request(endpoints.deleteChannel(channelId), method: "DELETE") { error, data in
       if error != nil {
@@ -119,9 +165,11 @@ public class Sword {
     }
   }
 
-  /* Deletes a guild
-    @param guildId: String - Guild to delete
-  */
+  /**
+   Deletes a guild
+   
+   - parameter guildId: Guild to delete
+   */
   public func delete(guild guildId: String, _ completion: @escaping (Guild?) -> () = {_ in}) {
     self.requester.request(endpoints.deleteGuild(guildId), method: "DELETE") { error, data in
       if error != nil {
@@ -134,9 +182,11 @@ public class Sword {
     }
   }
 
-  /* Delete an invite
-    @param inviteId: String - ID of invite
-  */
+  /**
+   Deletes an invite
+   
+   - parameter inviteId: Invite to delete
+   */
   public func delete(invite inviteId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
     self.requester.request(endpoints.deleteInvite(inviteId), method: "DELETE") { error, data in
       if error != nil {
@@ -147,29 +197,35 @@ public class Sword {
     }
   }
 
-  /* Deletes a webhook
-    @param webhookId: String - Webhook to delete
-  */
+  /**
+   Deletes a webhook
+   
+   - parameter webhookId: Webhook to delete
+   */
   public func delete(webhook webhookId: String, _ completion: @escaping () -> () = {_ in}) {
     self.requester.request(endpoints.deleteWebhook(webhookId), method: "DELETE") { error, data in
       if error == nil { completion() }
     }
   }
 
-  /* Deletes permissions for overwrite in channel
-    @param channelId: String - Channel to delete permisson from
-    @param overwriteId: String - Overwrite to delete
-  */
+  /**
+   Deletes an overwrite permission for a channel
+   
+   - parameter channelId: Channel to delete permissions from
+   - parameter overwriteId: Overwrite ID to use for permissons
+   */
   public func deletePermission(for channelId: String, with overwriteId: String, _ completion: @escaping () -> () = {_ in}) {
     self.requester.request(endpoints.deleteChannelPermission(channelId, overwriteId), method: "DELETE") { error, data in
       if error == nil { completion() }
     }
   }
 
-  /* Edits channel with options
-    @param channelId: String - Channel to edit
-    @param options: [String: Any] - Options to append to channel
-  */
+  /**
+   Edits a channel
+   
+   - parameter channelId: Channel to edit
+   - parameter options: Optons to give channel
+   */
   public func edit(channel channelId: String, with options: [String: Any] = [:], _ completion: @escaping (Channel?) -> () = {_ in}) {
     self.requester.request(endpoints.modifyChannel(channelId), body: options.createBody(), method: "PATCH") { error, data in
       if error != nil {
@@ -180,21 +236,25 @@ public class Sword {
     }
   }
 
-  /* Edits permissions for channel
-    @param permissions: [String: Any] - Permissions to add/remove from channel
-    @param channelId: String - Channel to edit perms for
-    @param overwriteId: String - Overwrite id to change perms for
-  */
+  /**
+   Edits a channel's overwrite permission
+   
+   - parameter permissions: ["allow": perm#, "deny": perm#, "type": "role" || "member"]
+   - parameter channelId: Channel to edit permissions for
+   - parameter overwriteId: Overwrite ID to use for permissions
+   */
   public func edit(permissions: [String: Any], for channelId: String, with overwriteId: String, _ completion: @escaping () -> () = {_ in}) {
     self.requester.request(endpoints.editChannelPermissions(channelId, overwriteId), body: permissions.createBody(), method: "PUT") { error, data in
       if error == nil { completion() }
     }
   }
 
-  /* Edits status
-    @param status: String - "online" | "idle" | "dnd" | "invisible"
-    @param game: [String: Any]? - Game to set status to/set streaming
-  */
+  /**
+   Edits bot status
+   
+   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
+   - parameter game: ["name": "with Swords!", "type": 0 || 1]
+   */
   public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {
     guard self.shards.count > 0 else { return }
     var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
@@ -210,11 +270,13 @@ public class Sword {
     }
   }
 
-  /* Executes a webhook
-    @param webhookId: String - Webhook to executeWebhook
-    @param webhookToken: String - Webhook token auth
-    @param content: Any - Either string or dictionary containing webhook object
-  */
+  /**
+   Executes a webhook
+   
+   - parameter webhookId: Webhook to execute
+   - parameter webhookToken: Token for auth to execute
+   - parameter content: String or dictionary containing message content
+   */
   public func execute(webhook webhookId: String, token webhookToken: String, with content: Any, _ completion: @escaping () -> () = {_ in}) {
     guard let message = content as? [String: Any] else {
       let data = ["content": content].createBody()
@@ -252,21 +314,24 @@ public class Sword {
     }
   }
 
-  /* Executes Slack style webhook
-    @param webhookId: String - Webhook to execute
-    @param webhookToken: String - Webhook token auth
-    @param content: [String: Any] - Slack webhook objcet
-  */
+  /**
+   Executs a slack style webhook
+   
+   - parameter webhookId: Webhook to execute
+   - parameter webhookToken: Token for auth to execute
+   */
   public func executeSlack(webhook webhookId: String, token webhookToken: String, with content: [String: Any], _ completion: @escaping () -> () = {_ in}) {
     self.requester.request(endpoints.executeSlackWebhook(webhookId, webhookToken), body: content.createBody(), method: "POST") { error, data in
       if error == nil { completion() }
     }
   }
 
-  /* Get message from channel
-    @param messageId: String - Message to get
-    @param channelId: String - Channel to get message from
-  */
+  /**
+   Gets a message from channel
+   
+   - parameter messageId: Message to get
+   - parameter channelId: Channel to get message from
+   */
   public func get(message messageId: String, from channelId: String, _ completion: @escaping (Message?) -> () = {_ in}) {
     self.requester.request(endpoints.getChannelMessage(channelId, messageId)) { error, data in
       if error != nil {
@@ -277,10 +342,12 @@ public class Sword {
     }
   }
 
-  /* Gets messages from channel
-    @param limit: Int - Amount of messages to get
-    @param channelId: String - Channel to get messages from
-  */
+  /**
+   Gets an array of messages from channel
+   
+   - parameter limit: Amount of messages to get
+   - parameter channelId: Channel to get messages from
+   */
   public func get(_ limit: Int, messagesFrom channelId: String, _ completion: @escaping ([Message]?) -> () = {_ in}) {
     if limit > 100 || limit < 1 { completion(nil); return }
     self.requester.request(endpoints.getChannelMessages(channelId), body: ["limit": limit].createBody()) { error, data in
@@ -297,9 +364,11 @@ public class Sword {
     }
   }
 
-  /* Get an invite
-    @param inviteId: String - ID of invite
-  */
+  /**
+   Gets an invite
+   
+   - parameter inviteId: Invite to get
+   */
   public func get(invite inviteId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
     self.requester.request(endpoints.getInvite(inviteId)) { error, data in
       if error != nil {
@@ -310,10 +379,12 @@ public class Sword {
     }
   }
 
-  /* Gets a guild member
-    @param userId: String - User to get
-    @param guildId: String - Guild to get from
-  */
+  /**
+   Gets a user from guild
+   
+   - parameter userId: User to get
+   - parameter guildId: Guild to get user from
+   */
   public func get(user userId: String, from guildId: String, _ completion: @escaping (Member?) -> () = {_ in}) {
     self.requester.request(endpoints.getGuildMember(guildId, userId)) { error, data in
       if error != nil {
@@ -325,9 +396,11 @@ public class Sword {
     }
   }
 
-  /* Gets webhook by id
-    @param webhookId: String - Webhook to get
-  */
+  /**
+   Gets a webhook
+   
+   - parameter webhookId: Webhook to get
+   */
   public func get(webhook webhookId: String, _ completion: @escaping ([String: Any]?) -> ()) {
     self.requester.request(endpoints.getWebhook(webhookId)) { error, data in
       if error != nil {
@@ -338,9 +411,11 @@ public class Sword {
     }
   }
 
-  /* Gets channel invites
-    @param channelId: String - Channel to get invites from
-  */
+  /**
+   Gets a channel's invites
+   
+   - parameter channelId: Channel to get invites from
+   */
   public func getInvites(for channelId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
     self.requester.request(endpoints.getChannelInvites(channelId)) { error, data in
       if error != nil {
@@ -351,9 +426,11 @@ public class Sword {
     }
   }
 
-  /* Restfully get channel
-    @param channelId: String - Channel to get
-  */
+  /**
+   Restfully gets a channel
+   
+   - parameter channelId: Channel to get restfully
+   */
   public func getREST(channel channelId: String, _ completion: @escaping (Any?) -> ()) {
     self.requester.request(endpoints.getChannel(channelId)) { error, data in
       if error != nil {
@@ -369,9 +446,11 @@ public class Sword {
     }
   }
 
-  /* Restfully get guild
-    @param guildId: String - Guild to get
-  */
+  /**
+   Restfully gets a guild
+   
+   - parameter guildId: Guild to get restfully
+   */
   public func getREST(guild guildId: String, _ completion: @escaping (Guild?) -> ()) {
     self.requester.request(endpoints.getGuild(guildId)) { error, data in
       if error != nil {
@@ -384,9 +463,11 @@ public class Sword {
     }
   }
 
-  /* Restfully get a user
-    @param userId: String - User to get
-  */
+  /**
+   Restfully gets a user
+   
+   - parameter userId: User to get restfully
+   */
   public func getREST(user userId: String, _ completion: @escaping (User?) -> ()) {
     self.requester.request(endpoints.getUser(userId)) { error, data in
       if error != nil {
@@ -397,9 +478,11 @@ public class Sword {
     }
   }
 
-  /* Restfully gets guild channels
-    @param guildId: String - Guild to get channels from
-  */
+  /**
+   Restfully gets channels from guild
+   
+   - parameter guildId: Guild to get channels from
+   */
   public func getRESTChannels(from guildId: String, _ completion: @escaping ([Channel]?) -> ()) {
     self.requester.request(endpoints.getGuildChannels(guildId)) { error, data in
       if error != nil {
@@ -416,7 +499,7 @@ public class Sword {
     }
   }
 
-  // Restfully get guilds bot is in
+  /// Restfully get guilds bot is in
   public func getRESTGuilds(_ completion: @escaping ([[String: Any]]?) -> ()) {
     self.requester.request(endpoints.getCurrentUserGuilds()) { error, data in
       if error != nil {
@@ -427,18 +510,23 @@ public class Sword {
     }
   }
 
-  /* Leaves a guild
-    @param guildId: String - Guild to leave
-  */
+  /**
+   Leaves a guild
+   
+   - parameter guildId: Guild to leave
+   */
   public func leave(guild guildId: String, _ completion: @escaping () -> () = {_ in}) {
     self.requester.request(endpoints.leaveGuild(guildId), method: "DELETE") { error, data in
       if error == nil { completion() }
     }
   }
 
-  /* Modifies webhook
-    @param webhookId: String - Webhook to modify
-  */
+  /**
+   Modifies a webhook
+   
+   - parameter webhookId: Webhook to modify
+   - parameter options: ["name": "name of webhook", "avatar": "img data in base64"]
+   */
   public func modify(webhook webhookId: String, with options: [String: String], _ completion: @escaping ([String: Any]?) -> () = {_ in}) {
     self.requester.request(endpoints.modifyWebhook(webhookId), body: options.createBody(), method: "PATCH") { error, data in
       if error != nil {
@@ -449,10 +537,12 @@ public class Sword {
     }
   }
 
-  /* Send message to channel
-    @param content: Any - Either a string or a dictionary with info on embeds, files, tts, etc..
-    @param channelId: String - Channel to send message to
-  */
+  /**
+   Sends a message to channel
+   
+   - parameter content: Either string or dictionary containing info on message
+   - parameter channelId: Channel to send message to
+   */
   public func send(_ content: Any, to channelId: String, _ completion: @escaping (Message?) -> () = {_ in}) {
     guard let message = content as? [String: Any] else {
       let data = ["content": content].createBody()
@@ -492,18 +582,22 @@ public class Sword {
     }
   }
 
-  /* Sets bot to typing in channel
-    @param channelId: String - Channel to start "typing" in
-  */
+  /**
+   Sets bot to typing in channel
+   
+   - parameter channelId: Channel to set typing to
+   */
   public func setTyping(for channelId: String, _ completion: @escaping () -> () = {_ in}) {
     self.requester.request(endpoints.triggerTypingIndicator(channelId), method: "POST") { error, data in
       if error == nil { completion() }
     }
   }
 
-  /* Sets bot's username
-    @param name: String - Name to change to
-  */
+  /**
+   Sets bot's username
+   
+   - parameter name: Name to set bot's username to
+   */
   public func setUsername(to name: String, _ completion: @escaping (User?) -> () = {_ in}) {
     self.requester.request(endpoints.modifyCurrentUser(), body: ["username": name].createBody(), method: "PATCH") { error, data in
       if error != nil {

@@ -1,13 +1,23 @@
+//
+//  ImageHandler.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 
-//Image Handler
+/// Image Handler
 extension Request {
 
-  /* Creates HTTP Body for file uploads
-    @param parameters: [String: String]? - Optional data to send
-    @param fileKey: String - Key for the file
-    @param paths: [String] - Array of URLS to get file data from
-    @param boundary: String - UUID Boundary
+  /** 
+   Creates HTTP Body for file uploads
+   
+   - parameter parameters: Optional data to send
+   - parameter fileKey: Key for the file
+   - parameter paths: Array of URLS to get file data from
+   - parameter boundary: UUID Boundary
   */
   func createBody(with parameters: [String: String]?, fileKey: String, paths: [String], boundary: String) throws -> Data {
 
@@ -41,13 +51,15 @@ extension Request {
 
 }
 
-// UUID Boundary Generator
+/// UUID Boundary Generator
 func generateBoundaryString() -> String {
   return "Boundary-\(NSUUID().uuidString)"
 }
 
-/* Gets mimeType for URL
-  @param path: String - URL to get mimeType for
+/**
+ Gets mimeType for URL
+  
+ - parameter path: URL to get mimeType for
 */
 func mimeType(for path: String) -> String {
   let url = NSURL(string: path)!

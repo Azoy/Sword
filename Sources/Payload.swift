@@ -1,15 +1,36 @@
+//
+//  Payload.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 
-//Payload Type
+/// Payload Type
 struct Payload {
 
+  // MARK: Properties
+  
+  /// OP Code for payload
   let op: Int
+  
+  /// Data for payload
   let d: Any
+  
+  /// Sequence number from payload
   let s: Int?
+  
+  /// Event name from payload
   let t: String?
 
-  /* Creates a payload from JSON String
-    @param text: String - JSON String
+  // MARK: Initializers
+  
+  /**
+   Creates a payload from JSON String
+   
+   - parameter text: JSON String
   */
   init(with text: String) {
     let data = text.decode() as! [String: Any]
@@ -19,9 +40,11 @@ struct Payload {
     self.t = data["t"] as? String
   }
 
-  /* Creates a payload from either an Array | Dictionary
-    @param op: OPCode - OP code to dispatch
-    @param data: Any - Either an Array | Dictionary to dispatch under the payload.d
+  /**
+   Creates a payload from either an Array | Dictionary
+   
+   - parameter op: OP code to dispatch
+   - parameter data: Either an Array | Dictionary to dispatch under the payload.d
   */
   init(op: OPCode, data: Any) {
     self.op = op.rawValue
@@ -30,7 +53,9 @@ struct Payload {
     self.t = nil
   }
 
-  //Returns self as a String
+  // MARK: Functions
+  
+  /// Returns self as a String
   func encode() -> String {
     let payload = ["op": self.op, "d": self.d]
     return payload.encode()

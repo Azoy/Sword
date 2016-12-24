@@ -1,35 +1,45 @@
+//
+//  GatewayHandler.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 
-//Gateway Handler
+/// Gateway Handler
 extension Shard {
 
-  /* Handles Gateway events (anything that doesnt have op: 0)
-    @param payload: Payload - Payload from Discord WS to get data from
-  */
+  /**
+   Handles all gateway events (except op: 0)
+   
+   - parameter payload: Payload sent with event
+   */
   func handleGateway(_ payload: Payload) {
 
     switch OPCode(rawValue: payload.op)! {
 
-      //OP: 11
+      /// OP: 11
       case .heartbeatACK:
         self.heartbeat?.received = true
         break
 
-      //OP: 10
+      /// OP: 10
       case .hello:
         self.heartbeat = Heartbeat(self.session!, interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
         self.heartbeat?.send()
         self.identify()
         break
 
-      //OP: 9
+      /// OP: 9
       case .invalidSession:
         self.stop()
         sleep(2)
         self.startWS(self.gatewayUrl)
         break
 
-      //OP: 7
+      /// OP: 7
       case .reconnect:
         var data: [String: Any] = ["token": self.sword.token, "session_id": self.sessionId!, "seq": NSNull()]
         if self.lastSeq != nil {
@@ -39,7 +49,7 @@ extension Shard {
         self.reconnect(payload)
         break
 
-      //Others~~~
+      /// Others~~~
       default:
         break
     }
