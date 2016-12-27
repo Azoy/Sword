@@ -19,10 +19,14 @@ extension Shard {
    */
   func handleEvents(_ data: [String: Any], _ eventName: String) {
 
-    switch eventName {
+    guard let event = Event(rawValue: eventName) else {
+      return
+    }
+
+    switch event {
 
       /// CHANNEL_CREATE
-      case "CHANNEL_CREATE":
+      case .channelCreate:
         if (data["is_private"] as! Bool) {
           self.sword.emit("channelCreate", with: DMChannel(self.sword, data))
         }else {
@@ -33,7 +37,7 @@ extension Shard {
         break
 
       /// CHANNEL_DELETE
-      case "CHANNEL_DELETE":
+      case .channelDelete:
         if (data["is_private"] as! Bool) {
           self.sword.emit("channelDelete", with: DMChannel(self.sword, data))
         }else {
@@ -44,22 +48,22 @@ extension Shard {
         break
 
       /// CHANNEL_UPDATE
-      case "CHANNEL_UPDATE":
+      case .channelUpdate:
         self.sword.emit("channelUpdate", with: Channel(self.sword, data))
         break
 
       /// GUILD_BAN_ADD
-      case "GUILD_BAN_ADD":
+      case .guildBanAdd:
         self.sword.emit("guildBanAdd", with: data["guild_id"] as! String, User(self.sword, data))
         break
 
       /// GUILD_BAN_REMOVE
-      case "GUILD_BAN_REMOVE":
+      case .guildBanRemove:
         self.sword.emit("guildBanRemove", with: data["guild_id"] as! String, User(self.sword, data))
         break
 
       /// GUILD_CREATE
-      case "GUILD_CREATE":
+      case .guildCreate:
         let guildId = data["id"] as! String
 
         if self.sword.unavailableGuilds[guildId] != nil {
@@ -77,7 +81,7 @@ extension Shard {
         break
 
       /// GUILD_DELETE
-      case "GUILD_DELETE":
+      case .guildDelete:
         let guildId = data["id"] as! String
 
         self.sword.guilds.removeValue(forKey: guildId)
@@ -92,7 +96,7 @@ extension Shard {
         break
 
       /// GUILD_EMOJIS_UPDATE
-      case "GUILD_EMOJIS_UPDATE":
+      case .guildEmojisUpdate:
         var emitEmojis: [Emoji] = []
         let emojis = data["emojis"] as! [[String: Any]]
         for emoji in emojis {
@@ -102,12 +106,12 @@ extension Shard {
         break
 
       /// GUILD_INTEGRATIONS_UPDATE
-      case "GUILD_INTEGRATIONS_UPDATE":
+      case .guildIntegrationsUpdate:
         self.sword.emit("guildIntegrationsUpdate", with: data["guild_id"] as! String)
         break
 
       /// GUILD_MEMBER_ADD
-      case "GUILD_MEMBER_ADD":
+      case .guildMemberAdd:
         let guildId = data["guild_id"] as! String
         let member = Member(self.sword, data)
         self.sword.guilds[guildId]!.members[member.user.id] = member
@@ -115,7 +119,7 @@ extension Shard {
         break
 
       /// GUILD_MEMBER_REMOVE
-      case "GUILD_MEMBER_REMOVE":
+      case .guildMemberRemove:
         let guildId = data["guild_id"] as! String
         let user = User(self.sword, data)
         self.sword.guilds[guildId]!.members.removeValue(forKey: user.id)
@@ -123,7 +127,7 @@ extension Shard {
         break
 
       /// GUILD_MEMBER_UPDATE
-      case "GUILD_MEMBER_UPDATE":
+      case .guildMemberUpdate:
         let guildId = data["guild_id"] as! String
         let member = Member(self.sword, data)
         self.sword.guilds[guildId]!.members[member.user.id] = member
@@ -131,7 +135,7 @@ extension Shard {
         break
 
       /// GUILD_ROLE_CREATE
-      case "GUILD_ROLE_CREATE":
+      case .guildRoleCreate:
         let guildId = data["guildId"] as! String
         let role = Role(data["role"] as! [String: Any])
         self.sword.guilds[guildId]!.roles[role.id] = role
@@ -139,7 +143,7 @@ extension Shard {
         break
 
       /// GUILD_ROLE_DELETE
-      case "GUILD_ROLE_DELETE":
+      case .guildRoleDelete:
         let guildId = data["guild_id"] as! String
         let roleId = data["role_id"] as! String
         self.sword.guilds[guildId]!.roles.removeValue(forKey: roleId)
@@ -147,7 +151,7 @@ extension Shard {
         break
 
       /// GUILD_ROLE_UPDATE
-      case "GUILD_ROLE_UPDATE":
+      case .guildRoleUpdate:
         let guildId = data["guild_id"] as! String
         let role = Role(data["role"] as! [String: Any])
         self.sword.guilds[guildId]!.roles[role.id] = role
@@ -155,39 +159,39 @@ extension Shard {
         break
 
       /// GUILD_UPDATE
-      case "GUILD_UPDATE":
+      case .guildUpdate:
         self.sword.emit("guildUpdate", with: Guild(self.sword, data, self.id))
         break
 
       /// MESSAGE_CREATE
-      case "MESSAGE_CREATE":
+      case .messageCreate:
         self.sword.emit("messageCreate", with: Message(self.sword, data))
         break
 
       /// MESSAGE_DELETE
-      case "MESSAGE_DELETE":
+      case .messageDelete:
         self.sword.emit("messageDelete", with: data["id"] as! String, data["channel_id"] as! String)
         break
 
       /// MESSAGE_BULK_DELETE
-      case "MESSAGE_BULK_DELETE":
+      case .messageDeleteBulk:
         let messages = data["ids"] as! [String]
         self.sword.emit("bulkDeleteMessages", with: messages, data["channel_id"] as! String)
         break
 
       /// MESSAGE_UPDATE
-      case "MESSAGE_UPDATE":
+      case .messageUpdate:
         self.sword.emit("messageUpdate", with: data["id"] as! String, data["channel_id"] as! String)
         break
 
       /// PRESENCE_UPDATE
-      case "PRESENCE_UPDATE":
+      case .presenceUpdate:
         let user = User(self.sword, data["user"] as! [String: Any])
         self.sword.emit("presenceUpdate", with: user.id, ["status": data["status"] as! String, "game": data["game"]])
         break
 
       /// READY
-      case "READY":
+      case .ready:
         self.sessionId = data["session_id"] as? String
 
         let guilds = data["guilds"] as! [[String: Any]]
@@ -201,13 +205,13 @@ extension Shard {
         break
 
       /// TYPING_START
-      case "TYPING_START":
+      case .typingStart:
         let timestamp = Date(timeIntervalSince1970: data["timestamp"] as! Double)
         self.sword.emit("typingStart", with: data["channel_id"] as! String, data["user_id"] as! String, timestamp)
         break
 
       /// USER_UPDATE
-      case "USER_UPDATE":
+      case .userUpdate:
         self.sword.emit("userUpdate", with: User(self.sword, data))
         break
 
