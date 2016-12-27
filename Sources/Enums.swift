@@ -19,7 +19,7 @@ enum OPCode: Int {
 enum CloseCode: Int {
 
   case unknownError = 4000, unknownOPCode, decodeError, notAuthenticated, authenticationFailed, alreadyAuthenticated, invalidSeq, rateLimited, sessionTimeout, invalidShard
-  
+
 }
 
 /// Organize all ws dispatch events

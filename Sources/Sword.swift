@@ -12,19 +12,19 @@ import Foundation
 public class Sword {
 
   // MARK: Properties
-  
+
   /// The bot token
   let token: String
 
   /// Requester class
   let requester: Request
-  
+
   /// Endpoints structure
   let endpoints = Endpoints()
-  
+
   /// Array of Shard class
   var shards: [Shard] = []
-  
+
   /// Eventer class
   let eventer = Eventer()
 
@@ -33,30 +33,30 @@ public class Sword {
 
   /// Array of guilds the bot is currently connected to
   public var guilds: [String: Guild] = [:]
-  
+
   /// Array of unavailable guilds the bot is currently connected to
   public var unavailableGuilds: [String: UnavailableGuild] = [:]
-  
+
   /// The user account for the bot
   public var user: User?
 
   // MARK: Initializer
-  
-  /** 
+
+  /**
    Initializes the Sword class
-   
+
    - parameter token: The bot token
    */
-  public init(token: String) {
+  public required init(token: String) {
     self.token = token
     self.requester = Request(token)
   }
 
   // MARK: Functions
-  
+
   /**
    Listens for events
-   
+
    - parameter eventName: The event to listen for
    - parameter completion: Code block to execute when the event is fired
    */
@@ -66,7 +66,7 @@ public class Sword {
 
   /**
    Emits listeners for event
-   
+
    - parameter eventName: The event to emit listeners for
    - parameter data: Variadic set of Any(s) to send to listener
    */
@@ -114,7 +114,7 @@ public class Sword {
 
   /**
    Adds a user to guild
-   
+
    - parameter userId: User to add
    - parameter guildId: The guild to add user in
    - parameter options: Initial options to equip user with in guild
@@ -131,7 +131,7 @@ public class Sword {
 
   /**
    Creates an invite for channel
-   
+
    - parameter channelId: Channel to create invite for
    - parameter options: Options to give invite
    */
@@ -147,7 +147,7 @@ public class Sword {
 
   /**
    Deletes a channel
-   
+
    - parameter channelId: Channel to delete
    */
   public func delete(channel channelId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
@@ -167,7 +167,7 @@ public class Sword {
 
   /**
    Deletes a guild
-   
+
    - parameter guildId: Guild to delete
    */
   public func delete(guild guildId: String, _ completion: @escaping (Guild?) -> () = {_ in}) {
@@ -184,7 +184,7 @@ public class Sword {
 
   /**
    Deletes an invite
-   
+
    - parameter inviteId: Invite to delete
    */
   public func delete(invite inviteId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
@@ -199,7 +199,7 @@ public class Sword {
 
   /**
    Deletes a webhook
-   
+
    - parameter webhookId: Webhook to delete
    */
   public func delete(webhook webhookId: String, _ completion: @escaping () -> () = {_ in}) {
@@ -210,7 +210,7 @@ public class Sword {
 
   /**
    Deletes an overwrite permission for a channel
-   
+
    - parameter channelId: Channel to delete permissions from
    - parameter overwriteId: Overwrite ID to use for permissons
    */
@@ -222,7 +222,7 @@ public class Sword {
 
   /**
    Edits a channel
-   
+
    - parameter channelId: Channel to edit
    - parameter options: Optons to give channel
    */
@@ -238,7 +238,7 @@ public class Sword {
 
   /**
    Edits a channel's overwrite permission
-   
+
    - parameter permissions: ["allow": perm#, "deny": perm#, "type": "role" || "member"]
    - parameter channelId: Channel to edit permissions for
    - parameter overwriteId: Overwrite ID to use for permissions
@@ -251,7 +251,7 @@ public class Sword {
 
   /**
    Edits bot status
-   
+
    - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
    - parameter game: ["name": "with Swords!", "type": 0 || 1]
    */
@@ -272,7 +272,7 @@ public class Sword {
 
   /**
    Executes a webhook
-   
+
    - parameter webhookId: Webhook to execute
    - parameter webhookToken: Token for auth to execute
    - parameter content: String or dictionary containing message content
@@ -316,7 +316,7 @@ public class Sword {
 
   /**
    Executs a slack style webhook
-   
+
    - parameter webhookId: Webhook to execute
    - parameter webhookToken: Token for auth to execute
    */
@@ -328,7 +328,7 @@ public class Sword {
 
   /**
    Gets a message from channel
-   
+
    - parameter messageId: Message to get
    - parameter channelId: Channel to get message from
    */
@@ -344,7 +344,7 @@ public class Sword {
 
   /**
    Gets an array of messages from channel
-   
+
    - parameter limit: Amount of messages to get
    - parameter channelId: Channel to get messages from
    */
@@ -366,7 +366,7 @@ public class Sword {
 
   /**
    Gets an invite
-   
+
    - parameter inviteId: Invite to get
    */
   public func get(invite inviteId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
@@ -381,7 +381,7 @@ public class Sword {
 
   /**
    Gets a user from guild
-   
+
    - parameter userId: User to get
    - parameter guildId: Guild to get user from
    */
@@ -398,7 +398,7 @@ public class Sword {
 
   /**
    Gets a webhook
-   
+
    - parameter webhookId: Webhook to get
    */
   public func get(webhook webhookId: String, _ completion: @escaping ([String: Any]?) -> ()) {
@@ -413,7 +413,7 @@ public class Sword {
 
   /**
    Gets a channel's invites
-   
+
    - parameter channelId: Channel to get invites from
    */
   public func getInvites(for channelId: String, _ completion: @escaping (Any?) -> () = {_ in}) {
@@ -428,7 +428,7 @@ public class Sword {
 
   /**
    Restfully gets a channel
-   
+
    - parameter channelId: Channel to get restfully
    */
   public func getREST(channel channelId: String, _ completion: @escaping (Any?) -> ()) {
@@ -448,7 +448,7 @@ public class Sword {
 
   /**
    Restfully gets a guild
-   
+
    - parameter guildId: Guild to get restfully
    */
   public func getREST(guild guildId: String, _ completion: @escaping (Guild?) -> ()) {
@@ -465,7 +465,7 @@ public class Sword {
 
   /**
    Restfully gets a user
-   
+
    - parameter userId: User to get restfully
    */
   public func getREST(user userId: String, _ completion: @escaping (User?) -> ()) {
@@ -480,7 +480,7 @@ public class Sword {
 
   /**
    Restfully gets channels from guild
-   
+
    - parameter guildId: Guild to get channels from
    */
   public func getRESTChannels(from guildId: String, _ completion: @escaping ([Channel]?) -> ()) {
@@ -512,7 +512,7 @@ public class Sword {
 
   /**
    Leaves a guild
-   
+
    - parameter guildId: Guild to leave
    */
   public func leave(guild guildId: String, _ completion: @escaping () -> () = {_ in}) {
@@ -523,7 +523,7 @@ public class Sword {
 
   /**
    Modifies a webhook
-   
+
    - parameter webhookId: Webhook to modify
    - parameter options: ["name": "name of webhook", "avatar": "img data in base64"]
    */
@@ -539,7 +539,7 @@ public class Sword {
 
   /**
    Sends a message to channel
-   
+
    - parameter content: Either string or dictionary containing info on message
    - parameter channelId: Channel to send message to
    */
@@ -584,7 +584,7 @@ public class Sword {
 
   /**
    Sets bot to typing in channel
-   
+
    - parameter channelId: Channel to set typing to
    */
   public func setTyping(for channelId: String, _ completion: @escaping () -> () = {_ in}) {
@@ -595,7 +595,7 @@ public class Sword {
 
   /**
    Sets bot's username
-   
+
    - parameter name: Name to set bot's username to
    */
   public func setUsername(to name: String, _ completion: @escaping (User?) -> () = {_ in}) {

@@ -13,13 +13,17 @@ extension Shard {
 
   /**
    Handles all dispatch events
-   
+
    - parameter data: Data sent with dispatch
    - parameter eventName: Event name sent with dispatch
    */
   func handleEvents(_ data: [String: Any], _ eventName: String) {
 
-    switch Event(rawValue: eventName)! {
+    guard let event = Event(rawValue: eventName) else {
+      return
+    }
+
+    switch event {
 
       /// CHANNEL_CREATE
       case .channelCreate:

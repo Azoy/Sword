@@ -14,7 +14,7 @@ import PackageDescription
 let package = Package(
     name: "yourswiftexecutablehere",
     dependencies: [
-        .Package(url: "https://github.com/Azoy/Sword", Version(0, 1, 0))
+        .Package(url: "https://github.com/Azoy/Sword", majorVersion: 0, minor: 1)
     ]
 )
 ```
@@ -30,8 +30,8 @@ bot.on("ready") { _ in
   bot.editStatus(playing: ["name": "with Swords!"])
 }
 
-bot.on("messageCreate") { msg in
-  let msg = (msg as! [Message])[0]
+bot.on("messageCreate") { data in
+  let msg = data[0] as! Message
   if msg.content == "!ping" {
     bot.send("Pong!", to: msg.channel.id)
   }

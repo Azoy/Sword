@@ -12,69 +12,64 @@ import Foundation
 public struct Message {
 
   // MARK: Properties
-  
-  /// Parent class
-  private let sword: Sword
 
   /// Array of Attachment structs that was sent with the message
   public internal(set) var attachments: [Attachment] = []
-  
+
   /// User struct of the author (not returned if webhook)
   public let author: User?
-  
+
   /// Content of the message
   public let content: String
-  
+
   /// Channel struct of the message
   public internal(set) var channel: Channel
-  
+
   /// If message was edited, this is the time it happened
   public let editedTimestamp: Date?
-  
+
   /// Array of embeds sent with message
   public internal(set) var embeds: [Embed] = []
-  
+
   /// Message ID
   public let id: String
-  
+
   /// Member struct for message
   public private(set) var member: Member?
-  
+
   /// Whether or not this message mentioned everyone
-  public let mentionEveryone: Bool
-  
+  public let isEveryoneMentioned: Bool
+
   /// Array of Users that were mentioned
   public internal(set) var mentions: [User] = []
-  
+
   /// Array of Roles that were mentioned
   public internal(set) var mentionedRoles: [Role] = []
-  
+
   /// Array of reactions with message
   public internal(set) var reactions: [[String: Any]] = []
-  
+
   /// Whether or not this message is pinned in it's channel
-  public let pinned: Bool
-  
+  public let isPinned: Bool
+
   /// Time when message was sent
   public let timestamp: Date
-  
+
   /// Whether or not this messaged was ttsed
-  public let tts: Bool
-  
+  public let isTts: Bool
+
   /// If message was sent by webhook, this is that webhook's ID
   public let webhookId: String?
 
   // MARK: Initializer
-  
+
   /**
    Creates Message struct
-   
+
    - parameter sword: Parent class to get guilds from
    - parameter json: JSON representable as a dictionary
   */
   init(_ sword: Sword, _ json: [String: Any]) {
-    self.sword = sword
-
     let attachments = json["attachments"] as! [[String: Any]]
     for attachment in attachments {
       self.attachments.append(Attachment(attachment))
@@ -114,7 +109,7 @@ public struct Message {
       self.member = nil
     }
 
-    self.mentionEveryone = json["mention_everyone"] as! Bool
+    self.isEveryoneMentioned = json["mention_everyone"] as! Bool
 
     let mentions = json["mentions"] as! [[String: Any]]
     for mention in mentions {
@@ -129,17 +124,17 @@ public struct Message {
     if let reactions = json["reactions"] as? [[String: Any]] {
       self.reactions = reactions
     }
-    self.pinned = json["pinned"] as! Bool
+    self.isPinned = json["pinned"] as! Bool
     self.timestamp = (json["timestamp"] as! String).date
-    self.tts = json["tts"] as! Bool
+    self.isTts = json["tts"] as! Bool
     self.webhookId = json["webhook_id"] as? String
   }
 
   // MARK: Functions
-  
+
   /**
    Adds a reaction to self
-   
+
    - parameter reaction: Either unicode or custom emoji to add to this message
   */
   public func add(reaction: String, _ completion: @escaping () -> () = {_ in}) {
@@ -153,7 +148,7 @@ public struct Message {
 
   /**
    Deletes reaction from self
-   
+
    - parameter reaction: Either unicode or custom emoji reaction to remove
    - parameter userId: If nil, delete from self else delete from userId
   */
@@ -168,7 +163,7 @@ public struct Message {
 
   /**
    Edit self's content
-   
+
    - parameter content: Content to edit from self
   */
   public func edit(to content: String, _ completion: @escaping (Message?) -> () = {_ in}) {
@@ -177,7 +172,7 @@ public struct Message {
 
   /**
    Get array of users from reaction
-   
+
    - parameter reaction: Either unicode or custom emoji reaction to get users from
   */
   public func get(reaction: String, _ completion: @escaping ([User]?) -> ()) {
@@ -195,33 +190,33 @@ public struct Message {
 public struct Attachment {
 
   // MARK: Properties
-  
+
   /// The filename for this Attachment
   public let filename: String
-  
+
   /// Height of image (if image)
   public let height: Int?
-  
+
   /// ID of attachment
   public let id: String
-  
+
   /// The proxied URL for this attachment
   public let proxyUrl: String
-  
+
   /// Size of the file in bytes
   public let size: Int
-  
+
   /// The original URL of the attachment
   public let url: String
-  
+
   /// Width of image (if image)
   public let width: Int?
 
   // MARK: Initializer
-  
+
   /**
    Creates an Attachment struct
-   
+
    - parameter json: JSON to decode into Attachment struct
   */
   init(_ json: [String: Any]) {
@@ -240,48 +235,48 @@ public struct Attachment {
 public struct Embed {
 
   // MARK: Properties
-  
+
   /// Author dictionary from embed
   public let author: [String: Any]
-  
+
   /// Side panel color of embed
   public let color: Int
-  
+
   /// Description of the embed
   public let description: String?
-  
+
   /// Fields for the embed
   public let fields: [[String: Any]]?
-  
+
   /// Footer dictionary from embed
   public let footer: [String: Any]?
-  
+
   /// Image data from embed
   public let image: [String: Any]?
-  
+
   /// Provider from embed
   public let provider: [String: Any]?
-  
+
   /// Thumbnail data from embed
   public let thumbnail: [String: Any]?
-  
+
   /// Title of the embed
   public let title: String?
-  
+
   /// Type of embed
   public let type: String
-  
+
   /// URL of the embed
   public let url: String?
-  
+
   /// Video data from embed
   public let video: [String: Any]?
 
   // MARK: Initializer
-  
+
   /**
    Creates Embed struct
-   
+
    - parameter json: JSON representable as a dictionary
   */
   init(_ json: [String: Any]) {
