@@ -135,8 +135,8 @@ class Request {
         let limit = Int(headers["x-ratelimit-limit"] as! String)!
         let interval = Int(Double(headers["x-ratelimit-reset"] as! String)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
         #else
-        let limit = Int(headers["x-ratelimit-limit"]!)!
-        let interval = Int(Double(headers["x-ratelimit-reset"]!)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
+        let limit = Int(headers["X-RateLimit-Limit"]!)!
+        let interval = Int(Double(headers["X-RateLimit-Reset"]!)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
         #endif
 
         let bucket = Bucket(name: "gg.azoy.sword.\(route).\(method)", limit: limit, interval: interval)
