@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Dispatch
 import WebSockets
 
 /// WS class

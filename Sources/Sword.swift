@@ -60,7 +60,7 @@ public class Sword {
    - parameter eventName: The event to listen for
    - parameter completion: Code block to execute when the event is fired
    */
-  public func on(_ eventName: String, _ completion: @escaping (Any) -> ()) {
+  public func on(_ eventName: String, _ completion: @escaping ([Any]) -> ()) {
     self.eventer.on(eventName, completion)
   }
 

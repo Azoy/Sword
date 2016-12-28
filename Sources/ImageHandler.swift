@@ -11,9 +11,9 @@ import Foundation
 /// Image Handler
 extension Request {
 
-  /** 
+  /**
    Creates HTTP Body for file uploads
-   
+
    - parameter parameters: Optional data to send
    - parameter fileKey: Key for the file
    - parameter paths: Array of URLS to get file data from
@@ -58,10 +58,12 @@ func generateBoundaryString() -> String {
 
 /**
  Gets mimeType for URL
-  
+
  - parameter path: URL to get mimeType for
 */
 func mimeType(for path: String) -> String {
+
+  #if !os(Linux)
   let url = NSURL(string: path)!
   let pathExtension = url.pathExtension
 
@@ -70,6 +72,7 @@ func mimeType(for path: String) -> String {
       return mimetype as String
     }
   }
+  #endif
 
   return "application/octet-stream"
 }

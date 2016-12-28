@@ -11,14 +11,14 @@ import Foundation
 /// Create a nifty Event Emitter in Swift
 class Eventer {
 
-  var listeners: [String: [(Any) -> ()]] = [:]
+  var listeners: [String: [([Any]) -> ()]] = [:]
 
   /**
    Listens for eventName
-   
+
    - parameter eventName: Event to listen for
    */
-  func on(_ eventName: String, _ completion: @escaping (Any) -> ()) {
+  func on(_ eventName: String, _ completion: @escaping ([Any]) -> ()) {
     guard self.listeners[eventName] != nil else {
       self.listeners[eventName] = [completion]
       return
@@ -28,7 +28,7 @@ class Eventer {
 
   /**
    Emits all listeners for eventName
-   
+
    - parameter eventName: Event to emit
    - parameter data: Array of stuff to emit listener with
    */
