@@ -6,6 +6,7 @@
 //  Copyright © 2016 Alejandro Alonso. All rights reserved.
 //
 
+#if !os(Linux)
 import Foundation
 
 /// Image Handler
@@ -63,7 +64,6 @@ func generateBoundaryString() -> String {
 */
 func mimeType(for path: String) -> String {
 
-  #if !os(Linux)
   let url = NSURL(string: path)!
   let pathExtension = url.pathExtension
 
@@ -72,7 +72,7 @@ func mimeType(for path: String) -> String {
       return mimetype as String
     }
   }
-  #endif
 
   return "application/octet-stream"
 }
+#endif

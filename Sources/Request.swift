@@ -87,6 +87,7 @@ class Request {
 
     request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.1.0)", forHTTPHeaderField: "User-Agent")
 
+    #if !os(Linux)
     if file != nil {
       let boundary = generateBoundaryString()
       let path = file!["file"] as! String
@@ -97,6 +98,12 @@ class Request {
       request.httpBody = body
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     }
+    #else
+    if body != nil {
+      request.httpBody = body
+      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    }
+    #endif
 
     let task = self.session.dataTask(with: request) { data, response, error in
       let response = response as! HTTPURLResponse
