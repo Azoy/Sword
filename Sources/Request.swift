@@ -52,13 +52,7 @@ class Request {
       return ""
     }
 
-    let matches = (0..<result.numberOfRanges).map {
-
-      string.substring(with: result.rangeAt($0))
-
-    }
-
-    return matches.first!
+    return string.substring(with: result.range)
   }
 
   /**

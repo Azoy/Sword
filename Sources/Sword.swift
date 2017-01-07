@@ -13,23 +13,29 @@ public class Sword {
 
   // MARK: Properties
 
-  /// The bot token
-  let token: String
-
-  /// Requester class
-  let requester: Request
-
   /// Endpoints structure
   let endpoints = Endpoints()
-
-  /// Array of Shard class
-  var shards: [Shard] = []
 
   /// Eventer class
   let eventer = Eventer()
 
+  /// The gateway url to connect to
   var gatewayUrl: String?
+
+  var options: SwordOptions
+
+  /// Requester class
+  let requester: Request
+
+  /// Amount of shards to initialize
   var shardCount: Int?
+
+  /// Array of Shard class
+  var shards: [Shard] = []
+
+  /// The bot token
+  let token: String
+
 
   /// Array of guilds the bot is currently connected to
   public var guilds: [String: Guild] = [:]
@@ -46,10 +52,12 @@ public class Sword {
    Initializes the Sword class
 
    - parameter token: The bot token
+   - parameter options: Options to give bot (sharding, offline members, etc)
    */
-  public required init(token: String) {
-    self.token = token
+  public init(token: String, with options: SwordOptions = SwordOptions()) {
+    self.options = options
     self.requester = Request(token)
+    self.token = token
   }
 
   // MARK: Functions
