@@ -14,7 +14,7 @@ public class Shield: Sword {
   // MARK: Properties
 
   /// Shield Options structure
-  var shieldOptions: [String: Any]
+  var shieldOptions: ShieldOptions
 
   // MARK: Initializer
 
@@ -25,28 +25,20 @@ public class Shield: Sword {
    - parameter swordOptions: SwordOptions structure to apply to bot
    - parameter shieldOptions: ShieldOptions structure to apply to command client
   */
-  public init(token: String, swordOptions: [String: Any] = [:], commandOptions shieldOptions: [String: Any] = [:]) {
-
-    var baseOptions: [String: Any] = [
-      "prefixes": ["@bot "]
-    ]
-
-    for (key, value) in shieldOptions {
-      if baseOptions[key] != nil {
-        baseOptions[key] = value
-      }
-    }
-
-    self.shieldOptions = baseOptions
-
+  public init(token: String, swordOptions: SwordOptions = SwordOptions(), commandOptions shieldOptions: ShieldOptions = ShieldOptions()) {
+    self.shieldOptions = shieldOptions
     super.init(token: token, with: swordOptions)
 
     self.on("messageCreate") { data in
       let msg = data[0] as! Message
 
-      for prefix in (self.shieldOptions["prefixes"] as! [String]) {
+      if self.shieldOptions.prefixes.contains("@bot ") {
+        self.shieldOptions.prefixes[self.shieldOptions.prefixes.index(of: "@bot ")!] = "<@!\(self.user!.id)>"
+      }
+
+      for prefix in self.shieldOptions.prefixes {
         if msg.content.hasPrefix(prefix) {
-          bot.send("\(msg.author.username) entered command: \(msg.content)")
+          self.send("\(msg.author!.username!) entered command: \(msg.content)", to: msg.channel.id)
         }
       }
 

@@ -23,7 +23,7 @@ public class Sword {
   var gatewayUrl: String?
 
   /// Optional options to apply to bot
-  var options: [String: Any]
+  var options: SwordOptions
 
   /// Requester class
   let requester: Request
@@ -54,24 +54,10 @@ public class Sword {
    - parameter token: The bot token
    - parameter options: Options to give bot (sharding, offline members, etc)
    */
-  public init(token: String, with options: [String: Any] = [:]) {
+  public init(token: String, with options: SwordOptions = SwordOptions()) {
+    self.options = options
     self.requester = Request(token)
     self.token = token
-
-    var baseOptions: [String: Any] = [
-      "cacheAllMembers": false,
-      "cacheMessageLimit": 50,
-      "disableEvents": [],
-      "sharding": true
-    ]
-
-    for (key, value) in options {
-      if baseOptions[key] != nil {
-        baseOptions[key] = value
-      }
-    }
-
-    self.options = baseOptions
   }
 
   // MARK: Functions
