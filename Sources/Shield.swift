@@ -14,7 +14,7 @@ public class Shield: Sword {
   // MARK: Properties
 
   /// Shield Options structure
-  var shieldOptions: ShieldOptions
+  var shieldOptions: [String: Any]
 
   // MARK: Initializer
 
@@ -25,9 +25,38 @@ public class Shield: Sword {
    - parameter swordOptions: SwordOptions structure to apply to bot
    - parameter shieldOptions: ShieldOptions structure to apply to command client
   */
-  public init(token: String, swordOptions: SwordOptions = SwordOptions(), commandOptions shieldOptions: ShieldOptions = ShieldOptions()) {
-    self.shieldOptions = shieldOptions
+  public init(token: String, swordOptions: [String: Any] = [:], commandOptions shieldOptions: [String: Any] = [:]) {
+
+    var baseOptions: [String: Any] = [
+      "prefixes": ["@bot "]
+    ]
+
+    for (key, value) in shieldOptions {
+      if baseOptions[key] != nil {
+        baseOptions[key] = value
+      }
+    }
+
+    self.shieldOptions = baseOptions
+
     super.init(token: token, with: swordOptions)
+
+    self.on("messageCreate") { data in
+      let msg = data[0] as! Message
+
+      for prefix in (self.shieldOptions["prefixes"] as! [String]) {
+        if msg.content.hasPrefix(prefix) {
+          bot.send("\(msg.author.username) entered command: \(msg.content)")
+        }
+      }
+
+    }
+  }
+
+  // MARK: Functions
+
+  public func register(_ commandName: String, function: (Message, [String]) -> (), with options: [String: Any]) {
+
   }
 
 }

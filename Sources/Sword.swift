@@ -22,7 +22,8 @@ public class Sword {
   /// The gateway url to connect to
   var gatewayUrl: String?
 
-  var options: SwordOptions
+  /// Optional options to apply to bot
+  var options: [String: Any]
 
   /// Requester class
   let requester: Request
@@ -35,7 +36,6 @@ public class Sword {
 
   /// The bot token
   let token: String
-
 
   /// Array of guilds the bot is currently connected to
   public var guilds: [String: Guild] = [:]
@@ -54,10 +54,24 @@ public class Sword {
    - parameter token: The bot token
    - parameter options: Options to give bot (sharding, offline members, etc)
    */
-  public init(token: String, with options: SwordOptions = SwordOptions()) {
-    self.options = options
+  public init(token: String, with options: [String: Any] = [:]) {
     self.requester = Request(token)
     self.token = token
+
+    var baseOptions: [String: Any] = [
+      "cacheAllMembers": false,
+      "cacheMessageLimit": 50,
+      "disableEvents": [],
+      "sharding": true
+    ]
+
+    for (key, value) in options {
+      if baseOptions[key] != nil {
+        baseOptions[key] = value
+      }
+    }
+
+    self.options = baseOptions
   }
 
   // MARK: Functions

@@ -166,11 +166,8 @@ extension Shard {
       /// MESSAGE_CREATE
       case .messageCreate:
 
-        if self.sword as? Shield {
-          print("Commander in charge now")
-        }
-
-        self.sword.emit("messageCreate", with: Message(self.sword, data))
+        let msg = Message(self.sword, data)
+        self.sword.emit("messageCreate", with: msg)
         break
 
       /// MESSAGE_DELETE
