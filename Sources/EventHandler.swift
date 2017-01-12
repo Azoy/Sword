@@ -194,6 +194,7 @@ extension Shard {
 
       /// READY
       case .ready:
+        self.sword.readyTimestamp = Date()
         self.sessionId = data["session_id"] as? String
 
         let guilds = data["guilds"] as! [[String: Any]]

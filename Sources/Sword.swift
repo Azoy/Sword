@@ -22,14 +22,20 @@ public class Sword {
   /// The gateway url to connect to
   var gatewayUrl: String?
 
+  /// Array of guilds the bot is currently connected to
+  public var guilds: [String: Guild] = [:]
+
   /// Optional options to apply to bot
   var options: SwordOptions
+
+  /// Timestamp of ready event
+  public internal(set) var readyTimestamp: Date?
 
   /// Requester class
   let requester: Request
 
   /// Amount of shards to initialize
-  var shardCount: Int?
+  public var shardCount = 1
 
   /// Array of Shard class
   var shards: [Shard] = []
@@ -37,11 +43,16 @@ public class Sword {
   /// The bot token
   let token: String
 
-  /// Array of guilds the bot is currently connected to
-  public var guilds: [String: Guild] = [:]
-
   /// Array of unavailable guilds the bot is currently connected to
   public var unavailableGuilds: [String: UnavailableGuild] = [:]
+
+  public var uptime: Date? {
+    if self.readyTimestamp != nil {
+      return Date() - self.readyTimestamp!.timeIntervalSince1970
+    }else {
+      return nil
+    }
+  }
 
   /// The user account for the bot
   public var user: User?
@@ -108,10 +119,10 @@ public class Sword {
         self.connect()
       }else {
         self.gatewayUrl = "\(data!["url"]!)/?encoding=json&v=6"
-        self.shardCount = data!["shards"] as? Int
+        self.shardCount = data!["shards"] as! Int
 
-        for id in 0..<self.shardCount! {
-          let shard = Shard(self, id, self.shardCount!)
+        for id in 0..<self.shardCount {
+          let shard = Shard(self, id, self.shardCount)
           self.shards.append(shard)
           shard.startWS(self.gatewayUrl!)
         }

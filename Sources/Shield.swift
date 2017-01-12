@@ -32,14 +32,13 @@ public class Shield: Sword {
     self.on("messageCreate") { data in
       let msg = data[0] as! Message
 
-      if self.shieldOptions.prefixes.contains("@bot ") {
-        self.shieldOptions.prefixes[self.shieldOptions.prefixes.index(of: "@bot ")!] = "<@!\(self.user!.id)>"
+      if self.shieldOptions.prefixes.contains("@bot") {
+        self.shieldOptions.prefixes[self.shieldOptions.prefixes.index(of: "@bot")!] = "<@!\(self.user!.id)>"
       }
 
       for prefix in self.shieldOptions.prefixes {
-        if msg.content.hasPrefix(prefix) {
-          self.send("\(msg.author!.username!) entered command: \(msg.content)", to: msg.channel.id)
-        }
+        guard msg.content.hasPrefix(prefix) else { continue }
+
       }
 
     }
