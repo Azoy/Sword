@@ -13,6 +13,10 @@ public class Shield: Sword {
 
   // MARK: Properties
 
+  var commandAliases: [String: String] = [:]
+
+  var commands: [String: Command] = [:]
+
   /// Shield Options structure
   var shieldOptions: ShieldOptions
 
@@ -39,6 +43,22 @@ public class Shield: Sword {
       for prefix in self.shieldOptions.prefixes {
         guard msg.content.hasPrefix(prefix) else { continue }
 
+        var content = msg.content.substring(from: msg.content.index(msg.content.startIndex, offsetBy: prefix.characters.count))
+        if content.hasPrefix(" ") {
+          content = content.substring(from: content.index(content.startIndex, offsetBy: 1))
+        }
+        var command = content.components(separatedBy: " ")
+
+        var commandName = command[0]
+        command.remove(at: 0)
+
+        guard self.commands[commandName] != nil || self.commandAliases[commandName] != nil else { return }
+
+        if self.commandAliases[commandName] != nil {
+          commandName = self.commandAliases[commandName]!
+        }
+
+        self.commands[commandName]!.function(msg, command)
       }
 
     }
@@ -46,8 +66,28 @@ public class Shield: Sword {
 
   // MARK: Functions
 
-  public func register(_ commandName: String, function: (Message, [String]) -> (), with options: [String: Any]) {
+  public func register(_ commandName: String, with options: CommandOptions = CommandOptions(), _ function: @escaping (Message, [String]) -> ()) {
+    self.commands[commandName] = Command(name: commandName, function: function, options: options)
 
+    if !options.aliases.isEmpty {
+      for alias in options.aliases {
+        self.commandAliases[alias] = commandName
+      }
+    }
+  }
+
+  public func register(_ commandName: String, with options: CommandOptions = CommandOptions(), message: String) {
+    let function: (Message, [String]) -> () = { msg, args in
+      self.send(message, to: msg.channel.id)
+    }
+
+    self.commands[commandName] = Command(name: commandName, function: function, options: options)
+
+    if !options.aliases.isEmpty {
+      for alias in options.aliases {
+        self.commandAliases[alias] = commandName
+      }
+    }
   }
 
 }

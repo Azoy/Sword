@@ -26,3 +26,16 @@ public struct ShieldOptions {
   }
 
 }
+
+public struct CommandOptions {
+
+  public let aliases: [String]
+
+  public let isCaseSensitive: Bool
+
+  public init(aliases: [String] = [], caseSensitive: Bool = false) {
+    self.aliases = aliases
+    self.isCaseSensitive = caseSensitive
+  }
+
+}
