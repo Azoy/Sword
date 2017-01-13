@@ -1,12 +1,12 @@
 public struct SwordOptions {
 
-  public let isCacheAllMembers: Bool
+  public var isCacheAllMembers: Bool
 
-  public let cacheMessageLimit: Int
+  public var cacheMessageLimit: Int
 
-  public let disabledEvents: [String]
+  public var disabledEvents: [String]
 
-  public let isSharded: Bool
+  public var isSharded: Bool
 
   public init(cacheAllMembers: Bool = false, cacheMessageLimit: Int = 50, disabledEvents: [String] = [], sharded: Bool = true) {
     self.isCacheAllMembers = cacheAllMembers
@@ -19,7 +19,7 @@ public struct SwordOptions {
 
 public struct ShieldOptions {
 
-  public internal(set) var prefixes: [String]
+  public var prefixes: [String]
 
   public init(prefixes: [String] = ["@bot"]) {
     self.prefixes = prefixes
@@ -29,13 +29,10 @@ public struct ShieldOptions {
 
 public struct CommandOptions {
 
-  public let aliases: [String]
+  public var aliases: [String]
 
-  public let isCaseSensitive: Bool
-
-  public init(aliases: [String] = [], caseSensitive: Bool = false) {
+  public init(aliases: [String] = []) {
     self.aliases = aliases
-    self.isCaseSensitive = caseSensitive
   }
 
 }

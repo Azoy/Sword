@@ -90,4 +90,8 @@ public class Shield: Sword {
     }
   }
 
+  public func unregister(_ commandName: String) {
+    self.commands[commandName] = nil
+  }
+
 }

@@ -46,9 +46,9 @@ public class Sword {
   /// Array of unavailable guilds the bot is currently connected to
   public var unavailableGuilds: [String: UnavailableGuild] = [:]
 
-  public var uptime: Date? {
+  public var uptime: Int? {
     if self.readyTimestamp != nil {
-      return Date() - self.readyTimestamp!.timeIntervalSince1970
+      return Int((Date() - self.readyTimestamp!.timeIntervalSince1970).timeIntervalSince1970)
     }else {
       return nil
     }
