@@ -89,8 +89,10 @@ class Request {
       request.httpBody = try? createBody(with: file!["parameters"] as? [String: String], fileKey: "file", paths: [path], boundary: boundary)
       request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
       #else
-      request.httpBody = (file!["parameters"] as? [String: String]).encode()
-      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+      if file!["parameters"] != nil {
+        request.httpBody = (file!["parameters"] as! [String: String]).encode()
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+      }
       #endif
     }else if body != nil {
       request.httpBody = body
@@ -135,7 +137,7 @@ class Request {
         let interval = Int(Double(headers["x-ratelimit-reset"] as! String)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
         #else
         let limit = Int(headers["X-RateLimit-Limit"]!)!
-        let interval = Int(Double(headers["X-RateLimit-Reset"]!)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
+        let interval = Int(Double(headers["X-RateLimit-Reset"]!)! - (headers["Date"]!).dateNorm.timeIntervalSince1970)
         #endif
 
         let bucket = Bucket(name: "gg.azoy.sword.\(route).\(method)", limit: limit, interval: interval)

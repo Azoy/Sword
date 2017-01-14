@@ -1,5 +1,7 @@
 # Sword - A Discord Library for Swift
 
+[![Build Status](https://travis-ci.org/Azoy/Sword.svg?branch=master)](https://travis-ci.org/Azoy/Sword)
+
 # Requirements
 1. macOS (Linux and iOS soon!)
 2. Swift 3.0
