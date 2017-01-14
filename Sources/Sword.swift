@@ -3,7 +3,7 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
 import Foundation
@@ -13,29 +13,47 @@ public class Sword {
 
   // MARK: Properties
 
-  /// The bot token
-  let token: String
-
-  /// Requester class
-  let requester: Request
-
   /// Endpoints structure
   let endpoints = Endpoints()
-
-  /// Array of Shard class
-  var shards: [Shard] = []
 
   /// Eventer class
   let eventer = Eventer()
 
+  /// The gateway url to connect to
   var gatewayUrl: String?
-  var shardCount: Int?
 
   /// Array of guilds the bot is currently connected to
   public var guilds: [String: Guild] = [:]
 
+  /// Optional options to apply to bot
+  var options: SwordOptions
+
+  /// Timestamp of ready event
+  public internal(set) var readyTimestamp: Date?
+
+  /// Requester class
+  let requester: Request
+
+  /// Amount of shards to initialize
+  public var shardCount = 1
+
+  /// Array of Shard class
+  var shards: [Shard] = []
+
+  /// The bot token
+  let token: String
+
   /// Array of unavailable guilds the bot is currently connected to
   public var unavailableGuilds: [String: UnavailableGuild] = [:]
+
+  /// Int in seconds of how long the bot has been online
+  public var uptime: Int? {
+    if self.readyTimestamp != nil {
+      return Int((Date() - self.readyTimestamp!.timeIntervalSince1970).timeIntervalSince1970)
+    }else {
+      return nil
+    }
+  }
 
   /// The user account for the bot
   public var user: User?
@@ -46,10 +64,12 @@ public class Sword {
    Initializes the Sword class
 
    - parameter token: The bot token
+   - parameter options: Options to give bot (sharding, offline members, etc)
    */
-  public required init(token: String) {
-    self.token = token
+  public init(token: String, with options: SwordOptions = SwordOptions()) {
+    self.options = options
     self.requester = Request(token)
+    self.token = token
   }
 
   // MARK: Functions
@@ -60,8 +80,8 @@ public class Sword {
    - parameter eventName: The event to listen for
    - parameter completion: Code block to execute when the event is fired
    */
-  public func on(_ eventName: String, _ completion: @escaping (Any) -> ()) {
-    self.eventer.on(eventName, completion)
+  public func on(_ event: Event, _ completion: @escaping ([Any]) -> ()) {
+    self.eventer.on(event, completion)
   }
 
   /**
@@ -70,8 +90,8 @@ public class Sword {
    - parameter eventName: The event to emit listeners for
    - parameter data: Variadic set of Any(s) to send to listener
    */
-  public func emit(_ eventName: String, with data: Any...) {
-    self.eventer.emit(eventName, with: data)
+  func emit(_ event: Event, with data: Any...) {
+    self.eventer.emit(event, with: data)
   }
 
   /// Gets the gateway URL to connect to
@@ -100,10 +120,10 @@ public class Sword {
         self.connect()
       }else {
         self.gatewayUrl = "\(data!["url"]!)/?encoding=json&v=6"
-        self.shardCount = data!["shards"] as? Int
+        self.shardCount = data!["shards"] as! Int
 
-        for id in 0..<self.shardCount! {
-          let shard = Shard(self, id, self.shardCount!)
+        for id in 0..<self.shardCount {
+          let shard = Shard(self, id, self.shardCount)
           self.shards.append(shard)
           shard.startWS(self.gatewayUrl!)
         }

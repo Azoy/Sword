@@ -3,7 +3,7 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
 import Foundation

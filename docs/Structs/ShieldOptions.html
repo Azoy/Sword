@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Member Struct Reference</title>
+    <title>ShieldOptions Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/Member" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/ShieldOptions" class="dashAnchor"></a>
 
-    <a title="Member Struct Reference"></a>
+    <a title="ShieldOptions Struct Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -29,7 +29,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html"> Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Member Struct Reference
+      ShieldOptions Struct Reference
     </p>
 
     <div class="content-wrapper">
@@ -116,14 +116,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Member</h1>
+            <h1>ShieldOptions</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Member</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ShieldOptions</span></code></pre>
 
                 </div>
               </div>
-            <p>Member Type</p>
+            <p>Shield Options structure</p>
 
           </div>
         </section>
@@ -142,9 +142,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member6isDeafSb"></a>
-                    <a name="//apple_ref/swift/Property/isDeaf" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member6isDeafSb">isDeaf</a>
+                    <a name="/s:vV5Sword13ShieldOptions8prefixesGSaSS_"></a>
+                    <a name="//apple_ref/swift/Property/prefixes" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword13ShieldOptions8prefixesGSaSS_">prefixes</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -152,26 +152,37 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Whether or not this member is deaf</p>
+                        <p>Array of prefixes commands should start with</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isDeaf</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">prefixes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initializer"></a>
+                <a name="//apple_ref/swift/Section/Initializer" class="dashAnchor"></a>
+                <a href="#/Initializer">
+                  <h3 class="section-name">Initializer</h3>
+                </a>
+              </div>
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member8joinedAtV10Foundation4Date"></a>
-                    <a name="//apple_ref/swift/Property/joinedAt" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member8joinedAtV10Foundation4Date">joinedAt</a>
+                    <a name="/s:FV5Sword13ShieldOptionscFT8prefixesGSaSS__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(prefixes:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV5Sword13ShieldOptionscFT8prefixesGSaSS__S0_">init(prefixes:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -179,124 +190,36 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Date when user joined guild</p>
+                        <p>Creates a Shield Options structure</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">joinedAt</span><span class="p">:</span> <span class="kt">Date</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">prefixes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">"@bot"</span><span class="p">])</span></code></pre>
 
                         </div>
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword6Member7isMutedSb"></a>
-                    <a name="//apple_ref/swift/Property/isMuted" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member7isMutedSb">isMuted</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Whether or not this user is muted</p>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>prefixes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Array of prefixes commands should start with</p>
 
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isMuted</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword6Member4nickGSqSS_"></a>
-                    <a name="//apple_ref/swift/Property/nick" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member4nickGSqSS_">nick</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Nickname of member</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">nick</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword6Member5rolesGSaSS_"></a>
-                    <a name="//apple_ref/swift/Property/roles" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member5rolesGSaSS_">roles</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Array of role ids this member has</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">roles</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword6Member4userVS_4User"></a>
-                    <a name="//apple_ref/swift/Property/user" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member4userVS_4User">user</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>User struct for this member</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">user</span><span class="p">:</span> <span class="kt"><a href="../Structs/User.html">User</a></span></code></pre>
-
-                        </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>

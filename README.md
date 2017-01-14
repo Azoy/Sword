@@ -1,7 +1,9 @@
 # Sword - A Discord Library for Swift
 
+[![Build Status](https://travis-ci.org/Azoy/Sword.svg?branch=master)](https://travis-ci.org/Azoy/Sword)
+
 # Requirements
-1. macOS (Linux and iOS soon!)
+1. macOS or Linux
 2. Swift 3.0
 3. An internet connection
 
@@ -26,14 +28,14 @@ import Sword
 
 let bot = Sword(token: "Your bot token here")
 
-bot.on("ready") { _ in
+bot.on(.ready) { _ in
   bot.editStatus(playing: ["name": "with Swords!"])
 }
 
-bot.on("messageCreate") { data in
+bot.on(.messageCreate) { data in
   let msg = data[0] as! Message
   if msg.content == "!ping" {
-    bot.send("Pong!", to: msg.channel.id)
+    msg.reply(with: "Pong!")
   }
 }
 

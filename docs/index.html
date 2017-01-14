@@ -41,6 +41,9 @@
                 <a class="nav-group-task-link" href="Classes/Guild.html">Guild</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/Shield.html">Shield</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Classes/Sword.html">Sword</a>
               </li>
             </ul>
@@ -50,6 +53,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Enums/Error.html">Error</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/Event.html">Event</a>
               </li>
             </ul>
           </li>
@@ -61,6 +67,12 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/Channel.html">Channel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Command.html">Command</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CommandOptions.html">CommandOptions</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/DMChannel.html">DMChannel</a>
@@ -84,6 +96,12 @@
                 <a class="nav-group-task-link" href="Structs/Role.html">Role</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ShieldOptions.html">ShieldOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/SwordOptions.html">SwordOptions</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/UnavailableGuild.html">UnavailableGuild</a>
               </li>
               <li class="nav-group-task">
@@ -99,10 +117,12 @@
           <div class="section-content">
             
             <a href='#sword-a-discord-library-for-swift' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='sword-a-discord-library-for-swift'>Sword - A Discord Library for Swift</h1>
+
+<p><a href="https://travis-ci.org/Azoy/Sword"><img src="https://travis-ci.org/Azoy/Sword.svg?branch=master" alt="Build Status"></a></p>
 <a href='#requirements' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='requirements'>Requirements</h1>
 
 <ol>
-<li>macOS (Linux and iOS soon!)</li>
+<li>macOS or Linux</li>
 <li>Swift 3.0</li>
 <li>An internet connection</li>
 </ol>
@@ -124,14 +144,14 @@
 
 <span class="k">let</span> <span class="nv">bot</span> <span class="o">=</span> <span class="kt">Sword</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="s">"Your bot token here"</span><span class="p">)</span>
 
-<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="s">"ready"</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
+<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">ready</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
   <span class="n">bot</span><span class="o">.</span><span class="nf">editStatus</span><span class="p">(</span><span class="nv">playing</span><span class="p">:</span> <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"with Swords!"</span><span class="p">])</span>
 <span class="p">}</span>
 
-<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="s">"messageCreate"</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
+<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageCreate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
   <span class="k">let</span> <span class="nv">msg</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Message</span>
   <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="s">"!ping"</span> <span class="p">{</span>
-    <span class="n">bot</span><span class="o">.</span><span class="nf">send</span><span class="p">(</span><span class="s">"Pong!"</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="n">msg</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">msg</span><span class="o">.</span><span class="nf">reply</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"Pong!"</span><span class="p">)</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
@@ -150,7 +170,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-12-27)</p>
+      <p>&copy; 2017 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2017-01-14)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

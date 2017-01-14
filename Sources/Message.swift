@@ -3,7 +3,7 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
 import Foundation
@@ -182,6 +182,15 @@ public struct Message {
   /// Pins self
   public func pin(_ completion: @escaping () -> () = {_ in}) {
     self.channel.pin(self.id, completion)
+  }
+
+  /**
+   Replies to message (alias to bot.send(_:to:)...)
+  */
+  public func reply(with message: String, _ completion: @escaping (Message?) -> () = {_ in}) {
+    self.channel.send(message) { msg in
+      completion(msg)
+    }
   }
 
 }

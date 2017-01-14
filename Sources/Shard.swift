@@ -3,10 +3,11 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
 import Foundation
+import Dispatch
 import WebSockets
 
 /// WS class
@@ -141,9 +142,16 @@ class Shard {
     #else
     let os = "Linux"
     #endif
-    let identity = Payload(op: .identify, data: ["token": self.sword.token, "properties": ["$os": os, "$browser": "Sword", "$device": "Sword"], "compress": false, "large_threshold": 50, "shard": [self.id, self.shardCount]]).encode()
+    let identity = Payload(op: .identify, data: ["token": self.sword.token, "properties": ["$os": os, "$browser": "Sword", "$device": "Sword"], "compress": false, "large_threshold": 250, "shard": [self.id, self.shardCount]]).encode()
 
     try? self.session?.send(identity)
+  }
+
+  /// Function to send packet to server to request for offline members for requested guild
+  func requestOfflineMembers(for guildId: String) {
+    let payload = Payload(op: .requestGuildMember, data: ["guild_id": guildId, "query": "", "limit": 0]).encode()
+
+    try? self.session?.send(payload)
   }
 
   /**

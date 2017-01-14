@@ -3,16 +3,17 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
 import Foundation
+import Dispatch
 
 /// HTTP Handler
 class Request {
 
   // MARK: Properties
-  
+
   /// The bot token
   let token: String
 
@@ -23,10 +24,10 @@ class Request {
   var rateLimits: [String: [String: Bucket]] = [:]
 
   // MARK: Initializer
-  
+
   /**
    Creates Request Class
-   
+
    - parameter token: Bot token to use for Authorization
   */
   init(_ token: String) {
@@ -35,27 +36,28 @@ class Request {
 
   /**
    Gets the "route" for an HTTP request
-   
+
    - parameter url: URL to get route from
   */
   func getRoute(for url: String) -> String {
-    let regex = try! NSRegularExpression(pattern: "/([a-z-]+)/(?:[0-9]{17,})+?", options: .caseInsensitive)
 
-    let string = url as NSString
+    #if !os(Linux)
+    let regex = try! NSRegularExpression(pattern: "/([a-z-]+)/(?:[0-9]{17,})+?", options: .caseInsensitive)
+    #else
+    let regex = try! RegularExpression(pattern: "/([a-z-]+)/(?:[0-9]{17,})+?", options: .caseInsensitive)
+    #endif
+
+    let string = NSString(string: url)
     guard let result = regex.firstMatch(in: url, options: [], range: NSMakeRange(0, string.length)) else {
       return ""
     }
 
-    let matches = (0..<result.numberOfRanges).map {
-      string.substring(with: result.rangeAt($0))
-    }
-
-    return matches.first!
+    return string.substring(with: result.range)
   }
 
   /**
    Actual HTTP Request
-   
+
    - parameter url: URL to request
    - parameter body: Optional Data to send to server
    - parameter file: Optional for when files
@@ -80,11 +82,18 @@ class Request {
     request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.1.0)", forHTTPHeaderField: "User-Agent")
 
     if file != nil {
+      #if !os(Linux)
       let boundary = generateBoundaryString()
       let path = file!["file"] as! String
 
       request.httpBody = try? createBody(with: file!["parameters"] as? [String: String], fileKey: "file", paths: [path], boundary: boundary)
       request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+      #else
+      if file!["parameters"] != nil {
+        request.httpBody = (file!["parameters"] as! [String: String]).encode().data(using: .utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+      }
+      #endif
     }else if body != nil {
       request.httpBody = body
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -122,8 +131,15 @@ class Request {
       }
 
       if rateLimited && route != "" && self.rateLimits[route]?[method] == nil {
+
+        #if !os(Linux)
         let limit = Int(headers["x-ratelimit-limit"] as! String)!
         let interval = Int(Double(headers["x-ratelimit-reset"] as! String)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
+        #else
+        let limit = Int(headers["X-RateLimit-Limit"]!)!
+        let interval = Int(Double(headers["X-RateLimit-Reset"]!)! - (headers["Date"]!).dateNorm.timeIntervalSince1970)
+        #endif
+
         let bucket = Bucket(name: "gg.azoy.sword.\(route).\(method)", limit: limit, interval: interval)
         bucket.take(1)
 

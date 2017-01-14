@@ -3,7 +3,7 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
 import Foundation
@@ -11,29 +11,29 @@ import Foundation
 /// Create a nifty Event Emitter in Swift
 class Eventer {
 
-  var listeners: [String: [(Any) -> ()]] = [:]
+  var listeners: [Event: [([Any]) -> ()]] = [:]
 
   /**
    Listens for eventName
-   
-   - parameter eventName: Event to listen for
+
+   - parameter event: Event to listen for
    */
-  func on(_ eventName: String, _ completion: @escaping (Any) -> ()) {
-    guard self.listeners[eventName] != nil else {
-      self.listeners[eventName] = [completion]
+  func on(_ event: Event, _ completion: @escaping ([Any]) -> ()) {
+    guard self.listeners[event] != nil else {
+      self.listeners[event] = [completion]
       return
     }
-    self.listeners[eventName]!.append(completion)
+    self.listeners[event]!.append(completion)
   }
 
   /**
    Emits all listeners for eventName
-   
-   - parameter eventName: Event to emit
+
+   - parameter event: Event to emit
    - parameter data: Array of stuff to emit listener with
    */
-  func emit(_ eventName: String, with data: [Any]) {
-    guard let functions = self.listeners[eventName] else { return }
+  func emit(_ event: Event, with data: [Any]) {
+    guard let functions = self.listeners[event] else { return }
     for function in functions {
       function(data)
     }

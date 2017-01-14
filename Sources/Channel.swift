@@ -3,7 +3,7 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
 import Foundation
@@ -256,6 +256,17 @@ public struct Channel {
   public func pin(_ messageId: String, _ completion: @escaping () -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.addPinnedChannelMessage(self.id, messageId), method: "PUT") { error, data in
       if error == nil { completion() }
+    }
+  }
+
+  /**
+   Sends a message to channel
+
+   - parameter message: Message to send
+  */
+  public func send(_ message: String, _ completion: @escaping (Message?) -> () = {_ in}) {
+    self.sword!.send(message, to: self.id) { msg in
+      completion(msg)
     }
   }
 
