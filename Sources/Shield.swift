@@ -3,7 +3,7 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
 import Foundation
@@ -13,12 +13,14 @@ public class Shield: Sword {
 
   // MARK: Properties
 
-  var commandAliases: [String: String] = [:]
+  /// Object pointing command aliases to their respected full name
+  public var commandAliases: [String: String] = [:]
 
-  var commands: [String: Command] = [:]
+  /// Object pointing command names to their Command Object
+  public var commands: [String: Command] = [:]
 
   /// Shield Options structure
-  var shieldOptions: ShieldOptions
+  public var shieldOptions: ShieldOptions
 
   // MARK: Initializer
 
@@ -66,6 +68,13 @@ public class Shield: Sword {
 
   // MARK: Functions
 
+  /**
+   Registers a command
+
+   - parameter commandName: Name to give command
+   - parameter options: Options to give command
+   - parameter function: Function to execute once command is sent
+  */
   public func register(_ commandName: String, with options: CommandOptions = CommandOptions(), _ function: @escaping (Message, [String]) -> ()) {
     self.commands[commandName] = Command(name: commandName, function: function, options: options)
 
@@ -76,6 +85,13 @@ public class Shield: Sword {
     }
   }
 
+  /**
+   Registers a command
+
+   - parameter commandName: Name to give command
+   - parameter options: Options to give command
+   - parameter message: String to send on command
+  */
   public func register(_ commandName: String, with options: CommandOptions = CommandOptions(), message: String) {
     let function: (Message, [String]) -> () = { msg, args in
       self.send(message, to: msg.channel.id)
@@ -90,6 +106,11 @@ public class Shield: Sword {
     }
   }
 
+  /**
+   Unregisters a command
+
+   - parameter commandName: Command to get rid of
+  */
   public func unregister(_ commandName: String) {
     self.commands[commandName] = nil
   }

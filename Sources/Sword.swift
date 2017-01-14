@@ -3,7 +3,7 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2016 Alejandro Alonso. All rights reserved.
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
 import Foundation
@@ -46,6 +46,7 @@ public class Sword {
   /// Array of unavailable guilds the bot is currently connected to
   public var unavailableGuilds: [String: UnavailableGuild] = [:]
 
+  /// Int in seconds of how long the bot has been online
   public var uptime: Int? {
     if self.readyTimestamp != nil {
       return Int((Date() - self.readyTimestamp!.timeIntervalSince1970).timeIntervalSince1970)
