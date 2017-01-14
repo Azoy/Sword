@@ -23,7 +23,7 @@ public class Sword {
   var gatewayUrl: String?
 
   /// Array of guilds the bot is currently connected to
-  public var guilds: [String: Guild] = [:]
+  public internal(set) var guilds: [String: Guild] = [:]
 
   /// Optional options to apply to bot
   var options: SwordOptions
@@ -35,7 +35,7 @@ public class Sword {
   let requester: Request
 
   /// Amount of shards to initialize
-  public var shardCount = 1
+  public internal(set) var shardCount = 1
 
   /// Array of Shard class
   var shards: [Shard] = []
@@ -44,7 +44,7 @@ public class Sword {
   let token: String
 
   /// Array of unavailable guilds the bot is currently connected to
-  public var unavailableGuilds: [String: UnavailableGuild] = [:]
+  public internal(set)var unavailableGuilds: [String: UnavailableGuild] = [:]
 
   /// Int in seconds of how long the bot has been online
   public var uptime: Int? {
@@ -56,7 +56,7 @@ public class Sword {
   }
 
   /// The user account for the bot
-  public var user: User?
+  public internal(set) var user: User?
 
   // MARK: Initializer
 
@@ -120,7 +120,12 @@ public class Sword {
         self.connect()
       }else {
         self.gatewayUrl = "\(data!["url"]!)/?encoding=json&v=6"
-        self.shardCount = data!["shards"] as! Int
+
+        if self.options.isSharded {
+          self.shardCount = data!["shards"] as! Int
+        }else {
+          self.shardCount = 1
+        }
 
         for id in 0..<self.shardCount {
           let shard = Shard(self, id, self.shardCount)

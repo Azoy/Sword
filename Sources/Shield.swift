@@ -112,7 +112,7 @@ public class Shield: Sword {
    - parameter commandName: Command to get rid of
   */
   public func unregister(_ commandName: String) {
-    self.commands[commandName] = nil
+    self.commands.removeValue(forKey: commandName)
   }
 
 }
