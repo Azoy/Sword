@@ -144,14 +144,14 @@
 
 <span class="k">let</span> <span class="nv">bot</span> <span class="o">=</span> <span class="kt">Sword</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="s">"Your bot token here"</span><span class="p">)</span>
 
-<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="s">"ready"</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
+<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">ready</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
   <span class="n">bot</span><span class="o">.</span><span class="nf">editStatus</span><span class="p">(</span><span class="nv">playing</span><span class="p">:</span> <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"with Swords!"</span><span class="p">])</span>
 <span class="p">}</span>
 
-<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="s">"messageCreate"</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
+<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageCreate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
   <span class="k">let</span> <span class="nv">msg</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Message</span>
   <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="s">"!ping"</span> <span class="p">{</span>
-    <span class="n">bot</span><span class="o">.</span><span class="nf">send</span><span class="p">(</span><span class="s">"Pong!"</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="n">msg</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">msg</span><span class="o">.</span><span class="nf">reply</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"Pong!"</span><span class="p">)</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
