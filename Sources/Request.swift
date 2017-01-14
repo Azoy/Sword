@@ -90,7 +90,7 @@ class Request {
       request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
       #else
       if file!["parameters"] != nil {
-        request.httpBody = (file!["parameters"] as! [String: String]).encode()
+        request.httpBody = (file!["parameters"] as! [String: String]).encode().data(using: .utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
       }
       #endif
