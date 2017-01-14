@@ -80,8 +80,8 @@ public class Sword {
    - parameter eventName: The event to listen for
    - parameter completion: Code block to execute when the event is fired
    */
-  public func on(_ eventName: String, _ completion: @escaping ([Any]) -> ()) {
-    self.eventer.on(eventName, completion)
+  public func on(_ event: Event, _ completion: @escaping ([Any]) -> ()) {
+    self.eventer.on(event, completion)
   }
 
   /**
@@ -90,8 +90,8 @@ public class Sword {
    - parameter eventName: The event to emit listeners for
    - parameter data: Variadic set of Any(s) to send to listener
    */
-  public func emit(_ eventName: String, with data: Any...) {
-    self.eventer.emit(eventName, with: data)
+  func emit(_ event: Event, with data: Any...) {
+    self.eventer.emit(event, with: data)
   }
 
   /// Gets the gateway URL to connect to

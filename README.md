@@ -28,11 +28,11 @@ import Sword
 
 let bot = Sword(token: "Your bot token here")
 
-bot.on("ready") { _ in
+bot.on(.ready) { _ in
   bot.editStatus(playing: ["name": "with Swords!"])
 }
 
-bot.on("messageCreate") { data in
+bot.on(.messageCreate) { data in
   let msg = data[0] as! Message
   if msg.content == "!ping" {
     bot.send("Pong!", to: msg.channel.id)

@@ -15,7 +15,7 @@ public struct SwordOptions {
   public var isCacheAllMembers: Bool
 
   /// Array of event names to disable
-  public var disabledEvents: [String]
+  public var disabledEvents: [Event]
 
   /// Whether or not this bot is sharded
   public var isSharded: Bool
@@ -29,7 +29,7 @@ public struct SwordOptions {
    - parameter disabledEvents: Array of event names to disable (improve performance)
    - parameter sharded: Whether or not the bot should be sharded
   */
-  public init(cacheAllMembers: Bool = false, disabledEvents: [String] = [], sharded: Bool = true) {
+  public init(cacheAllMembers: Bool = false, disabledEvents: [Event] = [], sharded: Bool = true) {
     self.isCacheAllMembers = cacheAllMembers
     self.disabledEvents = disabledEvents
     self.isSharded = sharded

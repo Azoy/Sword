@@ -35,7 +35,7 @@ public class Shield: Sword {
     self.shieldOptions = shieldOptions
     super.init(token: token, with: swordOptions)
 
-    self.on("messageCreate") { data in
+    self.on(.messageCreate) { data in
       let msg = data[0] as! Message
 
       if self.shieldOptions.prefixes.contains("@bot") {
