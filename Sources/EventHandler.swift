@@ -23,6 +23,10 @@ extension Shard {
       return
     }
 
+    if self.sword.options.disabledEvents.contains(eventName) {
+      return
+    }
+
     switch event {
 
       /// CHANNEL_CREATE
@@ -65,17 +69,20 @@ extension Shard {
       /// GUILD_CREATE
       case .guildCreate:
         let guildId = data["id"] as! String
+        let guild = Guild(self.sword, data, self.id)
 
         if self.sword.unavailableGuilds[guildId] != nil {
           self.sword.unavailableGuilds.removeValue(forKey: guildId)
 
-          let guild = Guild(self.sword, data, self.id)
           self.sword.guilds[guildId] = guild
           self.sword.emit("guildAvailable", with: guild)
         }else {
-          let guild = Guild(self.sword, data, self.id)
           self.sword.guilds[guildId] = guild
           self.sword.emit("guildCreate", with: guild)
+        }
+
+        if self.sword.options.isCacheAllMembers && guild.members.count != guild.memberCount {
+          self.requestOfflineMembers(for: guild.id)
         }
 
         break
@@ -124,6 +131,16 @@ extension Shard {
         let user = User(self.sword, data)
         self.sword.guilds[guildId]!.members.removeValue(forKey: user.id)
         self.sword.emit("guildMemberRemove", with: guildId, user)
+        break
+
+      /// GUILD_MEMBERS_CHUNK
+      case .guildMembersChunk:
+        let guildId = data["guild_id"] as! String
+        let members = data["members"] as! [[String: Any]]
+        for member in members {
+          let member = Member(self.sword, member)
+          self.sword.guilds[guildId]!.members[member.user.id] = member
+        }
         break
 
       /// GUILD_MEMBER_UPDATE
