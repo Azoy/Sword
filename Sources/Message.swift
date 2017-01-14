@@ -184,6 +184,15 @@ public struct Message {
     self.channel.pin(self.id, completion)
   }
 
+  /**
+   Replies to message (alias to bot.send(_:to:)...)
+  */
+  public func reply(with message: String, _ completion: @escaping (Message?) -> () = {_ in}) {
+    self.channel.send(message) { msg in
+      completion(msg)
+    }
+  }
+
 }
 
 /// Attachment Type

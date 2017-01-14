@@ -259,6 +259,17 @@ public struct Channel {
     }
   }
 
+  /**
+   Sends a message to channel
+
+   - parameter message: Message to send
+  */
+  public func send(_ message: String, _ completion: @escaping (Message?) -> () = {_ in}) {
+    self.sword!.send(message, to: self.id) { msg in
+      completion(msg)
+    }
+  }
+
 }
 
 /// Permission Overwrite Type

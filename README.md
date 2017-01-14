@@ -35,7 +35,7 @@ bot.on(.ready) { _ in
 bot.on(.messageCreate) { data in
   let msg = data[0] as! Message
   if msg.content == "!ping" {
-    bot.send("Pong!", to: msg.channel.id)
+    msg.reply(with: "Pong!")
   }
 }
 
