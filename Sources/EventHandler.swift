@@ -235,38 +235,35 @@ extension Shard {
         self.sword.emit(.userUpdate, with: User(self.sword, data))
         break
 
-      /// VOICE_STATE_UPDATE
-      case .voiceStateUpdate:
-        let guildId = data["guild_id"] as! String
-        let channelId = data["channel_id"] as! String
-        let sessionId = data["session_id"] as! String
-        let userId = data["user_id"] as! String
+        /// VOICE_STATE_UPDATE
+        case .voiceStateUpdate:
+          let guildId = data["guild_id"] as! String
+          let channelId = data["channel_id"] as! String
+          let sessionId = data["session_id"] as! String
+          let userId = data["user_id"] as! String
 
-        guard userId == self.sword.user!.id else {
-          self.sword.emit(.voiceStateUpdate, with: channelId, userId)
-          return
-        }
+          guard userId == self.sword.user!.id else {
+            self.sword.emit(.voiceStateUpdate, with: channelId, userId)
+            return
+          }
 
-        self.sword.voiceManager.guilds[guildId] = ["channelId": channelId, "sessionId": sessionId, "userId": userId]
+          self.sword.voiceManager.guilds[guildId] = ["channelId": channelId, "sessionId": sessionId, "userId": userId]
+          break
 
-        break
+        case .voiceServerUpdate:
+          let guildId = data["guild_id"] as! String
+          let token = data["token"] as! String
+          let endpoint = data["endpoint"] as! String
 
-      case .voiceServerUpdate:
+          guard self.sword.voiceManager.guilds[guildId] != nil else { return }
 
-        let guildId = data["guild_id"] as! String
-        let token = data["token"] as! String
-        let gatewayUrl = "wss://\(data["endpoint"] as! String)"
+          let payload = Payload(voiceOP: VoiceOPCode(rawValue: 0)!, data: ["server_id": guildId, "user_id": self.sword.user!.id, "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"], "token": token]).encode()
 
-        guard self.sword.voiceManager.guilds[guildId] != nil else { return }
+          self.sword.voiceManager.join(guildId, endpoint, payload)
+          break
 
-        let payload = Payload(voiceOP: VoiceOPCode(rawValue: 0)!, data: ["server_id": guildId, "user_id": self.sword.user!.id, "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"], "token": token]).encode()
-
-        self.sword.voiceManager.join(guildId, gatewayUrl, payload)
-
-        break
-
-      default:
-        break
+        default:
+          break
     }
   }
 

@@ -3,9 +3,9 @@ import Dispatch
 import WebSockets
 import Socks
 
-final class VoiceConnection {
+class VoiceConnection {
 
-  let gatewayUrl: String
+  let endpoint: String
 
   let guildId: String
 
@@ -13,18 +13,24 @@ final class VoiceConnection {
 
   var isConnected = false
 
+  let port: Int
+
   var session: WebSocket?
+
+  var udpClient: UDPClient?
 
   let udpUrl = ""
 
-  init(_ gatewayUrl: String, _ guildId: String) {
-    self.gatewayUrl = gatewayUrl
+  init(_ endpoint: String, _ guildId: String) {
+    let endpoint = endpoint.components(separatedBy: ":")
+    self.endpoint = endpoint[0]
     self.guildId = guildId
+    self.port = Int(endpoint[1])!
   }
 
   func startWS(_ identify: String) {
 
-    try? WebSocket.connect(to: self.gatewayUrl) { ws in
+    try? WebSocket.connect(to: "wss://\(self.endpoint)") { ws in
       self.session = ws
       self.isConnected = true
 
@@ -33,8 +39,30 @@ final class VoiceConnection {
       ws.onText = { ws, text in
         self.handleWSPayload(Payload(with: text))
       }
+
+      ws.onClose = { ws, code, something, somethingagain in
+        self.heartbeat = nil
+        self.isConnected = false
+      }
     }
 
+  }
+
+  func startUDPSocket(_ port: Int) {
+    let address = InternetAddress(hostname: self.endpoint, port: Port(port))
+    do {
+      let client = try UDPClient(address: address)
+      self.udpClient = client
+      try client.send(bytes: [UInt8](repeating: 0x00, count: 70))
+      let (data, _) = try client.receive(maxBytes: 70)
+      try client.close()
+
+      print("IP: \(String(data: Data(bytes: data.dropLast(2)), encoding: .utf8)!)")
+      let portBytes = Array(data.suffix(from: data.endIndex.advanced(by: -2)))
+      print("Port: \(Int(portBytes[0]) + (Int(portBytes[1]) << 8))")
+    } catch {
+      print("Error")
+    }
   }
 
   func handleWSPayload(_ payload: Payload) {
@@ -42,11 +70,18 @@ final class VoiceConnection {
 
     guard payload.t != nil else {
 
-      switch VoiceOPCode(rawValue: payload.op)! {
+      guard let voiceOP = VoiceOPCode(rawValue: payload.op) else { return }
+
+      let data = payload.d as! [String: Any]
+
+      switch voiceOP {
         case .ready:
-          print(payload.d)
-          self.heartbeat = Heartbeat(self.session!, "heartbeat.voiceconnection.\(self.guildId)", interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
+
+          self.heartbeat = Heartbeat(self.session!, "heartbeat.voiceconnection.\(self.guildId)", interval: data["heartbeat_interval"] as! Int)
           self.heartbeat?.send()
+
+          self.startUDPSocket(data["port"] as! Int)
+
           break
         default:
           break

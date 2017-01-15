@@ -89,6 +89,7 @@ class Shard {
       }
 
       ws.onClose = { ws, code, _, _ in
+        self.heartbeat = nil
         self.isConnected = false
         switch CloseCode(rawValue: Int(code!))! {
           case .authenticationFailed:
