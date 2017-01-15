@@ -15,6 +15,12 @@ enum OPCode: Int {
 
 }
 
+enum VoiceOPCode: Int {
+
+  case identify, selectProtocol, ready, heartbeat, sessionDescription, speaking
+
+}
+
 /// Organize all websocket close codes
 enum CloseCode: Int {
 

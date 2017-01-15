@@ -13,7 +13,7 @@ extension Shard {
 
   /**
    Handles all gateway events (except op: 0)
-   
+
    - parameter payload: Payload sent with event
    */
   func handleGateway(_ payload: Payload) {
@@ -27,7 +27,7 @@ extension Shard {
 
       /// OP: 10
       case .hello:
-        self.heartbeat = Heartbeat(self.session!, interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
+        self.heartbeat = Heartbeat(self.session!, "heartbeat.shard.\(self.id)",interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
         self.heartbeat?.send()
         self.identify()
         break

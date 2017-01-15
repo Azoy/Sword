@@ -154,6 +154,12 @@ class Shard {
     try? self.session?.send(payload)
   }
 
+  func join(voiceChannel channelId: String, in guildId: String) {
+    let payload = Payload(op: .voiceStateUpdate, data: ["guild_id": guildId, "channel_id": channelId, "self_mute": false, "self_deaf": false]).encode()
+
+    self.send(payload)
+  }
+
   /**
    Handles gateway events from WS connection with Discord
 

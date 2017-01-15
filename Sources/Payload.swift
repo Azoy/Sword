@@ -12,24 +12,24 @@ import Foundation
 struct Payload {
 
   // MARK: Properties
-  
+
   /// OP Code for payload
   let op: Int
-  
+
   /// Data for payload
   let d: Any
-  
+
   /// Sequence number from payload
   let s: Int?
-  
+
   /// Event name from payload
   let t: String?
 
   // MARK: Initializers
-  
+
   /**
    Creates a payload from JSON String
-   
+
    - parameter text: JSON String
   */
   init(with text: String) {
@@ -42,7 +42,7 @@ struct Payload {
 
   /**
    Creates a payload from either an Array | Dictionary
-   
+
    - parameter op: OP code to dispatch
    - parameter data: Either an Array | Dictionary to dispatch under the payload.d
   */
@@ -53,8 +53,15 @@ struct Payload {
     self.t = nil
   }
 
+  init(voiceOP: VoiceOPCode, data: Any) {
+    self.op = voiceOP.rawValue
+    self.d = data
+    self.s = nil
+    self.t = nil
+  }
+
   // MARK: Functions
-  
+
   /// Returns self as a String
   func encode() -> String {
     let payload = ["op": self.op, "d": self.d]

@@ -14,13 +14,13 @@ import WebSockets
 class Heartbeat {
 
   // MARK: Properties
-  
+
   /// Current websocket
   let session: WebSocket
 
   /// Interval to send heartbeats
   let interval: Int
-  
+
   /// Last received sequence
   var sequence: Int?
 
@@ -28,23 +28,24 @@ class Heartbeat {
   var received = false
 
   /// The Dispatch Queue to handle heartbeats
-  let queue = DispatchQueue(label: "gg.azoy.sword.heartbeat", qos: .userInitiated)
+  let queue: DispatchQueue
 
   // MARK: Initializer
-  
+
   /**
    Creates the heartbeat
-   
+
    - parameter ws: Websocket connection
    - parameter interval: Interval to set heartbeats at
    */
-  init(_ ws: WebSocket, interval: Int) {
+  init(_ ws: WebSocket, _ name: String, interval: Int) {
     self.session = ws
+    self.queue = DispatchQueue(label: "gg.azoy.sword.\(name)", qos: .userInitiated)
     self.interval = interval
   }
 
   // MARK: Functions
-  
+
   /// Starts/Sends heartbeat payload
   func send() {
     let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(self.interval)

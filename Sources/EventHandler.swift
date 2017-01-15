@@ -235,7 +235,36 @@ extension Shard {
         self.sword.emit(.userUpdate, with: User(self.sword, data))
         break
 
-      /// Others~~~ (voice)
+      /// VOICE_STATE_UPDATE
+      case .voiceStateUpdate:
+        let guildId = data["guild_id"] as! String
+        let channelId = data["channel_id"] as! String
+        let sessionId = data["session_id"] as! String
+        let userId = data["user_id"] as! String
+
+        guard userId == self.sword.user!.id else {
+          self.sword.emit(.voiceStateUpdate, with: channelId, userId)
+          return
+        }
+
+        self.sword.voiceManager.guilds[guildId] = ["channelId": channelId, "sessionId": sessionId, "userId": userId]
+
+        break
+
+      case .voiceServerUpdate:
+
+        let guildId = data["guild_id"] as! String
+        let token = data["token"] as! String
+        let gatewayUrl = "wss://\(data["endpoint"] as! String)"
+
+        guard self.sword.voiceManager.guilds[guildId] != nil else { return }
+
+        let payload = Payload(voiceOP: VoiceOPCode(rawValue: 0)!, data: ["server_id": guildId, "user_id": self.sword.user!.id, "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"], "token": token]).encode()
+
+        self.sword.voiceManager.join(guildId, gatewayUrl, payload)
+
+        break
+
       default:
         break
     }

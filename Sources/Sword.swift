@@ -58,6 +58,8 @@ public class Sword {
   /// The user account for the bot
   public internal(set) var user: User?
 
+  let voiceManager = VoiceManager()
+
   // MARK: Initializer
 
   /**
@@ -533,6 +535,40 @@ public class Sword {
         completion(data as? [[String: Any]])
       }
     }
+  }
+
+  public func join(voiceChannel channelId: String) {
+    var guilds = self.guilds.filter {
+      $0.1.channels[channelId] != nil
+    }
+
+    if guilds.isEmpty {
+      print("[Sword] We don't serve this channel.")
+      return
+    }
+    let guild = guilds[0].1
+
+    guard guild.shard != nil else {
+      print("[Sword] Problem finding shard id for guild. We probably don't serve this guild.")
+      return
+    }
+
+    let channel = guild.channels[channelId]
+    guard channel!.type != nil else {
+      print("[Sword] Problem checking whether or not this channel was voice or not.")
+      return
+    }
+
+    if channel!.type != 2 {
+      print("[Sword] Channel is not a voice channel.")
+      return
+    }
+
+    let shard = self.shards.filter {
+      $0.id == guild.shard!
+    }[0]
+
+    shard.join(voiceChannel: channelId, in: guild.id)
   }
 
   /**
