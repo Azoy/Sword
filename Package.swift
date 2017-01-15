@@ -1,3 +1,13 @@
 import PackageDescription
 
-let package = Package(name: "Sword", dependencies: [.Package(url: "https://github.com/vapor/engine.git", majorVersion: 1, minor: 3)])
+let package = Package(
+  name: "Sword",
+  dependencies: [
+    .Package(
+      url: "https://github.com/vapor/engine", majorVersion: 1, minor: 3
+    ),
+    .Package(
+      url: "https://github.com/Azoy/Sodium", majorVersion: 1
+    )
+  ]
+)

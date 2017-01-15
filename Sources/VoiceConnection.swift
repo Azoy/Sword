@@ -50,19 +50,39 @@ class VoiceConnection {
 
   func startUDPSocket(_ port: Int) {
     let address = InternetAddress(hostname: self.endpoint, port: Port(port))
+
+    guard let client = try? UDPClient(address: address) else {
+      self.close()
+
+      return
+    }
+
+    self.udpClient = client
+
     do {
-      let client = try UDPClient(address: address)
-      self.udpClient = client
       try client.send(bytes: [UInt8](repeating: 0x00, count: 70))
       let (data, _) = try client.receive(maxBytes: 70)
-      try client.close()
 
-      print("IP: \(String(data: Data(bytes: data.dropLast(2)), encoding: .utf8)!)")
-      let portBytes = Array(data.suffix(from: data.endIndex.advanced(by: -2)))
-      print("Port: \(Int(portBytes[0]) + (Int(portBytes[1]) << 8))")
+      self.selectProtocol(data)
     } catch {
-      print("Error")
+      self.close()
     }
+  }
+
+  func close() {
+    self.session = nil
+    self.heartbeat = nil
+    self.isConnected = false
+    self.udpClient = nil
+  }
+
+  func selectProtocol(_ bytes: [UInt8]) {
+    let localIp = String(data: Data(bytes: bytes.dropLast(2)), encoding: .utf8)!
+    let localPort = Int(bytes[68]) + (Int(bytes[69]) << 8)
+
+    let payload = Payload(voiceOP: .selectProtocol, data: ["protocol": "udp", "data": ["address": localIp, "port": localPort, "mode": "xsalsa20_poly1305"]]).encode()
+
+    try? self.session?.send(payload)
   }
 
   func handleWSPayload(_ payload: Payload) {
