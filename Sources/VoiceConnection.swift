@@ -38,7 +38,7 @@ class VoiceConnection {
 
   func startWS(_ identify: String) {
 
-    try? WebSocket.connect(to: "wss://\(self.endpoint)") { ws in
+    try? WebSocket.background(to: "wss://\(self.endpoint)") { ws in
       self.session = ws
       self.isConnected = true
 
@@ -85,7 +85,7 @@ class VoiceConnection {
   }
 
   func selectProtocol(_ bytes: [UInt8]) {
-    let localIp = String(data: Data(bytes: bytes.dropLast(2)), encoding: .utf8)!
+    let localIp = String(data: Data(bytes: bytes.dropLast(2)), encoding: .utf8)!.replacingOccurrences(of: "\0", with: "")
     let localPort = Int(bytes[68]) + (Int(bytes[69]) << 8)
 
     let payload = Payload(voiceOP: .selectProtocol, data: ["protocol": "udp", "data": ["address": localIp, "port": localPort, "mode": "xsalsa20_poly1305"]]).encode()

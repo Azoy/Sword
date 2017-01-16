@@ -603,9 +603,9 @@ public class Sword {
       $0.id == guild.shard!
     }[0]
 
+    shard.leaveVoiceChannel(in: guild.id)
     self.voiceManager.guilds.removeValue(forKey: guild.id)
     self.voiceManager.connections.removeValue(forKey: guild.id)
-    shard.leaveVoiceChannel(in: guild.id)
   }
 
   /**
