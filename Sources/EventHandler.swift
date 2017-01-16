@@ -237,19 +237,20 @@ extension Shard {
 
         /// VOICE_STATE_UPDATE
         case .voiceStateUpdate:
-          let guildId = data["guild_id"] as! String
-          let channelId = data["channel_id"] as! String
+          let guildId = data["guild_id"] as? String
+          let channelId = data["channel_id"] as? String
           let sessionId = data["session_id"] as! String
           let userId = data["user_id"] as! String
 
-          guard userId == self.sword.user!.id else {
-            self.sword.emit(.voiceStateUpdate, with: channelId, userId)
+          guard guildId != nil, channelId != nil else {
+            self.sword.emit(.voiceStateUpdate, with: userId)
             return
           }
 
-          self.sword.voiceManager.guilds[guildId] = ["channelId": channelId, "sessionId": sessionId, "userId": userId]
+          self.sword.voiceManager.guilds[guildId!] = ["channelId": channelId!, "sessionId": sessionId, "userId": userId]
           break
 
+        /// VOICE_SERVER_UPDATE
         case .voiceServerUpdate:
           let guildId = data["guild_id"] as! String
           let token = data["token"] as! String
