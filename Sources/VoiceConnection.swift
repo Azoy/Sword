@@ -15,6 +15,10 @@ class VoiceConnection {
 
   let port: Int
 
+  var secret: [UInt8] = []
+
+  var sequence = 0
+
   var session: WebSocket?
 
   var udpClient: UDPClient?
@@ -26,6 +30,10 @@ class VoiceConnection {
     self.endpoint = endpoint[0]
     self.guildId = guildId
     self.port = Int(endpoint[1])!
+  }
+
+  deinit {
+    self.close()
   }
 
   func startWS(_ identify: String) {
@@ -86,8 +94,6 @@ class VoiceConnection {
   }
 
   func handleWSPayload(_ payload: Payload) {
-    print(payload)
-
     guard payload.t != nil else {
 
       guard let voiceOP = VoiceOPCode(rawValue: payload.op) else { return }
@@ -102,6 +108,8 @@ class VoiceConnection {
 
           self.startUDPSocket(data["port"] as! Int)
 
+          break
+        case .sessionDescription:
           break
         default:
           break

@@ -537,32 +537,25 @@ public class Sword {
     }
   }
 
+  /**
+   Joins a voice channel
+
+   - parameter channelId: Channel to connect to
+  */
   public func join(voiceChannel channelId: String) {
     var guilds = self.guilds.filter {
       $0.1.channels[channelId] != nil
     }
 
-    if guilds.isEmpty {
-      print("[Sword] We don't serve this channel.")
-      return
-    }
+    if guilds.isEmpty { return }
     let guild = guilds[0].1
 
-    guard guild.shard != nil else {
-      print("[Sword] Problem finding shard id for guild. We probably don't serve this guild.")
-      return
-    }
+    guard guild.shard != nil else { return }
 
     let channel = guild.channels[channelId]
-    guard channel!.type != nil else {
-      print("[Sword] Problem checking whether or not this channel was voice or not.")
-      return
-    }
+    guard channel!.type != nil else { return }
 
-    if channel!.type != 2 {
-      print("[Sword] Channel is not a voice channel.")
-      return
-    }
+    if channel!.type != 2 { return }
 
     let shard = self.shards.filter {
       $0.id == guild.shard!
@@ -580,6 +573,39 @@ public class Sword {
     self.requester.request(endpoints.leaveGuild(guildId), method: "DELETE") { error, data in
       if error == nil { completion() }
     }
+  }
+
+  /**
+   Leaves a voice channel
+
+   - parameter channelId: Channel to disconnect from
+  */
+  public func leave(voiceChannel channelId: String) {
+    var guilds = self.guilds.filter {
+      $0.1.channels[channelId] != nil
+    }
+
+    guard !guilds.isEmpty else { return }
+
+    let guild = guilds[0].1
+
+    guard self.voiceManager.guilds[guild.id] != nil else { return }
+
+    guard guild.shard != nil else { return }
+
+    let channel = guild.channels[channelId]
+
+    guard channel!.type != nil else { return }
+
+    if channel!.type != 2 { return }
+
+    let shard = self.shards.filter {
+      $0.id == guild.shard!
+    }[0]
+
+    self.voiceManager.guilds.removeValue(forKey: guild.id)
+    self.voiceManager.connections.removeValue(forKey: guild.id)
+    shard.leaveVoiceChannel(in: guild.id)
   }
 
   /**

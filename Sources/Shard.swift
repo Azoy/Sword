@@ -161,6 +161,12 @@ class Shard {
     self.send(payload)
   }
 
+  func leaveVoiceChannel(in guildId: String) {
+    let payload = Payload(op: .voiceStateUpdate, data: ["guild_id": guildId, "channel_id": NSNull(), "self_mute": false, "self_deaf": false]).encode()
+
+    self.send(payload)
+  }
+
   /**
    Handles gateway events from WS connection with Discord
 
