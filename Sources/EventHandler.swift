@@ -128,7 +128,7 @@ extension Shard {
       /// GUILD_MEMBER_REMOVE
       case .guildMemberRemove:
         let guildId = data["guild_id"] as! String
-        let user = User(self.sword, data)
+        let user = User(self.sword, data["user"] as! [String: Any])
         self.sword.guilds[guildId]!.members.removeValue(forKey: user.id)
         self.sword.emit(.guildMemberRemove, with: guildId, user)
         break
