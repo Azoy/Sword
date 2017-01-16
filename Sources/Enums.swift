@@ -118,6 +118,10 @@ public enum Event: String {
   /// Fired when a user updates their username, email, etc
   case userUpdate = "USER_UPDATE"
 
+  case voiceChannelJoin
+
+  case voiceChannelLeave
+
   /// Fired when someone joins/moves/leaves a voice channel
   case voiceStateUpdate = "VOICE_STATE_UPDATE"
 
