@@ -115,11 +115,16 @@ public class Sword {
 
   /// Starts the bot
   public func connect() {
+    print(CommandLine.arguments)
     self.getGateway() { error, data in
       if error != nil {
-        print(error!)
-        sleep(2)
-        self.connect()
+        guard error == .unauthorized else {
+          sleep(3)
+          self.connect()
+          return
+        }
+
+        print("[Sword] Bot token invalid.")
       }else {
         self.gatewayUrl = "\(data!["url"]!)/?encoding=json&v=6"
 
@@ -542,7 +547,7 @@ public class Sword {
 
    - parameter channelId: Channel to connect to
   */
-  public func join(voiceChannel channelId: String) {
+  public func join(voiceChannel channelId: String, _ completion: @escaping (VoiceConnection) -> () = {_ in}) {
     var guilds = self.guilds.filter {
       $0.1.channels[channelId] != nil
     }
@@ -560,6 +565,8 @@ public class Sword {
     let shard = self.shards.filter {
       $0.id == guild.shard!
     }[0]
+
+    self.voiceManager.handlers[guild.id] = completion
 
     shard.join(voiceChannel: channelId, in: guild.id)
   }

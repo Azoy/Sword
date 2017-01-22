@@ -21,7 +21,7 @@ class Request {
   let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue())
 
   /// Collection of Collections of buckets mapped by method mapped by route
-  var rateLimits: [String: [String: Bucket]] = [:]
+  var rateLimits: [String: Bucket] = [:]
 
   // MARK: Initializer
 
@@ -130,23 +130,28 @@ class Request {
         return
       }
 
-      if rateLimited && route != "" && self.rateLimits[route]?[method] == nil {
+      #if !os(Linux)
+      let limit = Int(headers["x-ratelimit-limit"] as! String)!
+      let remaining = Int(headers["x-ratelimit-remaining"] as! String)!
+      let interval = Int(Double(headers["x-ratelimit-reset"] as! String)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
+      #else
+      let limit = Int(headers["X-RateLimit-Limit"]!)!
+      let remaining = Int(headers["X-RateLimit-Remaining"] as! String)!
+      let interval = Int(Double(headers["X-RateLimit-Reset"]!)! - (headers["Date"]!).dateNorm.timeIntervalSince1970)
+      #endif
 
-        #if !os(Linux)
-        let limit = Int(headers["x-ratelimit-limit"] as! String)!
-        let interval = Int(Double(headers["x-ratelimit-reset"] as! String)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
-        #else
-        let limit = Int(headers["X-RateLimit-Limit"]!)!
-        let interval = Int(Double(headers["X-RateLimit-Reset"]!)! - (headers["Date"]!).dateNorm.timeIntervalSince1970)
-        #endif
-
-        let bucket = Bucket(name: "gg.azoy.sword.\(route).\(method)", limit: limit, interval: interval)
+      if rateLimited && route != "" && self.rateLimits[route] == nil {
+        let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: limit, interval: interval)
         bucket.take(1)
 
         if self.rateLimits[route] == nil {
-          self.rateLimits[route] = [method: bucket]
-        }else {
-          self.rateLimits[route]![method] = bucket
+          self.rateLimits[route] = bucket
+        }
+      }else if self.rateLimits[route] != nil {
+        let bucket = self.rateLimits[route]!
+
+        if bucket.tokens != remaining {
+          bucket.take(bucket.tokens - remaining)
         }
       }
 
@@ -160,13 +165,13 @@ class Request {
       sema.signal()
     }
 
-    if rateLimited && self.rateLimits[route] != nil && self.rateLimits[route]?[method] != nil {
+    if rateLimited && self.rateLimits[route] != nil {
       let item = DispatchWorkItem {
         task.resume()
 
         sema.wait()
       }
-      self.rateLimits[route]![method]!.queue(item)
+      self.rateLimits[route]!.queue(item)
     }else {
       task.resume()
 
