@@ -69,6 +69,82 @@ class Shard {
   // MARK: Functions
 
   /**
+   Handles gateway events from WS connection with Discord
+
+   - parameter payload: Payload struct that Discord sent as JSON
+  */
+  func event(_ payload: Payload) {
+    if let sequenceNumber = payload.s {
+      self.heartbeat?.sequence = sequenceNumber
+      self.lastSeq = sequenceNumber
+    }
+
+    guard payload.t != nil else {
+      self.handleGateway(payload)
+      return
+    }
+
+    self.handleEvents(payload.d as! [String: Any], payload.t!)
+  }
+
+  /// Sends shard identity to WS connection
+  func identify() {
+    #if os(macOS)
+    let os = "macOS"
+    #else
+    let os = "Linux"
+    #endif
+    let identity = Payload(op: .identify, data: ["token": self.sword.token, "properties": ["$os": os, "$browser": "Sword", "$device": "Sword"], "compress": false, "large_threshold": 250, "shard": [self.id, self.shardCount]]).encode()
+
+    try? self.session?.send(identity)
+  }
+
+  func join(voiceChannel channelId: String, in guildId: String) {
+    let payload = Payload(op: .voiceStateUpdate, data: ["guild_id": guildId, "channel_id": channelId, "self_mute": false, "self_deaf": false]).encode()
+
+    self.send(payload)
+  }
+
+  func leaveVoiceChannel(in guildId: String) {
+    let payload = Payload(op: .voiceStateUpdate, data: ["guild_id": guildId, "channel_id": NSNull(), "self_mute": false, "self_deaf": false]).encode()
+
+    self.send(payload)
+  }
+
+  /**
+   Used to reconnect to gateway
+
+   - parameter payload: Reconnect payload to send to connection
+  */
+  func reconnect(_ payload: Payload) {
+    try? self.session!.close()
+    self.isConnected = false
+    self.heartbeat = nil
+
+    self.startWS(self.gatewayUrl, reconnect: true, reconnectPayload: payload.encode())
+  }
+
+  /// Function to send packet to server to request for offline members for requested guild
+  func requestOfflineMembers(for guildId: String) {
+    let payload = Payload(op: .requestGuildMember, data: ["guild_id": guildId, "query": "", "limit": 0]).encode()
+
+    try? self.session?.send(payload)
+  }
+
+  /**
+   Sends a payload through WS connection
+
+   - parameter text: JSON text to send through WS connection
+   - parameter presence: Whether or not this WS payload updates shard presence
+  */
+  func send(_ text: String, presence: Bool = false) {
+    let item = DispatchWorkItem {
+      try? self.session!.send(text)
+    }
+    presence ? self.presenceBucket.queue(item) : self.globalBucket.queue(item)
+  }
+
+  /**
    Starts WS connection with Discord
 
    - parameter gatewayUrl: URL that WS should connect to
@@ -103,87 +179,11 @@ class Shard {
     }
   }
 
-  /**
-   Used to reconnect to gateway
-
-   - parameter payload: Reconnect payload to send to connection
-  */
-  func reconnect(_ payload: Payload) {
-    try? self.session!.close()
-    self.isConnected = false
-    self.heartbeat = nil
-
-    self.startWS(self.gatewayUrl, reconnect: true, reconnectPayload: payload.encode())
-  }
-
   /// Used to stop WS connection
   func stop() {
     try? self.session!.close()
     self.isConnected = false
     self.heartbeat = nil
-  }
-
-  /**
-   Sends a payload through WS connection
-
-   - parameter text: JSON text to send through WS connection
-   - parameter presence: Whether or not this WS payload updates shard presence
-  */
-  func send(_ text: String, presence: Bool = false) {
-    let item = DispatchWorkItem {
-      try? self.session!.send(text)
-    }
-    presence ? self.presenceBucket.queue(item) : self.globalBucket.queue(item)
-  }
-
-  /// Sends shard identity to WS connection
-  func identify() {
-    #if os(macOS)
-    let os = "macOS"
-    #else
-    let os = "Linux"
-    #endif
-    let identity = Payload(op: .identify, data: ["token": self.sword.token, "properties": ["$os": os, "$browser": "Sword", "$device": "Sword"], "compress": false, "large_threshold": 250, "shard": [self.id, self.shardCount]]).encode()
-
-    try? self.session?.send(identity)
-  }
-
-  /// Function to send packet to server to request for offline members for requested guild
-  func requestOfflineMembers(for guildId: String) {
-    let payload = Payload(op: .requestGuildMember, data: ["guild_id": guildId, "query": "", "limit": 0]).encode()
-
-    try? self.session?.send(payload)
-  }
-
-  func join(voiceChannel channelId: String, in guildId: String) {
-    let payload = Payload(op: .voiceStateUpdate, data: ["guild_id": guildId, "channel_id": channelId, "self_mute": false, "self_deaf": false]).encode()
-
-    self.send(payload)
-  }
-
-  func leaveVoiceChannel(in guildId: String) {
-    let payload = Payload(op: .voiceStateUpdate, data: ["guild_id": guildId, "channel_id": NSNull(), "self_mute": false, "self_deaf": false]).encode()
-
-    self.send(payload)
-  }
-
-  /**
-   Handles gateway events from WS connection with Discord
-
-   - parameter payload: Payload struct that Discord sent as JSON
-  */
-  func event(_ payload: Payload) {
-    if let sequenceNumber = payload.s {
-      self.heartbeat?.sequence = sequenceNumber
-      self.lastSeq = sequenceNumber
-    }
-
-    guard payload.t != nil else {
-      self.handleGateway(payload)
-      return
-    }
-
-    self.handleEvents(payload.d as! [String: Any], payload.t!)
   }
 
 }

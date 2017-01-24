@@ -115,7 +115,6 @@ public class Sword {
 
   /// Starts the bot
   public func connect() {
-    print(CommandLine.arguments)
     self.getGateway() { error, data in
       if error != nil {
         guard error == .unauthorized else {
