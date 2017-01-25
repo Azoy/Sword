@@ -1,6 +1,7 @@
 sudo: required
 dist: trusty
 before_install:
+  - apt-get install libsodium-dev
   - wget -q -O - https://swift.org/keys/all-keys.asc | gpg --import -
   - wget https://swift.org/builds/swift-3.0.2-release/ubuntu1404/swift-3.0.2-RELEASE/swift-3.0.2-RELEASE-ubuntu14.04.tar.gz
   - tar xzf swift-3.0.2-RELEASE-ubuntu14.04.tar.gz

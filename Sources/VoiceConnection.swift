@@ -42,7 +42,7 @@ public class VoiceConnection {
 
   let udpUrl = ""
 
-  public var write: FileHandle? {
+  public var writer: FileHandle? {
     return self.encoder?.writer.fileHandleForWriting
   }
 
@@ -62,6 +62,8 @@ public class VoiceConnection {
     self.handler = handler
 
     _ = sodium_init()
+
+    signal(SIGPIPE, SIG_IGN)
   }
 
   deinit {
@@ -164,9 +166,7 @@ public class VoiceConnection {
 
     try? self.session?.send(payload)
 
-    self.encoder = Encoder()
-
-    self.readEncoder(for: 1)
+    self.createEncoder()
 
     self.handler(self)
   }

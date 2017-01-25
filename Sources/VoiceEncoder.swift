@@ -28,7 +28,7 @@ public class Encoder {
     self.process.launchPath = "/usr/local/bin/ffmpeg"
     self.process.standardInput = self.writer.fileHandleForReading
     self.process.standardOutput = self.reader.fileHandleForWriting
-    self.process.arguments = ["-hide_banner", "-loglevel", "quiet", "-f", "data", "-i", "pipe:0", "-c", "libopus", "-ac", "2", "-ar", "48k", "-map", "0:a", "-b:a", "128k", "pipe:1"]
+    self.process.arguments = ["-hide_banner", "-loglevel", "quiet", "-i", "pipe:0", "-f", "data", "-map", "0:a", "-ac", "2", "-ar", "48k", "-acodec", "libopus", "-b:a", "128k", "pipe:1"]
 
     self.process.terminationHandler = { _ in
       self.writer.fileHandleForWriting.closeFile()
@@ -50,8 +50,6 @@ public class Encoder {
       }
 
       let readBytes = Foundation.read(fileDescriptor, buffer, self.defaultSize)
-
-      print(readBytes)
 
       guard readBytes > 0 else {
         completion(true, [])
