@@ -6,15 +6,29 @@ import Sodium
 
 public class VoiceConnection {
 
-  var encoder: Encoder?
+  public var encoder: Encoder?
+
+  let encoderSema = DispatchSemaphore(value: 1)
 
   let endpoint: String
 
-  let guildId: String
+  public let guildId: String
+
+  let handler: (VoiceConnection) -> ()
 
   var heartbeat: Heartbeat?
 
   var isConnected = false
+
+  var shouldMakeEncoder = true {
+    willSet {
+      self.encoderSema.wait()
+    }
+
+    didSet {
+      self.encoderSema.signal()
+    }
+  }
 
   let port: Int
 
@@ -28,10 +42,8 @@ public class VoiceConnection {
 
   let udpUrl = ""
 
-  public var writer: Pipe? {
-    guard let writePipe = self.encoder?.writer else { return nil }
-
-    return writePipe
+  public var write: FileHandle? {
+    return self.encoder?.writer.fileHandleForWriting
   }
 
   #if !os(Linux)
@@ -42,11 +54,12 @@ public class VoiceConnection {
   let timestamp = UInt32(random())
   #endif
 
-  init(_ endpoint: String, _ guildId: String) {
+  init(_ endpoint: String, _ guildId: String, _ handler: @escaping (VoiceConnection) -> ()) {
     let endpoint = endpoint.components(separatedBy: ":")
     self.endpoint = endpoint[0]
     self.guildId = guildId
     self.port = Int(endpoint[1])!
+    self.handler = handler
 
     _ = sodium_init()
   }
@@ -60,6 +73,17 @@ public class VoiceConnection {
     self.heartbeat = nil
     self.isConnected = false
     self.udpClient = nil
+  }
+
+  func createEncoder() {
+    self.shouldMakeEncoder = false
+
+    self.encoder = nil
+    self.encoder = Encoder()
+
+    self.readEncoder(for: 1)
+
+    self.shouldMakeEncoder = true
   }
 
   func createRTPHeader() -> [UInt8] {
@@ -80,6 +104,18 @@ public class VoiceConnection {
 
   }
 
+  func doneReading() {
+    self.encoderSema.wait()
+
+    guard self.shouldMakeEncoder else {
+      self.encoderSema.signal()
+      return
+    }
+
+    self.encoderSema.signal()
+    self.createEncoder()
+  }
+
   func handleWSPayload(_ payload: Payload) {
     guard payload.t != nil else {
 
@@ -98,25 +134,41 @@ public class VoiceConnection {
           self.startUDPSocket(data["port"] as! Int)
 
           break
-        case .sessionDescription:
-          break
         default:
           break
       }
 
       return
     }
-
-    //Handle other events
   }
 
-  func readFromPipe(_ amount: Int) {
-    guard let fileDescriptor = self.encoder?.reader.fileHandleForReading.fileDescriptor else { return }
+  func readEncoder(for amount: Int) {
+    self.encoder?.readFromPipe { done, data in
 
-    let buffer = UnsafeMutableRawPointer.allocate(bytes: self.encoder!.defaultSize, alignedTo: MemoryLayout<UInt8>.alignment)
-    let bytes = Foundation.read(fileDescriptor, buffer, self.encoder!.defaultSize)
+      guard !done else {
+        self.doneReading()
 
-    print(bytes)
+        return
+      }
+
+      print("Received \(data.count) bytes.")
+
+    }
+  }
+
+  func selectProtocol(_ bytes: [UInt8]) {
+    let localIp = String(data: Data(bytes: bytes.dropLast(2)), encoding: .utf8)!.replacingOccurrences(of: "\0", with: "")
+    let localPort = Int(bytes[68]) + (Int(bytes[69]) << 8)
+
+    let payload = Payload(voiceOP: .selectProtocol, data: ["protocol": "udp", "data": ["address": localIp, "port": localPort, "mode": "xsalsa20_poly1305"]]).encode()
+
+    try? self.session?.send(payload)
+
+    self.encoder = Encoder()
+
+    self.readEncoder(for: 1)
+
+    self.handler(self)
   }
 
   func startUDPSocket(_ port: Int) {
@@ -157,22 +209,6 @@ public class VoiceConnection {
         self.isConnected = false
       }
     }
-
-  }
-
-  func selectProtocol(_ bytes: [UInt8]) {
-    let localIp = String(data: Data(bytes: bytes.dropLast(2)), encoding: .utf8)!.replacingOccurrences(of: "\0", with: "")
-    let localPort = Int(bytes[68]) + (Int(bytes[69]) << 8)
-
-    let payload = Payload(voiceOP: .selectProtocol, data: ["protocol": "udp", "data": ["address": localIp, "port": localPort, "mode": "xsalsa20_poly1305"]]).encode()
-
-    try? self.session?.send(payload)
-
-    self.encoder = Encoder()
-    self.readFromPipe(1)
-  }
-
-  func sendPacket() {
 
   }
 
