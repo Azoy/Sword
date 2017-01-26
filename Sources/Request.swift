@@ -65,7 +65,7 @@ class Request {
    - parameter method: Type of HTTP Method
    - parameter rateLimited: Whether or not the HTTP request needs to be rate limited
   */
-  func request(_ url: String, body: Data? = nil, file: [String: Any]? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, completion: @escaping (Error?, Any?) -> ()) {
+  func request(_ url: String, body: Data? = nil, file: [String: Any]? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, completion: @escaping (RequestError?, Any?) -> ()) {
     let sema = DispatchSemaphore(value: 0) //Provide a way to urlsession from command line
 
     let route = rateLimited ? self.getRoute(for: url) : ""

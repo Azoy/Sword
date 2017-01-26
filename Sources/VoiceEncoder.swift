@@ -60,7 +60,6 @@ public class Encoder {
       let pointer = buffer.assumingMemoryBound(to: UInt8.self)
       let bytes = Array(UnsafeBufferPointer(start: pointer, count: self.defaultSize))
 
-      print(bytes)
       completion(false, bytes)
     }
   }

@@ -88,8 +88,27 @@ public class VoiceConnection {
     self.shouldMakeEncoder = true
   }
 
-  func createRTPHeader() -> [UInt8] {
+  func createPacket(with data: [UInt8]) throws -> [UInt8] {
+    let header = self.createRTPHeader()
+    var nonce = header + [UInt8](repeating: 0x00, count: 12)
+    var buffer = data
 
+    let audioSize = Int(crypto_secretbox_MACBYTES) + 320
+    let audioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
+    let audioDataCount = Int(crypto_secretbox_MACBYTES) + data.count
+
+    let encrypted = crypto_secretbox_easy(audioData, &buffer, UInt64(buffer.count), &nonce, &self.secret)
+
+    guard encrypted != -1 else {
+      throw VoiceError.encryptionFail
+    }
+
+    let encryptedAudioData = Array(UnsafeBufferPointer(start: audioData, count: audioDataCount))
+
+    return header + encryptedAudioData
+  }
+
+  func createRTPHeader() -> [UInt8] {
     let header = UnsafeMutableRawBufferPointer.allocate(count: 12)
 
     defer {
@@ -103,7 +122,6 @@ public class VoiceConnection {
     header.storeBytes(of: self.ssrc.bigEndian, toByteOffset: 8, as: UInt32.self)
 
     return Array(header)
-
   }
 
   func doneReading() {
@@ -155,6 +173,12 @@ public class VoiceConnection {
 
       print("Received \(data.count) bytes.")
 
+      if amount == 1 {
+        self.setSpeaking(to: true)
+      }
+
+      self.sendPacket(with: data)
+      self.readEncoder(for: amount + 1)
     }
   }
 
@@ -169,6 +193,27 @@ public class VoiceConnection {
     self.createEncoder()
 
     self.handler(self)
+  }
+
+  func sendPacket(with data: [UInt8]) {
+    guard data.count <= 320 else { return }
+
+    do {
+      try self.udpClient?.send(bytes: self.createPacket(with: data))
+    }catch {
+      self.close()
+
+      return
+    }
+
+    self.sequence = self.sequence &+ 1
+    self.timestamp = self.timestamp &+ 960
+  }
+
+  func setSpeaking(to value: Bool) {
+    let payload = Payload(voiceOP: .speaking, data: ["speaking": value, "delay": 0]).encode()
+
+    try? self.session?.send(payload)
   }
 
   func startUDPSocket(_ port: Int) {
