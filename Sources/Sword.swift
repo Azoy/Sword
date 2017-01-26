@@ -9,15 +9,12 @@
 import Foundation
 
 /// Main Class for Sword
-public class Sword {
+public class Sword: Eventer {
 
   // MARK: Properties
 
   /// Endpoints structure
   let endpoints = Endpoints()
-
-  /// Eventer class
-  let eventer = Eventer()
 
   /// The gateway url to connect to
   var gatewayUrl: String?
@@ -72,29 +69,10 @@ public class Sword {
     self.options = options
     self.requester = Request(token)
     self.token = token
+    super.init()
   }
 
   // MARK: Functions
-
-  /**
-   Listens for events
-
-   - parameter eventName: The event to listen for
-   - parameter completion: Code block to execute when the event is fired
-   */
-  public func on(_ event: Event, _ completion: @escaping ([Any]) -> ()) {
-    self.eventer.on(event, completion)
-  }
-
-  /**
-   Emits listeners for event
-
-   - parameter eventName: The event to emit listeners for
-   - parameter data: Variadic set of Any(s) to send to listener
-   */
-  func emit(_ event: Event, with data: Any...) {
-    self.eventer.emit(event, with: data)
-  }
 
   /// Gets the gateway URL to connect to
   func getGateway(completion: @escaping (RequestError?, [String: Any]?) -> ()) {

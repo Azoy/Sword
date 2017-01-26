@@ -9,7 +9,7 @@
 import Foundation
 
 /// Create a nifty Event Emitter in Swift
-class Eventer {
+public class Eventer {
 
   var listeners: [Event: [([Any]) -> ()]] = [:]
 
@@ -18,7 +18,7 @@ class Eventer {
 
    - parameter event: Event to listen for
    */
-  func on(_ event: Event, _ completion: @escaping ([Any]) -> ()) {
+  public func on(_ event: Event, _ completion: @escaping ([Any]) -> ()) {
     guard self.listeners[event] != nil else {
       self.listeners[event] = [completion]
       return
@@ -32,7 +32,7 @@ class Eventer {
    - parameter event: Event to emit
    - parameter data: Array of stuff to emit listener with
    */
-  func emit(_ event: Event, with data: [Any]) {
+  public func emit(_ event: Event, with data: Any...) {
     guard let functions = self.listeners[event] else { return }
     for function in functions {
       function(data)

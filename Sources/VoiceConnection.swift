@@ -6,6 +6,10 @@ import Sodium
 
 public class VoiceConnection {
 
+  var currentTime: Int {
+    return Int(Date().timeIntervalSince1970 * 1000)
+  }
+
   public var encoder: Encoder?
 
   let encoderSema = DispatchSemaphore(value: 1)
@@ -38,9 +42,13 @@ public class VoiceConnection {
 
   var ssrc: UInt32 = 0
 
+  var startTime = 0
+
   var udpClient: UDPClient?
 
   let udpUrl = ""
+
+  let udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite")
 
   public var writer: FileHandle? {
     return self.encoder?.writer.fileHandleForWriting
@@ -70,6 +78,15 @@ public class VoiceConnection {
     self.close()
   }
 
+  func audioSleep(for count: Int) {
+    let inner = (self.startTime + count * 20) - self.currentTime
+    let waitTime = Double(20 + inner) / 1000
+
+    guard waitTime > 0 else { return }
+
+    Thread.sleep(forTimeInterval: waitTime)
+  }
+
   func close() {
     self.session = nil
     self.heartbeat = nil
@@ -95,6 +112,10 @@ public class VoiceConnection {
 
     let audioSize = Int(crypto_secretbox_MACBYTES) + 320
     let audioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
+    defer {
+      free(audioData)
+    }
+
     let audioDataCount = Int(crypto_secretbox_MACBYTES) + data.count
 
     let encrypted = crypto_secretbox_easy(audioData, &buffer, UInt64(buffer.count), &nonce, &self.secret)
@@ -122,6 +143,25 @@ public class VoiceConnection {
     header.storeBytes(of: self.ssrc.bigEndian, toByteOffset: 8, as: UInt32.self)
 
     return Array(header)
+  }
+
+  func decryptPacket(with data: Data) throws -> [UInt8] {
+    let header = Array(data.prefix(12))
+    var nonce = header + [UInt8](repeating: 0x00, count: 12)
+    let audioData = Array(data.dropFirst(12))
+    let audioSize = audioData.count - Int(crypto_secretbox_MACBYTES)
+    let unencryptedAudioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
+    defer {
+      free(unencryptedAudioData)
+    }
+
+    let unencrypted = crypto_secretbox_open_easy(unencryptedAudioData, audioData, UInt64(data.count - 12), &nonce, &self.secret)
+
+    guard unencrypted != -1 else {
+      throw VoiceError.decryptionFail
+    }
+
+    return Array(UnsafeBufferPointer(start: unencryptedAudioData, count: audioSize))
   }
 
   func doneReading() {
@@ -154,6 +194,9 @@ public class VoiceConnection {
           self.startUDPSocket(data["port"] as! Int)
 
           break
+        case .sessionDescription:
+          self.secret = data["secret_key"] as! [UInt8]
+          break
         default:
           break
       }
@@ -171,13 +214,14 @@ public class VoiceConnection {
         return
       }
 
-      print("Received \(data.count) bytes.")
-
       if amount == 1 {
+        self.startTime = self.currentTime
+
         self.setSpeaking(to: true)
       }
 
       self.sendPacket(with: data)
+      self.audioSleep(for: amount)
       self.readEncoder(for: amount + 1)
     }
   }
@@ -196,18 +240,20 @@ public class VoiceConnection {
   }
 
   func sendPacket(with data: [UInt8]) {
-    guard data.count <= 320 else { return }
+    self.udpWriteQueue.async {
+      guard data.count <= 320 else { return }
 
-    do {
-      try self.udpClient?.send(bytes: self.createPacket(with: data))
-    }catch {
-      self.close()
+      do {
+        try self.udpClient?.send(bytes: self.createPacket(with: data))
+      }catch {
+        self.close()
 
-      return
+        return
+      }
+
+      self.sequence = self.sequence &+ 1
+      self.timestamp = self.timestamp &+ 960
     }
-
-    self.sequence = self.sequence &+ 1
-    self.timestamp = self.timestamp &+ 960
   }
 
   func setSpeaking(to value: Bool) {
