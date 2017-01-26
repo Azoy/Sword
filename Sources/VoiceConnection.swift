@@ -47,11 +47,11 @@ public class VoiceConnection {
   }
 
   #if !os(Linux)
-  let sequence = UInt16(arc4random() >> 16)
-  let timestamp = UInt32(arc4random())
+  var sequence = UInt16(arc4random() >> 16)
+  var timestamp = UInt32(arc4random())
   #else
-  let sequence = UInt16(random() >> 16)
-  let timestamp = UInt32(random())
+  var sequence = UInt16(random() >> 16)
+  var timestamp = UInt32(random())
   #endif
 
   init(_ endpoint: String, _ guildId: String, _ handler: @escaping (VoiceConnection) -> ()) {
