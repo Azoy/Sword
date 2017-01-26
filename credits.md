@@ -1,17 +1,5 @@
 Parts of voice handling done with work from Erik Little
 
-Functions:
-
-* VoiceConnection.swift - audioSleep(for:)
-* VoiceConnection.swift - createEncoder()
-* VoiceConnection.swift - createPacket(with:)
-* VoiceConnection.swift - createRTPHeader()
-* VoiceConnection.swift - doneEncoding()
-* VoiceConnection.swift - readEncoder(for:)
-* VoiceConnection.swift - sendPacket(with:)
-* VoiceEncoder.swift - finishEncoding()
-* VoiceEncoder.swift - readFromPipe(_:)
-
 License:
 
 ```

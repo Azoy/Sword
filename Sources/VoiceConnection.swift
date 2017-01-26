@@ -186,7 +186,7 @@ public class VoiceConnection {
       switch voiceOP {
         case .ready:
 
-          self.heartbeat = Heartbeat(self.session!, "heartbeat.voiceconnection.\(self.guildId)", interval: data["heartbeat_interval"] as! Int)
+          self.heartbeat = Heartbeat(self.session!, "heartbeat.voiceconnection.\(self.guildId)", interval: data["heartbeat_interval"] as! Int, voice: true)
           self.heartbeat?.send()
 
           self.ssrc = data["ssrc"] as! UInt32
