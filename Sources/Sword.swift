@@ -524,7 +524,7 @@ public class Sword: Eventer {
 
    - parameter channelId: Channel to connect to
   */
-  public func join(voiceChannel channelId: String, _ completion: @escaping (VoiceConnection) -> () = {_ in}) {
+  public func join(voiceChannel channelId: String, _ completion: @escaping () -> () = {_ in}) {
     var guilds = self.guilds.filter {
       $0.1.channels[channelId] != nil
     }

@@ -18,7 +18,7 @@ public class VoiceConnection {
 
   public let guildId: String
 
-  let handler: (VoiceConnection) -> ()
+  let handler: () -> ()
 
   var heartbeat: Heartbeat?
 
@@ -62,7 +62,7 @@ public class VoiceConnection {
   var timestamp = UInt32(random())
   #endif
 
-  init(_ endpoint: String, _ guildId: String, _ handler: @escaping (VoiceConnection) -> ()) {
+  init(_ endpoint: String, _ guildId: String, _ handler: @escaping () -> ()) {
     let endpoint = endpoint.components(separatedBy: ":")
     self.endpoint = endpoint[0]
     self.guildId = guildId
@@ -244,7 +244,7 @@ public class VoiceConnection {
 
     self.createEncoder()
 
-    self.handler(self)
+    self.handler()
   }
 
   func sendPacket(with data: [UInt8]) {

@@ -6,7 +6,7 @@ class VoiceManager {
 
   var guilds: [String: [String: String]] = [:]
 
-  var handlers: [String: (VoiceConnection) -> ()] = [:]
+  var handlers: [String: () -> ()] = [:]
 
   func join(_ guildId: String, _ endpoint: String, _ identify: String) {
     let voiceConnection = VoiceConnection(endpoint, guildId, self.handlers[guildId]!)
