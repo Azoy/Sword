@@ -254,6 +254,8 @@ extension Shard {
 
           if guildId != nil && channelId != nil {
             self.sword.voiceManager.guilds[guildId!] = ["channelId": channelId!, "sessionId": sessionId, "userId": userId]
+          }else if guildId != nil && channelId == nil {
+            self.sword.voiceManager.leave(guildId!)
           }
           break
 

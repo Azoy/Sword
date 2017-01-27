@@ -55,6 +55,10 @@ public class Sword: Eventer {
   /// The user account for the bot
   public internal(set) var user: User?
 
+  public var voiceConnections: [String: VoiceConnection] {
+    return self.voiceManager.connections
+  }
+
   let voiceManager = VoiceManager()
 
   // MARK: Initializer
@@ -89,6 +93,15 @@ public class Sword: Eventer {
 
       completion(nil, data)
     }
+  }
+
+  public func getGuild(for channelId: String) -> Guild? {
+    var guilds = self.guilds.filter {
+      $0.1.channels[channelId] != nil
+    }
+
+    if guilds.isEmpty { return nil }
+    return guilds[0].1
   }
 
   /// Starts the bot
@@ -524,28 +537,25 @@ public class Sword: Eventer {
 
    - parameter channelId: Channel to connect to
   */
-  public func join(voiceChannel channelId: String, _ completion: @escaping () -> () = {_ in}) {
-    var guilds = self.guilds.filter {
-      $0.1.channels[channelId] != nil
-    }
+  public func join(voiceChannel channelId: String, _ completion: @escaping (VoiceConnection) -> () = {_ in}) {
+    let guild = self.getGuild(for: channelId)
 
-    if guilds.isEmpty { return }
-    let guild = guilds[0].1
+    guard guild != nil else { return }
 
-    guard guild.shard != nil else { return }
+    guard guild!.shard != nil else { return }
 
-    let channel = guild.channels[channelId]
+    let channel = guild!.channels[channelId]
     guard channel!.type != nil else { return }
 
     if channel!.type != 2 { return }
 
     let shard = self.shards.filter {
-      $0.id == guild.shard!
+      $0.id == guild!.shard!
     }[0]
 
-    self.voiceManager.handlers[guild.id] = completion
+    self.voiceManager.handlers[guild!.id] = completion
 
-    shard.join(voiceChannel: channelId, in: guild.id)
+    shard.join(voiceChannel: channelId, in: guild!.id)
   }
 
   /**
@@ -565,31 +575,25 @@ public class Sword: Eventer {
    - parameter channelId: Channel to disconnect from
   */
   public func leave(voiceChannel channelId: String) {
-    var guilds = self.guilds.filter {
-      $0.1.channels[channelId] != nil
-    }
+    let guild = self.getGuild(for: channelId)
 
-    guard !guilds.isEmpty else { return }
+    guard guild != nil else { return }
 
-    let guild = guilds[0].1
+    guard self.voiceManager.guilds[guild!.id] != nil else { return }
 
-    guard self.voiceManager.guilds[guild.id] != nil else { return }
+    guard guild!.shard != nil else { return }
 
-    guard guild.shard != nil else { return }
-
-    let channel = guild.channels[channelId]
+    let channel = guild!.channels[channelId]
 
     guard channel!.type != nil else { return }
 
     if channel!.type != 2 { return }
 
     let shard = self.shards.filter {
-      $0.id == guild.shard!
+      $0.id == guild!.shard!
     }[0]
 
-    shard.leaveVoiceChannel(in: guild.id)
-    self.voiceManager.guilds.removeValue(forKey: guild.id)
-    self.voiceManager.connections.removeValue(forKey: guild.id)
+    shard.leaveVoiceChannel(in: guild!.id)
   }
 
   /**
