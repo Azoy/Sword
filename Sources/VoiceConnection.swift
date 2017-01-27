@@ -10,7 +10,7 @@ public class VoiceConnection {
     return Int(Date().timeIntervalSince1970 * 1000)
   }
 
-  public var encoder: Encoder?
+  var encoder: Encoder?
 
   let encoderSema = DispatchSemaphore(value: 1)
 
@@ -174,6 +174,10 @@ public class VoiceConnection {
 
     self.encoderSema.signal()
     self.createEncoder()
+  }
+
+  public func finishEncoding() {
+    self.encoder?.finishEncoding()
   }
 
   func handleWSPayload(_ payload: Payload) {

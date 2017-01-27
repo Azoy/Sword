@@ -5,17 +5,17 @@ import Dispatch
 public typealias Process = Task
 #endif
 
-public class Encoder {
+class Encoder {
 
   let defaultSize = 320
 
-  public let process: Process
+  let process: Process
 
-  public let reader: Pipe
+  let reader: Pipe
 
   let readQueue = DispatchQueue(label: "gg.azoy.sword.encoder.read")
 
-  public let writer: Pipe
+  let writer: Pipe
 
   init() {
 
@@ -38,7 +38,7 @@ public class Encoder {
 
   }
 
-  public func finishEncoding() {
+  func finishEncoding() {
     self.writer.fileHandleForWriting.closeFile()
   }
 
