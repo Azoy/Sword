@@ -181,7 +181,10 @@ public class VoiceConnection {
 
       guard let voiceOP = VoiceOPCode(rawValue: payload.op) else { return }
 
-      let data = payload.d as! [String: Any]
+      guard let data = payload.d as? [String: Any] else {
+        self.heartbeat?.received = true
+        return
+      }
 
       switch voiceOP {
         case .ready:
