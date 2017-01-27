@@ -16,6 +16,7 @@ class VoiceManager {
   }
 
   func leave(_ guildId: String) {
+    self.connections[guildId]!.close()
     self.connections.removeValue(forKey: guildId)
     self.guilds.removeValue(forKey: guildId)
   }
