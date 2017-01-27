@@ -92,6 +92,7 @@ public class VoiceConnection {
     self.heartbeat = nil
     self.isConnected = false
     self.udpClient = nil
+    self.encoder = nil
   }
 
   func createEncoder() {

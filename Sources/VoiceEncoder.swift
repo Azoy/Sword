@@ -38,6 +38,24 @@ class Encoder {
 
   }
 
+  deinit {
+    guard self.process.isRunning else { return }
+
+    let waiter = DispatchSemaphore(value: 0)
+
+    kill(self.process.processIdentifier, SIGKILL)
+
+    self.process.waitUntilExit()
+
+    self.reader.fileHandleForReading.closeFile()
+
+    self.readQueue.async {
+      waiter.signal()
+    }
+
+    waiter.wait()
+  }
+
   func finishEncoding() {
     self.writer.fileHandleForWriting.closeFile()
   }
