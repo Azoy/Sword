@@ -124,13 +124,21 @@ public class VoiceConnection: Eventer {
     var nonce = header + [UInt8](repeating: 0x00, count: 12)
     var buffer = data
 
+    #if !os(Linux)
     let audioSize = Int(crypto_secretbox_MACBYTES) + 320
+    #else
+    let audioSize = Int(crypto_secretbox_ZEROBYTES) + 320
+    #endif
     let audioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
     defer {
       free(audioData)
     }
 
+    #if !os(Linux)
     let audioDataCount = Int(crypto_secretbox_MACBYTES) + data.count
+    #else
+    let audioDataCount = Int(crypto_secretbox_ZEROBYTES) + data.count
+    #endif
 
     let encrypted = crypto_secretbox_easy(audioData, &buffer, UInt64(buffer.count), &nonce, &self.secret)
 
@@ -163,7 +171,11 @@ public class VoiceConnection: Eventer {
     let header = Array(data.prefix(12))
     var nonce = header + [UInt8](repeating: 0x00, count: 12)
     let audioData = Array(data.dropFirst(12))
+    #if !os(Linux)
     let audioSize = audioData.count - Int(crypto_secretbox_MACBYTES)
+    #else
+    let audioSize = audioData.count - Int(crypto_secretbox_ZEROBYTES)
+    #endif
     let unencryptedAudioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
     defer {
       free(unencryptedAudioData)

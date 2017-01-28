@@ -43,7 +43,11 @@ class Encoder {
   }
 
   func close() {
+    #if !os(Linux)
     guard self.process.isRunning else { return }
+    #else
+    guard self.process.running else { return }
+    #endif
 
     let waiter = DispatchSemaphore(value: 0)
 

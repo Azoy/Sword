@@ -136,7 +136,7 @@ class Request {
       let interval = Int(Double(headers["x-ratelimit-reset"] as! String)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
       #else
       let limit = Int(headers["X-RateLimit-Limit"]!)!
-      let remaining = Int(headers["X-RateLimit-Remaining"] as! String)!
+      let remaining = Int(headers["X-RateLimit-Remaining"]!)!
       let interval = Int(Double(headers["X-RateLimit-Reset"]!)! - (headers["Date"]!).dateNorm.timeIntervalSince1970)
       #endif
 
