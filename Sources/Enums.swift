@@ -31,6 +31,8 @@ enum CloseCode: Int {
 /// Organize all ws dispatch events
 public enum Event: String {
 
+  case audioData
+
   /// Fired when a channel is created
   case channelCreate = "CHANNEL_CREATE"
 

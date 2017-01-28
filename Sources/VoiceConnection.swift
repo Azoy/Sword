@@ -55,7 +55,9 @@ public class VoiceConnection: Eventer {
 
   let udpUrl = ""
 
-  let udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite")
+  let udpReadQueue: DispatchQueue
+
+  let udpWriteQueue: DispatchQueue
 
   public var writer: FileHandle? {
     return self.encoder?.writer.fileHandleForWriting
@@ -75,6 +77,9 @@ public class VoiceConnection: Eventer {
     self.guildId = guildId
     self.port = Int(endpoint[1])!
     self.handler = handler
+
+    self.udpReadQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpRead.\(guildId)")
+    self.udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite.\(guildId)")
 
     _ = sodium_init()
 
@@ -260,6 +265,25 @@ public class VoiceConnection: Eventer {
     }
   }
 
+  func receiveAudio() {
+    self.udpReadQueue.async {[weak self] in
+      guard let client = self?.udpClient else { return }
+
+      do {
+        let (data, _) = try client.receive(maxBytes: 4096)
+        guard let audioData = try self?.decryptPacket(with: Data(bytes: data)) else { return }
+        self?.emit(.audioData, with: audioData)
+      }catch {
+        print("[Sword] Error reading voice connection for audio data.")
+        self?.close()
+
+        return
+      }
+
+      self?.receiveAudio()
+    }
+  }
+
   func selectProtocol(_ bytes: [UInt8]) {
     let localIp = String(data: Data(bytes: bytes.dropLast(2)), encoding: .utf8)!.replacingOccurrences(of: "\0", with: "")
     let localPort = Int(bytes[68]) + (Int(bytes[69]) << 8)
@@ -271,6 +295,8 @@ public class VoiceConnection: Eventer {
     self.createEncoder()
 
     self.handler(self)
+
+    self.receiveAudio()
   }
 
   func sendPacket(with data: [UInt8]) {
