@@ -28,10 +28,10 @@ class Encoder {
     self.process.standardOutput = self.reader.fileHandleForWriting
     self.process.arguments = ["-hide_banner", "-loglevel", "quiet", "-i", "pipe:0", "-f", "data", "-map", "0:a", "-ar", "48k", "-ac", "2", "-acodec", "libopus", "-sample_fmt", "s16", "-vbr", "off", "-b:a", "128k", "pipe:1"]
 
-    self.process.terminationHandler = { _ in
-      self.writer.fileHandleForWriting.closeFile()
-      self.writer.fileHandleForReading.closeFile()
-      self.reader.fileHandleForWriting.closeFile()
+    self.process.terminationHandler = {[weak self] _ in
+      self?.writer.fileHandleForWriting.closeFile()
+      self?.writer.fileHandleForReading.closeFile()
+      self?.reader.fileHandleForWriting.closeFile()
     }
 
     self.process.launch()
@@ -39,6 +39,10 @@ class Encoder {
   }
 
   deinit {
+    self.close()
+  }
+
+  func close() {
     guard self.process.isRunning else { return }
 
     let waiter = DispatchSemaphore(value: 0)
@@ -61,15 +65,15 @@ class Encoder {
   }
 
   func readFromPipe(_ completion: @escaping (Bool, [UInt8]) -> ()) {
-    self.readQueue.async {
-      let fileDescriptor = self.reader.fileHandleForReading.fileDescriptor
+    self.readQueue.async {[weak self] in
+      guard let fileDescriptor = self?.reader.fileHandleForReading.fileDescriptor else { return }
 
-      let buffer = UnsafeMutableRawPointer.allocate(bytes: self.defaultSize, alignedTo: MemoryLayout<UInt8>.alignment)
+      let buffer = UnsafeMutableRawPointer.allocate(bytes: 320, alignedTo: MemoryLayout<UInt8>.alignment)
       defer {
         free(buffer)
       }
 
-      let readBytes = Foundation.read(fileDescriptor, buffer, self.defaultSize)
+      let readBytes = Foundation.read(fileDescriptor, buffer, 320)
 
       guard readBytes > 0 else {
         completion(true, [])
@@ -78,7 +82,7 @@ class Encoder {
       }
 
       let pointer = buffer.assumingMemoryBound(to: UInt8.self)
-      let bytes = Array(UnsafeBufferPointer(start: pointer, count: self.defaultSize))
+      let bytes = Array(UnsafeBufferPointer(start: pointer, count: 320))
 
       completion(false, bytes)
     }

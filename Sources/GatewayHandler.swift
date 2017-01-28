@@ -28,6 +28,7 @@ extension Shard {
       /// OP: 10
       case .hello:
         self.heartbeat = Heartbeat(self.session!, "heartbeat.shard.\(self.id)",interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
+        self.heartbeat?.received = true
         self.heartbeat?.send()
         self.identify()
         break

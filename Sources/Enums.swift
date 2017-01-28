@@ -24,7 +24,7 @@ enum VoiceOPCode: Int {
 /// Organize all websocket close codes
 enum CloseCode: Int {
 
-  case unknownError = 4000, unknownOPCode, decodeError, notAuthenticated, authenticationFailed, alreadyAuthenticated, invalidSeq, rateLimited, sessionTimeout, invalidShard
+  case unknown = 1000, unknownError = 4000, unknownOPCode, decodeError, notAuthenticated, authenticationFailed, alreadyAuthenticated, invalidSeq, rateLimited, sessionTimeout, invalidShard
 
 }
 
@@ -39,6 +39,8 @@ public enum Event: String {
 
   /// Fired when a channel is deleted
   case channelDelete = "CHANNEL_DELETE"
+
+  case connectionClose
 
   /// Fired when a guild becomes available
   case guildAvailable

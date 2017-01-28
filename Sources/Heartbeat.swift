@@ -56,6 +56,8 @@ class Heartbeat {
 
     queue.asyncAfter(deadline: deadline) {
 
+      guard self.received else { return }
+
       if !self.voice {
         let heartbeat = Payload(op: .heartbeat, data: self.sequence ?? NSNull()).encode()
 

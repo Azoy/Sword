@@ -4,7 +4,9 @@ import WebSockets
 import Socks
 import Sodium
 
-public class VoiceConnection {
+public class VoiceConnection: Eventer {
+
+  var closed: Bool = false
 
   var currentTime: Int {
     return Int(Date().timeIntervalSince1970 * 1000)
@@ -72,6 +74,8 @@ public class VoiceConnection {
     _ = sodium_init()
 
     signal(SIGPIPE, SIG_IGN)
+
+    super.init()
   }
 
   deinit {
@@ -88,8 +92,12 @@ public class VoiceConnection {
   }
 
   func close() {
-    self.session = nil
-    self.heartbeat = nil
+    if !self.closed {
+      self.emit(.connectionClose)
+    }
+
+    self.closed = true
+    try? self.session?.close()
     self.isConnected = false
     self.udpClient = nil
     self.encoder = nil
@@ -195,6 +203,7 @@ public class VoiceConnection {
         case .ready:
 
           self.heartbeat = Heartbeat(self.session!, "heartbeat.voiceconnection.\(self.guildId)", interval: data["heartbeat_interval"] as! Int, voice: true)
+          self.heartbeat?.received = true
           self.heartbeat?.send()
 
           self.ssrc = data["ssrc"] as! UInt32
@@ -214,23 +223,23 @@ public class VoiceConnection {
   }
 
   func readEncoder(for amount: Int) {
-    self.encoder?.readFromPipe { done, data in
+    self.encoder?.readFromPipe {[weak self] done, data in
+      guard let this = self, this.isConnected else { return }
 
       guard !done else {
-        self.doneReading()
-
+        this.doneReading()
         return
       }
 
       if amount == 1 {
-        self.startTime = self.currentTime
+        this.startTime = this.currentTime
 
-        self.setSpeaking(to: true)
+        this.setSpeaking(to: true)
       }
 
-      self.sendPacket(with: data)
-      self.audioSleep(for: amount)
-      self.readEncoder(for: amount + 1)
+      this.sendPacket(with: data)
+      this.audioSleep(for: amount)
+      this.readEncoder(for: amount + 1)
     }
   }
 
@@ -254,7 +263,10 @@ public class VoiceConnection {
       do {
         try self.udpClient?.send(bytes: self.createPacket(with: data))
       }catch {
-        self.close()
+        guard self.closed else {
+          self.close()
+          return
+        }
 
         return
       }
@@ -303,7 +315,8 @@ public class VoiceConnection {
         self.handleWSPayload(Payload(with: text))
       }
 
-      ws.onClose = { ws, code, something, somethingagain in
+      ws.onClose = { ws, code, _, _ in
+        self.session = nil
         self.heartbeat = nil
         self.isConnected = false
       }
