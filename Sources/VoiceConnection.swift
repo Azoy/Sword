@@ -2,7 +2,12 @@ import Foundation
 import Dispatch
 import WebSockets
 import Socks
+
+#if !os(Linux)
 import Sodium
+#else
+import SodiumLinux
+#endif
 
 public class VoiceConnection: Eventer {
 
