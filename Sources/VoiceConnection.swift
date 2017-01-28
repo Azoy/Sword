@@ -108,8 +108,7 @@ public class VoiceConnection: Eventer {
 
     self.closed = true
     try? self.session?.close()
-    self.isConnected = false
-    self.udpClient = nil
+    try? self.udpClient?.close()
     self.encoder = nil
   }
 
@@ -274,6 +273,8 @@ public class VoiceConnection: Eventer {
         guard let audioData = try self?.decryptPacket(with: Data(bytes: data)) else { return }
         self?.emit(.audioData, with: audioData)
       }catch {
+        guard let isConnected = self?.isConnected, !isConnected else { return }
+
         print("[Sword] Error reading voice connection for audio data.")
         self?.close()
 
