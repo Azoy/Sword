@@ -1,5 +1,5 @@
-sudo: required
 dist: trusty
+sudo: required
 before_install:
   - apt-get install libsodium-dev
   - wget -q -O - https://swift.org/keys/all-keys.asc | gpg --import -
