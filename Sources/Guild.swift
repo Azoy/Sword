@@ -154,11 +154,13 @@ public class Guild {
     self.splash = json["splash"] as? String
     self.verificationLevel = json["verification_level"] as! Int
 
-    let voiceStates = json["voice_states"] as! [[String: Any]]
-    for voiceState in voiceStates {
-      let voiceStateObjc = VoiceState(voiceState)
+    let voiceStates = json["voice_states"] as? [[String: Any]]
+    if voiceStates != nil {
+      for voiceState in voiceStates! {
+        let voiceStateObjc = VoiceState(voiceState)
 
-      self.members[voiceState["user_id"] as! String]!.voiceState = voiceStateObjc
+        self.members[voiceState["user_id"] as! String]!.voiceState = voiceStateObjc
+      }
     }
   }
 
