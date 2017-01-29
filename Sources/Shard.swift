@@ -99,12 +99,23 @@ class Shard {
     try? self.session?.send(identity)
   }
 
+  /**
+   Sends a payload to socket telling it we want to join a voice channel
+
+   - parameter channelId: Channel to join
+   - parameter guildId: Guild that the channel belongs to
+  */
   func join(voiceChannel channelId: String, in guildId: String) {
     let payload = Payload(op: .voiceStateUpdate, data: ["guild_id": guildId, "channel_id": channelId, "self_mute": false, "self_deaf": false]).encode()
 
     self.send(payload)
   }
 
+  /**
+   Sends a payload to socket telling it we want to leave a voice channel
+
+   - parameter guildId: Guild we want to remove bot from
+  */
   func leaveVoiceChannel(in guildId: String) {
     let payload = Payload(op: .voiceStateUpdate, data: ["guild_id": guildId, "channel_id": NSNull(), "self_mute": false, "self_deaf": false]).encode()
 

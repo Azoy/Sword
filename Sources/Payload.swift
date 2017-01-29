@@ -53,6 +53,12 @@ struct Payload {
     self.t = nil
   }
 
+  /**
+   Creates a payload from either an Array | Dictionary
+
+   - parameter voiceOP: VoiceOP code to dispatch
+   - parameter data: Either an Array | Dictionary to dispatch under the payload.d
+  */
   init(voiceOP: VoiceOPCode, data: Any) {
     self.op = voiceOP.rawValue
     self.d = data

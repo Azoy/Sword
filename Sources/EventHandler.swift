@@ -235,51 +235,51 @@ extension Shard {
         self.sword.emit(.userUpdate, with: User(self.sword, data))
         break
 
-        /// VOICE_STATE_UPDATE
-        case .voiceStateUpdate:
-          let guildId = data["guild_id"] as! String
-          let channelId = data["channel_id"] as? String
-          let sessionId = data["session_id"] as! String
-          let userId = data["user_id"] as! String
+      /// VOICE_STATE_UPDATE
+      case .voiceStateUpdate:
+        let guildId = data["guild_id"] as! String
+        let channelId = data["channel_id"] as? String
+        let sessionId = data["session_id"] as! String
+        let userId = data["user_id"] as! String
 
-          if channelId != nil {
-            let voiceState = VoiceState(data)
+        if channelId != nil {
+          let voiceState = VoiceState(data)
 
-            self.sword.guilds[guildId]!.members[userId]?.voiceState = voiceState
+          self.sword.guilds[guildId]!.members[userId]?.voiceState = voiceState
 
-            self.sword.emit(.voiceChannelJoin, with: userId)
-          }else {
-            self.sword.guilds[guildId]!.members[userId]?.voiceState = nil
+          self.sword.emit(.voiceChannelJoin, with: userId, voiceState)
+        }else {
+          self.sword.guilds[guildId]!.members[userId]?.voiceState = nil
 
-            self.sword.emit(.voiceChannelLeave, with: userId)
-          }
+          self.sword.emit(.voiceChannelLeave, with: userId)
+        }
 
-          self.sword.emit(.voiceStateUpdate, with: userId)
+        self.sword.emit(.voiceStateUpdate, with: userId)
 
-          guard userId == self.sword.user!.id else { return }
+        guard userId == self.sword.user!.id else { return }
 
-          if channelId != nil {
-            self.sword.voiceManager.guilds[guildId] = ["channelId": channelId!, "sessionId": sessionId, "userId": userId]
-          }else {
-            self.sword.voiceManager.leave(guildId)
-          }
-          break
+        if channelId != nil {
+          self.sword.voiceManager.guilds[guildId] = ["channelId": channelId!, "sessionId": sessionId, "userId": userId]
+        }else {
+          self.sword.voiceManager.leave(guildId)
+        }
+        break
 
-        /// VOICE_SERVER_UPDATE
-        case .voiceServerUpdate:
-          let guildId = data["guild_id"] as! String
-          let token = data["token"] as! String
-          let endpoint = data["endpoint"] as! String
+      /// VOICE_SERVER_UPDATE
+      case .voiceServerUpdate:
+        let guildId = data["guild_id"] as! String
+        let token = data["token"] as! String
+        let endpoint = data["endpoint"] as! String
 
-          guard self.sword.voiceManager.guilds[guildId] != nil else { return }
+        guard self.sword.voiceManager.guilds[guildId] != nil else { return }
 
-          let payload = Payload(voiceOP: VoiceOPCode(rawValue: 0)!, data: ["server_id": guildId, "user_id": self.sword.user!.id, "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"], "token": token]).encode()
+        let payload = Payload(voiceOP: VoiceOPCode(rawValue: 0)!, data: ["server_id": guildId, "user_id": self.sword.user!.id, "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"], "token": token]).encode()
 
-          self.sword.voiceManager.join(guildId, endpoint, payload)
-          break
+        self.sword.voiceManager.join(guildId, endpoint, payload)
+        break
 
-        default:
-          break
+      default:
+        break
     }
   }
 

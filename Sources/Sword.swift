@@ -55,10 +55,12 @@ public class Sword: Eventer {
   /// The user account for the bot
   public internal(set) var user: User?
 
+  /// Object of voice connections the bot is currently connected to. Mapped by guildId
   public var voiceConnections: [String: VoiceConnection] {
     return self.voiceManager.connections
   }
 
+  /// Voice handler
   let voiceManager = VoiceManager()
 
   // MARK: Initializer
@@ -95,6 +97,11 @@ public class Sword: Eventer {
     }
   }
 
+  /**
+   Function to get guild for channelId
+
+   - parameter channelId: Channel to get guild from
+  */
   public func getGuild(for channelId: String) -> Guild? {
     var guilds = self.guilds.filter {
       $0.1.channels[channelId] != nil

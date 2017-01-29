@@ -1,22 +1,42 @@
+//
+//  VoiceEncoder.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 import Dispatch
 
+/// Nifty alias for linux users
 #if os(Linux)
 public typealias Process = Task
 #endif
 
+/// Creates VoiceEncoder
 class Encoder {
 
+  // MARK: Properties
+
+  /// The default audio size to read from
   let defaultSize = 320
 
+  /// The system process for ffmpeg
   let process: Process
 
+  /// The pipe ffmpeg writes to
   let reader: Pipe
 
+  /// The dispatch queue used to read from read pipe
   let readQueue = DispatchQueue(label: "gg.azoy.sword.encoder.read")
 
+  /// The pipe ffmpeg uses to read from
   let writer: Pipe
 
+  // MARK: Initializer
+
+  /// Creates VoiceEncoder
   init() {
 
     self.process = Process()
@@ -42,6 +62,9 @@ class Encoder {
     self.close()
   }
 
+  // MARK: Properties
+
+  /// Force closes the encoder
   func close() {
     #if !os(Linux)
     guard self.process.isRunning else { return }
@@ -64,10 +87,12 @@ class Encoder {
     waiter.wait()
   }
 
+  /// Closes write pipe's writer after encoding
   func finishEncoding() {
     self.writer.fileHandleForWriting.closeFile()
   }
 
+  /// Reads opus audio data from read pipe
   func readFromPipe(_ completion: @escaping (Bool, [UInt8]) -> ()) {
     self.readQueue.async {[weak self] in
       guard let fileDescriptor = self?.reader.fileHandleForReading.fileDescriptor else { return }
