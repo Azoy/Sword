@@ -20,7 +20,7 @@ class Request {
   /// Global URLSession (trust me i saw it on a wwdc talk, this is legit lmfao)
   let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue())
 
-  /// Collection of Collections of buckets mapped by method mapped by route
+  /// Collection of Collections of buckets mapped by route
   var rateLimits: [String: Bucket] = [:]
 
   // MARK: Initializer
@@ -79,7 +79,7 @@ class Request {
       request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
     }
 
-    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.2.0)", forHTTPHeaderField: "User-Agent")
+    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.3.0)", forHTTPHeaderField: "User-Agent")
 
     if file != nil {
       #if !os(Linux)
