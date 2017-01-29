@@ -16,11 +16,11 @@ public struct Member {
   /// Whether or not this member is deaf
   public let isDeaf: Bool?
 
-  /// Date when user joined guild
-  public let joinedAt: Date?
-
   /// Whether or not this user is muted
   public let isMuted: Bool?
+
+  /// Date when user joined guild
+  public let joinedAt: Date?
 
   /// Nickname of member
   public let nick: String?
@@ -30,6 +30,9 @@ public struct Member {
 
   /// User struct for this member
   public let user: User
+
+  /// Member's current voice state
+  public internal(set) var voiceState: VoiceState?
 
   // MARK: Initializer
 
