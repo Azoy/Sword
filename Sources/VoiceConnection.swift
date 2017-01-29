@@ -21,11 +21,11 @@ public class VoiceConnection: Eventer {
 
   let encoderSema = DispatchSemaphore(value: 1)
 
-  let endpoint: String
+  var endpoint: String
 
   public let guildId: String
 
-  let handler: (VoiceConnection) -> ()
+  var handler: (VoiceConnection) -> ()
 
   var heartbeat: Heartbeat?
 
@@ -41,7 +41,7 @@ public class VoiceConnection: Eventer {
     }
   }
 
-  let port: Int
+  var port: Int
 
   var secret: [UInt8] = []
 
@@ -53,11 +53,9 @@ public class VoiceConnection: Eventer {
 
   var udpClient: UDPClient?
 
-  let udpUrl = ""
+  var udpReadQueue: DispatchQueue
 
-  let udpReadQueue: DispatchQueue
-
-  let udpWriteQueue: DispatchQueue
+  var udpWriteQueue: DispatchQueue
 
   public var writer: FileHandle? {
     return self.encoder?.writer.fileHandleForWriting
@@ -241,6 +239,18 @@ public class VoiceConnection: Eventer {
 
       return
     }
+  }
+
+  func moveChannels(_ endpoint: String, _ identify: String, _ handler: @escaping (VoiceConnection) -> ()) {
+    self.endpoint = endpoint
+    self.handler = handler
+    self.udpReadQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpRead.\(guildId)")
+    self.udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite.\(guildId)")
+    self.closed = true
+    try? self.session?.close()
+    try? self.udpClient?.close()
+
+    self.startWS(identify)
   }
 
   func readEncoder(for amount: Int) {

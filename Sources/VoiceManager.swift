@@ -9,10 +9,15 @@ class VoiceManager {
   var handlers: [String: (VoiceConnection) -> ()] = [:]
 
   func join(_ guildId: String, _ endpoint: String, _ identify: String) {
-    let voiceConnection = VoiceConnection(endpoint, guildId, self.handlers[guildId]!)
-    self.connections[guildId] = voiceConnection
-    voiceConnection.startWS(identify)
-    self.handlers.removeValue(forKey: guildId)
+    if self.connections[guildId] == nil {
+      let voiceConnection = VoiceConnection(endpoint, guildId, self.handlers[guildId]!)
+      self.connections[guildId] = voiceConnection
+      voiceConnection.startWS(identify)
+      self.handlers.removeValue(forKey: guildId)
+    }else {
+      self.connections[guildId]!.moveChannels(endpoint, identify, self.handlers[guildId]!)
+      self.handlers.removeValue(forKey: guildId)
+    }
   }
 
   func leave(_ guildId: String) {
