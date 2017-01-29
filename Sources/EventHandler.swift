@@ -242,19 +242,19 @@ extension Shard {
           let sessionId = data["session_id"] as! String
           let userId = data["user_id"] as! String
 
-          if channelId == nil {
+          if channelId != nil {
+            let voiceState = VoiceState(data)
+
+            self.sword.guilds[guildId]!.members[userId]?.voiceState = voiceState
+
+            self.sword.emit(.voiceChannelJoin, with: userId)
+          }else {
             self.sword.guilds[guildId]!.members[userId]?.voiceState = nil
 
             self.sword.emit(.voiceChannelLeave, with: userId)
-          }else {
-            self.sword.emit(.voiceChannelJoin, with: userId)
           }
 
-          let voiceState = VoiceState(data)
-
-          self.sword.guilds[guildId]!.members[userId]?.voiceState = voiceState
-
-          self.sword.emit(.voiceStateUpdate, with: userId, voiceState)
+          self.sword.emit(.voiceStateUpdate, with: userId)
 
           guard userId == self.sword.user!.id else { return }
 
