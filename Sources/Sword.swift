@@ -9,21 +9,18 @@
 import Foundation
 
 /// Main Class for Sword
-public class Sword {
+public class Sword: Eventer {
 
   // MARK: Properties
 
   /// Endpoints structure
   let endpoints = Endpoints()
 
-  /// Eventer class
-  let eventer = Eventer()
-
   /// The gateway url to connect to
   var gatewayUrl: String?
 
   /// Array of guilds the bot is currently connected to
-  public var guilds: [String: Guild] = [:]
+  public internal(set) var guilds: [String: Guild] = [:]
 
   /// Optional options to apply to bot
   var options: SwordOptions
@@ -35,7 +32,7 @@ public class Sword {
   let requester: Request
 
   /// Amount of shards to initialize
-  public var shardCount = 1
+  public internal(set) var shardCount = 1
 
   /// Array of Shard class
   var shards: [Shard] = []
@@ -44,7 +41,7 @@ public class Sword {
   let token: String
 
   /// Array of unavailable guilds the bot is currently connected to
-  public var unavailableGuilds: [String: UnavailableGuild] = [:]
+  public internal(set)var unavailableGuilds: [String: UnavailableGuild] = [:]
 
   /// Int in seconds of how long the bot has been online
   public var uptime: Int? {
@@ -56,7 +53,15 @@ public class Sword {
   }
 
   /// The user account for the bot
-  public var user: User?
+  public internal(set) var user: User?
+
+  /// Object of voice connections the bot is currently connected to. Mapped by guildId
+  public var voiceConnections: [String: VoiceConnection] {
+    return self.voiceManager.connections
+  }
+
+  /// Voice handler
+  let voiceManager = VoiceManager()
 
   // MARK: Initializer
 
@@ -70,32 +75,13 @@ public class Sword {
     self.options = options
     self.requester = Request(token)
     self.token = token
+    super.init()
   }
 
   // MARK: Functions
 
-  /**
-   Listens for events
-
-   - parameter eventName: The event to listen for
-   - parameter completion: Code block to execute when the event is fired
-   */
-  public func on(_ event: Event, _ completion: @escaping ([Any]) -> ()) {
-    self.eventer.on(event, completion)
-  }
-
-  /**
-   Emits listeners for event
-
-   - parameter eventName: The event to emit listeners for
-   - parameter data: Variadic set of Any(s) to send to listener
-   */
-  func emit(_ event: Event, with data: Any...) {
-    self.eventer.emit(event, with: data)
-  }
-
   /// Gets the gateway URL to connect to
-  func getGateway(completion: @escaping (Error?, [String: Any]?) -> ()) {
+  func getGateway(completion: @escaping (RequestError?, [String: Any]?) -> ()) {
     self.requester.request(self.endpoints.gateway, rateLimited: false) { error, data in
       if error != nil {
         completion(error, nil)
@@ -111,16 +97,39 @@ public class Sword {
     }
   }
 
+  /**
+   Function to get guild for channelId
+
+   - parameter channelId: Channel to get guild from
+  */
+  public func getGuild(for channelId: String) -> Guild? {
+    var guilds = self.guilds.filter {
+      $0.1.channels[channelId] != nil
+    }
+
+    if guilds.isEmpty { return nil }
+    return guilds[0].1
+  }
+
   /// Starts the bot
   public func connect() {
     self.getGateway() { error, data in
       if error != nil {
-        print(error!)
-        sleep(2)
-        self.connect()
+        guard error == .unauthorized else {
+          sleep(3)
+          self.connect()
+          return
+        }
+
+        print("[Sword] Bot token invalid.")
       }else {
         self.gatewayUrl = "\(data!["url"]!)/?encoding=json&v=6"
-        self.shardCount = data!["shards"] as! Int
+
+        if self.options.isSharded {
+          self.shardCount = data!["shards"] as! Int
+        }else {
+          self.shardCount = 1
+        }
 
         for id in 0..<self.shardCount {
           let shard = Shard(self, id, self.shardCount)
@@ -531,6 +540,32 @@ public class Sword {
   }
 
   /**
+   Joins a voice channel
+
+   - parameter channelId: Channel to connect to
+  */
+  public func join(voiceChannel channelId: String, _ completion: @escaping (VoiceConnection) -> () = {_ in}) {
+    let guild = self.getGuild(for: channelId)
+
+    guard guild != nil else { return }
+
+    guard guild!.shard != nil else { return }
+
+    let channel = guild!.channels[channelId]
+    guard channel!.type != nil else { return }
+
+    if channel!.type != 2 { return }
+
+    let shard = self.shards.filter {
+      $0.id == guild!.shard!
+    }[0]
+
+    self.voiceManager.handlers[guild!.id] = completion
+
+    shard.join(voiceChannel: channelId, in: guild!.id)
+  }
+
+  /**
    Leaves a guild
 
    - parameter guildId: Guild to leave
@@ -539,6 +574,33 @@ public class Sword {
     self.requester.request(endpoints.leaveGuild(guildId), method: "DELETE") { error, data in
       if error == nil { completion() }
     }
+  }
+
+  /**
+   Leaves a voice channel
+
+   - parameter channelId: Channel to disconnect from
+  */
+  public func leave(voiceChannel channelId: String) {
+    let guild = self.getGuild(for: channelId)
+
+    guard guild != nil else { return }
+
+    guard self.voiceManager.guilds[guild!.id] != nil else { return }
+
+    guard guild!.shard != nil else { return }
+
+    let channel = guild!.channels[channelId]
+
+    guard channel!.type != nil else { return }
+
+    if channel!.type != 2 { return }
+
+    let shard = self.shards.filter {
+      $0.id == guild!.shard!
+    }[0]
+
+    shard.leaveVoiceChannel(in: guild!.id)
   }
 
   /**

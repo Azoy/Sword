@@ -20,7 +20,7 @@
         <a class="header-link" href="../index.html">
            Docs
         </a>
-         (1% documented)
+         (100% documented)
       </p>
     
     
@@ -42,7 +42,16 @@
                 <a class="nav-group-task-link" href="../Classes/Eventer.html">Eventer</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Guild.html">Guild</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Shield.html">Shield</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Sword.html">Sword</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/VoiceConnection.html">VoiceConnection</a>
               </li>
             </ul>
           </li>
@@ -50,7 +59,10 @@
             <a class="nav-group-name-link" href="../Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/Error.html">Error</a>
+                <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestError.html">RequestError</a>
               </li>
             </ul>
           </li>
@@ -64,6 +76,12 @@
                 <a class="nav-group-task-link" href="../Structs/Channel.html">Channel</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Command.html">Command</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CommandOptions.html">CommandOptions</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/DMChannel.html">DMChannel</a>
               </li>
               <li class="nav-group-task">
@@ -71,9 +89,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Emoji.html">Emoji</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/Guild.html">Guild</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Member.html">Member</a>
@@ -88,10 +103,19 @@
                 <a class="nav-group-task-link" href="../Structs/Role.html">Role</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs.html#/s:V5Sword16UnavailableGuild">UnavailableGuild</a>
+                <a class="nav-group-task-link" href="../Structs/ShieldOptions.html">ShieldOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SwordOptions.html">SwordOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/UnavailableGuild.html">UnavailableGuild</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/User.html">User</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/VoiceState.html">VoiceState</a>
               </li>
             </ul>
           </li>
@@ -102,7 +126,13 @@
         <section class="section">
           <div class="section-content">
             <h1>Eventer</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Eventer</span></code></pre>
+
+                </div>
+              </div>
+            <p>Create a nifty Event Emitter in Swift</p>
 
           </div>
         </section>
@@ -114,9 +144,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword7Eventer2onFTSSFP_T__T_"></a>
+                    <a name="/s:FC5Sword7Eventer2onFTOS_5EventFGSaP__T__T_"></a>
                     <a name="//apple_ref/swift/Method/on(_:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword7Eventer2onFTSSFP_T__T_">on(_:_:)</a>
+                    <a class="token" href="#/s:FC5Sword7Eventer2onFTOS_5EventFGSaP__T__T_">on(_:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -124,8 +154,36 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Listens for eventName</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">on</span><span class="p">(</span><span class="n">_</span> <span class="nv">event</span><span class="p">:</span> <span class="kt"><a href="../Enums/Event.html">Event</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">())</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>event</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Event to listen for</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -133,9 +191,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword7Eventer4emitFTSS4withGSaP___T_"></a>
+                    <a name="/s:FC5Sword7Eventer4emitFtOS_5Event4withGSaP___T_"></a>
                     <a name="//apple_ref/swift/Method/emit(_:with:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword7Eventer4emitFTSS4withGSaP___T_">emit(_:with:)</a>
+                    <a class="token" href="#/s:FC5Sword7Eventer4emitFtOS_5Event4withGSaP___T_">emit(_:with:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -143,8 +201,49 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Emits all listeners for eventName</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">emit</span><span class="p">(</span><span class="n">_</span> <span class="nv">event</span><span class="p">:</span> <span class="kt"><a href="../Enums/Event.html">Event</a></span><span class="p">,</span> <span class="n">with</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Any</span><span class="o">...</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>event</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Event to emit</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Array of stuff to emit listener with</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -157,7 +256,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2017-12-23)</p>
+      <p>&copy; 2017 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2017-01-28)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

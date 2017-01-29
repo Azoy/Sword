@@ -13,33 +13,33 @@ import Dispatch
 class Bucket {
 
   // MARK: Properties
-  
+
   /// Dispatch Queue to handle requests
   let worker: DispatchQueue
-  
+
   /// Array of DispatchWorkItems to execute
   var queue: [DispatchWorkItem] = []
 
   /// Limit on token count
   let limit: Int
-  
+
   /// Interval at which tokens reset
   let interval: Int
   
   /// Current token count
   var tokens: Int
-  
+
   /// Last reset in terms of Date
   var lastReset = Date()
-  
+
   /// Used for Dispatch, but is basically ^
   var lastResetDispatch = DispatchTime.now()
 
   // MARK: Initializer
-  
+
   /**
    Creates a bucket
-   
+
    - parameter name: Name of bucket
    - parameter limit: Token limit
    - parameter interval: Interval at which tokens reset
@@ -52,25 +52,6 @@ class Bucket {
   }
 
   // MARK: Functions
-  
-  /** 
-   Queues the given item
-   
-   - parameter item: Code block to execute
-   */
-  func queue(_ item: DispatchWorkItem) {
-    self.queue.append(item)
-    self.check()
-  }
-
-  /**
-   Used to take x amount of tokens from bucket (initial http request for route)
-   
-   - parameter num:
-   */
-  func take(_ num: Int) {
-    self.tokens -= 1
-  }
 
   /// Check for token renewal and amount of tokens in bucket. If there are no more tokens then tell Dispatch to execute this function after deadline
   func check() {
@@ -98,6 +79,25 @@ class Bucket {
     let item = self.queue.remove(at: 0)
     self.tokens -= 1
     self.worker.async(execute: item)
+  }
+
+  /**
+   Queues the given item
+
+   - parameter item: Code block to execute
+   */
+  func queue(_ item: DispatchWorkItem) {
+    self.queue.append(item)
+    self.check()
+  }
+
+  /**
+   Used to take x amount of tokens from bucket (initial http request for route)
+
+   - parameter num:
+   */
+  func take(_ num: Int) {
+    self.tokens -= 1
   }
 
 }

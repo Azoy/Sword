@@ -39,6 +39,9 @@
             <a class="nav-group-name-link" href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Eventer.html">Eventer</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Guild.html">Guild</a>
               </li>
               <li class="nav-group-task">
@@ -47,16 +50,19 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Sword.html">Sword</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/VoiceConnection.html">VoiceConnection</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a class="nav-group-name-link" href="../Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/Error.html">Error</a>
+                <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
+                <a class="nav-group-task-link" href="../Enums/RequestError.html">RequestError</a>
               </li>
             </ul>
           </li>
@@ -107,6 +113,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/User.html">User</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/VoiceState.html">VoiceState</a>
               </li>
             </ul>
           </li>
@@ -331,33 +340,6 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword7Message6memberGSqVS_6Member_"></a>
-                    <a name="//apple_ref/swift/Property/member" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message6memberGSqVS_6Member_">member</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Member struct for message</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">member</span><span class="p">:</span> <span class="kt"><a href="../Structs/Member.html">Member</a></span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
                     <a name="/s:vV5Sword7Message19isEveryoneMentionedSb"></a>
                     <a name="//apple_ref/swift/Property/isEveryoneMentioned" class="dashAnchor"></a>
                     <a class="token" href="#/s:vV5Sword7Message19isEveryoneMentionedSb">isEveryoneMentioned</a>
@@ -376,6 +358,87 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isEveryoneMentioned</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword7Message8isPinnedSb"></a>
+                    <a name="//apple_ref/swift/Property/isPinned" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword7Message8isPinnedSb">isPinned</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether or not this message is pinned in it&rsquo;s channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isPinned</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword7Message5isTtsSb"></a>
+                    <a name="//apple_ref/swift/Property/isTts" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword7Message5isTtsSb">isTts</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether or not this messaged was ttsed</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isTts</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword7Message6memberGSqVS_6Member_"></a>
+                    <a name="//apple_ref/swift/Property/member" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword7Message6memberGSqVS_6Member_">member</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Member struct for message</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">member</span><span class="p">:</span> <span class="kt"><a href="../Structs/Member.html">Member</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -466,33 +529,6 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword7Message8isPinnedSb"></a>
-                    <a name="//apple_ref/swift/Property/isPinned" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message8isPinnedSb">isPinned</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Whether or not this message is pinned in it&rsquo;s channel</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isPinned</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
                     <a name="/s:vV5Sword7Message9timestampV10Foundation4Date"></a>
                     <a name="//apple_ref/swift/Property/timestamp" class="dashAnchor"></a>
                     <a class="token" href="#/s:vV5Sword7Message9timestampV10Foundation4Date">timestamp</a>
@@ -511,33 +547,6 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">Date</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message5isTtsSb"></a>
-                    <a name="//apple_ref/swift/Property/isTts" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message5isTtsSb">isTts</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Whether or not this messaged was ttsed</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isTts</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -899,7 +908,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2017-01-14)</p>
+      <p>&copy; 2017 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2017-01-28)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

@@ -34,11 +34,17 @@ public struct Message {
   /// Message ID
   public let id: String
 
-  /// Member struct for message
-  public private(set) var member: Member?
-
   /// Whether or not this message mentioned everyone
   public let isEveryoneMentioned: Bool
+
+  /// Whether or not this message is pinned in it's channel
+  public let isPinned: Bool
+
+  /// Whether or not this messaged was ttsed
+  public let isTts: Bool
+
+  /// Member struct for message
+  public private(set) var member: Member?
 
   /// Array of Users that were mentioned
   public internal(set) var mentions: [User] = []
@@ -49,14 +55,8 @@ public struct Message {
   /// Array of reactions with message
   public internal(set) var reactions: [[String: Any]] = []
 
-  /// Whether or not this message is pinned in it's channel
-  public let isPinned: Bool
-
   /// Time when message was sent
   public let timestamp: Date
-
-  /// Whether or not this messaged was ttsed
-  public let isTts: Bool
 
   /// If message was sent by webhook, this is that webhook's ID
   public let webhookId: String?

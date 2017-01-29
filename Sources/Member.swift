@@ -14,13 +14,13 @@ public struct Member {
   // MARK: Properties
 
   /// Whether or not this member is deaf
-  public let isDeaf: Bool
-
-  /// Date when user joined guild
-  public let joinedAt: Date
+  public let isDeaf: Bool?
 
   /// Whether or not this user is muted
-  public let isMuted: Bool
+  public let isMuted: Bool?
+
+  /// Date when user joined guild
+  public let joinedAt: Date?
 
   /// Nickname of member
   public let nick: String?
@@ -31,6 +31,9 @@ public struct Member {
   /// User struct for this member
   public let user: User
 
+  /// Member's current voice state
+  public internal(set) var voiceState: VoiceState?
+
   // MARK: Initializer
 
   /**
@@ -40,12 +43,12 @@ public struct Member {
    - parameter json: JSON representable as a dictionary
   */
   init(_ sword: Sword, _ json: [String: Any]) {
-    self.isDeaf = json["deaf"] as! Bool
+    self.isDeaf = json["deaf"] as? Bool
 
-    let joinedAt = json["joined_at"] as! String
-    self.joinedAt = joinedAt.date
+    let joinedAt = json["joined_at"] as? String
+    self.joinedAt = joinedAt?.date
 
-    self.isMuted = json["mute"] as! Bool
+    self.isMuted = json["mute"] as? Bool
     self.nick = json["nick"] as? String
 
     let roles = json["roles"] as! [String]

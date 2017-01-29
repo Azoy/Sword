@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DMChannel Struct Reference</title>
+    <title>VoiceState Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/DMChannel" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/VoiceState" class="dashAnchor"></a>
 
-    <a title="DMChannel Struct Reference"></a>
+    <a title="VoiceState Struct Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -29,7 +29,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html"> Reference</a>
       <img class="carat" src="../img/carat.png" />
-      DMChannel Struct Reference
+      VoiceState Struct Reference
     </p>
 
     <div class="content-wrapper">
@@ -125,14 +125,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>DMChannel</h1>
+            <h1>VoiceState</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">DMChannel</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">VoiceState</span></code></pre>
 
                 </div>
               </div>
-            <p>DMChannel Type</p>
+            <p>Structure with user&rsquo;s voice state info</p>
 
           </div>
         </section>
@@ -151,9 +151,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword9DMChannel2idSS"></a>
-                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword9DMChannel2idSS">id</a>
+                    <a name="/s:vV5Sword10VoiceState9channelIdSS"></a>
+                    <a name="//apple_ref/swift/Property/channelId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword10VoiceState9channelIdSS">channelId</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -161,14 +161,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>ID of DM</p>
+                        <p>The ID of the voice channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">channelId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -178,9 +178,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword9DMChannel9recipientVS_4User"></a>
-                    <a name="//apple_ref/swift/Property/recipient" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword9DMChannel9recipientVS_4User">recipient</a>
+                    <a name="/s:vV5Sword10VoiceState9isDeafendSb"></a>
+                    <a name="//apple_ref/swift/Property/isDeafend" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword10VoiceState9isDeafendSb">isDeafend</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -188,14 +188,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The recipient of this DM</p>
+                        <p>Whether or not the user is server deafend</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">recipient</span><span class="p">:</span> <span class="kt"><a href="../Structs/User.html">User</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isDeafend</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -205,9 +205,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword9DMChannel13lastMessageIdSS"></a>
-                    <a name="//apple_ref/swift/Property/lastMessageId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword9DMChannel13lastMessageIdSS">lastMessageId</a>
+                    <a name="/s:vV5Sword10VoiceState7isMutedSb"></a>
+                    <a name="//apple_ref/swift/Property/isMuted" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword10VoiceState7isMutedSb">isMuted</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -215,14 +215,122 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The last message&rsquo;s ID</p>
+                        <p>Whether or not the user is server muted</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">lastMessageId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isMuted</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword10VoiceState13isSelfDeafendSb"></a>
+                    <a name="//apple_ref/swift/Property/isSelfDeafend" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword10VoiceState13isSelfDeafendSb">isSelfDeafend</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether or not the user self deafend themselves</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isSelfDeafend</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword10VoiceState11isSelfMutedSb"></a>
+                    <a name="//apple_ref/swift/Property/isSelfMuted" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword10VoiceState11isSelfMutedSb">isSelfMuted</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether or not the user self muted themselves</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isSelfMuted</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword10VoiceState12isSuppressedSb"></a>
+                    <a name="//apple_ref/swift/Property/isSuppressed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword10VoiceState12isSuppressedSb">isSuppressed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether or not the bot suppressed the user</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isSuppressed</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword10VoiceState9sessionIdSS"></a>
+                    <a name="//apple_ref/swift/Property/sessionId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword10VoiceState9sessionIdSS">sessionId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The Session ID of the user and voice connection</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">sessionId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>

@@ -31,9 +31,6 @@ public class Guild {
   /// ID of embeddable channel
   public let embedChannelId: Int?
 
-  /// Whether or not this guild is embeddable
-  public let isEmbedEnabled: Bool?
-
   /// Array of custom emojis for this guild
   public internal(set) var emojis: [Emoji] = []
 
@@ -46,11 +43,14 @@ public class Guild {
   /// ID of guild
   public let id: String
 
-  /// The date at which the bot joined the server
-  public let joinedAt: Date?
+  /// Whether or not this guild is embeddable
+  public let isEmbedEnabled: Bool?
 
   /// Whether or not this guild is considered "large"
   public let isLarge: Bool?
+
+  /// The date at which the bot joined the server
+  public let joinedAt: Date?
 
   /// Amount of members this guild has
   public let memberCount: Int
@@ -153,6 +153,15 @@ public class Guild {
     self.shard = shard
     self.splash = json["splash"] as? String
     self.verificationLevel = json["verification_level"] as! Int
+
+    let voiceStates = json["voice_states"] as? [[String: Any]]
+    if voiceStates != nil {
+      for voiceState in voiceStates! {
+        let voiceStateObjc = VoiceState(voiceState)
+
+        self.members[voiceState["user_id"] as! String]!.voiceState = voiceStateObjc
+      }
+    }
   }
 
   // MARK: Functions

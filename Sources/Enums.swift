@@ -15,107 +15,425 @@ enum OPCode: Int {
 
 }
 
+/// Organize all voice evnets
+enum VoiceOPCode: Int {
+
+  case identify, selectProtocol, ready, heartbeat, sessionDescription, speaking
+
+}
+
 /// Organize all websocket close codes
 enum CloseCode: Int {
 
-  case unknownError = 4000, unknownOPCode, decodeError, notAuthenticated, authenticationFailed, alreadyAuthenticated, invalidSeq, rateLimited, sessionTimeout, invalidShard
+  case unknown = 1000, unknownError = 4000, unknownOPCode, decodeError, notAuthenticated, authenticationFailed, alreadyAuthenticated, invalidSeq, rateLimited, sessionTimeout, invalidShard
 
 }
 
 /// Organize all ws dispatch events
 public enum Event: String {
 
-  /// Fired when a channel is created
+  /**
+   Fired when audio data is received from voice connectionClose
+
+   ### Usage ###
+   ```swift
+   connection.on(.audioData) { data in
+     let audioData = data[0] as! Data
+   }
+   ```
+  */
+  case audioData
+
+  /**
+   Fired when a channel is created
+
+   ### Usage ###
+   ```swift
+   bot.on(.channelCreate) { data in
+     if let dmChannel = data[0] as! DMChannel {
+     }else {
+       let channel = data[0] as! Channel
+     }
+   }
+  */
   case channelCreate = "CHANNEL_CREATE"
 
-  /// Fired when a channel is updated
-  case channelUpdate = "CHANNEL_UPDATE"
+    /**
+     Fired when a channel is deleted
 
-  /// Fired when a channel is deleted
+     ### Usage ###
+     ```swift
+     bot.on(.channelDelete) { data in
+       if let dmChannel = data[0] as! DMChannel {
+       }else {
+         let channel = data[0] as! Channel
+       }
+     }
+     ```
+    */
   case channelDelete = "CHANNEL_DELETE"
 
-  /// Fired when a guild becomes available
+    /**
+     Fired when a channel is updated
+
+     ### Usage ###
+     ```swift
+     bot.on(.channelUpdate) { data in
+       if let dmChannel = data[0] as! DMChannel {
+       }else {
+         let channel = data[0] as! Channel
+       }
+     }
+     ```
+    */
+  case channelUpdate = "CHANNEL_UPDATE"
+
+    /**
+     Fired when voice connection dies (self emitted)
+
+     ### Usage ###
+     ```swift
+     connection.on(.connectionClose) { _ in
+       kill(process.processIdentifier, SIGKILL)
+     }
+     ```
+    */
+  case connectionClose
+
+    /**
+     Fired when a guild is available (This is not guildCreate)
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildAvailable) { data in
+       let guild = data[0] as! Guild
+     }
+     ```
+    */
   case guildAvailable
 
-  /// Fired when a guild is created
-  case guildCreate = "GUILD_CREATE"
+    /**
+     Fired when a member of a guild is banned
 
-  /// Fired when a guild is updated
-  case guildUpdate = "GUILD_UPDATE"
-
-  /// Fired when a guild is deleted
-  case guildDelete = "GUILD_DELETE"
-
-  /// Fired when a member gets banned from a guild
+     ### Usage ###
+     ```swift
+     bot.on(.guildBanAdd) { data in
+       let guildId = data[0] as! String
+       let user = data[1] as! User
+     }
+     ```
+    */
   case guildBanAdd = "GUILD_BAD_ADD"
 
-  /// Fired when a member gets unbanned from a guild
+    /**
+     Fired when a member of a guild is unbanned
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildBanRemove) { data in
+       let guildId = data[0] as! String
+       let user = data[1] as! User
+     }
+     ```
+    */
   case guildBanRemove = "GUILD_BAN_REMOVE"
 
-  /// Fired when a guild emoji is created, updated, or removed
+    /**
+     Fired when a guild is created
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildCreate) { data in
+       let guild = data[0] as! Guild
+     }
+     ```
+    */
+  case guildCreate = "GUILD_CREATE"
+
+    /**
+     Fired when a guild is deleted
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildDelete) { data in
+       let guildId = data[0] as! String
+     }
+     ```
+    */
+  case guildDelete = "GUILD_DELETE"
+
+    /**
+     Fired when a guild's custom emojis are created/deleted/updated
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildEmojisUpdate) { data in
+       let guildId = data[0] as! String
+       let emojis = data[1] as! [Emoji]
+     }
+     ```
+    */
   case guildEmojisUpdate = "GUILD_EMOJIS_UPDATE"
 
-  /// Fired when a guild integration is created, updated, or removed
+    /**
+     Fired when a guild updates it's integrations
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildIntegrationsUpdate) { data in
+       let guildId = data[0] as! String
+     }
+     ```
+    */
   case guildIntegrationsUpdate = "GUILD_INTEGRATIONS_UPDATE"
 
-  /// Fired when a user joins a guild
+    /**
+     Fired when a user joins a guild
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildMemberAdd) { data in
+       let guildId = data[0] as! String
+       let member = data[1] as! Member
+     }
+     ```
+    */
   case guildMemberAdd = "GUILD_MEMBER_ADD"
 
-  /// Fired when a user leaves a guild
+    /**
+     Fired when a member leaves a guild
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildMemberRemove) { data in
+       let guildId = data[0] as! String
+       let user = data[1] as! User
+     }
+     ```
+    */
   case guildMemberRemove = "GUILD_MEMBER_REMOVE"
 
-  /// Fired when a user is updated in a guild
+    /**
+     Fired when a member of a guild is updated
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildMemberUpdate) { data in
+       let member = data[0] as! Member
+     }
+     ```
+    */
   case guildMemberUpdate = "GUILD_MEMBER_UPDATE"
 
   /// This is an internal event, but fires when bot requests for offline members
   case guildMembersChunk = "GUILD_MEMBERS_CHUNK"
 
-  /// Fired when a role is created
+    /**
+     Fired when a role is created in a guild
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildRoleCreate) { data in
+       let guildId = data[0] as! String
+       let role = data[1] as! Role
+     }
+     ```
+    */
   case guildRoleCreate = "GUILD_ROLE_CREATE"
 
-  /// Fired when a role is updated
+    /**
+     Fired when a role is updated in a guild
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildRoleUpdate) { data in
+       let guildId = data[0] as! String
+       let role = data[1] as! Role
+     }
+     ```
+    */
   case guildRoleUpdate = "GUILD_ROLE_UPDATE"
 
-  /// Fired when a role is deleted
+    /**
+     Fired when a role is deleted in a guild
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildRoleDelete) { data in
+       let guildId = data[0] as! String
+       let roleId = data[1] as! String
+     }
+     ```
+    */
   case guildRoleDelete = "GUILD_ROLE_DELETE"
 
-  /// Fired when a guild becomes unavilable
+    /**
+     Fired when a guild becomes unavailable
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildUnavailable) { data in
+       let guild = data[0] as! UnavailableGuild
+     }
+     ```
+    */
   case guildUnavailable
 
-  /// Fired when a message is created
+    /**
+     Fired when a guild is updated
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildUpdate) { data in
+       let guild = data[0] as! Guild
+     }
+     ```
+    */
+  case guildUpdate = "GUILD_UPDATE"
+
+    /**
+     Fired when a message is created
+
+     ### Usage ###
+     ```swift
+     bot.on(.messageCreate) { data in
+       let msg = data[0] as! Message
+     }
+     ```
+    */
   case messageCreate = "MESSAGE_CREATE"
 
-  /// Fired when a message is updated
+    /**
+     Fired when a message is updated
+
+     ### Usage ###
+     ```swift
+     bot.on(.messageUpdate) { data in
+       let msgId = data[0] as! String
+       let channelId = data[1] as! String
+     }
+     ```
+    */
   case messageUpdate = "MESSAGE_UPDATE"
 
-  /// Fired when a message is deleted
+    /**
+     Fired when a message is deleted
+
+     ### Usage ###
+     ```swift
+     bot.on(.messageDelete) { data in
+       let msgId = data[0] as! String
+       let channelId = data[1] as! String
+     }
+     ```
+    */
   case messageDelete = "MESSAGE_DELETE"
 
-  /// Fired when a large chunk of messages are deleted
+    /**
+     Fired when a large chunk of messages are deleted
+
+     ### Usage ###
+     ```swift
+     bot.on(.messageDeleteBulk) { data in
+       let messageIds = data[0] as! [String]
+       let channelId = data[1] as! String
+     }
+     ```
+    */
   case messageDeleteBulk = "MESSAGE_DELETE_BULK"
 
-  /// Fired when someone changes status
+    /**
+     Fired when a user's presences is updated
+
+     ### Usage ###
+     ```swift
+     bot.on(.presenceUpdate) { data in
+       let userId = data[0] as! String
+       let presence = data[1] as! [String: Any]
+     }
+     ```
+    */
   case presenceUpdate = "PRESENCE_UPDATE"
 
-  /// Fired when a shard is ready
+    /**
+     Fired when the bot is ready to receive events
+
+     ### Usage ###
+     ```swift
+     bot.on(.ready) { data in
+       let user = data[0] as! User
+     }
+     ```
+    */
   case ready = "READY"
 
-  /// Fired when a shard is resumed
+  /// Internal event thats fired when bot reconnects to websocket
   case resume = "RESUME"
 
-  /// Fired when someone starts typing
+    /**
+     Fired when someone starts typing a message
+
+     ### Usage ###
+     ```swift
+     bot.on(.typingStart) { data in
+       let channelId = data[0] as! String
+       let userId = data[1] as! String
+       let timestamp = data[2] as! Date
+     }
+     ```
+    */
   case typingStart = "TYPING_START"
 
-  /// Fired when the bot changes username, email, etc
-  case userSettingsUpdate = "USER_SETTINGS_UPDATE"
+    /**
+     Fired when a user updates their info
 
-  /// Fired when a user updates their username, email, etc
+     ### Usage ###
+     ```swift
+     bot.on(.userUpdate) { data in
+       let user = data[0] as! User
+     }
+     ```
+    */
   case userUpdate = "USER_UPDATE"
 
-  /// Fired when someone joins/moves/leaves a voice channel
+    /**
+     Fired when someone joins a voice channel
+
+     ### Usage ###
+     ```swift
+     bot.on(.voiceChannelJoin) { data in
+       let userId = data[0] as! String
+       let voiceState = data[1] as! VoiceState
+     }
+     ```
+    */
+  case voiceChannelJoin
+
+    /**
+     Fired when someone leaves a voice channel
+
+     ### Usage ###
+     ```swift
+     bot.on(.voiceChannelLeave) { data in
+       let userId = data[0] as! String
+     }
+     ```
+    */
+  case voiceChannelLeave
+
+    /**
+     Fired when someone joins/leaves/moves a voice channel
+
+     ### Usage ###
+     ```swift
+     bot.on(.voiceStateUpdate) { data in
+       let userId = data[0] as! String
+     }
+     ```
+    */
   case voiceStateUpdate = "VOICE_STATE_UPDATE"
 
-  /// Fired when a voice server is updated (change region, etc)
+  /// Internal event that fires when voice channel moves servers, or bot tries to connect to voice connection
   case voiceServerUpdate = "VOICE_SERVER_UPDATE"
 
 }

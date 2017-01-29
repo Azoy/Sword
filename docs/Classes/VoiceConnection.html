@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DMChannel Struct Reference</title>
+    <title>VoiceConnection Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/DMChannel" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Class/VoiceConnection" class="dashAnchor"></a>
 
-    <a title="DMChannel Struct Reference"></a>
+    <a title="VoiceConnection Class Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -29,7 +29,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html"> Reference</a>
       <img class="carat" src="../img/carat.png" />
-      DMChannel Struct Reference
+      VoiceConnection Class Reference
     </p>
 
     <div class="content-wrapper">
@@ -125,14 +125,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>DMChannel</h1>
+            <h1>VoiceConnection</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">DMChannel</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">VoiceConnection</span><span class="p">:</span> <span class="kt"><a href="../Classes/Eventer.html">Eventer</a></span></code></pre>
 
                 </div>
               </div>
-            <p>DMChannel Type</p>
+            <p>Voice Connection class that handles connection to voice server</p>
 
           </div>
         </section>
@@ -151,9 +151,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword9DMChannel2idSS"></a>
-                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword9DMChannel2idSS">id</a>
+                    <a name="/s:vC5Sword15VoiceConnection7guildIdSS"></a>
+                    <a name="//apple_ref/swift/Property/guildId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC5Sword15VoiceConnection7guildIdSS">guildId</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -161,14 +161,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>ID of DM</p>
+                        <p>Guild that this voice connection is server</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">guildId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -178,9 +178,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword9DMChannel9recipientVS_4User"></a>
-                    <a name="//apple_ref/swift/Property/recipient" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword9DMChannel9recipientVS_4User">recipient</a>
+                    <a name="/s:vC5Sword15VoiceConnection6writerGSqCSo10FileHandle_"></a>
+                    <a name="//apple_ref/swift/Property/writer" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC5Sword15VoiceConnection6writerGSqCSo10FileHandle_">writer</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -188,26 +188,37 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The recipient of this DM</p>
+                        <p>The encoder&rsquo;s writePipe to send audio to</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">recipient</span><span class="p">:</span> <span class="kt"><a href="../Structs/User.html">User</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">writer</span><span class="p">:</span> <span class="kt">FileHandle</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Functions"></a>
+                <a name="//apple_ref/swift/Section/Functions" class="dashAnchor"></a>
+                <a href="#/Functions">
+                  <h3 class="section-name">Functions</h3>
+                </a>
+              </div>
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword9DMChannel13lastMessageIdSS"></a>
-                    <a name="//apple_ref/swift/Property/lastMessageId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword9DMChannel13lastMessageIdSS">lastMessageId</a>
+                    <a name="/s:FC5Sword15VoiceConnection14finishEncodingFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/finishEncoding()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC5Sword15VoiceConnection14finishEncodingFT_T_">finishEncoding()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -215,14 +226,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The last message&rsquo;s ID</p>
+                        <p>Used to tell encoder to close the write pipe</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">lastMessageId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">finishEncoding</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
