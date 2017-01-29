@@ -16,7 +16,7 @@ import PackageDescription
 let package = Package(
     name: "yourswiftexecutablehere",
     dependencies: [
-        .Package(url: "https://github.com/Azoy/Sword", majorVersion: 0, minor: 1)
+        .Package(url: "https://github.com/Azoy/Sword", majorVersion: 0, minor: 3)
     ]
 )
 ```
