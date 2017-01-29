@@ -303,7 +303,11 @@ public class VoiceConnection: Eventer {
 
     try? self.session?.send(payload)
 
-    self.createEncoder()
+    if self.encoder == nil {
+      self.createEncoder()
+    }else {
+      self.readEncoder(for: 1)
+    }
 
     self.handler(self)
 
