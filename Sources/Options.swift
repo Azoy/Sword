@@ -7,37 +7,74 @@
 //
 
 /// Sword Options structure
-open struct SwordOptions {
+public struct SwordOptions {
 
   // MARK: Properties
 
   /// Whether or not caching offline members is allowed
-  open var isCacheAllMembers: Bool
+  public var isCacheAllMembers: Bool
 
   /// Array of event names to disable
-  open var disabledEvents: [Event]
+  public var disabledEvents: [Event]
 
   /// Whether or not this bot is sharded
-  open var isSharded: Bool
+  public var isSharded: Bool
+
+  // MARK: Initializer
+
+  /**
+   Creates Sword Options structure
+
+   - parameter cacheAllMembers: Whether or not to cache offline members
+   - parameter disabledEvents: Array of event names to disable (improve performance)
+   - parameter sharded: Whether or not the bot should be sharded
+  */
+  public init(cacheAllMembers: Bool = false, disabledEvents: [Event] = [], sharded: Bool = true) {
+    self.isCacheAllMembers = cacheAllMembers
+    self.disabledEvents = disabledEvents
+    self.isSharded = sharded
+  }
 
 }
 
 /// Shield Options structure
-open struct ShieldOptions {
+public struct ShieldOptions {
 
   // MARK: Properties
 
   /// Array of prefixes commands should start with
-  open var prefixes: [String]
+  public var prefixes: [String]
+
+  // MARK: Initializer
+
+  /**
+   Creates a Shield Options structure
+
+   - parameter prefixes: Array of prefixes commands should start with
+  */
+  public init(prefixes: [String] = ["@bot"]) {
+    self.prefixes = prefixes
+  }
 
 }
 
 /// Command Options structure
-open struct CommandOptions {
+public struct CommandOptions {
 
   // MARK: Properties
 
   /// Array of command aliases
-  open var aliases: [String]
+  public var aliases: [String]
+
+  // MARK: Initializer
+
+  /**
+   Creates Command Options structure
+
+   - parameter aliases: Array of command aliases
+  */
+  public init(aliases: [String] = []) {
+    self.aliases = aliases
+  }
 
 }
