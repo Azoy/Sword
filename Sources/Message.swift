@@ -246,10 +246,10 @@ public struct Embed {
   // MARK: Properties
 
   /// Author dictionary from embed
-  public let author: [String: Any]
+  public let author: [String: Any]?
 
   /// Side panel color of embed
-  public let color: Int
+  public let color: Int?
 
   /// Description of the embed
   public let description: String?
@@ -289,8 +289,8 @@ public struct Embed {
    - parameter json: JSON representable as a dictionary
   */
   init(_ json: [String: Any]) {
-    self.author = json["author"] as! [String: Any]
-    self.color = json["color"] as! Int
+    self.author = json["author"] as? [String: Any]
+    self.color = json["color"] as? Int
     self.description = json["description"] as? String
     self.fields = json["fields"] as? [[String: Any]]
     self.footer = json["footer"] as? [String: Any]
