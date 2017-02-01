@@ -88,7 +88,7 @@ class Encoder {
   }
 
   /// Closes write pipe's writer after encoding
-  func finishEncoding() {
+  func finish() {
     self.writer.fileHandleForWriting.closeFile()
   }
 

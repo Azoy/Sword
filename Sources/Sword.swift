@@ -97,20 +97,6 @@ public class Sword: Eventer {
     }
   }
 
-  /**
-   Function to get guild for channelId
-
-   - parameter channelId: Channel to get guild from
-  */
-  public func getGuild(for channelId: String) -> Guild? {
-    var guilds = self.guilds.filter {
-      $0.1.channels[channelId] != nil
-    }
-
-    if guilds.isEmpty { return nil }
-    return guilds[0].1
-  }
-
   /// Starts the bot
   public func connect() {
     self.getGateway() { error, data in
@@ -453,6 +439,20 @@ public class Sword: Eventer {
         completion(data)
       }
     }
+  }
+
+  /**
+   Function to get guild for channelId
+
+   - parameter channelId: Channel to get guild from
+  */
+  public func getGuild(for channelId: String) -> Guild? {
+    var guilds = self.guilds.filter {
+      $0.1.channels[channelId] != nil
+    }
+
+    if guilds.isEmpty { return nil }
+    return guilds[0].1
   }
 
   /**

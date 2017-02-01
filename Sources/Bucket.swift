@@ -25,7 +25,7 @@ class Bucket {
 
   /// Interval at which tokens reset
   let interval: Int
-  
+
   /// Current token count
   var tokens: Int
 
@@ -94,10 +94,10 @@ class Bucket {
   /**
    Used to take x amount of tokens from bucket (initial http request for route)
 
-   - parameter num:
+   - parameter num: Amount of tokens to take
    */
   func take(_ num: Int) {
-    self.tokens -= 1
+    self.tokens -= num
   }
 
 }

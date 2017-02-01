@@ -268,8 +268,8 @@ public class VoiceConnection: Eventer {
   }
 
   /// Used to tell encoder to close the write pipe
-  public func finishEncoding() {
-    self.encoder?.finishEncoding()
+  public func finish() {
+    self.encoder?.finish()
   }
 
   /**
@@ -327,6 +327,25 @@ public class VoiceConnection: Eventer {
     try? self.udpClient?.close()
 
     self.startWS(identify)
+  }
+
+  /**
+   Gets a process' info and sets its output to encoder's writePipe, then launches it
+
+   - parameter process: Audio process to play from
+  */
+  public func play(_ process: Process) {
+    process.standardOutput = self.writer
+
+    process.terminationHandler = { _ in
+      self.finish()
+    }
+
+    process.launch()
+
+    self.on(.connectionClose) { _ in
+      kill(process.processIdentifier, SIGKILL)
+    }
   }
 
   /**
