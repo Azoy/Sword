@@ -81,7 +81,7 @@ extension Shard {
           self.sword.emit(.guildCreate, with: guild)
         }
 
-        if self.sword.options.isCacheAllMembers && guild.members.count != guild.memberCount {
+        if self.sword.options.isCachingAllMembers && guild.members.count != guild.memberCount {
           self.requestOfflineMembers(for: guild.id)
         }
 
