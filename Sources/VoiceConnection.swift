@@ -349,6 +349,15 @@ public class VoiceConnection: Eventer {
   }
 
   /**
+   Plays a youtube struct's process
+
+   - parameter youtube: Youtube structure to play
+  */
+  public func play(_ youtube: Youtube) {
+    self.play(youtube.process)
+  }
+
+  /**
    Reads data from the encoder
 
    - parameter amount: Number in sequence of reading encoder
