@@ -25,6 +25,8 @@ public struct Member {
   /// Nickname of member
   public let nick: String?
 
+  public internal(set) var presence: Presence?
+
   /// Array of role ids this member has
   public internal(set) var roles: [String] = []
 
@@ -57,6 +59,24 @@ public struct Member {
     }
 
     self.user = User(sword, json["user"] as! [String: Any])
+  }
+
+}
+
+/// Structure for presences
+public struct Presence {
+
+  public enum Status: String {
+    case dnd, idle, offline, online
+  }
+
+  public internal(set) var game: String?
+
+  public internal(set) var status: Status
+
+  init(_ json: [String: Any]) {
+    self.game = json["game"] as? String
+    self.status = Status(rawValue: json["status"] as! String)!
   }
 
 }

@@ -70,14 +70,12 @@ extension Shard {
       case .guildCreate:
         let guildId = data["id"] as! String
         let guild = Guild(self.sword, data, self.id)
+        self.sword.guilds[guildId] = guild
 
         if self.sword.unavailableGuilds[guildId] != nil {
           self.sword.unavailableGuilds.removeValue(forKey: guildId)
-
-          self.sword.guilds[guildId] = guild
           self.sword.emit(.guildAvailable, with: guild)
         }else {
-          self.sword.guilds[guildId] = guild
           self.sword.emit(.guildCreate, with: guild)
         }
 
@@ -205,8 +203,10 @@ extension Shard {
 
       /// PRESENCE_UPDATE
       case .presenceUpdate:
-        let user = User(self.sword, data["user"] as! [String: Any])
-        self.sword.emit(.presenceUpdate, with: user.id, ["status": data["status"] as! String, "game": data["game"]])
+        let userId = (data["user"] as! [String: Any])["id"] as! String
+        let presence = Presence(data)
+        self.sword.guilds[data["guild_id"] as! String]!.members[userId]!.presence = presence
+        self.sword.emit(.presenceUpdate, with: userId, presence)
         break
 
       /// READY

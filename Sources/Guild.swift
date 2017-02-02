@@ -142,6 +142,14 @@ public class Guild {
     self.mfaLevel = json["mfa_level"] as! Int
     self.name = json["name"] as! String
     self.ownerId = json["owner_id"] as! String
+
+    let presences = json["presences"] as! [[String: Any]]
+    for presence in presences {
+      let userId = (presence["user"] as! [String: Any])["id"] as! String
+      let presence = Presence(presence)
+      self.members[userId]!.presence = presence
+    }
+
     self.region = json["region"] as! String
 
     let roles = json["roles"] as! [[String: Any]]
