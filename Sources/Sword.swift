@@ -274,7 +274,7 @@ public class Sword: Eventer {
     var data: [String: Any] = ["afk": presence.status == .idle, "game": NSNull(), "since": presence.status == .idle ? Date().milliseconds : 0, "status": presence.status.rawValue]
 
     if presence.game != nil {
-      data["game"] = presence.game
+      data["game"] = ["name": presence.game]
     }
 
     let payload = Payload(op: .statusUpdate, data: data).encode()
