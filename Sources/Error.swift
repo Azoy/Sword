@@ -9,7 +9,7 @@
 import Foundation
 
 /// Organize all possible status responses from api
-public enum RequestError {
+enum RequestError {
 
   /// 200 - Request was successful
   case ok
