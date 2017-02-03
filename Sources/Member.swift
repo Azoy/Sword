@@ -25,6 +25,7 @@ public struct Member {
   /// Nickname of member
   public let nick: String?
 
+  /// The current status of this user's presence
   public internal(set) var presence: Presence?
 
   /// Array of role ids this member has
@@ -66,14 +67,31 @@ public struct Member {
 /// Structure for presences
 public struct Presence {
 
+  /// Value type for statuses
   public enum Status: String {
-    case dnd, idle, offline, online
+
+    /// Do not disturb status
+    case dnd
+
+    /// Away status
+    case idle
+
+    /// Invisible/Offline status
+    case offline
+
+    /// Online status
+    case online
   }
 
+  // MARK: Properties
+
+  /// The current game this user is playing/nil if not playing a game
   public internal(set) var game: String?
 
+  /// The current status for this user
   public internal(set) var status: Status
 
+  /// Creates a Presence structure
   init(_ json: [String: Any]) {
     self.game = json["game"] as? String
     self.status = Status(rawValue: json["status"] as! String)!

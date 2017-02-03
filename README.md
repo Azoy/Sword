@@ -43,6 +43,4 @@ bot.connect()
 ```
 
 # Links
-https://azoy.github.io/Sword - Docs (created with https://github.com/Realm/Jazzy)
-
-https://github.com/Azoy/Sword/wiki - For more information on Installation and Events
+http://sword.azoy.gg - Docs (created with https://github.com/Realm/Jazzy)

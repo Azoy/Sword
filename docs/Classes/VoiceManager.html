@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>VoiceConnection Class Reference</title>
+    <title>VoiceManager Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,16 +11,16 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Class/VoiceConnection" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Class/VoiceManager" class="dashAnchor"></a>
 
-    <a title="VoiceConnection Class Reference"></a>
+    <a title="VoiceManager Class Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
           Sword Docs
         </a>
-         (100% documented)
+         (80% documented)
       </p>
     
         <p class="header-col header-col--secondary">
@@ -35,7 +35,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      VoiceConnection Class Reference
+      VoiceManager Class Reference
     </p>
 
     <div class="content-wrapper">
@@ -45,10 +45,25 @@
             <a class="nav-group-name-link" href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Bucket.html">Bucket</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Encoder.html">Encoder</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Eventer.html">Eventer</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Guild.html">Guild</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Heartbeat.html">Heartbeat</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Request.html">Request</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Shard.html">Shard</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Shield.html">Shield</a>
@@ -59,16 +74,67 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/VoiceConnection.html">VoiceConnection</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/VoiceManager.html">VoiceManager</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a class="nav-group-name-link" href="../Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/CloseCode.html">CloseCode</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/OPCode.html">OPCode</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/RequestError.html">RequestError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/VoiceError.html">VoiceError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/VoiceOPCode.html">VoiceOPCode</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Date.html">Date</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/HTTPURLResponse.html">HTTPURLResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:F5Sword22generateBoundaryStringFT_SS">generateBoundaryString()</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:F5Sword8mimeTypeFT3forSS_SS">mimeType(for:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Encodable.html">Encodable</a>
               </li>
             </ul>
           </li>
@@ -97,6 +163,9 @@
                 <a class="nav-group-task-link" href="../Structs/Emoji.html">Emoji</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Endpoints.html">Endpoints</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Member.html">Member</a>
               </li>
               <li class="nav-group-task">
@@ -104,6 +173,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Overwrite.html">Overwrite</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Payload.html">Payload</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Presence.html">Presence</a>
@@ -140,14 +212,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>VoiceConnection</h1>
+            <h1>VoiceManager</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">VoiceConnection</span><span class="p">:</span> <span class="kt"><a href="../Classes/Eventer.html">Eventer</a></span></code></pre>
+                  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">VoiceManager</span></code></pre>
 
                 </div>
               </div>
-            <p>Voice Connection class that handles connection to voice server</p>
+            <p>Creates VoiceManager</p>
 
           </div>
         </section>
@@ -166,9 +238,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword15VoiceConnection7guildIdSS"></a>
-                    <a name="//apple_ref/swift/Property/guildId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword15VoiceConnection7guildIdSS">guildId</a>
+                    <a name="/s:vC5Sword12VoiceManager11connectionsGVs10DictionarySSCS_15VoiceConnection_"></a>
+                    <a name="//apple_ref/swift/Property/connections" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC5Sword12VoiceManager11connectionsGVs10DictionarySSCS_15VoiceConnection_">connections</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -176,14 +248,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Guild that this voice connection is server</p>
+                        <p>Object of connections mapped by guildId</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">guildId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">connections</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt"><a href="../Classes/VoiceConnection.html">VoiceConnection</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[:]</span></code></pre>
 
                         </div>
                       </div>
@@ -193,9 +265,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword15VoiceConnection6writerGSqCSo10FileHandle_"></a>
-                    <a name="//apple_ref/swift/Property/writer" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword15VoiceConnection6writerGSqCSo10FileHandle_">writer</a>
+                    <a name="/s:vC5Sword12VoiceManager6guildsGVs10DictionarySSGS1_SSSS__"></a>
+                    <a name="//apple_ref/swift/Property/guilds" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC5Sword12VoiceManager6guildsGVs10DictionarySSGS1_SSSS__">guilds</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -203,14 +275,41 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The encoder&rsquo;s writePipe to send audio to</p>
+                        <p>Used to determine whether or not voiceServerUpdate is us needing to connect</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">writer</span><span class="p">:</span> <span class="kt">FileHandle</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">guilds</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[:]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC5Sword12VoiceManager8handlersGVs10DictionarySSFCS_15VoiceConnectionT__"></a>
+                    <a name="//apple_ref/swift/Property/handlers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC5Sword12VoiceManager8handlersGVs10DictionarySSFCS_15VoiceConnectionT__">handlers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Object of completion handlers mapped by guildId</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">handlers</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="p">(</span><span class="kt"><a href="../Classes/VoiceConnection.html">VoiceConnection</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()]</span> <span class="o">=</span> <span class="p">[:]</span></code></pre>
 
                         </div>
                       </div>
@@ -231,9 +330,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword15VoiceConnection6finishFT_T_"></a>
-                    <a name="//apple_ref/swift/Method/finish()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword15VoiceConnection6finishFT_T_">finish()</a>
+                    <a name="/s:FC5Sword12VoiceManager4joinFTSSSSSS_T_"></a>
+                    <a name="//apple_ref/swift/Method/join(_:_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC5Sword12VoiceManager4joinFTSSSSSS_T_">join(_:_:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -241,41 +340,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Used to tell encoder to close the write pipe</p>
+                        <p>Creates VoiceConnection and hands it data/Moves channels</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">finish</span><span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC5Sword15VoiceConnection4playFCSo7ProcessT_"></a>
-                    <a name="//apple_ref/swift/Method/play(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword15VoiceConnection4playFCSo7ProcessT_">play(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Gets a process&rsquo; info and sets its output to encoder&rsquo;s writePipe, then launches it</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">play</span><span class="p">(</span><span class="n">_</span> <span class="nv">process</span><span class="p">:</span> <span class="kt">Process</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">join</span><span class="p">(</span><span class="n">_</span> <span class="nv">guildId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">endpoint</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">identify</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -286,12 +358,38 @@
                             <tr>
                               <td>
                                 <code>
-                                <em>process</em>
+                                <em>guildId</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Audio process to play from</p>
+                                  <p>Guild that we’re connecting to</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>endpoint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>URL for voice server</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identify</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identify payload to send once we’re ready</p>
 
                                 </div>
                               </td>
@@ -305,9 +403,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword15VoiceConnection4playFVS_7YoutubeT_"></a>
-                    <a name="//apple_ref/swift/Method/play(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword15VoiceConnection4playFVS_7YoutubeT_">play(_:)</a>
+                    <a name="/s:FC5Sword12VoiceManager5leaveFSST_"></a>
+                    <a name="//apple_ref/swift/Method/leave(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC5Sword12VoiceManager5leaveFSST_">leave(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -315,14 +413,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Plays a youtube struct&rsquo;s process</p>
+                        <p>Used to close VoiceConnection</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">play</span><span class="p">(</span><span class="n">_</span> <span class="nv">youtube</span><span class="p">:</span> <span class="kt"><a href="../Structs/Youtube.html">Youtube</a></span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">leave</span><span class="p">(</span><span class="n">_</span> <span class="nv">guildId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -333,12 +431,12 @@
                             <tr>
                               <td>
                                 <code>
-                                <em>youtube</em>
+                                <em>guildId</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Youtube structure to play</p>
+                                  <p>Guild to leave from</p>
 
                                 </div>
                               </td>
@@ -357,7 +455,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-02-02)</p>
+      <p>&copy; 2017 <a class="link" href="" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-02-02)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

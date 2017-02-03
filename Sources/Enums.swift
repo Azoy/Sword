@@ -349,7 +349,7 @@ public enum Event: String {
      ```swift
      bot.on(.presenceUpdate) { data in
        let userId = data[0] as! String
-       let presence = data[1] as! [String: Any]
+       let presence = data[1] as! Presence
      }
      ```
     */
