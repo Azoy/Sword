@@ -23,3 +23,5 @@ bot.register("leave") { msg, args in
 
   bot.leave(voiceChannel: msg.member!.voiceState!.channelId)
 }
+
+bot.connect()
