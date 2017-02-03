@@ -91,10 +91,23 @@ public struct Presence {
   /// The current status for this user
   public internal(set) var status: Status
 
+  // MARK: Initializer
+
   /// Creates a Presence structure
   init(_ json: [String: Any]) {
     self.game = json["game"] as? String
     self.status = Status(rawValue: json["status"] as! String)!
+  }
+
+  /**
+   Creates a Presence structure
+
+   - parameter status: Status to set to
+   - parameter game: The game name to play
+  */
+  public init(status: Status = .online, playing game: String? = nil) {
+    self.status = status
+    self.game = game
   }
 
 }

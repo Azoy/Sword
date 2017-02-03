@@ -267,15 +267,14 @@ public class Sword: Eventer {
   /**
    Edits bot status
 
-   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
-   - parameter game: ["name": "with Swords!", "type": 0 || 1]
+   - parameter presence: Presence structure to set status to
    */
-  public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {
+  public func editStatus(to presence: Presence) {
     guard self.shards.count > 0 else { return }
-    var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
+    var data: [String: Any] = ["afk": presence.status == .idle, "game": NSNull(), "since": presence.status == .idle ? Date().milliseconds : 0, "status": presence.status]
 
-    if game != nil {
-      data["game"] = game
+    if presence.game != nil {
+      data["game"] = presence.game
     }
 
     let payload = Payload(op: .statusUpdate, data: data).encode()
