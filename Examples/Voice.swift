@@ -1,6 +1,6 @@
 import Sword
 
-let bot = Sword(token: "Super secret token here")
+let bot = Shield(token: "Super secret token here")
 
 bot.register("join") { msg, args in
   guard msg.member?.voiceState != nil else {
