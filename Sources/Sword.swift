@@ -271,7 +271,7 @@ public class Sword: Eventer {
    */
   public func editStatus(to presence: Presence) {
     guard self.shards.count > 0 else { return }
-    var data: [String: Any] = ["afk": presence.status == .idle, "game": NSNull(), "since": presence.status == .idle ? Date().milliseconds : 0, "status": presence.status]
+    var data: [String: Any] = ["afk": presence.status == .idle, "game": NSNull(), "since": presence.status == .idle ? Date().milliseconds : 0, "status": presence.status.rawValue]
 
     if presence.game != nil {
       data["game"] = presence.game
