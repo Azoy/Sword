@@ -226,7 +226,11 @@ extension Shard {
 
       /// TYPING_START
       case .typingStart:
+        #if !os(Linux)
         let timestamp = Date(timeIntervalSince1970: data["timestamp"] as! Double)
+        #else
+        let timestamp = Date(timeIntervalSince1970: Double(data["timestamp"] as! Int))
+        #endif
         self.sword.emit(.typingStart, with: data["channel_id"] as! String, data["user_id"] as! String, timestamp)
         break
 
@@ -273,7 +277,7 @@ extension Shard {
 
         guard self.sword.voiceManager.guilds[guildId] != nil else { return }
 
-        let payload = Payload(voiceOP: VoiceOPCode(rawValue: 0)!, data: ["server_id": guildId, "user_id": self.sword.user!.id, "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"], "token": token]).encode()
+        let payload = Payload(voiceOP: .identify, data: ["server_id": guildId, "user_id": self.sword.user!.id, "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"], "token": token]).encode()
 
         self.sword.voiceManager.join(guildId, endpoint, payload)
         break

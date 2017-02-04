@@ -336,12 +336,12 @@ public class VoiceConnection: Eventer {
   */
   public func play(_ process: Process) {
     #if !os(Linux)
-    guard process.isRunning else {
+    guard !process.isRunning else {
       print("[Sword] The audio process passed to play from has already launched. Don't launch the process.")
       return
     }
     #else
-    guard process.running else {
+    guard !process.running else {
       print("[Sword] The audio process passed to play from has already launched. Don't launch the process.")
       return
     }

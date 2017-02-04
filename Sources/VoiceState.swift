@@ -43,8 +43,14 @@ public struct VoiceState {
     self.channelId = json["channel_id"] as! String
     self.isDeafend = json["deaf"] as! Bool
     self.isMuted = json["mute"] as! Bool
+
+    #if !os(Linux)
     self.isSelfDeafend = json["self_deaf"] as! Bool
     self.isSelfMuted = json["self_mute"] as! Bool
+    #else
+    self.isSelfDeafend = (json["self_deaf"] as! Int) != 0
+    self.isSelfMuted = (json["self_mute"] as! Int) != 0
+    #endif
     self.isSuppressed = json["suppress"] as! Bool
     self.sessionId = json["session_id"] as! String
   }
