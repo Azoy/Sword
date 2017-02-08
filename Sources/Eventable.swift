@@ -9,9 +9,17 @@
 import Foundation
 
 /// Create a nifty Event Emitter in Swift
-open class Eventer {
+public protocol Eventable: class {
 
-  var listeners: [Event: [([Any]) -> ()]] = [:]
+  var listeners: [Event: [([Any]) -> ()]] { get set }
+
+  func on(_ event: Event, _ completion: @escaping ([Any]) -> ())
+
+  func emit(_ event: Event, with data: Any...)
+
+}
+
+extension Eventable {
 
   /**
    Listens for eventName

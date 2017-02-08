@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ShieldOptions Struct Reference</title>
+    <title>Eventable Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/ShieldOptions" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Protocol/Eventable" class="dashAnchor"></a>
 
-    <a title="ShieldOptions Struct Reference"></a>
+    <a title="Eventable Protocol Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -35,7 +35,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ShieldOptions Struct Reference
+      Eventable Protocol Reference
     </p>
 
     <div class="content-wrapper">
@@ -145,14 +145,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>ShieldOptions</h1>
+            <h1>Eventable</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ShieldOptions</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Eventable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
 
                 </div>
               </div>
-            <p>Shield Options structure</p>
+            <p>Create a nifty Event Emitter in Swift</p>
 
           </div>
         </section>
@@ -160,20 +160,13 @@
         <section class="section">
           <div class="section-content">
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Properties"></a>
-                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
-                <a href="#/Properties">
-                  <h3 class="section-name">Properties</h3>
-                </a>
-              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword13ShieldOptions8prefixesGSaSS_"></a>
-                    <a name="//apple_ref/swift/Property/prefixes" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword13ShieldOptions8prefixesGSaSS_">prefixes</a>
+                    <a name="/s:vP5Sword9Eventable9listenersGVs10DictionaryOS_5EventGSaFGSaP__T___"></a>
+                    <a name="//apple_ref/swift/Property/listeners" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP5Sword9Eventable9listenersGVs10DictionaryOS_5EventGSaFGSaP__T___">listeners</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -181,52 +174,84 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Array of prefixes commands should start with</p>
+                        <p>Undocumented</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">prefixes</span> <span class="o">=</span> <span class="p">[</span><span class="s">"@bot"</span><span class="p">]</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Eventable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Initializer"></a>
-                <a name="//apple_ref/swift/Section/Initializer" class="dashAnchor"></a>
-                <a href="#/Initializer">
-                  <h3 class="section-name">Initializer</h3>
-                </a>
-              </div>
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword13ShieldOptionscFT_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword13ShieldOptionscFT_S0_">init()</a>
+                    <a name="/s:FP5Sword9Eventable2onFTOS_5EventFGSaP__T__T_"></a>
+                    <a name="//apple_ref/swift/Method/on(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP5Sword9Eventable2onFTOS_5EventFGSaP__T__T_">on(_:_:)</a>
                     </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Creates a default ShieldOptions structure</p>
+                        <p>Undocumented</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Listens for eventName</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Eventable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP5Sword9Eventable4emitFtOS_5Event4withGSaP___T_"></a>
+                    <a name="//apple_ref/swift/Method/emit(_:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP5Sword9Eventable4emitFtOS_5Event4withGSaP___T_">emit(_:with:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Emits all listeners for eventName</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Eventable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
 
                         </div>
                       </div>

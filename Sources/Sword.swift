@@ -9,7 +9,7 @@
 import Foundation
 
 /// Main Class for Sword
-open class Sword: Eventer {
+open class Sword: Eventable {
 
   // MARK: Properties
 
@@ -21,6 +21,9 @@ open class Sword: Eventer {
 
   /// Array of guilds the bot is currently connected to
   public internal(set) var guilds: [String: Guild] = [:]
+
+  /// Event listeners
+  public var listeners: [Event: [([Any]) -> ()]] = [:]
 
   /// Optional options to apply to bot
   var options: SwordOptions
@@ -75,7 +78,6 @@ open class Sword: Eventer {
     self.options = options
     self.requester = Request(token)
     self.token = token
-    super.init()
   }
 
   // MARK: Functions

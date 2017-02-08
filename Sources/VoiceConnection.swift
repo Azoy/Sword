@@ -19,7 +19,7 @@ import SodiumLinux
 #endif
 
 /// Voice Connection class that handles connection to voice server
-public class VoiceConnection: Eventer {
+public class VoiceConnection: Eventable {
 
   // MARK: Properties
 
@@ -51,6 +51,9 @@ public class VoiceConnection: Eventer {
 
   /// Whether or not the WS is connected
   var isConnected = false
+
+  /// Event listeners
+  public var listeners: [Event: [([Any]) -> ()]] = [:]
 
   /// Whether or not we need to make a new encoder
   var shouldMakeEncoder = true {
@@ -123,8 +126,6 @@ public class VoiceConnection: Eventer {
     _ = sodium_init()
 
     signal(SIGPIPE, SIG_IGN)
-
-    super.init()
   }
 
   /// Called when VoiceConnection needs to free up space
