@@ -118,7 +118,7 @@ extension Shard {
       /// GUILD_MEMBER_ADD
       case .guildMemberAdd:
         let guildId = data["guild_id"] as! String
-        let member = Member(self.sword, data)
+        let member = Member(self.sword, self.sword.guilds[guildId]!, data)
         self.sword.guilds[guildId]!.members[member.user.id] = member
         self.sword.emit(.guildMemberAdd, with: guildId, member)
         break
@@ -136,7 +136,7 @@ extension Shard {
         let guildId = data["guild_id"] as! String
         let members = data["members"] as! [[String: Any]]
         for member in members {
-          let member = Member(self.sword, member)
+          let member = Member(self.sword, self.sword.guilds[guildId]!, member)
           self.sword.guilds[guildId]!.members[member.user.id] = member
         }
         break
@@ -144,7 +144,7 @@ extension Shard {
       /// GUILD_MEMBER_UPDATE
       case .guildMemberUpdate:
         let guildId = data["guild_id"] as! String
-        let member = Member(self.sword, data)
+        let member = Member(self.sword, self.sword.guilds[guildId]!, data)
         self.sword.guilds[guildId]!.members[member.user.id] = member
         self.sword.emit(.guildMemberUpdate, with: member)
         break

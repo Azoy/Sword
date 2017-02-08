@@ -9,7 +9,7 @@
 import Foundation
 
 /// Main Class for Sword
-public class Sword: Eventer {
+open class Sword: Eventer {
 
   // MARK: Properties
 
@@ -139,7 +139,7 @@ public class Sword: Eventer {
       if error != nil {
         completion(nil)
       }else {
-        completion(Member(self, data as! [String: Any]))
+        completion(Member(self, self.guilds[guildId]!, data as! [String: Any]))
       }
     }
   }
@@ -404,7 +404,7 @@ public class Sword: Eventer {
       if error != nil {
         completion(nil)
       }else {
-        let member = Member(self, data as! [String: Any])
+        let member = Member(self, self.guilds[guildId]!, data as! [String: Any])
         completion(member)
       }
     }

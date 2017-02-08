@@ -16,11 +16,11 @@ public struct Role {
   /// Color of role as an Int
   public let color: Int
 
-  /// Whether or not this role is hoisted
-  public let isHoisted: Bool
-
   /// ID of the role
   public let id: String
+
+  /// Whether or not this role is hoisted
+  public let isHoisted: Bool
 
   /// Whether or not this role is managed
   public let isManaged: Bool

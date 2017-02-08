@@ -13,6 +13,8 @@ public struct Member {
 
   // MARK: Properties
 
+  public let guild: Guild
+
   /// Whether or not this member is deaf
   public let isDeaf: Bool?
 
@@ -24,6 +26,8 @@ public struct Member {
 
   /// Nickname of member
   public let nick: String?
+
+  public internal(set) var permissions: Int = 0
 
   /// The current status of this user's presence
   public internal(set) var presence: Presence?
@@ -45,7 +49,8 @@ public struct Member {
    - parameter sword: Parent class to get requester from (and otras properties)
    - parameter json: JSON representable as a dictionary
   */
-  init(_ sword: Sword, _ json: [String: Any]) {
+  init(_ sword: Sword, _ guild: Guild, _ json: [String: Any]) {
+    self.guild = guild
     self.isDeaf = json["deaf"] as? Bool
 
     let joinedAt = json["joined_at"] as? String
@@ -57,9 +62,23 @@ public struct Member {
     let roles = json["roles"] as! [String]
     for role in roles {
       self.roles.append(role)
+
+      self.permissions |= self.guild.roles[role]!.permissions
     }
 
     self.user = User(sword, json["user"] as! [String: Any])
+  }
+
+  public func has(permission: Permission) -> Bool {
+    if self.permissions & Permission.administrator.rawValue > 0 {
+      return true
+    }
+
+    if self.permissions & permission.rawValue > 0 {
+      return true
+    }
+
+    return false
   }
 
 }

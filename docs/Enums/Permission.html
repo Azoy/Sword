@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Message Struct Reference</title>
+    <title>Permission Enum Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/Message" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Enum/Permission" class="dashAnchor"></a>
 
-    <a title="Message Struct Reference"></a>
+    <a title="Permission Enum Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -35,7 +35,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Message Struct Reference
+      Permission Enum Reference
     </p>
 
     <div class="content-wrapper">
@@ -140,14 +140,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Message</h1>
+            <h1>Permission</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Message</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Permission</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                 </div>
               </div>
-            <p>Message Type</p>
+            <p>Permission enum to prevent wrong permission checks</p>
 
           </div>
         </section>
@@ -155,20 +155,13 @@
         <section class="section">
           <div class="section-content">
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Properties"></a>
-                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
-                <a href="#/Properties">
-                  <h3 class="section-name">Properties</h3>
-                </a>
-              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword7Message11attachmentsGSaVS_10Attachment_"></a>
-                    <a name="//apple_ref/swift/Property/attachments" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message11attachmentsGSaVS_10Attachment_">attachments</a>
+                    <a name="/s:FO5Sword10Permission19createInstantInviteFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/createInstantInvite" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission19createInstantInviteFMS0_S0_">createInstantInvite</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -176,419 +169,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Array of Attachment structs that was sent with the message</p>
+                        <p>Allows creation of instant invites</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">attachments</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Attachment.html">Attachment</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message6authorGSqVS_4User_"></a>
-                    <a name="//apple_ref/swift/Property/author" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message6authorGSqVS_4User_">author</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>User struct of the author (not returned if webhook)</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">author</span><span class="p">:</span> <span class="kt"><a href="../Structs/User.html">User</a></span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message7contentSS"></a>
-                    <a name="//apple_ref/swift/Property/content" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message7contentSS">content</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Content of the message</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">String</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message7channelVS_7Channel"></a>
-                    <a name="//apple_ref/swift/Property/channel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message7channelVS_7Channel">channel</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Channel struct of the message</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">channel</span><span class="p">:</span> <span class="kt"><a href="../Structs/Channel.html">Channel</a></span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message15editedTimestampGSqV10Foundation4Date_"></a>
-                    <a name="//apple_ref/swift/Property/editedTimestamp" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message15editedTimestampGSqV10Foundation4Date_">editedTimestamp</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>If message was edited, this is the time it happened</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">editedTimestamp</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message6embedsGSaVS_5Embed_"></a>
-                    <a name="//apple_ref/swift/Property/embeds" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message6embedsGSaVS_5Embed_">embeds</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Array of embeds sent with message</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">embeds</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Embed.html">Embed</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message2idSS"></a>
-                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message2idSS">id</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Message ID</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message19isEveryoneMentionedSb"></a>
-                    <a name="//apple_ref/swift/Property/isEveryoneMentioned" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message19isEveryoneMentionedSb">isEveryoneMentioned</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Whether or not this message mentioned everyone</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isEveryoneMentioned</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message8isPinnedSb"></a>
-                    <a name="//apple_ref/swift/Property/isPinned" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message8isPinnedSb">isPinned</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Whether or not this message is pinned in it&rsquo;s channel</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isPinned</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message5isTtsSb"></a>
-                    <a name="//apple_ref/swift/Property/isTts" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message5isTtsSb">isTts</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Whether or not this messaged was ttsed</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isTts</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message6memberGSqVS_6Member_"></a>
-                    <a name="//apple_ref/swift/Property/member" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message6memberGSqVS_6Member_">member</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Member struct for message</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">member</span><span class="p">:</span> <span class="kt"><a href="../Structs/Member.html">Member</a></span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message8mentionsGSaVS_4User_"></a>
-                    <a name="//apple_ref/swift/Property/mentions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message8mentionsGSaVS_4User_">mentions</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Array of Users that were mentioned</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">mentions</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/User.html">User</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message14mentionedRolesGSaVS_4Role_"></a>
-                    <a name="//apple_ref/swift/Property/mentionedRoles" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message14mentionedRolesGSaVS_4Role_">mentionedRoles</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Array of Roles that were mentioned</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">mentionedRoles</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Role.html">Role</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message9reactionsGSaGVs10DictionarySSP___"></a>
-                    <a name="//apple_ref/swift/Property/reactions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message9reactionsGSaGVs10DictionarySSP___">reactions</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Array of reactions with message</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">reactions</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message9timestampV10Foundation4Date"></a>
-                    <a name="//apple_ref/swift/Property/timestamp" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message9timestampV10Foundation4Date">timestamp</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Time when message was sent</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">Date</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword7Message9webhookIdGSqSS_"></a>
-                    <a name="//apple_ref/swift/Property/webhookId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message9webhookIdGSqSS_">webhookId</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>If message was sent by webhook, this is that webhook&rsquo;s ID</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">webhookId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">createInstantInvite</span> <span class="o">=</span> <span class="mh">0x1</span></code></pre>
 
                         </div>
                       </div>
@@ -598,20 +186,13 @@
               </ul>
             </div>
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Functions"></a>
-                <a name="//apple_ref/swift/Section/Functions" class="dashAnchor"></a>
-                <a href="#/Functions">
-                  <h3 class="section-name">Functions</h3>
-                </a>
-              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message3addFT8reactionSSFT_T__T_"></a>
-                    <a name="//apple_ref/swift/Method/add(reaction:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message3addFT8reactionSSFT_T__T_">add(reaction:_:)</a>
+                    <a name="/s:FO5Sword10Permission11kickMembersFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/kickMembers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission11kickMembersFMS0_S0_">kickMembers</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -619,73 +200,30 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Adds a reaction to self</p>
+                        <p>Allows kicking members</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">reaction</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>reaction</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Either unicode or custom emoji to add to this message</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV5Sword7Message6deleteFFT_T_T_"></a>
-                    <a name="//apple_ref/swift/Method/delete(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message6deleteFFT_T_T_">delete(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Deletes self</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">kickMembers</span> <span class="o">=</span> <span class="mh">0x2</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message6deleteFT8reactionSS4fromGSqSS_FT_T__T_"></a>
-                    <a name="//apple_ref/swift/Method/delete(reaction:from:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message6deleteFT8reactionSS4fromGSqSS_FT_T__T_">delete(reaction:from:_:)</a>
+                    <a name="/s:FO5Sword10Permission10banMembersFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/banMembers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission10banMembersFMS0_S0_">banMembers</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -693,86 +231,30 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Deletes reaction from self</p>
+                        <p>Allows banning members</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="nv">reaction</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">from</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>reaction</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Either unicode or custom emoji reaction to remove</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>userId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>If nil, delete from self else delete from userId</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV5Sword7Message15deleteReactionsFFT_T_T_"></a>
-                    <a name="//apple_ref/swift/Method/deleteReactions(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message15deleteReactionsFFT_T_T_">deleteReactions(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Deletes all reactions from self</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteReactions</span><span class="p">(</span><span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">banMembers</span> <span class="o">=</span> <span class="mh">0x4</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message4editFT2toSSFGSqS0__T__T_"></a>
-                    <a name="//apple_ref/swift/Method/edit(to:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message4editFT2toSSFGSqS0__T__T_">edit(to:_:)</a>
+                    <a name="/s:FO5Sword10Permission13administratorFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/administrator" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission13administratorFMS0_S0_">administrator</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -780,120 +262,30 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Edit self&rsquo;s content</p>
+                        <p>Allows all permissions and bypasses channel permission overwrites</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">edit</span><span class="p">(</span><span class="n">to</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Message</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>content</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Content to edit from self</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV5Sword7Message3getFT8reactionSSFGSqGSaVS_4User__T__T_"></a>
-                    <a name="//apple_ref/swift/Method/get(reaction:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message3getFT8reactionSSFGSqGSaVS_4User__T__T_">get(reaction:_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get array of users from reaction</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">get</span><span class="p">(</span><span class="nv">reaction</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt"><a href="../Structs/User.html">User</a></span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="p">())</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>reaction</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Either unicode or custom emoji reaction to get users from</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV5Sword7Message3pinFFT_T_T_"></a>
-                    <a name="//apple_ref/swift/Method/pin(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message3pinFFT_T_T_">pin(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Pins self</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">pin</span><span class="p">(</span><span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">administrator</span> <span class="o">=</span> <span class="mh">0x8</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message5replyFT4withSSFGSqS0__T__T_"></a>
-                    <a name="//apple_ref/swift/Method/reply(with:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message5replyFT4withSSFGSqS0__T__T_">reply(with:_:)</a>
+                    <a name="/s:FO5Sword10Permission14manageChannelsFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/manageChannels" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission14manageChannelsFMS0_S0_">manageChannels</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -901,14 +293,696 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Replies to message (alias to bot.send(_:to:)&hellip;)</p>
+                        <p>Allows management and editing of channels</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reply</span><span class="p">(</span><span class="n">with</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Message</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageChannels</span> <span class="o">=</span> <span class="mh">0x10</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission11manageGuildFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/manageGuild" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission11manageGuildFMS0_S0_">manageGuild</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows management and editing of the guild</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageGuild</span> <span class="o">=</span> <span class="mh">0x20</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission12addReactionsFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/addReactions" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission12addReactionsFMS0_S0_">addReactions</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for the addition of reactions to messages</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">addReactions</span> <span class="o">=</span> <span class="mh">0x40</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission12readMessagesFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/readMessages" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission12readMessagesFMS0_S0_">readMessages</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows reading messages in a channel. The channel will not appear for users without this permission</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">readMessages</span> <span class="o">=</span> <span class="mh">0x400</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission12sendMessagesFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/sendMessages" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission12sendMessagesFMS0_S0_">sendMessages</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for sending messages in a channel.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">sendMessages</span> <span class="o">=</span> <span class="mh">0x800</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission15sendTTSMessagesFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/sendTTSMessages" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission15sendTTSMessagesFMS0_S0_">sendTTSMessages</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for sending of /tts messages</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">sendTTSMessages</span> <span class="o">=</span> <span class="mh">0x1000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission14manageMessagesFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/manageMessages" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission14manageMessagesFMS0_S0_">manageMessages</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for deletion of other users messages</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageMessages</span> <span class="o">=</span> <span class="mh">0x2000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission10embedLinksFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/embedLinks" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission10embedLinksFMS0_S0_">embedLinks</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Links sent by this user will be auto-embedded</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">embedLinks</span> <span class="o">=</span> <span class="mh">0x4000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission11attachFilesFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/attachFiles" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission11attachFilesFMS0_S0_">attachFiles</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for uploading images and files</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">attachFiles</span> <span class="o">=</span> <span class="mh">0x8000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission18readMessageHistoryFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/readMessageHistory" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission18readMessageHistoryFMS0_S0_">readMessageHistory</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for reading of message history</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">readMessageHistory</span> <span class="o">=</span> <span class="mh">0x10000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission15mentionEveryoneFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/mentionEveryone" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission15mentionEveryoneFMS0_S0_">mentionEveryone</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for using the @everyone tag to notify all users in a channel, and the @here tag to notify all online users in a channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">mentionEveryone</span> <span class="o">=</span> <span class="mh">0x20000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission17useExternalEmojisFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/useExternalEmojis" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission17useExternalEmojisFMS0_S0_">useExternalEmojis</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows the usage of custom emojis from other servers</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">useExternalEmojis</span> <span class="o">=</span> <span class="mh">0x40000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission7connectFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/connect" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission7connectFMS0_S0_">connect</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for joining of a voice channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">connect</span> <span class="o">=</span> <span class="mh">0x100000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission5speakFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/speak" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission5speakFMS0_S0_">speak</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for speaking in a voice channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">speak</span> <span class="o">=</span> <span class="mh">0x200000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission11muteMembersFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/muteMembers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission11muteMembersFMS0_S0_">muteMembers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for muting members in a voice channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">muteMembers</span> <span class="o">=</span> <span class="mh">0x400000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission13deafenMembersFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/deafenMembers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission13deafenMembersFMS0_S0_">deafenMembers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for deafening of members in a voice channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">deafenMembers</span> <span class="o">=</span> <span class="mh">0x800000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission11moveMembersFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/moveMembers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission11moveMembersFMS0_S0_">moveMembers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>llows for moving of members between voice channels</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">moveMembers</span> <span class="o">=</span> <span class="mh">0x1000000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission6useVadFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/useVad" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission6useVadFMS0_S0_">useVad</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for using voice-activity-detection in a voice channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">useVad</span> <span class="o">=</span> <span class="mh">0x2000000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission14changeNicknameFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/changeNickname" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission14changeNicknameFMS0_S0_">changeNickname</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for modification of own nickname</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">changeNickname</span> <span class="o">=</span> <span class="mh">0x4000000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission15manageNicknamesFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/manageNicknames" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission15manageNicknamesFMS0_S0_">manageNicknames</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows for modification of other users nicknames</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageNicknames</span> <span class="o">=</span> <span class="mh">0x8000000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission11manageRolesFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/manageRoles" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission11manageRolesFMS0_S0_">manageRoles</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows management and editing of roles</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageRoles</span> <span class="o">=</span> <span class="mh">0x10000000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission14manageWebhooksFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/manageWebhooks" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission14manageWebhooksFMS0_S0_">manageWebhooks</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows management and editing of webhooks</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageWebhooks</span> <span class="o">=</span> <span class="mh">0x20000000</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO5Sword10Permission12manageEmojisFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/manageEmojis" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO5Sword10Permission12manageEmojisFMS0_S0_">manageEmojis</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows management and editing of emojis</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageEmojis</span> <span class="o">=</span> <span class="mh">0x40000000</span></code></pre>
 
                         </div>
                       </div>

@@ -183,20 +183,14 @@ public class VoiceConnection: Eventer {
     var buffer = data
 
     #if !os(Linux)
-    let audioSize = Int(crypto_secretbox_MACBYTES) + 320
+    let audioSize = Int(crypto_secretbox_MACBYTES) + data.count
     #else
-    let audioSize = Int(crypto_secretbox_ZEROBYTES) + 320
+    let audioSize = Int(crypto_secretbox_xsalsa20poly1305_MACBYTES) + data.count
     #endif
     let audioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
     defer {
       free(audioData)
     }
-
-    #if !os(Linux)
-    let audioDataCount = Int(crypto_secretbox_MACBYTES) + data.count
-    #else
-    let audioDataCount = Int(crypto_secretbox_ZEROBYTES) + data.count
-    #endif
 
     let encrypted = crypto_secretbox_easy(audioData, &buffer, UInt64(buffer.count), &nonce, &self.secret)
 
@@ -204,7 +198,7 @@ public class VoiceConnection: Eventer {
       throw VoiceError.encryptionFail
     }
 
-    let encryptedAudioData = Array(UnsafeBufferPointer(start: audioData, count: audioDataCount))
+    let encryptedAudioData = Array(UnsafeBufferPointer(start: audioData, count: audioSize))
 
     return header + encryptedAudioData
   }

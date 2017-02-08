@@ -9,7 +9,7 @@
 import Foundation
 
 /// Shield class that extends Sword
-public class Shield: Sword {
+open class Shield: Sword {
 
   // MARK: Properties
 

@@ -132,13 +132,6 @@ public class Guild {
     self.isLarge = json["large"] as? Bool
     self.memberCount = json["member_count"] as! Int
 
-    if let members = json["members"] as? [[String: Any]] {
-      for member in members {
-        let member = Member(sword, member)
-        self.members[member.user.id] = member
-      }
-    }
-
     self.mfaLevel = json["mfa_level"] as! Int
     self.name = json["name"] as! String
     self.ownerId = json["owner_id"] as! String
@@ -170,6 +163,13 @@ public class Guild {
         self.members[voiceState["user_id"] as! String]!.voiceState = voiceStateObjc
       }
     }
+
+    if let members = json["members"] as? [[String: Any]] {
+      for member in members {
+        let member = Member(sword, self, member)
+        self.members[member.user.id] = member
+      }
+    }
   }
 
   // MARK: Functions
@@ -185,7 +185,7 @@ public class Guild {
       if error != nil {
         completion(nil)
       }else {
-        completion(Member(self.sword!, data as! [String: Any]))
+        completion(Member(self.sword!, self, data as! [String: Any]))
       }
     }
   }
@@ -337,7 +337,7 @@ public class Guild {
         var returnMembers: [Member] = []
         let members = data as! [[String: Any]]
         for member in members {
-          returnMembers.append(Member(self.sword!, member))
+          returnMembers.append(Member(self.sword!, self, member))
         }
 
         completion(returnMembers)
