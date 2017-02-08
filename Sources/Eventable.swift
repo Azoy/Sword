@@ -15,15 +15,11 @@ public protocol Eventable: class {
   var listeners: [Event: [([Any]) -> ()]] { get set }
 
   /**
-   Listens for eventName
-
    - parameter event: Event to listen for
    */
   func on(_ event: Event, _ completion: @escaping ([Any]) -> ())
 
   /**
-   Emits all listeners for eventName
-
    - parameter event: Event to emit
    - parameter data: Array of stuff to emit listener with
    */
