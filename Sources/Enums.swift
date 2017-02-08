@@ -225,7 +225,7 @@ public enum Event: String {
     */
   case guildMemberUpdate = "GUILD_MEMBER_UPDATE"
 
-  /// This is an internal event, but fires when bot requests for offline members
+  /// :nodoc:
   case guildMembersChunk = "GUILD_MEMBERS_CHUNK"
 
     /**
@@ -349,7 +349,7 @@ public enum Event: String {
      ```swift
      bot.on(.presenceUpdate) { data in
        let userId = data[0] as! String
-       let presence = data[1] as! [String: Any]
+       let presence = data[1] as! Presence
      }
      ```
     */
@@ -367,7 +367,7 @@ public enum Event: String {
     */
   case ready = "READY"
 
-  /// Internal event thats fired when bot reconnects to websocket
+  /// :nodoc:
   case resume = "RESUME"
 
     /**
@@ -433,7 +433,7 @@ public enum Event: String {
     */
   case voiceStateUpdate = "VOICE_STATE_UPDATE"
 
-  /// Internal event that fires when voice channel moves servers, or bot tries to connect to voice connection
+  /// :nodoc:
   case voiceServerUpdate = "VOICE_SERVER_UPDATE"
 
 }

@@ -183,20 +183,14 @@ public class VoiceConnection: Eventer {
     var buffer = data
 
     #if !os(Linux)
-    let audioSize = Int(crypto_secretbox_MACBYTES) + 320
+    let audioSize = Int(crypto_secretbox_MACBYTES) + data.count
     #else
-    let audioSize = Int(crypto_secretbox_ZEROBYTES) + 320
+    let audioSize = Int(crypto_secretbox_xsalsa20poly1305_MACBYTES) + data.count
     #endif
     let audioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
     defer {
       free(audioData)
     }
-
-    #if !os(Linux)
-    let audioDataCount = Int(crypto_secretbox_MACBYTES) + data.count
-    #else
-    let audioDataCount = Int(crypto_secretbox_ZEROBYTES) + data.count
-    #endif
 
     let encrypted = crypto_secretbox_easy(audioData, &buffer, UInt64(buffer.count), &nonce, &self.secret)
 
@@ -204,7 +198,7 @@ public class VoiceConnection: Eventer {
       throw VoiceError.encryptionFail
     }
 
-    let encryptedAudioData = Array(UnsafeBufferPointer(start: audioData, count: audioDataCount))
+    let encryptedAudioData = Array(UnsafeBufferPointer(start: audioData, count: audioSize))
 
     return header + encryptedAudioData
   }
@@ -268,8 +262,8 @@ public class VoiceConnection: Eventer {
   }
 
   /// Used to tell encoder to close the write pipe
-  public func finishEncoding() {
-    self.encoder?.finishEncoding()
+  public func finish() {
+    self.encoder?.finish()
   }
 
   /**
@@ -327,6 +321,46 @@ public class VoiceConnection: Eventer {
     try? self.udpClient?.close()
 
     self.startWS(identify)
+  }
+
+  /**
+   Gets a process' info and sets its output to encoder's writePipe, then launches it
+
+   - parameter process: Audio process to play from
+  */
+  public func play(_ process: Process) {
+    #if !os(Linux)
+    guard !process.isRunning else {
+      print("[Sword] The audio process passed to play from has already launched. Don't launch the process.")
+      return
+    }
+    #else
+    guard !process.running else {
+      print("[Sword] The audio process passed to play from has already launched. Don't launch the process.")
+      return
+    }
+    #endif
+
+    process.standardOutput = self.writer
+
+    process.terminationHandler = { _ in
+      self.finish()
+    }
+
+    process.launch()
+
+    self.on(.connectionClose) { _ in
+      kill(process.processIdentifier, SIGKILL)
+    }
+  }
+
+  /**
+   Plays a youtube struct's process
+
+   - parameter youtube: Youtube structure to play
+  */
+  public func play(_ youtube: Youtube) {
+    self.play(youtube.process)
   }
 
   /**

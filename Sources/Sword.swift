@@ -9,7 +9,7 @@
 import Foundation
 
 /// Main Class for Sword
-public class Sword: Eventer {
+open class Sword: Eventer {
 
   // MARK: Properties
 
@@ -97,20 +97,6 @@ public class Sword: Eventer {
     }
   }
 
-  /**
-   Function to get guild for channelId
-
-   - parameter channelId: Channel to get guild from
-  */
-  public func getGuild(for channelId: String) -> Guild? {
-    var guilds = self.guilds.filter {
-      $0.1.channels[channelId] != nil
-    }
-
-    if guilds.isEmpty { return nil }
-    return guilds[0].1
-  }
-
   /// Starts the bot
   public func connect() {
     self.getGateway() { error, data in
@@ -153,7 +139,7 @@ public class Sword: Eventer {
       if error != nil {
         completion(nil)
       }else {
-        completion(Member(self, data as! [String: Any]))
+        completion(Member(self, self.guilds[guildId]!, data as! [String: Any]))
       }
     }
   }
@@ -281,15 +267,14 @@ public class Sword: Eventer {
   /**
    Edits bot status
 
-   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
-   - parameter game: ["name": "with Swords!", "type": 0 || 1]
+   - parameter presence: Presence structure to set status to
    */
-  public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {
+  public func editStatus(to presence: Presence) {
     guard self.shards.count > 0 else { return }
-    var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
+    var data: [String: Any] = ["afk": presence.status == .idle, "game": NSNull(), "since": presence.status == .idle ? Date().milliseconds : 0, "status": presence.status.rawValue]
 
-    if game != nil {
-      data["game"] = game
+    if presence.game != nil {
+      data["game"] = ["name": presence.game]
     }
 
     let payload = Payload(op: .statusUpdate, data: data).encode()
@@ -419,7 +404,7 @@ public class Sword: Eventer {
       if error != nil {
         completion(nil)
       }else {
-        let member = Member(self, data as! [String: Any])
+        let member = Member(self, self.guilds[guildId]!, data as! [String: Any])
         completion(member)
       }
     }
@@ -453,6 +438,20 @@ public class Sword: Eventer {
         completion(data)
       }
     }
+  }
+
+  /**
+   Function to get guild for channelId
+
+   - parameter channelId: Channel to get guild from
+  */
+  public func getGuild(for channelId: String) -> Guild? {
+    var guilds = self.guilds.filter {
+      $0.1.channels[channelId] != nil
+    }
+
+    if guilds.isEmpty { return nil }
+    return guilds[0].1
   }
 
   /**

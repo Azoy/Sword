@@ -70,18 +70,16 @@ extension Shard {
       case .guildCreate:
         let guildId = data["id"] as! String
         let guild = Guild(self.sword, data, self.id)
+        self.sword.guilds[guildId] = guild
 
         if self.sword.unavailableGuilds[guildId] != nil {
           self.sword.unavailableGuilds.removeValue(forKey: guildId)
-
-          self.sword.guilds[guildId] = guild
           self.sword.emit(.guildAvailable, with: guild)
         }else {
-          self.sword.guilds[guildId] = guild
           self.sword.emit(.guildCreate, with: guild)
         }
 
-        if self.sword.options.isCacheAllMembers && guild.members.count != guild.memberCount {
+        if self.sword.options.isCachingAllMembers && guild.members.count != guild.memberCount {
           self.requestOfflineMembers(for: guild.id)
         }
 
@@ -120,7 +118,7 @@ extension Shard {
       /// GUILD_MEMBER_ADD
       case .guildMemberAdd:
         let guildId = data["guild_id"] as! String
-        let member = Member(self.sword, data)
+        let member = Member(self.sword, self.sword.guilds[guildId]!, data)
         self.sword.guilds[guildId]!.members[member.user.id] = member
         self.sword.emit(.guildMemberAdd, with: guildId, member)
         break
@@ -138,7 +136,7 @@ extension Shard {
         let guildId = data["guild_id"] as! String
         let members = data["members"] as! [[String: Any]]
         for member in members {
-          let member = Member(self.sword, member)
+          let member = Member(self.sword, self.sword.guilds[guildId]!, member)
           self.sword.guilds[guildId]!.members[member.user.id] = member
         }
         break
@@ -146,7 +144,7 @@ extension Shard {
       /// GUILD_MEMBER_UPDATE
       case .guildMemberUpdate:
         let guildId = data["guild_id"] as! String
-        let member = Member(self.sword, data)
+        let member = Member(self.sword, self.sword.guilds[guildId]!, data)
         self.sword.guilds[guildId]!.members[member.user.id] = member
         self.sword.emit(.guildMemberUpdate, with: member)
         break
@@ -205,8 +203,10 @@ extension Shard {
 
       /// PRESENCE_UPDATE
       case .presenceUpdate:
-        let user = User(self.sword, data["user"] as! [String: Any])
-        self.sword.emit(.presenceUpdate, with: user.id, ["status": data["status"] as! String, "game": data["game"]])
+        let userId = (data["user"] as! [String: Any])["id"] as! String
+        let presence = Presence(data)
+        self.sword.guilds[data["guild_id"] as! String]!.members[userId]!.presence = presence
+        self.sword.emit(.presenceUpdate, with: userId, presence)
         break
 
       /// READY
@@ -226,7 +226,11 @@ extension Shard {
 
       /// TYPING_START
       case .typingStart:
+        #if !os(Linux)
         let timestamp = Date(timeIntervalSince1970: data["timestamp"] as! Double)
+        #else
+        let timestamp = Date(timeIntervalSince1970: Double(data["timestamp"] as! Int))
+        #endif
         self.sword.emit(.typingStart, with: data["channel_id"] as! String, data["user_id"] as! String, timestamp)
         break
 
@@ -273,7 +277,7 @@ extension Shard {
 
         guard self.sword.voiceManager.guilds[guildId] != nil else { return }
 
-        let payload = Payload(voiceOP: VoiceOPCode(rawValue: 0)!, data: ["server_id": guildId, "user_id": self.sword.user!.id, "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"], "token": token]).encode()
+        let payload = Payload(voiceOP: .identify, data: ["server_id": guildId, "user_id": self.sword.user!.id, "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"], "token": token]).encode()
 
         self.sword.voiceManager.join(guildId, endpoint, payload)
         break

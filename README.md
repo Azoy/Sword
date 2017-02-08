@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/Azoy/Sword.svg?branch=master)](https://travis-ci.org/Azoy/Sword)
 
 # Requirements
-1. macOS or Linux
+1. macOS or Linux (Foundation for Linux stability is not trustworthy, so use with caution)
 2. Swift 3.0
 3. An internet connection
 
@@ -43,6 +43,4 @@ bot.connect()
 ```
 
 # Links
-https://azoy.github.io/Sword - Docs (created with https://github.com/Realm/Jazzy)
-
-https://github.com/Azoy/Sword/wiki - For more information on Installation and Events
+http://sword.azoy.gg - Docs (created with https://github.com/Realm/Jazzy)

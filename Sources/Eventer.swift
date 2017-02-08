@@ -9,7 +9,7 @@
 import Foundation
 
 /// Create a nifty Event Emitter in Swift
-public class Eventer {
+open class Eventer {
 
   var listeners: [Event: [([Any]) -> ()]] = [:]
 

@@ -18,16 +18,22 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-           Docs
+          Sword Docs
         </a>
          (100% documented)
       </p>
     
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Azoy/Sword">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
     
     </header>
 
     <p class="breadcrumbs">
-      <a class="breadcrumb" href="../index.html"> Reference</a>
+      <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
       Event Enum Reference
     </p>
@@ -62,7 +68,7 @@
                 <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/RequestError.html">RequestError</a>
+                <a class="nav-group-task-link" href="../Enums/Permission.html">Permission</a>
               </li>
             </ul>
           </li>
@@ -100,6 +106,12 @@
                 <a class="nav-group-task-link" href="../Structs/Overwrite.html">Overwrite</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Presence.html">Presence</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Presence/Status.html">– Status</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Role.html">Role</a>
               </li>
               <li class="nav-group-task">
@@ -116,6 +128,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/VoiceState.html">VoiceState</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Youtube.html">Youtube</a>
               </li>
             </ul>
           </li>
@@ -713,37 +728,6 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event17guildMembersChunkFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/guildMembersChunk" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event17guildMembersChunkFMS0_S0_">guildMembersChunk</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>This is an internal event, but fires when bot requests for offline members</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">guildMembersChunk</span> <span class="o">=</span> <span class="s">"GUILD_MEMBERS_CHUNK"</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
                     <a name="/s:FO5Sword5Event15guildRoleCreateFMS0_S0_"></a>
                     <a name="//apple_ref/swift/Element/guildRoleCreate" class="dashAnchor"></a>
                     <a class="token" href="#/s:FO5Sword5Event15guildRoleCreateFMS0_S0_">guildRoleCreate</a>
@@ -1098,7 +1082,7 @@
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">presenceUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
   <span class="k">let</span> <span class="nv">userId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
-  <span class="k">let</span> <span class="nv">presence</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span>
+  <span class="k">let</span> <span class="nv">presence</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Presence</span>
 <span class="p">}</span>
 </code></pre></p>
 
@@ -1145,37 +1129,6 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="k">case</span> <span class="n">ready</span> <span class="o">=</span> <span class="s">"READY"</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FO5Sword5Event6resumeFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/resume" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event6resumeFMS0_S0_">resume</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Internal event thats fired when bot reconnects to websocket</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">resume</span> <span class="o">=</span> <span class="s">"RESUME"</span></code></pre>
 
                         </div>
                       </div>
@@ -1372,44 +1325,13 @@
                 </li>
               </ul>
             </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FO5Sword5Event17voiceServerUpdateFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/voiceServerUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event17voiceServerUpdateFMS0_S0_">voiceServerUpdate</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Internal event that fires when voice channel moves servers, or bot tries to connect to voice connection</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">voiceServerUpdate</span> <span class="o">=</span> <span class="s">"VOICE_SERVER_UPDATE"</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
           </div>
         </section>
 
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2017-01-28)</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-02-07)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

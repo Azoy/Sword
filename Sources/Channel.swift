@@ -38,7 +38,7 @@ public struct Channel {
   public let name: String?
 
   /// Array of Overwrite strcuts for channel
-  public private(set) var permissionOverwrites: [Overwrite]? = []
+  public private(set) var permissionOverwrites: [String: Overwrite] = [:]
 
   /// Position of channel
   public let position: Int?
@@ -79,7 +79,8 @@ public struct Channel {
 
     if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
       for overwrite in overwrites {
-        self.permissionOverwrites!.append(Overwrite(overwrite))
+        let overwrite = Overwrite(overwrite)
+        self.permissionOverwrites[overwrite.id] = overwrite
       }
     }
 

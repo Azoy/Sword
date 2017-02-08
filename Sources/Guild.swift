@@ -132,16 +132,10 @@ public class Guild {
     self.isLarge = json["large"] as? Bool
     self.memberCount = json["member_count"] as! Int
 
-    if let members = json["members"] as? [[String: Any]] {
-      for member in members {
-        let member = Member(sword, member)
-        self.members[member.user.id] = member
-      }
-    }
-
     self.mfaLevel = json["mfa_level"] as! Int
     self.name = json["name"] as! String
     self.ownerId = json["owner_id"] as! String
+
     self.region = json["region"] as! String
 
     let roles = json["roles"] as! [[String: Any]]
@@ -153,6 +147,20 @@ public class Guild {
     self.shard = shard
     self.splash = json["splash"] as? String
     self.verificationLevel = json["verification_level"] as! Int
+
+    if let members = json["members"] as? [[String: Any]] {
+      for member in members {
+        let member = Member(sword, self, member)
+        self.members[member.user.id] = member
+      }
+    }
+
+    let presences = json["presences"] as! [[String: Any]]
+    for presence in presences {
+      let userId = (presence["user"] as! [String: Any])["id"] as! String
+      let presence = Presence(presence)
+      self.members[userId]!.presence = presence
+    }
 
     let voiceStates = json["voice_states"] as? [[String: Any]]
     if voiceStates != nil {
@@ -177,7 +185,7 @@ public class Guild {
       if error != nil {
         completion(nil)
       }else {
-        completion(Member(self.sword!, data as! [String: Any]))
+        completion(Member(self.sword!, self, data as! [String: Any]))
       }
     }
   }
@@ -329,7 +337,7 @@ public class Guild {
         var returnMembers: [Member] = []
         let members = data as! [[String: Any]]
         for member in members {
-          returnMembers.append(Member(self.sword!, member))
+          returnMembers.append(Member(self.sword!, self, member))
         }
 
         completion(returnMembers)
