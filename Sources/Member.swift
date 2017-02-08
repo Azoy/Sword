@@ -70,7 +70,7 @@ public struct Member {
   }
 
   public func has(permission: Permission) -> Bool {
-    if self.id == self.guild.ownerId {
+    if self.user.id == self.guild.ownerId {
       return true
     }
 
