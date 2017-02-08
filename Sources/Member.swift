@@ -13,7 +13,8 @@ public struct Member {
 
   // MARK: Properties
 
-  public let guild: Guild
+  /// Guild this member is tied to
+  public internal(set) weak var guild: Guild?
 
   /// Whether or not this member is deaf
   public let isDeaf: Bool?
@@ -27,6 +28,7 @@ public struct Member {
   /// Nickname of member
   public let nick: String?
 
+  /// Permission number for this user
   public internal(set) var permissions: Int = 0
 
   /// The current status of this user's presence
@@ -63,14 +65,21 @@ public struct Member {
     for role in roles {
       self.roles.append(role)
 
-      self.permissions |= self.guild.roles[role]!.permissions
+      self.permissions |= self.guild!.roles[role]!.permissions
     }
 
     self.user = User(sword, json["user"] as! [String: Any])
   }
 
+  // MARK: Functions
+
+  /**
+   Checks if member has a certain permission
+
+   - parameter permission: Permission to check for
+  */
   public func has(permission: Permission) -> Bool {
-    if self.user.id == self.guild.ownerId {
+    if self.user.id == self.guild!.ownerId {
       return true
     }
 
