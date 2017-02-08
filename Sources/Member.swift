@@ -70,6 +70,10 @@ public struct Member {
   }
 
   public func has(permission: Permission) -> Bool {
+    if self.id == self.guild.ownerId {
+      return true
+    }
+
     if self.permissions & Permission.administrator.rawValue > 0 {
       return true
     }
