@@ -14,14 +14,23 @@ class Request {
 
   // MARK: Properties
 
-  /// The bot token
-  let token: String
+  /// Used to store requests when being globally rate limited
+  var globalLockQueue: [() -> ()] = []
+
+  /// Whether or not the global queue is locked
+  var globallyLocked = false
+
+  /// The queue that handles requests made after being globally limited
+  let globalQueue = DispatchQueue(label: "gg.azoy.sword.global")
+
+  /// Collection of Collections of buckets mapped by route
+  var rateLimits: [String: Bucket] = [:]
 
   /// Global URLSession (trust me i saw it on a wwdc talk, this is legit lmfao)
   let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue())
 
-  /// Collection of Collections of buckets mapped by route
-  var rateLimits: [String: Bucket] = [:]
+  /// The bot token
+  let token: String
 
   // MARK: Initializer
 
@@ -48,11 +57,34 @@ class Request {
     #endif
 
     let string = NSString(string: url)
-    guard let result = regex.firstMatch(in: url, options: [], range: NSMakeRange(0, string.length)) else {
-      return ""
+    let matches = regex.matches(in: url, options: [], range: NSMakeRange(0, string.length))
+    var returnRoute = ""
+
+    for match in matches {
+      var parameters = string.substring(with: match.range).components(separatedBy: "/")
+      if parameters[1] == "channels" || parameters[1] == "guilds" {
+        returnRoute += parameters.joined(separator: "/")
+
+        continue
+      }
+      parameters.remove(at: 2)
+
+      returnRoute += parameters.joined(separator: "/")
     }
 
-    return string.substring(with: result.range)
+    let parameters = url.components(separatedBy: "/")
+    if parameters.count % 2 == 0 {
+      returnRoute += "/" + parameters[parameters.count - 1]
+    }
+
+    return returnRoute
+  }
+
+  func globalUnlock() {
+    self.globallyLocked = false
+    for request in self.globalLockQueue {
+      request()
+    }
   }
 
   /**
@@ -118,7 +150,21 @@ class Request {
       if response.statusCode != 200 && response.statusCode != 201 {
 
         if response.statusCode == 429 {
-          sleep(5)
+          #if !os(Linux)
+          let retryAfter = Int(headers["retry-after"] as! String)!
+          let global = headers["x-ratelimit-global"]
+          #else
+          let retryAfter = Int(headers["Retry-After"]!)!
+          let global = headers["X-RateLimit-Global"]
+          #endif
+
+          guard global == nil else {
+            self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(retryAfter)) {
+              self.globalUnlock()
+            }
+
+            return
+          }
         }
 
         if response.statusCode >= 500 {
@@ -130,28 +176,49 @@ class Request {
         return
       }
 
-      #if !os(Linux)
-      let limit = Int(headers["x-ratelimit-limit"] as! String)!
-      let remaining = Int(headers["x-ratelimit-remaining"] as! String)!
-      let interval = Int(Double(headers["x-ratelimit-reset"] as! String)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
-      #else
-      let limit = Int(headers["X-RateLimit-Limit"]!)!
-      let remaining = Int(headers["X-RateLimit-Remaining"]!)!
-      let interval = Int(Double(headers["X-RateLimit-Reset"]!)! - (headers["Date"]!).dateNorm.timeIntervalSince1970)
-      #endif
+      if rateLimited {
+        #if !os(Linux)
+        let limitHeader = headers["x-ratelimit-limit"]
+        let remainingHeader = headers["x-ratelimit-remaining"]
+        let intervalHeader = headers["x-ratelimit-reset"]
+        #else
+        let limitHeader = headers["X-RateLimit-Limit"]
+        let remainingHeader = headers["X-RateLimit-Remaining"]
+        let intervalHeader = headers["X-RateLimit-Reset"]
+        #endif
 
-      if rateLimited && route != "" && self.rateLimits[route] == nil {
-        let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: limit, interval: interval)
-        bucket.take(1)
+        if limitHeader != nil && remainingHeader != nil && intervalHeader != nil {
+          #if !os(Linux)
+          let limit = Int(limitHeader as! String)!
+          let remaining = Int(remainingHeader as! String)!
+          let interval = Int(Double(intervalHeader as! String)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
+          #else
+          let limit = Int(limitHeader!)!
+          let remaining = Int(remainingHeader!)!
+          let interval = Int(Double(intervalHeader!)! - (headers["Date"]!).dateNorm.timeIntervalSince1970)
+          #endif
 
-        if self.rateLimits[route] == nil {
-          self.rateLimits[route] = bucket
-        }
-      }else if self.rateLimits[route] != nil {
-        let bucket = self.rateLimits[route]!
+          if route != "" && self.rateLimits[route] == nil {
+            let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: limit, interval: interval)
+            bucket.take(1)
 
-        if bucket.tokens != remaining {
-          bucket.take(bucket.tokens - remaining)
+            self.rateLimits[route] = bucket
+          }else {
+            if self.rateLimits[route]!.tokens != remaining {
+              self.rateLimits[route]!.tokens = remaining
+            }
+
+            if self.rateLimits[route]!.limit != limit {
+              self.rateLimits[route]!.limit = limit
+            }
+          }
+        }else {
+          if route != "" && self.rateLimits[route] == nil {
+            let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: 1, interval: 2)
+            bucket.take(1)
+
+            self.rateLimits[route] = bucket
+          }
         }
       }
 
@@ -165,17 +232,25 @@ class Request {
       sema.signal()
     }
 
-    if rateLimited && self.rateLimits[route] != nil {
-      let item = DispatchWorkItem {
+    let apiCall = {
+      if rateLimited && self.rateLimits[route] != nil {
+        let item = DispatchWorkItem {
+          task.resume()
+
+          sema.wait()
+        }
+        self.rateLimits[route]!.queue(item)
+      }else {
         task.resume()
 
         sema.wait()
       }
-      self.rateLimits[route]!.queue(item)
-    }else {
-      task.resume()
+    }
 
-      sema.wait()
+    if !self.globallyLocked {
+      apiCall()
+    }else {
+      self.globalLockQueue.append(apiCall)
     }
 
   }

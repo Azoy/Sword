@@ -151,7 +151,7 @@ extension Shard {
 
       /// GUILD_ROLE_CREATE
       case .guildRoleCreate:
-        let guildId = data["guildId"] as! String
+        let guildId = data["guild_id"] as! String
         let role = Role(data["role"] as! [String: Any])
         self.sword.guilds[guildId]!.roles[role.id] = role
         self.sword.emit(.guildRoleCreate, with: guildId, role)
