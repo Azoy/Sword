@@ -34,8 +34,8 @@ extension Shard {
         if (data["is_private"] as! Bool) {
           self.sword.emit(.channelCreate, with: DMChannel(self.sword, data))
         }else {
-          let channel = Channel(self.sword, data)
-          self.sword.guilds[channel.guildId!]!.channels[channel.id] = channel
+          let channel = GuildChannel(self.sword, data)
+          self.sword.guilds[channel.guild!.id]!.channels[channel.id] = channel
           self.sword.emit(.channelCreate, with: channel)
         }
         break
@@ -45,15 +45,15 @@ extension Shard {
         if (data["is_private"] as! Bool) {
           self.sword.emit(.channelDelete, with: DMChannel(self.sword, data))
         }else {
-          let channel = Channel(self.sword, data)
-          self.sword.guilds[channel.guildId!]!.channels.removeValue(forKey: channel.id)
+          let channel = GuildChannel(self.sword, data)
+          self.sword.guilds[channel.guild!.id]!.channels.removeValue(forKey: channel.id)
           self.sword.emit(.channelDelete, with: channel)
         }
         break
 
       /// CHANNEL_UPDATE
       case .channelUpdate:
-        self.sword.emit(.channelUpdate, with: Channel(self.sword, data))
+        self.sword.emit(.channelUpdate, with: GuildChannel(self.sword, data))
         break
 
       /// GUILD_BAN_ADD

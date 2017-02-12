@@ -80,6 +80,7 @@ class Request {
     return returnRoute
   }
 
+  /// Used to un clog the global queue full of requests that woudld've resulted in 429 because of global rate limit
   func globalUnlock() {
     self.globallyLocked = false
     for request in self.globalLockQueue {

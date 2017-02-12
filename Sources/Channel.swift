@@ -8,19 +8,203 @@
 
 import Foundation
 
-/// Channel Type
-public struct Channel {
+public protocol Channel {
+
+  weak var sword: Sword? { get }
+
+  var id: String { get }
+
+  var lastMessageId: String? { get }
+
+  func add(reaction: String, to messageId: String, _ completion: @escaping () -> ())
+
+  func delete(message messageId: String, _ completion: @escaping () -> ())
+
+  func delete(messages: [String], _ completion: @escaping () -> ())
+
+  func delete(pinnedMessage messageId: String, _ completion: @escaping () -> ())
+
+  func delete(reaction: String, from messageId: String, by userId: String?, _ completion: @escaping () -> ())
+
+  func edit(message messageId: String, to content: String, _ completion: @escaping (Message?) -> ())
+
+  func get(reaction: String, from messageId: String, _ completion: @escaping ([User]?) -> ())
+
+  func getPinnedMessages(_ completion: @escaping ([Message]?) -> ())
+
+  func pin(_ messageId: String, _ completion: @escaping () -> ())
+
+  func send(_ message: String, _ completion: @escaping (Message?) -> ())
+
+}
+
+extension Channel {
+
+  /**
+   Adds a reaction (unicode or custom emoji) to message
+
+   - parameter reaction: Unicode or custom emoji reaction
+   - parameter messageId: Message to add reaction to
+   */
+  public func add(reaction: String, to messageId: String, _ completion: @escaping () -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.createReaction(self.id, messageId, reaction), method: "PUT") { error, data in
+      if error == nil { completion() }
+    }
+  }
+
+  /**
+   Deletes a message from this channel
+
+   - parameter messageId: Message to delete
+   */
+  public func delete(message messageId: String, _ completion: @escaping () -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.deleteMessage(self.id, messageId), method: "DELETE") { error, data in
+      if error == nil { completion() }
+    }
+  }
+
+  /**
+   Bulk deletes messages
+
+   - parameter messages: Array of message ids to delete
+   */
+  public func delete(messages: [String], _ completion: @escaping () -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.bulkDeleteMessages(self.id), body: messages.createBody(), method: "POST") { error, data in
+      if error == nil { completion() }
+    }
+  }
+
+  /**
+   Deletes a pinned message from this channel
+
+   - parameter messageId: Pinned message to delete
+   */
+  public func delete(pinnedMessage messageId: String, _ completion: @escaping () -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.deletePinnedChannelMessage(self.id, messageId), method: "DELETE") { error, data in
+      if error == nil { completion() }
+    }
+  }
+
+  /**
+   Deletes a reaction from message by user
+
+   - parameter reaction: Unicode or custom emoji to delete
+   - parameter messageId: Message to delete reaction from
+   - parameter userId: If nil, deletes bot's reaction from, else delete a reaction from user
+   */
+  public func delete(reaction: String, from messageId: String, by userId: String? = nil, _ completion: @escaping () -> () = {_ in}) {
+    var url = ""
+    if userId != nil {
+      url = self.sword!.endpoints.deleteUserReaction(self.id, messageId, reaction, userId!)
+    }else {
+      url = self.sword!.endpoints.deleteOwnReaction(self.id, messageId, reaction)
+    }
+
+    self.sword!.requester.request(url, method: "DELETE") { error, data in
+      if error == nil { completion() }
+    }
+  }
+
+  /**
+   Edits a message's content
+
+   - parameter messageId: Message to edit
+   - parameter content: Text to change message to
+   */
+  public func edit(message messageId: String, to content: String, _ completion: @escaping (Message?) -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.editMessage(self.id, messageId), body: ["content": content].createBody(), method: "PATCH") { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        completion(Message(self.sword!, data as! [String: Any]))
+      }
+    }
+  }
+
+  /**
+   Gets an array of users who used reaction from message
+
+   - parameter reaction: Unicode or custom emoji to get
+   - parameter messageId: Message to get reaction users from
+   */
+  public func get(reaction: String, from messageId: String, _ completion: @escaping ([User]?) -> ()) {
+    self.sword!.requester.request(self.sword!.endpoints.getReactions(self.id, messageId, reaction)) { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        var returnUsers: [User] = []
+        let users = data as! [[String: Any]]
+        for user in users {
+          returnUsers.append(User(self.sword!, user))
+        }
+
+        completion(returnUsers)
+      }
+    }
+  }
+
+  /// Get Pinned messages for this channel
+  public func getPinnedMessages(_ completion: @escaping ([Message]?) -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.getPinnedMessages(self.id)) { error, data in
+      if error != nil {
+        completion(nil)
+      }else {
+        var returnMessages: [Message] = []
+        let messages = data as! [[String: Any]]
+        for message in messages {
+          returnMessages.append(Message(self.sword!, message))
+        }
+
+        completion(returnMessages)
+      }
+    }
+  }
+
+  /**
+   Pins a message to this channel
+
+   - parameter messageId: Message to pin
+   */
+  public func pin(_ messageId: String, _ completion: @escaping () -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.addPinnedChannelMessage(self.id, messageId), method: "PUT") { error, data in
+      if error == nil { completion() }
+    }
+  }
+
+  /**
+   Sends a message to channel
+
+   - parameter message: Message to send
+  */
+  public func send(_ message: String, _ completion: @escaping (Message?) -> () = {_ in}) {
+    self.sword!.send(message, to: self.id) { msg in
+      completion(msg)
+    }
+  }
+
+}
+
+/// GuildChannel Type
+public struct GuildChannel: Channel {
 
   // MARK: Properties
 
   /// Parent class
-  private weak var sword: Sword?
+  public weak var sword: Sword?
 
   /// (Voice) bitrate (in bits) for channel
   public let bitrate: Int?
 
   /// Guild ID that this channel belongs to
-  public let guildId: String?
+  public var guild: Guild? {
+    if self.guildId != nil {
+      return self.sword!.guilds[self.guildId!]
+    }else {
+      return nil
+    }
+  }
+
+  private let guildId: String?
 
   /// ID of the channel
   public let id: String
@@ -93,82 +277,17 @@ public struct Channel {
   // MARK: Functions
 
   /**
-   Adds a reaction (unicode or custom emoji) to message
-
-   - parameter reaction: Unicode or custom emoji reaction
-   - parameter messageId: Message to add reaction to
-   */
-  public func add(reaction: String, to messageId: String, _ completion: @escaping () -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.createReaction(self.id, messageId, reaction), method: "PUT") { error, data in
-      if error == nil { completion() }
-    }
-  }
-
-  /**
    Creates a webhook for this channel
 
    - parameter options: ["name": "name here", "avatar": "img data as base64"]
    */
-  public func createWebhook(with options: [String: String] = [:], _ completion: @escaping ([String: Any]?) -> () = {_ in}) {
+  public func createWebhook(with options: [String: String] = [:], _ completion: @escaping (Webhook?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.createWebhook(self.id), body: options.createBody(), method: "POST") { error, data in
       if error != nil {
         completion(nil)
       }else {
-        completion(data as? [String: Any])
+        completion(Webhook(self.sword!, data as! [String: Any]))
       }
-    }
-  }
-
-  /**
-   Deletes a message from this channel
-
-   - parameter messageId: Message to delete
-   */
-  public func delete(message messageId: String, _ completion: @escaping () -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.deleteMessage(self.id, messageId), method: "DELETE") { error, data in
-      if error == nil { completion() }
-    }
-  }
-
-  /**
-   Bulk deletes messages
-
-   - parameter messages: Array of message ids to delete
-   */
-  public func delete(messages: [String], _ completion: @escaping () -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.bulkDeleteMessages(self.id), body: messages.createBody(), method: "POST") { error, data in
-      if error == nil { completion() }
-    }
-  }
-
-  /**
-   Deletes a pinned message from this channel
-
-   - parameter messageId: Pinned message to delete
-   */
-  public func delete(pinnedMessage messageId: String, _ completion: @escaping () -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.deletePinnedChannelMessage(self.id, messageId), method: "DELETE") { error, data in
-      if error == nil { completion() }
-    }
-  }
-
-  /**
-   Deletes a reaction from message by user
-
-   - parameter reaction: Unicode or custom emoji to delete
-   - parameter messageId: Message to delete reaction from
-   - parameter userId: If nil, deletes bot's reaction from, else delete a reaction from user
-   */
-  public func delete(reaction: String, from messageId: String, by userId: String? = nil, _ completion: @escaping () -> () = {_ in}) {
-    var url = ""
-    if userId != nil {
-      url = self.sword!.endpoints.deleteUserReaction(self.id, messageId, reaction, userId!)
-    }else {
-      url = self.sword!.endpoints.deleteOwnReaction(self.id, messageId, reaction)
-    }
-
-    self.sword!.requester.request(url, method: "DELETE") { error, data in
-      if error == nil { completion() }
     }
   }
 
@@ -183,91 +302,19 @@ public struct Channel {
     }
   }
 
-  /**
-   Edits a message's content
-
-   - parameter messageId: Message to edit
-   - parameter content: Text to change message to
-   */
-  public func edit(message messageId: String, to content: String, _ completion: @escaping (Message?) -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.editMessage(self.id, messageId), body: ["content": content].createBody(), method: "PATCH") { error, data in
-      if error != nil {
-        completion(nil)
-      }else {
-        completion(Message(self.sword!, data as! [String: Any]))
-      }
-    }
-  }
-
-  /**
-   Gets an array of users who used reaction from message
-
-   - parameter reaction: Unicode or custom emoji to get
-   - parameter messageId: Message to get reaction users from
-   */
-  public func get(reaction: String, from messageId: String, _ completion: @escaping ([User]?) -> ()) {
-    self.sword!.requester.request(self.sword!.endpoints.getReactions(self.id, messageId, reaction)) { error, data in
-      if error != nil {
-        completion(nil)
-      }else {
-        var returnUsers: [User] = []
-        let users = data as! [[String: Any]]
-        for user in users {
-          returnUsers.append(User(self.sword!, user))
-        }
-
-        completion(returnUsers)
-      }
-    }
-  }
-
-  /// Get Pinned messages for this channel
-  public func getPinnedMessages(_ completion: @escaping ([Message]?) -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.getPinnedMessages(self.id)) { error, data in
-      if error != nil {
-        completion(nil)
-      }else {
-        var returnMessages: [Message] = []
-        let messages = data as! [[String: Any]]
-        for message in messages {
-          returnMessages.append(Message(self.sword!, message))
-        }
-
-        completion(returnMessages)
-      }
-    }
-  }
-
   /// Gets this channel's webhooks
-  public func getWebhooks(_ completion: @escaping ([[String: Any]]?) -> ()) {
+  public func getWebhooks(_ completion: @escaping ([Webhook]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.getChannelWebhooks(self.id)) { error, data in
       if error != nil {
         completion(nil)
       }else {
-        completion(data as? [[String: Any]])
+        var returnWebhooks: [Webhook] = []
+        let webhooks = data as! [[String: Any]]
+        for webhook in webhooks {
+          returnWebhooks.append(Webhook(self.sword!, webhook))
+        }
+        completion(returnWebhooks)
       }
-    }
-  }
-
-  /**
-   Pins a message to this channel
-
-   - parameter messageId: Message to pin
-   */
-  public func pin(_ messageId: String, _ completion: @escaping () -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.addPinnedChannelMessage(self.id, messageId), method: "PUT") { error, data in
-      if error == nil { completion() }
-    }
-  }
-
-  /**
-   Sends a message to channel
-
-   - parameter message: Message to send
-  */
-  public func send(_ message: String, _ completion: @escaping (Message?) -> () = {_ in}) {
-    self.sword!.send(message, to: self.id) { msg in
-      completion(msg)
     }
   }
 
@@ -307,18 +354,20 @@ public struct Overwrite {
 }
 
 /// DMChannel Type
-public struct DMChannel {
+public struct DMChannel: Channel {
 
   // MARK: Properties
+
+  public weak var sword: Sword?
 
   /// ID of DM
   public let id: String
 
   /// The recipient of this DM
-  public let recipient: User
+  public let recipient: User?
 
   /// The last message's ID
-  public let lastMessageId: String
+  public let lastMessageId: String?
 
   /**
    Creates a DMChannel struct
@@ -327,9 +376,17 @@ public struct DMChannel {
    - parameter json: JSON representable as a dictionary
    */
   init(_ sword: Sword, _ json: [String: Any]) {
+    self.sword = sword
+
     self.id = json["id"] as! String
-    self.recipient = User(sword, json["recipient"] as! [String: Any])
-    self.lastMessageId = json["last_message_id"] as! String
+
+    if json["user"] != nil {
+      self.recipient = User(sword, json["recipient"] as! [String: Any])
+    }else {
+      self.recipient = nil
+    }
+
+    self.lastMessageId = json["last_message_id"] as? String
   }
 
 }

@@ -174,7 +174,7 @@ open class Sword: Eventable {
       }else {
         let channelData = data as! [String: Any]
         if channelData["recipient"] == nil {
-          completion(Channel(self, channelData))
+          completion(GuildChannel(self, channelData))
         }else {
           completion(DMChannel(self, channelData))
         }
@@ -248,7 +248,7 @@ open class Sword: Eventable {
       if error != nil {
         completion(nil)
       }else {
-        completion(Channel(self, data as! [String: Any]))
+        completion(GuildChannel(self, data as! [String: Any]))
       }
     }
   }
@@ -468,7 +468,7 @@ open class Sword: Eventable {
       }else {
         let channelData = data as! [String: Any]
         if channelData["recipient"] == nil {
-          completion(Channel(self, channelData))
+          completion(GuildChannel(self, channelData))
         }else {
           completion(DMChannel(self, channelData))
         }
@@ -521,7 +521,7 @@ open class Sword: Eventable {
         var returnChannels: [Channel] = []
         let channels = data as! [[String: Any]]
         for channel in channels {
-          returnChannels.append(Channel(self, channel))
+          returnChannels.append(GuildChannel(self, channel))
         }
 
         completion(returnChannels)

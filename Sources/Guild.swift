@@ -14,7 +14,7 @@ public class Guild {
   // MARK: Properties
 
   /// Parent class
-  private weak var sword: Sword?
+  public weak var sword: Sword?
 
   /// ID of afk voice channel (if there is any)
   public let afkChannelId: String?
@@ -23,7 +23,7 @@ public class Guild {
   public let afkTimeout: Int?
 
   /// Collection of channels mapped by channel ID
-  public internal(set) var channels: [String: Channel] = [:]
+  public internal(set) var channels: [String: GuildChannel] = [:]
 
   /// Default notification protocol
   public let defaultMessageNotifications: Int
@@ -94,12 +94,16 @@ public class Guild {
   init(_ sword: Sword, _ json: [String: Any], _ shard: Int? = nil) {
     self.sword = sword
 
+    self.id = json["id"] as! String
+
     self.afkChannelId = json["afk_channel_id"] as? String
     self.afkTimeout = json["afk_timeout"] as? Int
 
     if let channels = json["channels"] as? [[String: Any]] {
       for channel in channels {
-        let channel = Channel(sword, channel)
+        var returnChannel = channel
+        returnChannel["guild_id"] = self.id
+        let channel = GuildChannel(sword, returnChannel)
         self.channels[channel.id] = channel
       }
     }
@@ -121,7 +125,6 @@ public class Guild {
     }
 
     self.icon = json["icon"] as? String
-    self.id = json["id"] as! String
 
     if let joinedAt = json["joined_at"] as? String {
       self.joinedAt = joinedAt.date
@@ -207,12 +210,12 @@ public class Guild {
 
    - parameter options: ["name": "nameofchannel", "type": "voice" || "text", "user_limit": 5]
    */
-  public func createChannel(with options: [String: Any], _ completion: @escaping (Channel?) -> () = {_ in}) {
+  public func createChannel(with options: [String: Any], _ completion: @escaping (GuildChannel?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.createGuildChannel(self.id), body: options.createBody(), method: "POST") { error, data in
       if error != nil {
         completion(nil)
       }else {
-        completion(Channel(self.sword!, data as! [String: Any]))
+        completion(GuildChannel(self.sword!, data as! [String: Any]))
       }
     }
   }
@@ -461,15 +464,15 @@ public class Guild {
 
    - parameter options: [["id": "channel id", "position": 0]]
    */
-  public func modifyChannelPositions(with options: [[String: Any]], _ completion: @escaping ([Channel]?) -> () = {_ in}) {
+  public func modifyChannelPositions(with options: [[String: Any]], _ completion: @escaping ([GuildChannel]?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.modifyGuildChannelPositions(self.id), body: options.createBody(), method: "PATCH") { error, data in
       if error != nil {
         completion(nil)
       }else {
-        var returnChannels: [Channel] = []
+        var returnChannels: [GuildChannel] = []
         let channels = data as! [[String: Any]]
         for channel in channels {
-          returnChannels.append(Channel(self.sword!, channel))
+          returnChannels.append(GuildChannel(self.sword!, channel))
         }
 
         completion(returnChannels)
