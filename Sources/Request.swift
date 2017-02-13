@@ -165,12 +165,18 @@ class Request {
               self.globalUnlock()
             }
 
+            sema.signal()
             return
           }
         }
 
         if response.statusCode >= 500 {
-          sleep(3)
+          self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) {
+            self.request(url, body: body, file: file, authorization: authorization, method: method, rateLimited: rateLimited, completion: completion)
+          }
+
+          sema.signal()
+          return
         }
 
         completion(response.status, nil)
