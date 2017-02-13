@@ -112,6 +112,11 @@ open class Shield: Sword {
    - parameter commandName: Command to get rid of
   */
   public func unregister(_ commandName: String) {
+    for (key, value) in self.commandAliases {
+      if value == commandName {
+        self.commandAliases.removeValue(forKey: key)
+      }
+    }
     self.commands.removeValue(forKey: commandName)
   }
 

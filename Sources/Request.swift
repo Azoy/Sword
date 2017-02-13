@@ -160,6 +160,7 @@ class Request {
           #endif
 
           guard global == nil else {
+            self.globallyLocked = true
             self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(retryAfter)) {
               self.globalUnlock()
             }

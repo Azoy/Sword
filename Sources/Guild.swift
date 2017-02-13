@@ -90,7 +90,7 @@ public class Guild {
    - parameter sword: Parent class
    - parameter json: JSON representable as a dictionary
    - parameter shard: Shard ID this guild is handled by
-   */
+  */
   init(_ sword: Sword, _ json: [String: Any], _ shard: Int? = nil) {
     self.sword = sword
 
@@ -178,44 +178,44 @@ public class Guild {
   // MARK: Functions
 
   /**
-   Adds a member to this guild
-
-   - parameter userId: Member to add
-   - parameter options: ["nick": "nickname to give", "roles": ["roleidshere"], "mute": false, "deaf": false]
-   */
-  public func add(member userId: String, with options: [String: Any] = [:], _ completion: @escaping (Member?) -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.addGuildMember(self.id, userId), body: options.createBody(), method: "PUT") { error, data in
-      if error != nil {
-        completion(nil)
-      }else {
-        completion(Member(self.sword!, self, data as! [String: Any]))
-      }
-    }
-  }
-
-  /**
    Bans a member from this guild
 
+   #### Option Params ####
+
+   - **delete-message-days**: Number of days to delete messages for (0-7)
+
    - parameter userId: Member to ban
-   - parameter options: Delete messages from this user ["delete-message-days": 5]
-   */
-  public func ban(member userId: String, with options: [String: Int] = [:], _ completion: @escaping () -> () = {_ in}) {
+   - parameter options: Deletes messages from this user by amount of days
+  */
+  public func ban(member userId: String, with options: [String: Int] = [:], _ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.createGuildBan(self.id, userId), body: options.createBody(), method: "PUT") { error, data in
-      if error == nil { completion() }
+      if error != nil {
+        completion(error)
+      }else {
+        completion(nil)
+      }
     }
   }
 
   /**
    Creates a channel in this guild
 
-   - parameter options: ["name": "nameofchannel", "type": "voice" || "text", "user_limit": 5]
-   */
-  public func createChannel(with options: [String: Any], _ completion: @escaping (GuildChannel?) -> () = {_ in}) {
+   #### Option Params ####
+
+   - **name**: The name to give this channel
+   - **type**: The type of channel to create
+   - **bitrate**: If a voice channel, sets the bitrate for the voice channel
+   - **user_limit**: If a voice channel, sets the maximum amount of users to be allowed at a time
+   - **permission_overwrites**: Array of overwrite objects to give this channel
+
+   - parameter options: Preconfigured options to give the channel on create
+  */
+  public func createChannel(with options: [String: Any], _ completion: @escaping (RequestError?, GuildChannel?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.createGuildChannel(self.id), body: options.createBody(), method: "POST") { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(GuildChannel(self.sword!, data as! [String: Any]))
+        completion(nil, GuildChannel(self.sword!, data as! [String: Any]))
       }
     }
   }
@@ -223,21 +223,30 @@ public class Guild {
   /**
    Creates an integration for this guild
 
-   - parameter options: ["type": "twitch, youtube..etc", "id": "user integration id"]
-   */
-  public func createIntegration(with options: [String: String], _ completion: @escaping () -> () = {_ in}) {
+   #### Option Params ####
+
+   - **type**: The type of integration to create
+   - **id**: The id of the user's integration to link to this guild
+
+   - parameter options: Preconfigured options for this integration
+  */
+  public func createIntegration(with options: [String: String], _ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.createGuildIntegration(self.id), body: options.createBody(), method: "POST") { error, data in
-      if error == nil { completion() }
+      if error != nil {
+        completion(error)
+      }else {
+        completion(nil)
+      }
     }
   }
 
   /// Creates a guild role
-  public func createRole(_ completion: @escaping (Role?) -> () = {_ in}) {
+  public func createRole(_ completion: @escaping (RequestError?, Role?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.createGuildRole(self.id), method: "POST") { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(Role(data as! [String: Any]))
+        completion(nil, Role(data as! [String: Any]))
       }
     }
   }
@@ -246,10 +255,14 @@ public class Guild {
    Deletes an integration from this guild
 
    - parameter integrationId: Integration to delete
-   */
-  public func delete(integration integrationId: String, _ completion: @escaping () -> () = {_ in}) {
+  */
+  public func delete(integration integrationId: String, _ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.deleteGuildIntegration(self.id, integrationId), method: "DELETE") { error, data in
-      if error == nil { completion() }
+      if error != nil {
+        completion(error)
+      }else {
+        completion(nil)
+      }
     }
   }
 
@@ -257,35 +270,35 @@ public class Guild {
    Deletes a role from this guild
 
    - parameter roleId: Role to delete
-   */
-  public func delete(role roleId: String, _ completion: @escaping (Role?) -> () = {_ in}) {
+  */
+  public func delete(role roleId: String, _ completion: @escaping (RequestError?, Role?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.deleteGuildRole(self.id, roleId), method: "DELETE") { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(Role(data as! [String: Any]))
+        completion(nil, Role(data as! [String: Any]))
       }
     }
   }
 
   /// Deletes current guild
-  public func delete(_ completion: @escaping (Guild?) -> () = {_ in}) {
+  public func delete(_ completion: @escaping (RequestError?, Guild?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.deleteGuild(self.id), method: "DELETE") { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
         let guild = Guild(self.sword!, data as! [String: Any], self.shard)
         self.sword!.guilds.removeValue(forKey: self.id)
-        completion(guild)
+        completion(nil, guild)
       }
     }
   }
 
   /// Gets guild's bans
-  public func getBans(_ completion: @escaping ([User]?) -> ()) {
+  public func getBans(_ completion: @escaping (RequestError?, [User]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.getGuildBans(self.id)) { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
         var returnUsers: [User] = []
         let users = data as! [[String: Any]]
@@ -293,49 +306,49 @@ public class Guild {
           returnUsers.append(User(self.sword!, user))
         }
 
-        completion(returnUsers)
+        completion(nil, returnUsers)
       }
     }
   }
 
   /// Gets the guild embed
-  public func getEmbed(_ completion: @escaping ([String: Any]?) -> ()) {
+  public func getEmbed(_ completion: @escaping (RequestError?, [String: Any]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.getGuildEmbed(self.id)) { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(data as? [String: Any])
+        completion(nil, data as? [String: Any])
       }
     }
   }
 
   /// Gets guild's integrations
-  public func getIntegrations(_ completion: @escaping ([[String: Any]]?) -> ()) {
+  public func getIntegrations(_ completion: @escaping (RequestError?, [[String: Any]]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.getGuildIntegrations(self.id)) { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(data as? [[String: Any]])
+        completion(nil, data as? [[String: Any]])
       }
     }
   }
 
   /// Gets guild's invites
-  public func getInvites(_ completion: @escaping ([[String: Any]]?) -> ()) {
+  public func getInvites(_ completion: @escaping (RequestError?, [[String: Any]]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.getGuildInvites(self.id)) { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(data as? [[String: Any]])
+        completion(nil, data as? [[String: Any]])
       }
     }
   }
 
   /// Gets an array of guild members
-  public func getMembers(_ completion: @escaping ([Member]?) -> ()) {
+  public func getMembers(_ completion: @escaping (RequestError?, [Member]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.listGuildMembers(self.id)) { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
         var returnMembers: [Member] = []
         let members = data as! [[String: Any]]
@@ -343,7 +356,7 @@ public class Guild {
           returnMembers.append(Member(self.sword!, self, member))
         }
 
-        completion(returnMembers)
+        completion(nil, returnMembers)
       }
     }
   }
@@ -352,22 +365,22 @@ public class Guild {
    Gets number of users who would be pruned by x amount of days
 
    - parameter limit: Number of days to get prune count for
-   */
-  public func getPruneCount(for limit: Int, _ completion: @escaping (Int?) -> () = {_ in}) {
+  */
+  public func getPruneCount(for limit: Int, _ completion: @escaping (RequestError?, Int?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.getGuildPruneCount(self.id), body: ["days": limit].createBody()) { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(data as? Int)
+        completion(nil, data as? Int)
       }
     }
   }
 
   /// Gets guild roles
-  public func getRoles(_ completion: @escaping ([Role]?) -> ()) {
+  public func getRoles(_ completion: @escaping (RequestError?, [Role]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.getGuildRoles(self.id)) { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
         var returnRoles: [Role] = []
         let roles = data as! [[String: Any]]
@@ -375,29 +388,29 @@ public class Guild {
           returnRoles.append(Role(role))
         }
 
-        completion(returnRoles)
+        completion(nil, returnRoles)
       }
     }
   }
 
   /// Gets an array of voice regions from guild
-  public func getVoiceRegions(_ completion: @escaping ([[String: Any]]?) -> ()) {
+  public func getVoiceRegions(_ completion: @escaping (RequestError?, [[String: Any]]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.getGuildVoiceRegions(self.id)) { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(data as? [[String: Any]])
+        completion(nil, data as? [[String: Any]])
       }
     }
   }
 
   /// Gets guild's webhooks
-  public func getWebhooks(_ completion: @escaping ([[String: Any]]?) -> ()) {
+  public func getWebhooks(_ completion: @escaping (RequestError?, [[String: Any]]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.getGuildWebhooks(self.id)) { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(data as? [[String: Any]])
+        completion(nil, data as? [[String: Any]])
       }
     }
   }
@@ -405,39 +418,69 @@ public class Guild {
   /**
    Modifies an integration from this guild
 
+   #### Option Params ####
+
+   - **expire_behavior**: The behavior when an integration subscription lapses (see the [integration](https://discordapp.com/developers/docs/resources/guild#integration-object) object documentation)
+   - **expire_grace_period**: Period (in seconds) where the integration will ignore lapsed subscriptions
+   - **enable_emoticons**: Whether emoticons should be synced for this integration (twitch only currently), true or false
+
    - parameter integrationId: Integration to modify
-   - parameter options: ["expire_grace_period": 60 (seconds in which integration will ignore lapsed subscription), "enable_emoticons": true (whether or not they should be enabled)]
-   */
-  public func modify(integration integrationId: String, with options: [String: Any], _ completion: @escaping () -> () = {_ in}) {
+   - parameter options: Preconfigured options to modify this integration with
+  */
+  public func modify(integration integrationId: String, with options: [String: Any], _ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.modifyGuildIntegration(self.id, integrationId), body: options.createBody(), method: "PATCH") { error, data in
-      if error == nil { completion() }
+      if error != nil {
+        completion(error)
+      }else {
+        completion(nil)
+      }
     }
   }
 
   /**
    Modifies a member from this guild
 
+   #### Options Params ####
+
+   - **nick**: The nickname to assign
+   - **roles**: Array of role id's that should be assigned to the member
+   - **mute**: Whether or not to server mute the member
+   - **deaf**: Whether or not to server deafen the member
+   - **channel_id**: If the user is connected to a voice channel, assigns them the new voice channel they are to connect.
+
    - parameter userId: Member to modify
-   - parameter options: ["nick": "nickname for user", "roles": ["roleids"], "mute": true, "deaf": true, "channel_id": "id of voice channel to move user"]
-   */
-  public func modify(member userId: String, with options: [String: Any], _ completion: @escaping () -> () = {_ in}) {
+   - parameter options: Preconfigured options to modify member with
+  */
+  public func modify(member userId: String, with options: [String: Any], _ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.modifyGuildMember(self.id, userId), body: options.createBody(), method: "PATCH") { error, data in
-      if error == nil { completion() }
+      if error != nil {
+        completion(error)
+      }else {
+        completion(nil)
+      }
     }
   }
 
   /**
    Modifies a role from this guild
 
+   #### Options Params ####
+
+   - **name**: The name to assign to the role
+   - **permissions**: The bitwise permission integer
+   - **color**: RGB int color value to assign to the role
+   - **hoist**: Whether or not this role should be hoisted on the member list
+   - **mentionable**: Whether or not this role should be mentionable by everyone
+
    - parameter roleId: Role to modify
-   - parameter options: ["name": "name of role", "permissions": 8 (permission number for role), "position": 1 (role position number), "color": 16777215 (Int value for RGB), "hoist": true, "mentionable": true]
-   */
-  public func modify(role roleId: String, with options: [String: Any], _ completion: @escaping (Role?) -> () = {_ in}) {
+   - parameter options: Preconfigured options to modify guild roles with
+  */
+  public func modify(role roleId: String, with options: [String: Any], _ completion: @escaping (RequestError?, Role?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.modifyGuildRole(self.id, roleId), body: options.createBody(), method: "PATCH") { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(Role(data as! [String: Any]))
+        completion(nil, Role(data as! [String: Any]))
       }
     }
   }
@@ -445,16 +488,28 @@ public class Guild {
   /**
    Modifies current guild
 
-   - parameter options: ["name": "name of guild", "afk_channel_id": "channel id", "afk_timeout": 300 (seconds), "icon": "base64 string of img", "splash": "base64 string of img"]
-   */
-  public func modify(with options: [String: Any], _ completion: @escaping (Guild?) -> () = {_ in}) {
+   #### Options Params ####
+
+   - **name**: The name to assign to the guild
+   - **region**: The region to set this guild to
+   - **verification_level**: The guild verification level integer
+   - **default_message_notifications**: The guild default message notification settings integer
+   - **afk_channel_id**: The channel id to assign afks
+   - **afk_timeout**: The amount of time in seconds to afk a user in voice
+   - **icon**: The icon in base64 string
+   - **owner_id**: The user id to make own of this server
+   - **splash**: If a VIP server, the splash image in base64 to assign
+
+   - parameter options: Preconfigured options to modify guild with
+  */
+  public func modify(with options: [String: Any], _ completion: @escaping (RequestError?, Guild?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.modifyGuild(self.id), body: options.createBody(), method: "PATCH") { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
         let guild = Guild(self.sword!, data as! [String: Any], self.shard)
         self.sword!.guilds[self.id] = guild
-        completion(guild)
+        completion(nil, guild)
       }
     }
   }
@@ -462,12 +517,19 @@ public class Guild {
   /**
    Modifies channel positions
 
-   - parameter options: [["id": "channel id", "position": 0]]
-   */
-  public func modifyChannelPositions(with options: [[String: Any]], _ completion: @escaping ([GuildChannel]?) -> () = {_ in}) {
+   #### Options Params ####
+
+   Array of the following:
+
+   - **id**: The channel id to modify
+   - **position**: The sorting position of the channel
+
+   - parameter options: Preconfigured options to set channel positions to
+  */
+  public func modifyChannelPositions(with options: [[String: Any]], _ completion: @escaping (RequestError?, [GuildChannel]?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.modifyGuildChannelPositions(self.id), body: options.createBody(), method: "PATCH") { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
         var returnChannels: [GuildChannel] = []
         let channels = data as! [[String: Any]]
@@ -475,7 +537,7 @@ public class Guild {
           returnChannels.append(GuildChannel(self.sword!, channel))
         }
 
-        completion(returnChannels)
+        completion(nil, returnChannels)
       }
     }
   }
@@ -483,12 +545,19 @@ public class Guild {
   /**
    Modifies role positions
 
-   - parameter options: [["id": "role id", "position": 0]]
-   */
-  public func modifyRolePositions(with options: [[String: Any]], _ completion: @escaping ([Role]?) -> () = {_ in}) {
+   #### Options Params ####
+
+   Array of the following:
+
+   - **id**: The role id to edit position
+   - **position**: The sorting position of the role
+
+   - parameter options: Preconfigured options to set role positions to
+  */
+  public func modifyRolePositions(with options: [[String: Any]], _ completion: @escaping (RequestError?, [Role]?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.modifyGuildRolePositions(self.id), body: options.createBody(), method: "PATCH") { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
         var returnRoles: [Role] = []
         let roles = data as! [[String: Any]]
@@ -496,7 +565,7 @@ public class Guild {
           returnRoles.append(Role(role))
         }
 
-        completion(returnRoles)
+        completion(nil, returnRoles)
       }
     }
   }
@@ -505,14 +574,17 @@ public class Guild {
    Prunes members for x amount of days
 
    - parameter limit: Amount of days for prunned users
-   */
-  public func prune(for limit: Int, _ completion: @escaping (Int?) -> () = {_ in}) {
-    if limit < 1 { completion(nil); return }
+  */
+  public func prune(for limit: Int, _ completion: @escaping (RequestError?, Int?) -> () = {_ in}) {
+    if limit < 1 {
+      completion(.unknown, nil)
+      return
+    }
     self.sword!.requester.request(self.sword!.endpoints.beginGuildPrune(self.id), body: ["days": limit].createBody(), method: "POST") { error, data in
       if error != nil {
-        completion(nil)
+        completion(error, nil)
       }else {
-        completion(data as? Int)
+        completion(nil, data as? Int)
       }
     }
   }
@@ -521,10 +593,14 @@ public class Guild {
    Removes member from this guild
 
    - parameter userId: Member to remove from server
-   */
-  public func remove(member userId: String, _ completion: @escaping () -> () = {_ in}) {
+  */
+  public func remove(member userId: String, _ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.removeGuildMember(self.id, userId), method: "DELETE") { error, data in
-      if error == nil { completion() }
+      if error != nil {
+        completion(error)
+      }else {
+        completion(nil)
+      }
     }
   }
 
@@ -532,10 +608,14 @@ public class Guild {
    Syncs an integration from this guild
 
    - parameter integrationId: Integration to sync
-   */
-  public func sync(integration integrationId: String, _ completion: @escaping () -> () = {_ in}) {
+  */
+  public func sync(integration integrationId: String, _ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.syncGuildIntegration(self.id, integrationId), method: "POST") { error, data in
-      if error == nil { completion() }
+      if error != nil {
+        completion(error)
+      }else {
+        completion(nil)
+      }
     }
   }
 
@@ -543,10 +623,14 @@ public class Guild {
    Unbans a user from this guild
 
    - parameter userId: User to unban
-   */
-  public func unban(member userId: String, _ completion: @escaping () -> () = {_ in}) {
+  */
+  public func unban(member userId: String, _ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.removeGuildBan(self.id, userId), method: "DELETE") { error, data in
-      if error == nil { completion() }
+      if error != nil {
+        completion(error)
+      }else {
+        completion(nil)
+      }
     }
   }
 
@@ -570,7 +654,7 @@ public struct UnavailableGuild {
 
    - parameter json: JSON representable as a dictionary
    - parameter shard: Shard ID this guild is handled by
-   */
+  */
   init(_ json: [String: Any], _ shard: Int) {
     self.id = Int(json["id"] as! String)!
     self.shard = shard
@@ -604,7 +688,7 @@ public struct Emoji {
    Creates an Emoji structure
 
    - parameter json: JSON representable as a dictionary
-   */
+  */
   init(_ json: [String: Any]) {
     self.id = json["id"] as! String
     self.managed = json["managed"] as! Bool
