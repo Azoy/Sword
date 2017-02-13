@@ -45,9 +45,6 @@
             <a class="nav-group-name-link" href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/Eventer.html">Eventer</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Guild.html">Guild</a>
               </li>
               <li class="nav-group-task">
@@ -70,6 +67,20 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Permission.html">Permission</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestError.html">RequestError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Channel.html">Channel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Eventable.html">Eventable</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -77,9 +88,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Attachment.html">Attachment</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/Channel.html">Channel</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Command.html">Command</a>
@@ -95,6 +103,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Emoji.html">Emoji</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/GuildChannel.html">GuildChannel</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Member.html">Member</a>
@@ -128,6 +139,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/VoiceState.html">VoiceState</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Webhook.html">Webhook</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Youtube.html">Youtube</a>
@@ -247,9 +261,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword7Message7channelVS_7Channel"></a>
+                    <a name="/s:vV5Sword7Message7channelPS_7Channel_"></a>
                     <a name="//apple_ref/swift/Property/channel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Message7channelVS_7Channel">channel</a>
+                    <a class="token" href="#/s:vV5Sword7Message7channelPS_7Channel_">channel</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -264,7 +278,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">channel</span><span class="p">:</span> <span class="kt"><a href="../Structs/Channel.html">Channel</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">channel</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Channel.html">Channel</a></span></code></pre>
 
                         </div>
                       </div>
@@ -609,9 +623,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message3addFT8reactionSSFT_T__T_"></a>
+                    <a name="/s:FV5Sword7Message3addFT8reactionSSFGSqOS_12RequestError_T__T_"></a>
                     <a name="//apple_ref/swift/Method/add(reaction:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message3addFT8reactionSSFT_T__T_">add(reaction:_:)</a>
+                    <a class="token" href="#/s:FV5Sword7Message3addFT8reactionSSFGSqOS_12RequestError_T__T_">add(reaction:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -626,7 +640,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">reaction</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">reaction</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -656,9 +670,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message6deleteFFT_T_T_"></a>
+                    <a name="/s:FV5Sword7Message6deleteFFGSqOS_12RequestError_T_T_"></a>
                     <a name="//apple_ref/swift/Method/delete(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message6deleteFFT_T_T_">delete(_:)</a>
+                    <a class="token" href="#/s:FV5Sword7Message6deleteFFGSqOS_12RequestError_T_T_">delete(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -673,7 +687,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -683,9 +697,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message6deleteFT8reactionSS4fromGSqSS_FT_T__T_"></a>
+                    <a name="/s:FV5Sword7Message6deleteFT8reactionSS4fromGSqSS_FGSqOS_12RequestError_T__T_"></a>
                     <a name="//apple_ref/swift/Method/delete(reaction:from:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message6deleteFT8reactionSS4fromGSqSS_FT_T__T_">delete(reaction:from:_:)</a>
+                    <a class="token" href="#/s:FV5Sword7Message6deleteFT8reactionSS4fromGSqSS_FGSqOS_12RequestError_T__T_">delete(reaction:from:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -700,7 +714,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="nv">reaction</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">from</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="nv">reaction</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">from</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -743,9 +757,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message15deleteReactionsFFT_T_T_"></a>
+                    <a name="/s:FV5Sword7Message15deleteReactionsFFGSqOS_12RequestError_T_T_"></a>
                     <a name="//apple_ref/swift/Method/deleteReactions(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message15deleteReactionsFFT_T_T_">deleteReactions(_:)</a>
+                    <a class="token" href="#/s:FV5Sword7Message15deleteReactionsFFGSqOS_12RequestError_T_T_">deleteReactions(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -760,7 +774,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteReactions</span><span class="p">(</span><span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteReactions</span><span class="p">(</span><span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -770,9 +784,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message4editFT2toSSFGSqS0__T__T_"></a>
+                    <a name="/s:FV5Sword7Message4editFT2toSSFTGSqOS_12RequestError_GSqS0___T__T_"></a>
                     <a name="//apple_ref/swift/Method/edit(to:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message4editFT2toSSFGSqS0__T__T_">edit(to:_:)</a>
+                    <a class="token" href="#/s:FV5Sword7Message4editFT2toSSFTGSqOS_12RequestError_GSqS0___T__T_">edit(to:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -787,7 +801,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">edit</span><span class="p">(</span><span class="n">to</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Message</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">edit</span><span class="p">(</span><span class="n">to</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?,</span> <span class="kt">Message</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -817,9 +831,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message3getFT8reactionSSFGSqGSaVS_4User__T__T_"></a>
+                    <a name="/s:FV5Sword7Message3getFT8reactionSSFTGSqOS_12RequestError_GSqGSaVS_4User___T__T_"></a>
                     <a name="//apple_ref/swift/Method/get(reaction:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message3getFT8reactionSSFGSqGSaVS_4User__T__T_">get(reaction:_:)</a>
+                    <a class="token" href="#/s:FV5Sword7Message3getFT8reactionSSFTGSqOS_12RequestError_GSqGSaVS_4User___T__T_">get(reaction:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -834,7 +848,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">get</span><span class="p">(</span><span class="nv">reaction</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt"><a href="../Structs/User.html">User</a></span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="p">())</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">get</span><span class="p">(</span><span class="nv">reaction</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?,</span> <span class="p">[</span><span class="kt"><a href="../Structs/User.html">User</a></span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="p">())</span></code></pre>
 
                         </div>
                       </div>
@@ -864,9 +878,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message3pinFFT_T_T_"></a>
+                    <a name="/s:FV5Sword7Message3pinFFGSqOS_12RequestError_T_T_"></a>
                     <a name="//apple_ref/swift/Method/pin(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message3pinFFT_T_T_">pin(_:)</a>
+                    <a class="token" href="#/s:FV5Sword7Message3pinFFGSqOS_12RequestError_T_T_">pin(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -881,7 +895,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">pin</span><span class="p">(</span><span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">pin</span><span class="p">(</span><span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -891,9 +905,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword7Message5replyFT4withSSFGSqS0__T__T_"></a>
+                    <a name="/s:FV5Sword7Message5replyFT4withSSFTGSqOS_12RequestError_GSqS0___T__T_"></a>
                     <a name="//apple_ref/swift/Method/reply(with:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword7Message5replyFT4withSSFGSqS0__T__T_">reply(with:_:)</a>
+                    <a class="token" href="#/s:FV5Sword7Message5replyFT4withSSFTGSqOS_12RequestError_GSqS0___T__T_">reply(with:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -908,7 +922,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reply</span><span class="p">(</span><span class="n">with</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Message</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reply</span><span class="p">(</span><span class="n">with</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?,</span> <span class="kt">Message</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -923,7 +937,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-02-07)</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-02-12)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

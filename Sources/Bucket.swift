@@ -21,10 +21,10 @@ class Bucket {
   var queue: [DispatchWorkItem] = []
 
   /// Limit on token count
-  let limit: Int
+  var limit: Int
 
   /// Interval at which tokens reset
-  let interval: Int
+  var interval: Int
 
   /// Current token count
   var tokens: Int

@@ -23,7 +23,7 @@ public struct Message {
   public let content: String
 
   /// Channel struct of the message
-  public internal(set) var channel: Channel
+  public let channel: Channel
 
   /// If message was edited, this is the time it happened
   public let editedTimestamp: Date?
@@ -83,7 +83,12 @@ public struct Message {
 
     self.content = json["content"] as! String
 
-    self.channel = Channel(sword, ["id": json["channel_id"] as! String])
+    let guild = sword.getGuild(for: json["channel_id"] as! String)
+    if guild != nil {
+      self.channel = guild!.channels[json["channel_id"] as! String]!
+    }else {
+      self.channel = DMChannel(sword, ["id": json["channel_id"] as! String])
+    }
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date
@@ -137,12 +142,12 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji to add to this message
   */
-  public func add(reaction: String, _ completion: @escaping () -> () = {_ in}) {
+  public func add(reaction: String, _ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.channel.add(reaction: reaction, to: self.id, completion)
   }
 
   /// Deletes self
-  public func delete(_ completion: @escaping () -> () = {_ in}) {
+  public func delete(_ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.channel.delete(message: self.id, completion)
   }
 
@@ -152,13 +157,17 @@ public struct Message {
    - parameter reaction: Either unicode or custom emoji reaction to remove
    - parameter userId: If nil, delete from self else delete from userId
   */
-  public func delete(reaction: String, from userId: String? = nil, _ completion: @escaping () -> () = {_ in}) {
+  public func delete(reaction: String, from userId: String? = nil, _ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.channel.delete(reaction: reaction, from: self.id, by: userId ?? nil, completion)
   }
 
   /// Deletes all reactions from self
-  public func deleteReactions(_ completion: @escaping () -> () = {_ in}) {
-    self.channel.deleteReactions(from: self.id, completion)
+  public func deleteReactions(_ completion: @escaping (RequestError?) -> () = {_ in}) {
+    guard let channel = self.channel as? GuildChannel else {
+      return
+    }
+
+    channel.deleteReactions(from: self.id, completion)
   }
 
   /**
@@ -166,7 +175,7 @@ public struct Message {
 
    - parameter content: Content to edit from self
   */
-  public func edit(to content: String, _ completion: @escaping (Message?) -> () = {_ in}) {
+  public func edit(to content: String, _ completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
     self.channel.edit(message: self.id, to: content, completion)
   }
 
@@ -175,21 +184,25 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji reaction to get users from
   */
-  public func get(reaction: String, _ completion: @escaping ([User]?) -> ()) {
+  public func get(reaction: String, _ completion: @escaping (RequestError?, [User]?) -> ()) {
     self.channel.get(reaction: reaction, from: self.id, completion)
   }
 
   /// Pins self
-  public func pin(_ completion: @escaping () -> () = {_ in}) {
+  public func pin(_ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.channel.pin(self.id, completion)
   }
 
   /**
    Replies to message (alias to bot.send(_:to:)...)
   */
-  public func reply(with message: String, _ completion: @escaping (Message?) -> () = {_ in}) {
-    self.channel.send(message) { msg in
-      completion(msg)
+  public func reply(with message: String, _ completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
+    self.channel.send(message) { error, msg in
+      if error != nil {
+        completion(error, nil)
+      }else {
+        completion(nil, msg)
+      }
     }
   }
 

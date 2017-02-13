@@ -9,16 +9,7 @@
 import Foundation
 
 /// Organize all possible status responses from api
-enum RequestError {
-
-  /// 200 - Request was successful
-  case ok
-
-  /// 201 - Entity was created
-  case created
-
-  /// 204 - Request was successful, but nothing was returned
-  case noContent
+public enum RequestError {
 
   /// 304 - Entity was not modifed
   case notModified
@@ -47,7 +38,7 @@ enum RequestError {
   /// 5xx - Server errors
   case serverError
 
-  /// JSON error
+  /// Most likely a json error if any
   case unknown
 
 }
@@ -59,12 +50,6 @@ extension HTTPURLResponse {
   var status: RequestError {
 
     switch self.statusCode {
-      case 200:
-        return .ok
-      case 201:
-        return .created
-      case 204:
-        return .noContent
       case 304:
         return .notModified
       case 400:
@@ -81,8 +66,10 @@ extension HTTPURLResponse {
         return .tooManyRequests
       case 502:
         return .gatewayUnavailable
-      default:
+      case 500 ... 599:
         return .serverError
+      default:
+        return .unknown
     }
 
   }

@@ -15,10 +15,6 @@ struct Endpoints {
     return "/gateway/bot"
   }
 
-  func addGuildMember(_ guildId: String, _ userId: String) -> String {
-    return "/guilds/\(guildId)/members/\(userId)"
-  }
-
   func addPinnedChannelMessage(_ channelId: String, _ messageId: String) -> String {
     return "/channels/\(channelId)/pins/\(messageId)"
   }

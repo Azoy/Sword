@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DMChannel Struct Reference</title>
+    <title>Eventable Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/DMChannel" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Protocol/Eventable" class="dashAnchor"></a>
 
-    <a title="DMChannel Struct Reference"></a>
+    <a title="Eventable Protocol Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -35,7 +35,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      DMChannel Struct Reference
+      Eventable Protocol Reference
     </p>
 
     <div class="content-wrapper">
@@ -154,14 +154,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>DMChannel</h1>
+            <h1>Eventable</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">DMChannel</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Channel.html">Channel</a></span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Eventable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
 
                 </div>
               </div>
-            <p>DMChannel Type</p>
+            <p>Create a nifty Event Emitter in Swift</p>
 
           </div>
         </section>
@@ -169,20 +169,13 @@
         <section class="section">
           <div class="section-content">
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Properties"></a>
-                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
-                <a href="#/Properties">
-                  <h3 class="section-name">Properties</h3>
-                </a>
-              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword9DMChannel5swordXwGSqCS_5Sword_"></a>
-                    <a name="//apple_ref/swift/Property/sword" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword9DMChannel5swordXwGSqCS_5Sword_">sword</a>
+                    <a name="/s:vP5Sword9Eventable9listenersGVs10DictionaryOS_5EventGSaFGSaP__T___"></a>
+                    <a name="//apple_ref/swift/Property/listeners" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP5Sword9Eventable9listenersGVs10DictionaryOS_5EventGSaFGSaP__T___">listeners</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -190,14 +183,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parent class</p>
+                        <p>Event Listeners</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">sword</span><span class="p">:</span> <span class="kt"><a href="../Classes/Sword.html">Sword</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">listeners</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Enums/Event.html">Event</a></span><span class="p">:</span> <span class="p">[([</span><span class="kt">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">()]]</span></code></pre>
 
                         </div>
                       </div>
@@ -207,26 +200,53 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword9DMChannel2idSS"></a>
-                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword9DMChannel2idSS">id</a>
+                    <a name="/s:FP5Sword9Eventable2onFTOS_5EventFGSaP__T__T_"></a>
+                    <a name="//apple_ref/swift/Method/on(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP5Sword9Eventable2onFTOS_5EventFGSaP__T__T_">on(_:_:)</a>
                     </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>ID of DM</p>
+                        
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Listens for eventName</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">on</span><span class="p">(</span><span class="n">_</span> <span class="nv">event</span><span class="p">:</span> <span class="kt"><a href="../Enums/Event.html">Event</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">())</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>event</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Event to listen for</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -234,53 +254,66 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword9DMChannel9recipientGSqVS_4User_"></a>
-                    <a name="//apple_ref/swift/Property/recipient" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword9DMChannel9recipientGSqVS_4User_">recipient</a>
+                    <a name="/s:FP5Sword9Eventable4emitFtOS_5Event4withGSaP___T_"></a>
+                    <a name="//apple_ref/swift/Method/emit(_:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP5Sword9Eventable4emitFtOS_5Event4withGSaP___T_">emit(_:with:)</a>
                     </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The recipient of this DM</p>
+                        
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Emits all listeners for eventName</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">recipient</span><span class="p">:</span> <span class="kt"><a href="../Structs/User.html">User</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">emit</span><span class="p">(</span><span class="n">_</span> <span class="nv">event</span><span class="p">:</span> <span class="kt"><a href="../Enums/Event.html">Event</a></span><span class="p">,</span> <span class="n">with</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Any</span><span class="o">...</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV5Sword9DMChannel13lastMessageIdGSqSS_"></a>
-                    <a name="//apple_ref/swift/Property/lastMessageId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword9DMChannel13lastMessageIdGSqSS_">lastMessageId</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The last message&rsquo;s ID</p>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>event</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Event to emit</p>
 
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">lastMessageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Array of stuff to emit listener with</p>
 
-                        </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>

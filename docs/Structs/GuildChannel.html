@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Member Struct Reference</title>
+    <title>GuildChannel Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/Member" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/GuildChannel" class="dashAnchor"></a>
 
-    <a title="Member Struct Reference"></a>
+    <a title="GuildChannel Struct Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -35,7 +35,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Member Struct Reference
+      GuildChannel Struct Reference
     </p>
 
     <div class="content-wrapper">
@@ -154,14 +154,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Member</h1>
+            <h1>GuildChannel</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Member</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GuildChannel</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Channel.html">Channel</a></span></code></pre>
 
                 </div>
               </div>
-            <p>Member Type</p>
+            <p>GuildChannel Type</p>
 
           </div>
         </section>
@@ -180,9 +180,63 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member5guildXwGSqCS_5Guild_"></a>
+                    <a name="/s:vV5Sword12GuildChannel5swordXwGSqCS_5Sword_"></a>
+                    <a name="//apple_ref/swift/Property/sword" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel5swordXwGSqCS_5Sword_">sword</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Parent class</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">sword</span><span class="p">:</span> <span class="kt"><a href="../Classes/Sword.html">Sword</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword12GuildChannel7bitrateGSqSi_"></a>
+                    <a name="//apple_ref/swift/Property/bitrate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel7bitrateGSqSi_">bitrate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>(Voice) bitrate (in bits) for channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">bitrate</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword12GuildChannel5guildGSqCS_5Guild_"></a>
                     <a name="//apple_ref/swift/Property/guild" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member5guildXwGSqCS_5Guild_">guild</a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel5guildGSqCS_5Guild_">guild</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -190,14 +244,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Guild this member is tied to</p>
+                        <p>Guild ID that this channel belongs to</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">guild</span><span class="p">:</span> <span class="kt"><a href="../Classes/Guild.html">Guild</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">guild</span><span class="p">:</span> <span class="kt"><a href="../Classes/Guild.html">Guild</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -207,9 +261,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member6isDeafGSqSb_"></a>
-                    <a name="//apple_ref/swift/Property/isDeaf" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member6isDeafGSqSb_">isDeaf</a>
+                    <a name="/s:vV5Sword12GuildChannel2idSS"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel2idSS">id</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -217,14 +271,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Whether or not this member is deaf</p>
+                        <p>ID of the channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isDeaf</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -234,9 +288,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member7isMutedGSqSb_"></a>
-                    <a name="//apple_ref/swift/Property/isMuted" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member7isMutedGSqSb_">isMuted</a>
+                    <a name="/s:vV5Sword12GuildChannel9isPrivateGSqSb_"></a>
+                    <a name="//apple_ref/swift/Property/isPrivate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel9isPrivateGSqSb_">isPrivate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -244,14 +298,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Whether or not this user is muted</p>
+                        <p>Whether or not this channel is DM or Guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isMuted</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isPrivate</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -261,9 +315,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member8joinedAtGSqV10Foundation4Date_"></a>
-                    <a name="//apple_ref/swift/Property/joinedAt" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member8joinedAtGSqV10Foundation4Date_">joinedAt</a>
+                    <a name="/s:vV5Sword12GuildChannel13lastMessageIdGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/lastMessageId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel13lastMessageIdGSqSS_">lastMessageId</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -271,14 +325,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Date when user joined guild</p>
+                        <p>(Text) Last message sent&rsquo;s ID</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">joinedAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">lastMessageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -288,9 +342,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member4nickGSqSS_"></a>
-                    <a name="//apple_ref/swift/Property/nick" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member4nickGSqSS_">nick</a>
+                    <a name="/s:vV5Sword12GuildChannel16lastPinTimestampGSqV10Foundation4Date_"></a>
+                    <a name="//apple_ref/swift/Property/lastPinTimestamp" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel16lastPinTimestampGSqV10Foundation4Date_">lastPinTimestamp</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -298,14 +352,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Nickname of member</p>
+                        <p>Last Pin&rsquo;s timestamp</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">nick</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">lastPinTimestamp</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -315,9 +369,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member11permissionsSi"></a>
-                    <a name="//apple_ref/swift/Property/permissions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member11permissionsSi">permissions</a>
+                    <a name="/s:vV5Sword12GuildChannel4nameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel4nameGSqSS_">name</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -325,14 +379,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Permission number for this user</p>
+                        <p>Name of channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">permissions</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -342,9 +396,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member8presenceGSqVS_8Presence_"></a>
-                    <a name="//apple_ref/swift/Property/presence" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member8presenceGSqVS_8Presence_">presence</a>
+                    <a name="/s:vV5Sword12GuildChannel20permissionOverwritesGVs10DictionarySSVS_9Overwrite_"></a>
+                    <a name="//apple_ref/swift/Property/permissionOverwrites" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel20permissionOverwritesGVs10DictionarySSVS_9Overwrite_">permissionOverwrites</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -352,14 +406,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The current status of this user&rsquo;s presence</p>
+                        <p>Array of Overwrite strcuts for channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">presence</span><span class="p">:</span> <span class="kt"><a href="../Structs/Presence.html">Presence</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">permissionOverwrites</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt"><a href="../Structs/Overwrite.html">Overwrite</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[:]</span></code></pre>
 
                         </div>
                       </div>
@@ -369,9 +423,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member5rolesGSaSS_"></a>
-                    <a name="//apple_ref/swift/Property/roles" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member5rolesGSaSS_">roles</a>
+                    <a name="/s:vV5Sword12GuildChannel8positionGSqSi_"></a>
+                    <a name="//apple_ref/swift/Property/position" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel8positionGSqSi_">position</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -379,14 +433,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Array of role ids this member has</p>
+                        <p>Position of channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">roles</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -396,9 +450,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member4userVS_4User"></a>
-                    <a name="//apple_ref/swift/Property/user" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member4userVS_4User">user</a>
+                    <a name="/s:vV5Sword12GuildChannel5topicGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/topic" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel5topicGSqSS_">topic</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -406,14 +460,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>User struct for this member</p>
+                        <p>(Text) Topic of the channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">user</span><span class="p">:</span> <span class="kt"><a href="../Structs/User.html">User</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">topic</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -423,9 +477,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword6Member10voiceStateGSqVS_10VoiceState_"></a>
-                    <a name="//apple_ref/swift/Property/voiceState" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword6Member10voiceStateGSqVS_10VoiceState_">voiceState</a>
+                    <a name="/s:vV5Sword12GuildChannel4typeGSqSi_"></a>
+                    <a name="//apple_ref/swift/Property/type" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel4typeGSqSi_">type</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -433,14 +487,41 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Member&rsquo;s current voice state</p>
+                        <p>0 = Text &amp; 2 = Voice</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">voiceState</span><span class="p">:</span> <span class="kt"><a href="../Structs/VoiceState.html">VoiceState</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword12GuildChannel9userLimitGSqSi_"></a>
+                    <a name="//apple_ref/swift/Property/userLimit" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GuildChannel9userLimitGSqSi_">userLimit</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>(Voice) User limit for voice channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">userLimit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -461,9 +542,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword6Member3hasFT10permissionOS_10Permission_Sb"></a>
-                    <a name="//apple_ref/swift/Method/has(permission:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword6Member3hasFT10permissionOS_10Permission_Sb">has(permission:)</a>
+                    <a name="/s:FV5Sword12GuildChannel13createWebhookFT4withGVs10DictionarySSSS_FTGSqOS_12RequestError_GSqVS_7Webhook__T__T_"></a>
+                    <a name="//apple_ref/swift/Method/createWebhook(with:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV5Sword12GuildChannel13createWebhookFT4withGVs10DictionarySSSS_FTGSqOS_12RequestError_GSqVS_7Webhook__T__T_">createWebhook(with:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -471,14 +552,21 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Checks if member has a certain permission</p>
+                        <p>Creates a webhook for this channel</p>
+
+<p><a href='#options-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='options-params'>Options Params</h4></p>
+
+<ul>
+<li><strong>name</strong>: The name of the webhook</li>
+<li><p><strong>avatar</strong>: The avatar string to assign this webhook in base64</p></li>
+</ul>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">has</span><span class="p">(</span><span class="nv">permission</span><span class="p">:</span> <span class="kt"><a href="../Enums/Permission.html">Permission</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createWebhook</span><span class="p">(</span><span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:],</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?,</span> <span class="kt"><a href="../Structs/Webhook.html">Webhook</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -489,18 +577,92 @@
                             <tr>
                               <td>
                                 <code>
-                                <em>permission</em>
+                                <em>options</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Permission to check for</p>
+                                  <p>Preconfigured options to create this webhook with</p>
 
                                 </div>
                               </td>
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV5Sword12GuildChannel15deleteReactionsFT4fromSSFGSqOS_12RequestError_T__T_"></a>
+                    <a name="//apple_ref/swift/Method/deleteReactions(from:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV5Sword12GuildChannel15deleteReactionsFT4fromSSFGSqOS_12RequestError_T__T_">deleteReactions(from:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Deletes all reactions from message</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteReactions</span><span class="p">(</span><span class="n">from</span> <span class="nv">messageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>messageId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Message to delete all reactions from</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV5Sword12GuildChannel11getWebhooksFFTGSqOS_12RequestError_GSqGSaVS_7Webhook___T_T_"></a>
+                    <a name="//apple_ref/swift/Method/getWebhooks(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV5Sword12GuildChannel11getWebhooksFFTGSqOS_12RequestError_GSqGSaVS_7Webhook___T_T_">getWebhooks(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets this channel&rsquo;s webhooks</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getWebhooks</span><span class="p">(</span><span class="n">_</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?,</span> <span class="p">[</span><span class="kt"><a href="../Structs/Webhook.html">Webhook</a></span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="p">())</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

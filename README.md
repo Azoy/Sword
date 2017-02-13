@@ -16,7 +16,7 @@ import PackageDescription
 let package = Package(
     name: "yourswiftexecutablehere",
     dependencies: [
-        .Package(url: "https://github.com/Azoy/Sword", majorVersion: 0, minor: 3)
+        .Package(url: "https://github.com/Azoy/Sword", majorVersion: 0, minor: 4)
     ]
 )
 ```
@@ -29,7 +29,7 @@ import Sword
 let bot = Sword(token: "Your bot token here")
 
 bot.on(.ready) { _ in
-  bot.editStatus(playing: ["name": "with Swords!"])
+  bot.editStatus(to: Presence(status: .dnd, playing: "with Swords!"))
 }
 
 bot.on(.messageCreate) { data in

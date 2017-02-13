@@ -31,29 +31,29 @@ extension Shard {
 
       /// CHANNEL_CREATE
       case .channelCreate:
-        if (data["is_private"] as! Bool) {
+        if data["is_private"] != nil {
           self.sword.emit(.channelCreate, with: DMChannel(self.sword, data))
         }else {
-          let channel = Channel(self.sword, data)
-          self.sword.guilds[channel.guildId!]!.channels[channel.id] = channel
+          let channel = GuildChannel(self.sword, data)
+          self.sword.guilds[channel.guild!.id]!.channels[channel.id] = channel
           self.sword.emit(.channelCreate, with: channel)
         }
         break
 
       /// CHANNEL_DELETE
       case .channelDelete:
-        if (data["is_private"] as! Bool) {
+        if data["is_private"] != nil {
           self.sword.emit(.channelDelete, with: DMChannel(self.sword, data))
         }else {
-          let channel = Channel(self.sword, data)
-          self.sword.guilds[channel.guildId!]!.channels.removeValue(forKey: channel.id)
+          let channel = GuildChannel(self.sword, data)
+          self.sword.guilds[channel.guild!.id]!.channels.removeValue(forKey: channel.id)
           self.sword.emit(.channelDelete, with: channel)
         }
         break
 
       /// CHANNEL_UPDATE
       case .channelUpdate:
-        self.sword.emit(.channelUpdate, with: Channel(self.sword, data))
+        self.sword.emit(.channelUpdate, with: GuildChannel(self.sword, data))
         break
 
       /// GUILD_BAN_ADD
@@ -151,7 +151,7 @@ extension Shard {
 
       /// GUILD_ROLE_CREATE
       case .guildRoleCreate:
-        let guildId = data["guildId"] as! String
+        let guildId = data["guild_id"] as! String
         let role = Role(data["role"] as! [String: Any])
         self.sword.guilds[guildId]!.roles[role.id] = role
         self.sword.emit(.guildRoleCreate, with: guildId, role)
