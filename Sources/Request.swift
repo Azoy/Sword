@@ -112,7 +112,7 @@ class Request {
       request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
     }
 
-    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.3.0)", forHTTPHeaderField: "User-Agent")
+    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.4.0)", forHTTPHeaderField: "User-Agent")
 
     if file != nil {
       #if !os(Linux)
