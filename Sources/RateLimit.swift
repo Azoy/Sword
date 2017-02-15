@@ -63,37 +63,36 @@ extension Request {
    - parameter headers: The received headers from the request
   */
   func handleRateLimitHeaders(_ limitHeader: Any?, _ remainingHeader: Any?, _ intervalHeader: Any?, _ date: Double, _ route: String) {
+    var limit = 1
+    var remaining = 0
+    var interval = 2
+
     if limitHeader != nil && remainingHeader != nil && intervalHeader != nil {
       #if !os(Linux)
-      let limit = Int(limitHeader as! String)!
-      let remaining = Int(remainingHeader as! String)!
-      let interval = Int(Double(intervalHeader as! String)! - date)
+      limit = Int(limitHeader as! String)!
+      remaining = Int(remainingHeader as! String)!
+      interval = Int(Double(intervalHeader as! String)! - date)
       #else
-      let limit = Int(limitHeader!)!
-      let remaining = Int(remainingHeader!)!
-      let interval = Int(Double(intervalHeader!)! - date)
+      limit = Int(limitHeader!)!
+      remaining = Int(remainingHeader!)!
+      interval = Int(Double(intervalHeader!)! - date)
       #endif
+    }
 
-      if route != "" && self.rateLimits[route] == nil {
-        let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: limit, interval: interval)
-        bucket.take(1)
+    if route != "" && self.rateLimits[route] == nil {
+      let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: limit, interval: interval)
+      bucket.take(1)
 
-        self.rateLimits[route] = bucket
-      }else {
-        if self.rateLimits[route]!.tokens != remaining {
-          self.rateLimits[route]!.tokens = remaining
-        }
-
-        if self.rateLimits[route]!.limit != limit {
-          self.rateLimits[route]!.limit = limit
-        }
-      }
+      self.rateLimits[route] = bucket
     }else {
-      if route != "" && self.rateLimits[route] == nil {
-        let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: 1, interval: 2)
-        bucket.take(1)
-
-        self.rateLimits[route] = bucket
+      if self.rateLimits[route]!.tokens != remaining {
+        self.rateLimits[route]!.tokens = remaining
+      }
+      if self.rateLimits[route]!.limit != limit {
+        self.rateLimits[route]!.limit = limit
+      }
+      if self.rateLimits[route]!.interval != interval {
+        self.rateLimits[route]!.interval = interval
       }
     }
   }
