@@ -224,10 +224,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">channelCreate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">if</span> <span class="k">let</span> <span class="nv">dmChannel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">DMChannel</span> <span class="p">{</span>
-  <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
-  <span class="p">}</span>
+  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
 <span class="p">}</span>
 </code></pre></p>
 
@@ -264,10 +261,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">channelDelete</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">if</span> <span class="k">let</span> <span class="nv">dmChannel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">DMChannel</span> <span class="p">{</span>
-  <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
-  <span class="p">}</span>
+  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
 <span class="p">}</span>
 </code></pre></p>
 
@@ -304,10 +298,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">channelUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">if</span> <span class="k">let</span> <span class="nv">dmChannel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">DMChannel</span> <span class="p">{</span>
-  <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
-  <span class="p">}</span>
+  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
 <span class="p">}</span>
 </code></pre></p>
 

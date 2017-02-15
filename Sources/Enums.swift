@@ -50,10 +50,7 @@ public enum Event: String {
    ### Usage ###
    ```swift
    bot.on(.channelCreate) { data in
-     if let dmChannel = data[0] as! DMChannel {
-     }else {
-       let channel = data[0] as! Channel
-     }
+     let channel = data[0] as! Channel
    }
   */
   case channelCreate = "CHANNEL_CREATE"
@@ -64,10 +61,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.channelDelete) { data in
-       if let dmChannel = data[0] as! DMChannel {
-       }else {
-         let channel = data[0] as! Channel
-       }
+       let channel = data[0] as! Channel
      }
      ```
     */
@@ -79,10 +73,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.channelUpdate) { data in
-       if let dmChannel = data[0] as! DMChannel {
-       }else {
-         let channel = data[0] as! Channel
-       }
+       let channel = data[0] as! Channel
      }
      ```
     */
