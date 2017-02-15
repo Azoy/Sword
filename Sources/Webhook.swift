@@ -62,26 +62,6 @@ public struct Webhook {
     self.token = json["token"] as! String
   }
 
-  /**
-   Modifies the current Webhook
-
-   #### Option Params ####
-
-   - **name**: The name of the webhook
-   - **avatar**: The avatar for this webhook in base64 string
-
-   - parameter options: A dictionary of options to apply to this webhook
-  */
-  public func modify(with options: [String: Any], _ completion: @escaping (RequestError?, Webhook?) -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.modifyWebhook(self.id), body: options.createBody(), method: "PATCH") { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        completion(nil, Webhook(self.sword!, data as! [String: Any]))
-      }
-    }
-  }
-
   /// Deletes the current webhook from its guild
   public func delete(_ completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.deleteWebhook(self.id), method: "DELETE") { error, data in
@@ -181,6 +161,26 @@ public struct Webhook {
         completion(error)
       }else {
         completion(nil)
+      }
+    }
+  }
+
+  /**
+   Modifies the current Webhook
+
+   #### Option Params ####
+
+   - **name**: The name of the webhook
+   - **avatar**: The avatar for this webhook in base64 string
+
+   - parameter options: A dictionary of options to apply to this webhook
+  */
+  public func modify(with options: [String: Any], _ completion: @escaping (RequestError?, Webhook?) -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.modifyWebhook(self.id), body: options.createBody(), method: "PATCH") { error, data in
+      if error != nil {
+        completion(error, nil)
+      }else {
+        completion(nil, Webhook(self.sword!, data as! [String: Any]))
       }
     }
   }

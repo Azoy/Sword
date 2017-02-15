@@ -37,7 +37,7 @@ public struct Role {
   /// The position for this role
   public let position: Int
 
-  // MarK: Initializer
+  // MARKK: Initializer
 
   /**
    Creates Role struct

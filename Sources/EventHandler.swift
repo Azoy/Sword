@@ -91,7 +91,7 @@ extension Shard {
 
         self.sword.guilds.removeValue(forKey: guildId)
 
-        if (data["unavailable"] as! Bool) {
+        if data["unavailable"] != nil {
           let unavailableGuild = UnavailableGuild(data, self.id)
           self.sword.unavailableGuilds[guildId] = unavailableGuild
           self.sword.emit(.guildUnavailable, with: unavailableGuild)
@@ -277,7 +277,15 @@ extension Shard {
 
         guard self.sword.voiceManager.guilds[guildId] != nil else { return }
 
-        let payload = Payload(voiceOP: .identify, data: ["server_id": guildId, "user_id": self.sword.user!.id, "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"], "token": token]).encode()
+        let payload = Payload(
+          voiceOP: .identify,
+          data: [
+            "server_id": guildId,
+            "user_id": self.sword.user!.id,
+            "session_id": self.sword.voiceManager.guilds[guildId]!["sessionId"],
+            "token": token
+          ]
+        ).encode()
 
         self.sword.voiceManager.join(guildId, endpoint, payload)
         break

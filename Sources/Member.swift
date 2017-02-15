@@ -123,7 +123,7 @@ public struct Presence {
   /// The current status for this user
   public internal(set) var status: Status
 
-  // MARK: Initializer
+  // MARK: Initializers
 
   /// Creates a Presence structure
   init(_ json: [String: Any]) {

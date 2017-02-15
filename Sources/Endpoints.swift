@@ -11,7 +11,7 @@ import Foundation
 /// Structure to create dynamic links
 struct Endpoints {
 
-  var gateway: String {
+  func gateway() -> String {
     return "/gateway/bot"
   }
 

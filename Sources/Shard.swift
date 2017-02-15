@@ -62,8 +62,17 @@ class Shard {
     self.id = id
     self.shardCount = shardCount
 
-    self.globalBucket = Bucket(name: "gg.azoy.sword.gateway.global", limit: 120, interval: 60)
-    self.presenceBucket = Bucket(name: "gg.azoy.sword.gateway.presence", limit: 5, interval: 60)
+    self.globalBucket = Bucket(
+      name: "gg.azoy.sword.gateway.global",
+      limit: 120,
+      interval: 60
+    )
+
+    self.presenceBucket = Bucket(
+      name: "gg.azoy.sword.gateway.presence",
+      limit: 5,
+      interval: 60
+    )
   }
 
   // MARK: Functions
@@ -94,7 +103,23 @@ class Shard {
     #else
     let os = "Linux"
     #endif
-    let identity = Payload(op: .identify, data: ["token": self.sword.token, "properties": ["$os": os, "$browser": "Sword", "$device": "Sword"], "compress": false, "large_threshold": 250, "shard": [self.id, self.shardCount]]).encode()
+
+    let identity = Payload(
+      op: .identify,
+      data: [
+        "token": self.sword.token,
+        "properties": [
+          "$os": os,
+          "$browser": "Sword",
+          "$device": "Sword"
+        ],
+        "compress": false,
+        "large_threshold": 250,
+        "shard": [
+          self.id, self.shardCount
+        ]
+      ]
+    ).encode()
 
     try? self.session?.send(identity)
   }
@@ -106,7 +131,15 @@ class Shard {
    - parameter guildId: Guild that the channel belongs to
   */
   func join(voiceChannel channelId: String, in guildId: String) {
-    let payload = Payload(op: .voiceStateUpdate, data: ["guild_id": guildId, "channel_id": channelId, "self_mute": false, "self_deaf": false]).encode()
+    let payload = Payload(
+      op: .voiceStateUpdate,
+      data: [
+        "guild_id": guildId,
+        "channel_id": channelId,
+        "self_mute": false,
+        "self_deaf": false
+      ]
+    ).encode()
 
     self.send(payload)
   }
@@ -117,7 +150,15 @@ class Shard {
    - parameter guildId: Guild we want to remove bot from
   */
   func leaveVoiceChannel(in guildId: String) {
-    let payload = Payload(op: .voiceStateUpdate, data: ["guild_id": guildId, "channel_id": NSNull(), "self_mute": false, "self_deaf": false]).encode()
+    let payload = Payload(
+      op: .voiceStateUpdate,
+      data: [
+        "guild_id": guildId,
+        "channel_id": NSNull(),
+        "self_mute": false,
+        "self_deaf": false
+      ]
+    ).encode()
 
     self.send(payload)
   }
@@ -137,7 +178,14 @@ class Shard {
 
   /// Function to send packet to server to request for offline members for requested guild
   func requestOfflineMembers(for guildId: String) {
-    let payload = Payload(op: .requestGuildMember, data: ["guild_id": guildId, "query": "", "limit": 0]).encode()
+    let payload = Payload(
+      op: .requestGuildMember,
+      data: [
+        "guild_id": guildId,
+        "query": "",
+        "limit": 0
+      ]
+    ).encode()
 
     try? self.session?.send(payload)
   }

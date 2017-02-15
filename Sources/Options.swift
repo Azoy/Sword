@@ -20,6 +20,8 @@ public struct SwordOptions {
   /// Whether or not this bot is sharded
   public var isSharded = true
 
+  // MARK: Initializer
+
   /// Creates a default SwordOptions structure
   public init() {}
 

@@ -84,7 +84,7 @@ open class Sword: Eventable {
 
   /// Gets the gateway URL to connect to
   func getGateway(completion: @escaping (RequestError?, [String: Any]?) -> ()) {
-    self.requester.request(self.endpoints.gateway, rateLimited: false) { error, data in
+    self.requester.request(self.endpoints.gateway(), rateLimited: false) { error, data in
       if error != nil {
         completion(error, nil)
         return

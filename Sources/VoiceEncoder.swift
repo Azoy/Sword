@@ -46,7 +46,20 @@ class Encoder {
     self.process.launchPath = "/usr/local/bin/ffmpeg"
     self.process.standardInput = self.writer.fileHandleForReading
     self.process.standardOutput = self.reader.fileHandleForWriting
-    self.process.arguments = ["-hide_banner", "-loglevel", "quiet", "-i", "pipe:0", "-f", "data", "-map", "0:a", "-ar", "48k", "-ac", "2", "-acodec", "libopus", "-sample_fmt", "s16", "-vbr", "off", "-b:a", "128k", "pipe:1"]
+    self.process.arguments = [
+      "-hide_banner",
+      "-loglevel", "quiet",
+      "-i", "pipe:0",
+      "-f", "data",
+      "-map", "0:a",
+      "-ar", "48k",
+      "-ac", "2",
+      "-acodec", "libopus",
+      "-sample_fmt", "s16",
+      "-vbr", "off",
+      "-b:a", "128k",
+      "pipe:1"
+    ]
 
     self.process.terminationHandler = {[weak self] _ in
       self?.writer.fileHandleForWriting.closeFile()
