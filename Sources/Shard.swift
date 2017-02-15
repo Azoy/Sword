@@ -230,8 +230,22 @@ class Shard {
           case .authenticationFailed:
             print("[Sword] - Invalid Bot Token")
             break
+
+          case .invalidShard:
+            print("[Sword] - Invalid Shard (We messed up here. Try again.)")
+            break
+
+          case .shardingRequired:
+            print("[Sword] - Sharding is required for this bot to run correctly.")
+            break
+
           default:
-            self.startWS(gatewayUrl)
+            var data: [String: Any] = ["token": self.sword.token, "session_id": self.sessionId!, "seq": NSNull()]
+            if self.lastSeq != nil {
+              data.updateValue(self.lastSeq!, forKey: "seq")
+            }
+            let payload = Payload(op: .resume, data: data)
+            self.reconnect(payload)
             break
         }
       }

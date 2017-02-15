@@ -25,7 +25,7 @@ enum VoiceOPCode: Int {
 /// Organize all websocket close codes
 enum CloseCode: Int {
 
-  case unknown = 1000, unknownError = 4000, unknownOPCode, decodeError, notAuthenticated, authenticationFailed, alreadyAuthenticated, invalidSeq, rateLimited, sessionTimeout, invalidShard
+  case unknown = 1000, unknownError = 4000, unknownOPCode, decodeError, notAuthenticated, authenticationFailed, alreadyAuthenticated, invalidSeq = 4007, rateLimited, sessionTimeout, invalidShard, shardingRequired
 
 }
 
