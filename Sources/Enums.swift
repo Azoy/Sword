@@ -114,7 +114,7 @@ public enum Event: String {
      }
      ```
     */
-  case guildBanAdd = "GUILD_BAD_ADD"
+  case guildBanAdd = "GUILD_BAN_ADD"
 
     /**
      Fired when a member of a guild is unbanned

@@ -121,7 +121,7 @@ class Shard {
       ]
     ).encode()
 
-    try? self.session?.send(identity)
+    self.send(identity)
   }
 
   /**
@@ -187,7 +187,7 @@ class Shard {
       ]
     ).encode()
 
-    try? self.session?.send(payload)
+    self.send(payload)
   }
 
   /**
