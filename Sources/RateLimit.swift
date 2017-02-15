@@ -59,54 +59,20 @@ extension Request {
 
   /**
    Handles creating buckets, and making sure the bucket is up to date with the headers
-   (Had to make two has HTTPURLResponse has different headers types for macOS and Linux atm, this is fixed in swift 3.1)
 
    - parameter headers: The received headers from the request
   */
-  #if !os(Linux)
-  func handle(rateLimitHeaders headers: [AnyHashable: Any], with route: String) {
-    let limitHeader = headers["x-ratelimit-limit"]
-    let remainingHeader = headers["x-ratelimit-remaining"]
-    let intervalHeader = headers["x-ratelimit-reset"]
-
+  func handleRateLimitHeaders(_ limitHeader: Any?, _ remainingHeader: Any?, _ intervalHeader: Any?, _ date: Double, _ route: String) {
     if limitHeader != nil && remainingHeader != nil && intervalHeader != nil {
+      #if !os(Linux)
       let limit = Int(limitHeader as! String)!
       let remaining = Int(remainingHeader as! String)!
-      let interval = Int(Double(intervalHeader as! String)! - (headers["Date"] as! String).dateNorm.timeIntervalSince1970)
-
-      if route != "" && self.rateLimits[route] == nil {
-        let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: limit, interval: interval)
-        bucket.take(1)
-
-        self.rateLimits[route] = bucket
-      }else {
-        if self.rateLimits[route]!.tokens != remaining {
-          self.rateLimits[route]!.tokens = remaining
-        }
-
-        if self.rateLimits[route]!.limit != limit {
-          self.rateLimits[route]!.limit = limit
-        }
-      }
-    }else {
-      if route != "" && self.rateLimits[route] == nil {
-        let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: 1, interval: 2)
-        bucket.take(1)
-
-        self.rateLimits[route] = bucket
-      }
-    }
-  }
-  #else
-  func handle(rateLimitHeaders headers: [AnyHashable: String], with route: String) {
-    let limitHeader = headers["X-RateLimit-Limit"]
-    let remainingHeader = headers["X-RateLimit-Remaining"]
-    let intervalHeader = headers["X-RateLimit-Reset"]
-
-    if limitHeader != nil && remainingHeader != nil && intervalHeader != nil {
+      let interval = Int(Double(intervalHeader as! String)! - date)
+      #else
       let limit = Int(limitHeader!)!
       let remaining = Int(remainingHeader!)!
-      let interval = Int(Double(intervalHeader!)! - (headers["Date"]!).dateNorm.timeIntervalSince1970)
+      let interval = Int(Double(intervalHeader!)! - date)
+      #endif
 
       if route != "" && self.rateLimits[route] == nil {
         let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: limit, interval: interval)
@@ -131,20 +97,14 @@ extension Request {
       }
     }
   }
-  #endif
 
   /**
    Handles being 429'd
-   (Had to make two has HTTPURLResponse has different headers types for macOS and Linux atm, this is fixed in swift 3.1)
 
    - parameter headers: The received headers from the request
    - parameter sema: The dispatch semaphore to signal
   */
-  #if !os(Linux)
-  func handleRateLimited(with headers: [AnyHashable: Any], and sema: DispatchSemaphore) {
-    let retryAfter = Int(headers["retry-after"] as! String)!
-    let global = headers["x-ratelimit-global"]
-
+  func handleRateLimited(_ retryAfter: Int, _ global: Any?, _ sema: DispatchSemaphore) {
     guard global == nil else {
       self.globallyLocked = true
       self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(retryAfter)) {
@@ -155,21 +115,5 @@ extension Request {
       return
     }
   }
-  #else
-  func handleRateLimited(with headers: [AnyHashable: String]) {
-    let retryAfter = Int(headers["Retry-After"]!)!
-    let global = headers["X-RateLimit-Global"]
-
-    guard global == nil else {
-      self.globallyLocked = true
-      self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(retryAfter)) {
-        self.globalUnlock()
-      }
-
-      sema.signal()
-      return
-    }
-  }
-  #endif
 
 }

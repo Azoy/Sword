@@ -106,7 +106,11 @@ class Request {
       if response.statusCode != 200 && response.statusCode != 201 {
 
         if response.statusCode == 429 {
-          self.handleRateLimited(with: headers, and: sema)
+          #if !os(Linux)
+          self.handleRateLimited(Int(headers["retry-after"] as! String)!, headers["x-ratelimit-global"], sema)
+          #else
+          self.handleRateLimited(Int(headers["Retry-After"]!)!, headers["X-RateLimit-Global"], sema)
+          #endif
         }
 
         if response.statusCode >= 500 {
@@ -124,7 +128,11 @@ class Request {
       }
 
       if rateLimited {
-        self.handle(rateLimitHeaders: headers, with: route)
+        #if !os(Linux)
+        self.handleRateLimitHeaders(headers["x-ratelimit-limit"], headers["x-ratelimit-remaining"], headers["x-ratelimit-reset"], (headers["Date"] as! String).dateNorm.timeIntervalSince1970, route)
+        #else
+        self.handleRateLimitHeaders(headers["X-RateLimit-Limit"], headers["X-RateLimit-Remaining"], headers["X-RateLimit-Reset"], (headers["Date"]!).dateNorm.timeIntervalSince1970, route)
+        #endif
       }
 
       do {
