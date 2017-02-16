@@ -27,7 +27,7 @@ extension Shard {
 
       /// OP: 10
       case .hello:
-        self.heartbeat = Heartbeat(self.session!, "heartbeat.shard.\(self.id)",interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
+        self.heartbeat = Heartbeat(self.session!, "heartbeat.shard.\(self.id)", interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
         self.heartbeat?.received = true
         self.heartbeat?.send()
         self.identify()
@@ -46,7 +46,10 @@ extension Shard {
         if self.lastSeq != nil {
           data.updateValue(self.lastSeq!, forKey: "seq")
         }
-        let payload = Payload(op: .resume, data: data)
+        let payload = Payload(
+          op: .resume,
+          data: data
+        )
         self.reconnect(payload)
         break
 

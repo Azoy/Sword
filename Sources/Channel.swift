@@ -44,6 +44,22 @@ public extension Channel {
     }
   }
 
+  /// Deletes the current channel, whether it be 
+  public func delete(_ completion: @escaping (RequestError?, Channel?) -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.deleteChannel(self.id), method: "DELETE") { error, data in
+      if error != nil {
+        completion(error, nil)
+      }else {
+        let data = data as! [String: Any]
+        if data["is_private"] != nil {
+          completion(nil, DMChannel(self.sword!, data))
+        }else {
+          completion(nil, GuildChannel(self.sword!, data))
+        }
+      }
+    }
+  }
+
   /**
    Deletes a message from this channel
 
