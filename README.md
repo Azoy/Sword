@@ -43,4 +43,6 @@ bot.connect()
 ```
 
 # Links
-http://sword.azoy.gg - Docs (created with https://github.com/Realm/Jazzy)
+[Documentation](http://sword.azoy.gg) - (created with [Jazzy](https://github.com/Realm/Jazzy))
+
+Join the [API Channel](https://discord.gg/q7Zyd2r) to ask questions!
