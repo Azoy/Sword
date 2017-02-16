@@ -44,7 +44,7 @@ public extension Channel {
     }
   }
 
-  /// Deletes the current channel, whether it be 
+  /// Deletes the current channel, whether it be a DMChannel or GuildChannel
   public func delete(_ completion: @escaping (RequestError?, Channel?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.deleteChannel(self.id), method: "DELETE") { error, data in
       if error != nil {
