@@ -40,6 +40,7 @@ open class Shield: Sword {
 
       if self.shieldOptions.prefixes.contains("@bot") {
         self.shieldOptions.prefixes[self.shieldOptions.prefixes.index(of: "@bot")!] = "<@!\(self.user!.id)>"
+        self.shieldOptions.prefixes[self.shieldOptions.prefixes.index(of: "@bot")!] = "<@\(self.user!.id)>"
       }
 
       for prefix in self.shieldOptions.prefixes {
