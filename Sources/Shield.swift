@@ -39,8 +39,9 @@ open class Shield: Sword {
       let msg = data[0] as! Message
 
       if self.shieldOptions.prefixes.contains("@bot") {
-        self.shieldOptions.prefixes[self.shieldOptions.prefixes.index(of: "@bot")!] = "<@!\(self.user!.id)>"
-        self.shieldOptions.prefixes[self.shieldOptions.prefixes.index(of: "@bot")!] = "<@\(self.user!.id)>"
+        self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
+        self.shieldOptions.prefixes.append("<@!\(self.user!.id)>")
+        self.shieldOptions.prefixes.append("<@\(self.user!.id)>")
       }
 
       for prefix in self.shieldOptions.prefixes {
