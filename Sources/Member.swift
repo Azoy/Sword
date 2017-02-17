@@ -127,7 +127,11 @@ public struct Presence {
 
   /// Creates a Presence structure
   init(_ json: [String: Any]) {
-    self.game = json["game"] as? String
+    if let game = json["game"] as? [String: Any] {
+      self.game = game["name"] as? String
+    }else {
+      self.game = nil
+    }
     self.status = Status(rawValue: json["status"] as! String)!
   }
 
