@@ -205,7 +205,9 @@ extension Shard {
       case .presenceUpdate:
         let userId = (data["user"] as! [String: Any])["id"] as! String
         let presence = Presence(data)
-        self.sword.guilds[data["guild_id"] as! String]!.members[userId]!.presence = presence
+        if self.sword.guilds[data["guild_id"] as! String]!.members[userId] != nil {
+          self.sword.guilds[data["guild_id"] as! String]!.members[userId]!.presence = presence
+        }
         self.sword.emit(.presenceUpdate, with: userId, presence)
         break
 

@@ -24,7 +24,13 @@ extension String {
     let dateFormat = DateFormatter()
     dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
 
-    return dateFormat.date(from: self)!
+    if let returnDate = dateFormat.date(from: self) {
+      return returnDate
+    }else {
+      dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+
+      return dateFormat.date(from: self)!
+    }
   }
 
   /// Computed property to get date from string (specifically the Date header from requests)
