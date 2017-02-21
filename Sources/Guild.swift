@@ -571,6 +571,21 @@ public class Guild {
   }
 
   /**
+   Moves a member to another voice channel (if they are in one)
+
+   - parameter channelId: The Id of the channel to send them to
+  */
+  public func move(member userId: String, to channelId: String, _ completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.modifyGuildMember(self.id, userId), body: ["channel_id": channelId].createBody(), method: "PATCH") { error, data in
+      if error != nil {
+        completion(error)
+      }else {
+        completion(nil)
+      }
+    }
+  }
+
+  /**
    Prunes members for x amount of days
 
    - parameter limit: Amount of days for prunned users
