@@ -68,7 +68,7 @@ public struct User {
       return
     }
 
-    self.avatarUrl = "https://cdn.discordapp.com/avatars/\(self.id)/\(self.avatar!).png"
+    self.avatarUrl = "https://images.discordapp.com/avatars/\(self.id)/\(self.avatar!).png"
   }
 
   // MARK: Functions
