@@ -130,6 +130,21 @@ open class Sword: Eventable {
   }
 
   /**
+   Creates a guild
+
+   - parameter options: Refer to [discord docs](https://discordapp.com/developers/docs/resources/guild#create-guild) for guild options
+  */
+  public func createGuild(with options: [String: Any], _ completion: @escaping (RequestError?, Guild?) -> () = {_ in}) {
+    self.requester.request(endpoints.createGuild(), body: options.createBody(), method: "POST") { error, data in
+      if error != nil {
+        completion(error, nil)
+      }else {
+        completion(nil, Guild(self, data as! [String: Any]))
+      }
+    }
+  }
+
+  /**
    Creates an invite for channel
 
    #### Options Params ####

@@ -35,6 +35,10 @@ struct Endpoints {
     return "/users/@me/channels"
   }
 
+  func createGuild() -> String {
+    return "/guilds"
+  }
+
   func createGuildBan(_ guildId: String, _ userId: String) -> String {
     return "/guilds/\(guildId)/members/\(userId)"
   }
