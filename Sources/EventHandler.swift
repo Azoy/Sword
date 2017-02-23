@@ -58,12 +58,12 @@ extension Shard {
 
       /// GUILD_BAN_ADD
       case .guildBanAdd:
-        self.sword.emit(.guildBanAdd, with: data["guild_id"] as! String, User(self.sword, data))
+        self.sword.emit(.guildBanAdd, with: data["guild_id"] as! String, User(self.sword, data["user"] as! [String: Any]))
         break
 
       /// GUILD_BAN_REMOVE
       case .guildBanRemove:
-        self.sword.emit(.guildBanRemove, with: data["guild_id"] as! String, User(self.sword, data))
+        self.sword.emit(.guildBanRemove, with: data["guild_id"] as! String, User(self.sword, data["user"] as! [String: Any]))
         break
 
       /// GUILD_CREATE
