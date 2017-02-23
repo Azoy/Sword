@@ -215,7 +215,7 @@ public extension Channel {
 
    - parameter message: Message to send
   */
-  public func send(_ message: String, _ completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
+  public func send(_ message: Any, _ completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
     self.sword!.send(message, to: self.id) { error, msg in
       if error != nil {
         completion(error, nil)
