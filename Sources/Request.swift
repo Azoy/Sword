@@ -73,8 +73,9 @@ class Request {
       #if !os(Linux)
       let boundary = generateBoundaryString()
       let path = file!["file"] as! String
+      let payloadJson = (file!["parameters"] as! [String: [String: Any]])["payload_json"]!.encode()
 
-      request.httpBody = try? createBody(with: file!["parameters"] as? [String: String], fileKey: "file", paths: [path], boundary: boundary)
+      request.httpBody = try? createBody(with: ["payload_json": payloadJson], fileKey: "file", paths: [path], boundary: boundary)
       request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
       #else
       if file!["parameters"] != nil {

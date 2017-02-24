@@ -738,19 +738,19 @@ open class Sword: Eventable {
       return
     }
     var file: [String: Any] = [:]
-    var parameters: [String: String] = [:]
+    var parameters: [String: [String: Any]] = ["payload_json": [:]]
 
     if message["file"] != nil {
       file["file"] = message["file"] as! String
     }
     if message["content"] != nil {
-      parameters["content"] = (message["content"] as! String)
+      parameters["payload_json"]!["content"] = message["content"] as! String
     }
     if message["tts"] != nil {
-      parameters["tts"] = (message["tts"] as! String)
+      parameters["payload_json"]!["tts"] = message["tts"] as! String
     }
     if message["embed"] != nil {
-      parameters["payload_json"] = (message["embed"] as! [String: Any]).encode()
+      parameters["payload_json"]!["embed"] = message["embed"] as! [String: Any]
     }
 
     file["parameters"] = parameters

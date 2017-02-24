@@ -27,7 +27,7 @@ extension Request {
     if parameters != nil {
       for (key, value) in parameters! {
         body.append("--\(boundary)\r\n")
-        body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+        body.append("Content-Disposition: form-data; name=\"\(key)\"\r\nContent-Type: application/json\r\n\r\n")
         body.append("\(value)\r\n")
       }
     }
