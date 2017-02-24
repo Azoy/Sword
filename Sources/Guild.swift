@@ -240,9 +240,21 @@ public class Guild {
     }
   }
 
-  /// Creates a guild role
-  public func createRole(_ completion: @escaping (RequestError?, Role?) -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.createGuildRole(self.id), method: "POST") { error, data in
+  /**
+   Creates a guild role
+
+   #### Option Params ####
+
+   - **name**: The name of the role
+   - **permissions**: The bitwise number to set role with
+   - **color**: Integer value of RGB color
+   - **hoist**: Whether or not this role is hoisted on the member list
+   - **mentionable**: Whether or not this role is mentionable in chat
+
+   - parameter options: Preset options to configure role with
+  */
+  public func createRole(with options: [String: Any], _ completion: @escaping (RequestError?, Role?) -> () = {_ in}) {
+    self.sword!.requester.request(self.sword!.endpoints.createGuildRole(self.id), body: options.createBody(), method: "POST") { error, data in
       if error != nil {
         completion(error, nil)
       }else {
