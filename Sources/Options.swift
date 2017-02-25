@@ -53,6 +53,9 @@ public struct CommandOptions {
   /// Array of command aliases
   public var aliases: [String] = []
 
+  /// Array of required permissions in order to use command
+  public var requirements: [Permission] = []
+
   // MARK: Initializer
 
   /// Creates a default CommandOptions structure

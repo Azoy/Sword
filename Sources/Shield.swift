@@ -38,9 +38,7 @@ open class Shield: Sword {
     self.on(.messageCreate) { data in
       let msg = data[0] as! Message
 
-      guard msg.author?.isBot == false else {
-        return
-      }
+      guard !shieldOptions.ignoreBots && msg.author?.isBot == false else { return }
 
       if self.shieldOptions.prefixes.contains("@bot") {
         self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
@@ -65,6 +63,13 @@ open class Shield: Sword {
         if self.commandAliases[commandName] != nil {
           commandName = self.commandAliases[commandName]!
         }
+
+        var requiredPermissions = 0
+        for permission in self.commands[commandName]!.options.requirements {
+          requiredPermissions |= permission.rawValue
+        }
+        guard let permissions = msg.member?.permissions,
+              permissions & requiredPermissions > 0  else { return }
 
         self.commands[commandName]!.function(msg, command)
       }
