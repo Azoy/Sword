@@ -121,9 +121,9 @@ public struct Message {
       self.mentions.append(User(sword, mention))
     }
 
-    let mentionedRoles = json["mention_roles"] as! [[String: Any]]
+    let mentionedRoles = json["mention_roles"] as! [String]
     for mentionedRole in mentionedRoles {
-      self.mentionedRoles.append(Role(mentionedRole))
+      self.mentionedRoles.append((self.channel as! GuildChannel).guild!.roles[mentionedRole]!)
     }
 
     if let reactions = json["reactions"] as? [[String: Any]] {
