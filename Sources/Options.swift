@@ -32,6 +32,9 @@ public struct ShieldOptions {
 
   // MARK: Properties
 
+  /// Whether or not to ignore commands from bots
+  public var ignoreBots = true
+
   /// Array of prefixes commands should start with
   public var prefixes = ["@bot"]
 
