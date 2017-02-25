@@ -58,7 +58,7 @@ class Request {
 
     let route = rateLimited ? self.getRoute(for: url) : ""
 
-    let realUrl = "https://discordapp.com/api\(url)"
+    let realUrl = "https://discordapp.com/api/v6\(url)"
 
     var request = URLRequest(url: URL(string: realUrl)!)
     request.httpMethod = method

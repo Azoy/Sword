@@ -33,7 +33,7 @@ enum CloseCode: Int {
 public enum Event: String {
 
   /**
-   Fired when audio data is received from voice connectionClose
+   Fired when audio data is received from voice connection
 
    ### Usage ###
    ```swift
