@@ -34,7 +34,7 @@ public extension Channel {
    - parameter reaction: Unicode or custom emoji reaction
    - parameter messageId: Message to add reaction to
   */
-  public func add(reaction: String, to messageId: String, _ completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func add(reaction: String, to messageId: String, completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.createReaction(self.id, messageId, reaction), method: "PUT") { error, data in
       if error != nil {
         completion(error)
@@ -45,7 +45,7 @@ public extension Channel {
   }
 
   /// Deletes the current channel, whether it be a DMChannel or GuildChannel
-  public func delete(_ completion: @escaping (RequestError?, Channel?) -> () = {_ in}) {
+  public func delete(completion: @escaping (RequestError?, Channel?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.deleteChannel(self.id), method: "DELETE") { error, data in
       if error != nil {
         completion(error, nil)
@@ -65,7 +65,7 @@ public extension Channel {
 
    - parameter messageId: Message to delete
   */
-  public func delete(message messageId: String, _ completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func delete(message messageId: String, completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.deleteMessage(self.id, messageId), method: "DELETE") { error, data in
       if error != nil {
         completion(error)
@@ -80,7 +80,7 @@ public extension Channel {
 
    - parameter messages: Array of message ids to delete
   */
-  public func delete(messages: [String], _ completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func delete(messages: [String], completion: @escaping (RequestError?) -> () = {_ in}) {
     for message in messages {
       let oldestMessage = (Date().timeIntervalSince1970 - 1421280000000) * 4194304
       guard let messageId = Double(message) else {
@@ -106,7 +106,7 @@ public extension Channel {
 
    - parameter messageId: Pinned message to delete
   */
-  public func delete(pinnedMessage messageId: String, _ completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func delete(pinnedMessage messageId: String, completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.deletePinnedChannelMessage(self.id, messageId), method: "DELETE") { error, data in
       if error != nil {
         completion(error)
@@ -123,7 +123,7 @@ public extension Channel {
    - parameter messageId: Message to delete reaction from
    - parameter userId: If nil, deletes bot's reaction from, else delete a reaction from user
   */
-  public func delete(reaction: String, from messageId: String, by userId: String? = nil, _ completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func delete(reaction: String, from messageId: String, by userId: String? = nil, completion: @escaping (RequestError?) -> () = {_ in}) {
     var url = ""
     if userId != nil {
       url = self.sword!.endpoints.deleteUserReaction(self.id, messageId, reaction, userId!)
@@ -146,7 +146,7 @@ public extension Channel {
    - parameter messageId: Message to edit
    - parameter content: Text to change message to
   */
-  public func edit(message messageId: String, to content: String, _ completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
+  public func edit(message messageId: String, to content: String, completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.editMessage(self.id, messageId), body: ["content": content].createBody(), method: "PATCH") { error, data in
       if error != nil {
         completion(error, nil)
@@ -162,7 +162,7 @@ public extension Channel {
    - parameter reaction: Unicode or custom emoji to get
    - parameter messageId: Message to get reaction users from
   */
-  public func get(reaction: String, from messageId: String, _ completion: @escaping (RequestError?, [User]?) -> ()) {
+  public func get(reaction: String, from messageId: String, completion: @escaping (RequestError?, [User]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.getReactions(self.id, messageId, reaction)) { error, data in
       if error != nil {
         completion(error, nil)
@@ -179,7 +179,7 @@ public extension Channel {
   }
 
   /// Get Pinned messages for this channel
-  public func getPinnedMessages(_ completion: @escaping (RequestError?, [Message]?) -> () = {_ in}) {
+  public func getPinnedMessages(completion: @escaping (RequestError?, [Message]?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.getPinnedMessages(self.id)) { error, data in
       if error != nil {
         completion(error, nil)
@@ -200,7 +200,7 @@ public extension Channel {
 
    - parameter messageId: Message to pin
   */
-  public func pin(_ messageId: String, _ completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func pin(_ messageId: String, completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.addPinnedChannelMessage(self.id, messageId), method: "PUT") { error, data in
       if error != nil {
         completion(error)
@@ -215,7 +215,7 @@ public extension Channel {
 
    - parameter message: Message to send
   */
-  public func send(_ message: Any, _ completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
+  public func send(_ message: Any, completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
     self.sword!.send(message, to: self.id) { error, msg in
       if error != nil {
         completion(error, nil)

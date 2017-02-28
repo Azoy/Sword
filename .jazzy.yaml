@@ -1,0 +1,11 @@
+xcodebuild_arguments:
+  - -project
+  - Sword.xcodeproj/
+  - -scheme
+  - Sword
+
+theme: 'fullwidth'
+module: 'Sword'
+author: 'Azoy'
+author_url: 'https://github.com/Azoy'
+github_url: 'https://github.com/Azoy/Sword'

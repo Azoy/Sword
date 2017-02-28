@@ -17,7 +17,7 @@ public protocol Eventable: class {
   /**
    - parameter event: Event to listen for
    */
-  func on(_ event: Event, _ completion: @escaping ([Any]) -> ())
+  func on(_ event: Event, completion: @escaping ([Any]) -> ())
 
   /**
    - parameter event: Event to emit
@@ -34,7 +34,7 @@ extension Eventable {
 
    - parameter event: Event to listen for
    */
-  public func on(_ event: Event, _ completion: @escaping ([Any]) -> ()) {
+  public func on(_ event: Event, completion: @escaping ([Any]) -> ()) {
     guard self.listeners[event] != nil else {
       self.listeners[event] = [completion]
       return
