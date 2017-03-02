@@ -68,15 +68,9 @@ extension Request {
     var interval = 2
 
     if limitHeader != nil && remainingHeader != nil && intervalHeader != nil {
-      #if !os(Linux)
       limit = Int(limitHeader as! String)!
       remaining = Int(remainingHeader as! String)!
       interval = Int(Double(intervalHeader as! String)! - date)
-      #else
-      limit = Int(limitHeader!)!
-      remaining = Int(remainingHeader!)!
-      interval = Int(Double(intervalHeader!)! - date)
-      #endif
     }
 
     if route != "" && self.rateLimits[route] == nil {

@@ -186,7 +186,7 @@ public class VoiceConnection: Eventable {
     #if !os(Linux)
     let audioSize = Int(crypto_secretbox_MACBYTES) + data.count
     #else
-    let audioSize = Int(crypto_secretbox_xsalsa20poly1305_MACBYTES) + data.count
+    let audioSize = 16 + data.count
     #endif
     let audioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
     defer {
@@ -233,7 +233,7 @@ public class VoiceConnection: Eventable {
     #if !os(Linux)
     let audioSize = audioData.count - Int(crypto_secretbox_MACBYTES)
     #else
-    let audioSize = audioData.count - Int(crypto_secretbox_ZEROBYTES)
+    let audioSize = audioData.count - 16
     #endif
     let unencryptedAudioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
     defer {
