@@ -22,7 +22,11 @@ extension Shard {
 
       /// OP: 1
       case .heartbeat:
-        self.send(["op": OPCode.heartbeatACK.rawValue].encode())
+        let heartbeat = Payload(
+          op: .heartbeat,
+          data: self.lastSeq ?? NSNull()
+        ).encode()
+        self.send(heartbeat)
         break
 
       /// OP: 11
