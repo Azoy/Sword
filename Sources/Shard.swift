@@ -15,38 +15,41 @@ class Shard {
 
   // MARK: Properties
 
-  /// ID of shard
-  let id: Int
-
-  /// Amount of shards bot should be connected to
-  let shardCount: Int
-
-  /// Session ID of gateway
-  var sessionId: String?
-
-  /// Heartbeat worker
-  var heartbeat: Heartbeat?
-
   /// Gateway URL for gateway
   var gatewayUrl = ""
-
-  /// WS
-  var session: WebSocket?
-
-  /// Parent class
-  let sword: Sword
 
   /// Global Event Rate Limiter
   let globalBucket: Bucket
 
-  /// Presence Event Rate Limiter
-  let presenceBucket: Bucket
+  /// Heartbeat worker
+  var heartbeat: Heartbeat?
+
+  /// ID of shard
+  let id: Int
 
   /// Whether or not the shard is connected to gateway
-  var isConnected: Bool = false
+  var isConnected = false
 
   /// The last sequence sent by Discord
   var lastSeq: Int?
+
+  /// Presence Event Rate Limiter
+  let presenceBucket: Bucket
+
+  /// Whether or not the shard is reconnecting
+  var reconnecting = false
+
+  /// WS
+  var session: WebSocket?
+
+  /// Session ID of gateway
+  var sessionId: String?
+
+  /// Amount of shards bot should be connected to
+  let shardCount: Int
+
+  /// Parent class
+  let sword: Sword
 
   // MARK: Initializer
 
@@ -168,12 +171,13 @@ class Shard {
 
    - parameter payload: Reconnect payload to send to connection
   */
-  func reconnect(_ payload: Payload) {
+  func reconnect() {
     try? self.session!.close()
     self.isConnected = false
     self.heartbeat = nil
+    self.reconnecting = true
 
-    self.startWS(self.gatewayUrl, reconnect: true, reconnectPayload: payload.encode())
+    self.startWS(self.gatewayUrl)
   }
 
   /// Function to send packet to server to request for offline members for requested guild
@@ -208,16 +212,12 @@ class Shard {
 
    - parameter gatewayUrl: URL that WS should connect to
   */
-  func startWS(_ gatewayUrl: String, reconnect: Bool = false, reconnectPayload: String? = nil) {
+  func startWS(_ gatewayUrl: String) {
     self.gatewayUrl = gatewayUrl
 
     try? WebSocket.connect(to: gatewayUrl) { ws in
       self.session = ws
       self.isConnected = true
-
-      if reconnect {
-        self.send(reconnectPayload!)
-      }
 
       ws.onText = { ws, text in
         self.event(Payload(with: text))
@@ -240,12 +240,7 @@ class Shard {
             break
 
           default:
-            var data: [String: Any] = ["token": self.sword.token, "session_id": self.sessionId!, "seq": NSNull()]
-            if self.lastSeq != nil {
-              data.updateValue(self.lastSeq!, forKey: "seq")
-            }
-            let payload = Payload(op: .resume, data: data)
-            self.reconnect(payload)
+            self.reconnect()
             break
         }
       }
