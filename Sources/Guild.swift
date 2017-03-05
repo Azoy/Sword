@@ -14,7 +14,7 @@ public class Guild {
   // MARK: Properties
 
   /// Parent class
-  public weak var sword: Sword?
+  public internal(set) weak var sword: Sword?
 
   /// ID of afk voice channel (if there is any)
   public let afkChannelId: String?

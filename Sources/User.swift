@@ -14,7 +14,7 @@ public struct User {
   // MARK: Properties
 
   /// Parent class
-  private weak var sword: Sword?
+  public internal(set) weak var sword: Sword?
 
   /// Avatar hash
   public let avatar: String?

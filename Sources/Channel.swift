@@ -233,7 +233,7 @@ public struct DMChannel: Channel {
   // MARK: Properties
 
   /// Parent class
-  public weak var sword: Sword?
+  public internal(set) weak var sword: Sword?
 
   /// ID of DM
   public let id: String

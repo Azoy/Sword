@@ -6,7 +6,7 @@ public struct GuildChannel: Channel {
   // MARK: Properties
 
   /// Parent class
-  public weak var sword: Sword?
+  public internal(set) weak var sword: Sword?
 
   /// (Voice) bitrate (in bits) for channel
   public let bitrate: Int?

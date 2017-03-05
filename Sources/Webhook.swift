@@ -14,7 +14,7 @@ public struct Webhook {
   // MARK: Properties
 
   /// Parent class
-  public weak var sword: Sword?
+  public internal(set) weak var sword: Sword?
 
   /// Avatar for the webhook in base64
   public let avatar: String?
