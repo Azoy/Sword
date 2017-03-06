@@ -233,19 +233,6 @@ public enum Event: String {
   case guildRoleCreate = "GUILD_ROLE_CREATE"
 
     /**
-     Fired when a role is updated in a guild
-
-     ### Usage ###
-     ```swift
-     bot.on(.guildRoleUpdate) { data in
-       let guildId = data[0] as! String
-       let role = data[1] as! Role
-     }
-     ```
-    */
-  case guildRoleUpdate = "GUILD_ROLE_UPDATE"
-
-    /**
      Fired when a role is deleted in a guild
 
      ### Usage ###
@@ -257,6 +244,19 @@ public enum Event: String {
      ```
     */
   case guildRoleDelete = "GUILD_ROLE_DELETE"
+
+    /**
+     Fired when a role is updated in a guild
+
+     ### Usage ###
+     ```swift
+     bot.on(.guildRoleUpdate) { data in
+       let guildId = data[0] as! String
+       let role = data[1] as! Role
+     }
+     ```
+    */
+  case guildRoleUpdate = "GUILD_ROLE_UPDATE"
 
     /**
      Fired when a guild becomes unavailable

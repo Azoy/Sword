@@ -13,6 +13,9 @@ open class Sword: Eventable {
 
   // MARK: Properties
 
+  /// Collection of DMChannels mapped by user id
+  public internal(set) var dms: [String: DMChannel] = [:]
+
   /// Endpoints structure
   let endpoints = Endpoints()
 
@@ -22,8 +25,8 @@ open class Sword: Eventable {
   /// Array of guilds the bot is currently connected to
   public internal(set) var guilds: [String: Guild] = [:]
 
-  /// Event listeners
-  public var listeners: [Event: [([Any]) -> ()]] = [:]
+  /// Event listener that adds listeners to when events are emitted
+  public internal(set) var on = EventListener()
 
   /// Optional options to apply to bot
   var options: SwordOptions
@@ -505,6 +508,15 @@ open class Sword: Eventable {
 
     if guilds.isEmpty { return nil }
     return guilds[0].1
+  }
+
+  public func getDM(for channelId: String) -> DMChannel? {
+    var dms = self.dms.filter {
+      $0.1.id == channelId
+    }
+
+    if dms.isEmpty { return nil }
+    return dms[0].1
   }
 
   /**

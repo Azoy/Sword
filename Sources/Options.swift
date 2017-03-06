@@ -11,14 +11,17 @@ public struct SwordOptions {
 
   // MARK: Properties
 
-  /// Whether or not caching offline members is allowed
-  public var isCachingAllMembers = false
-
   /// Array of event names to disable
   public var disabledEvents: [Event] = []
 
+  /// Whether or not caching offline members is allowed
+  public var isCachingAllMembers = false
+
   /// Whether or not this bot is sharded
   public var isSharded = true
+
+  /// Max amount of messages to cache in channels
+  public var messageLimit = 50
 
   // MARK: Initializer
 

@@ -79,7 +79,9 @@ public struct User {
       if error != nil {
         completion(error, nil)
       }else {
-        completion(nil, DMChannel(self.sword!, data as! [String: Any]))
+        let dm = DMChannel(self.sword!, data as! [String: Any])
+        self.sword!.dms[self.id] = dm
+        completion(nil, dm)
       }
     }
   }

@@ -52,8 +52,16 @@ public class VoiceConnection: Eventable {
   /// Whether or not the WS is connected
   var isConnected = false
 
-  /// Event listeners
-  public var listeners: [Event: [([Any]) -> ()]] = [:]
+  public internal(set) var on = EventListener()
+
+  /// Port number for udp client
+  var port: Int
+
+  /// Secret key to use to encrypt voice data
+  var secret: [UInt8] = []
+
+  /// The WS voice connection connects to
+  var session: WebSocket?
 
   /// Whether or not we need to make a new encoder
   var shouldMakeEncoder = true {
@@ -65,15 +73,6 @@ public class VoiceConnection: Eventable {
       self.encoderSema.signal()
     }
   }
-
-  /// Port number for udp client
-  var port: Int
-
-  /// Secret key to use to encrypt voice data
-  var secret: [UInt8] = []
-
-  /// The WS voice connection connects to
-  var session: WebSocket?
 
   /// SSRC used to encrypt voice
   var ssrc: UInt32 = 0
@@ -350,7 +349,7 @@ public class VoiceConnection: Eventable {
 
     process.launch()
 
-    self.on(.connectionClose) { _ in
+    self.on.connectionClose { _ in
       kill(process.processIdentifier, SIGKILL)
     }
   }

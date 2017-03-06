@@ -22,6 +22,9 @@ public protocol Channel {
   /// The last message's id
   var lastMessageId: String? { get }
 
+  /// Collection of messages mapped by message id
+  var messages: [String: Message] { get }
+
 }
 
 public extension Channel {
@@ -243,6 +246,16 @@ public struct DMChannel: Channel {
 
   /// The last message's ID
   public let lastMessageId: String?
+
+  /// Collection of messages mapped by message id
+  public internal(set) var messages: [String: Message] = [:] {
+    didSet {
+      if messages.count > self.sword!.options.messageLimit {
+        let firstPair = messages.first!
+        messages.removeValue(forKey: firstPair.0)
+      }
+    }
+  }
 
   // MARK: Initializer
 
