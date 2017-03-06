@@ -295,19 +295,6 @@ public enum Event: String {
   case messageCreate = "MESSAGE_CREATE"
 
     /**
-     Fired when a message is updated
-
-     ### Usage ###
-     ```swift
-     bot.on(.messageUpdate) { data in
-       let msgId = data[0] as! String
-       let channelId = data[1] as! String
-     }
-     ```
-    */
-  case messageUpdate = "MESSAGE_UPDATE"
-
-    /**
      Fired when a message is deleted
 
      ### Usage ###
@@ -332,6 +319,19 @@ public enum Event: String {
      ```
     */
   case messageDeleteBulk = "MESSAGE_DELETE_BULK"
+
+    /**
+     Fired when a message is updated
+
+     ### Usage ###
+     ```swift
+     bot.on(.messageUpdate) { data in
+       let msgId = data[0] as! String
+       let channelId = data[1] as! String
+     }
+     ```
+    */
+  case messageUpdate = "MESSAGE_UPDATE"
 
     /**
      Fired when a user's presences is updated
