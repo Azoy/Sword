@@ -44,11 +44,11 @@ public struct EventListener {
     self.add(function, to: .guildAvailable)
   }
 
-  public mutating func guildBanAdd(do function: @escaping (String, User) -> ()) {
+  public mutating func guildBanAdd(do function: @escaping (Guild, User) -> ()) {
     self.add(function, to: .guildBanAdd)
   }
 
-  public mutating func guildBanRemove(do function: @escaping (String, User) -> ()) {
+  public mutating func guildBanRemove(do function: @escaping (Guild, User) -> ()) {
     self.add(function, to: .guildBanRemove)
   }
 
@@ -56,23 +56,23 @@ public struct EventListener {
     self.add(function, to: .guildCreate)
   }
 
-  public mutating func guildDelete(do function: @escaping (String) -> ()) {
+  public mutating func guildDelete(do function: @escaping (Guild) -> ()) {
     self.add(function, to: .guildDelete)
   }
 
-  public mutating func guildEmojisUpdate(do function: @escaping (String, [Emoji]) -> ()) {
+  public mutating func guildEmojisUpdate(do function: @escaping (Guild, [Emoji]) -> ()) {
     self.add(function, to: .guildEmojisUpdate)
   }
 
-  public mutating func guildIntegrationsUpdate(do function: @escaping (String) -> ()) {
+  public mutating func guildIntegrationsUpdate(do function: @escaping (Guild) -> ()) {
     self.add(function, to: .guildIntegrationsUpdate)
   }
 
-  public mutating func guildMemberAdd(do function: @escaping (String, Member) -> ()) {
+  public mutating func guildMemberAdd(do function: @escaping (Guild, Member) -> ()) {
     self.add(function, to: .guildMemberAdd)
   }
 
-  public mutating func guildMemberRemove(do function: @escaping (String, User) -> ()) {
+  public mutating func guildMemberRemove(do function: @escaping (Guild, User) -> ()) {
     self.add(function, to: .guildMemberRemove)
   }
 
@@ -80,15 +80,15 @@ public struct EventListener {
     self.add(function, to: .guildMemberUpdate)
   }
 
-  public mutating func guildRoleCreate(do function: @escaping (String, Role) -> ()) {
+  public mutating func guildRoleCreate(do function: @escaping (Guild, Role) -> ()) {
     self.add(function, to: .guildRoleCreate)
   }
 
-  public mutating func guildRoleDelete(do function: @escaping (String, String) -> ()) {
+  public mutating func guildRoleDelete(do function: @escaping (Guild, Role) -> ()) {
     self.add(function, to: .guildRoleDelete)
   }
 
-  public mutating func guildRoleUpdate(do function: @escaping (String, Role) -> ()) {
+  public mutating func guildRoleUpdate(do function: @escaping (Guild, Role) -> ()) {
     self.add(function, to: .guildRoleUpdate)
   }
 
@@ -104,16 +104,16 @@ public struct EventListener {
     self.add(function, to: .messageCreate)
   }
 
-  public mutating func messageUpdate(do function: @escaping (String, String) -> ()) {
-    self.add(function, to: .messageUpdate)
-  }
-
-  public mutating func messageDelete(do function: @escaping (String, String) -> ()) {
+  public mutating func messageDelete(do function: @escaping (Message, Channel) -> ()) {
     self.add(function, to: .messageDelete)
   }
 
-  public mutating func messageDeleteBulk(do function: @escaping ([String], String) -> ()) {
+  public mutating func messageDeleteBulk(do function: @escaping ([Any], Channel) -> ()) {
     self.add(function, to: .messageDeleteBulk)
+  }
+
+  public mutating func messageUpdate(do function: @escaping ([String: Any]) -> ()) {
+    self.add(function, to: .messageUpdate)
   }
 
   public mutating func presenceUpdate(do function: @escaping (String, Presence) -> ()) {
@@ -124,7 +124,7 @@ public struct EventListener {
     self.add(function, to: .ready)
   }
 
-  public mutating func typingStart(do function: @escaping (String, String, Date) -> ()) {
+  public mutating func typingStart(do function: @escaping (Channel, String, Date) -> ()) {
     self.add(function, to: .typingStart)
   }
 
