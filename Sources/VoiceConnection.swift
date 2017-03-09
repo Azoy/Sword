@@ -52,7 +52,8 @@ public class VoiceConnection: Eventable {
   /// Whether or not the WS is connected
   var isConnected = false
 
-  public internal(set) var on = EventListener()
+  /// Event listeners
+  public var listeners: [Event: [([Any]) -> ()]] = [:]
 
   /// Port number for udp client
   var port: Int
@@ -349,7 +350,7 @@ public class VoiceConnection: Eventable {
 
     process.launch()
 
-    self.on.connectionClose { _ in
+    self.on(.connectionClose) { _ in
       kill(process.processIdentifier, SIGKILL)
     }
   }

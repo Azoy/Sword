@@ -25,8 +25,8 @@ open class Sword: Eventable {
   /// Array of guilds the bot is currently connected to
   public internal(set) var guilds: [String: Guild] = [:]
 
-  /// Event listener that adds listeners to when events are emitted
-  public internal(set) var on = EventListener()
+  /// Event listeners
+  public var listeners: [Event: [([Any]) -> ()]] = [:]
 
   /// Optional options to apply to bot
   var options: SwordOptions
@@ -278,15 +278,15 @@ open class Sword: Eventable {
 
   /**
    Edits bot status
-
-   - parameter presence: Presence structure to set status to
+   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
+   - parameter game: ["name": "with Swords!", "type": 0 || 1]
   */
-  public func editStatus(to presence: Presence) {
+  public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {
     guard self.shards.count > 0 else { return }
-    var data: [String: Any] = ["afk": presence.status == .idle, "game": NSNull(), "since": presence.status == .idle ? Date().milliseconds : 0, "status": presence.status.rawValue]
+    var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
 
-    if presence.game != nil {
-      data["game"] = ["name": presence.game]
+    if game != nil {
+      data["game"] = game
     }
 
     let payload = Payload(op: .statusUpdate, data: data).encode()
@@ -497,7 +497,7 @@ open class Sword: Eventable {
   }
 
   /**
-   Function to get guild for channelId
+   Function to get guild from channelId
 
    - parameter channelId: Channel to get guild from
   */
@@ -510,6 +510,11 @@ open class Sword: Eventable {
     return guilds[0].1
   }
 
+  /**
+   Function to get dm from channelId
+
+   - parameter channelId: Channel to get dm from
+  */
   public func getDM(for channelId: String) -> DMChannel? {
     var dms = self.dms.filter {
       $0.1.id == channelId

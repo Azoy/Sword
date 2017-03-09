@@ -11,7 +11,13 @@ import Foundation
 /// Create a nifty Event Emitter in Swift
 public protocol Eventable: class {
 
-  var on: EventListener { get }
+  /// Event Listeners
+  var listeners: [Event: [([Any]) -> ()]] { get set }
+
+  /**
+   - parameter event: Event to listen for
+   */
+  func on(_ event: Event, completion: @escaping ([Any]) -> ())
 
   /**
    - parameter event: Event to emit
@@ -24,22 +30,28 @@ public protocol Eventable: class {
 extension Eventable {
 
   /**
+   Listens for eventName
+
+   - parameter event: Event to listen for
+   */
+  public func on(_ event: Event, completion: @escaping ([Any]) -> ()) {
+    guard self.listeners[event] != nil else {
+      self.listeners[event] = [completion]
+      return
+    }
+    self.listeners[event]!.append(completion)
+  }
+
+  /**
    Emits all listeners for eventName
 
    - parameter event: Event to emit
    - parameter data: Array of stuff to emit listener with
    */
   public func emit(_ event: Event, with data: Any...) {
-    guard let functions = self.on.listeners[event] else { return }
-
+    guard let functions = self.listeners[event] else { return }
     for function in functions {
-      switch event {
-        case .messageCreate:
-          (function as! (Message) -> ())(data[0] as! Message)
-          break
-        default:
-          break
-      }
+      function(data)
     }
   }
 

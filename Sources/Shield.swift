@@ -35,7 +35,8 @@ open class Shield: Sword {
     self.shieldOptions = shieldOptions
     super.init(token: token, with: swordOptions)
 
-    self.on.messageCreate { msg in
+    self.on(.messageCreate) { data in
+      let msg = data[0] as! Message
       guard !shieldOptions.ignoreBots && msg.author?.isBot == false else { return }
 
       if self.shieldOptions.prefixes.contains("@bot") {
