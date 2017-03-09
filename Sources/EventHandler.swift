@@ -197,9 +197,17 @@ extension Shard {
         let channelId = data["channel_id"] as! String
         let guild = self.sword.getGuild(for: channelId)
         if guild != nil {
-          self.sword.emit(.messageDelete, with: guild!.channels[channelId]!.messages[data["id"] as! String]!, guild!.channels[channelId]!)
+          guard let msg = guild!.channels[channelId]!.messages[data["id"] as! String] else {
+            self.sword.emit(.messageDelete, with: data["id"] as! String, guild!.channels[channelId]!)
+            return
+          }
+          self.sword.emit(.messageDelete, with: msg, guild!.channels[channelId]!)
         }else {
-          self.sword.emit(.messageDelete, with: self.sword.getDM(for: channelId)!.messages[data["id"] as! String]!, self.sword.getDM(for: channelId)!)
+          guard let msg = self.sword.getDM(for: channelId)!.messages[data["id"] as! String] else {
+            self.sword.emit(.messageDelete, with: data["id"] as! String, self.sword.getDM(for: channelId)!)
+            return
+          }
+          self.sword.emit(.messageDelete, with: msg, self.sword.getDM(for: channelId)!)
         }
         break
 

@@ -409,7 +409,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildBanAdd</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guildId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
   <span class="k">let</span> <span class="nv">user</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">User</span>
 <span class="p">}</span>
 </code></pre></p>
@@ -447,7 +447,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildBanRemove</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guildId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
   <span class="k">let</span> <span class="nv">user</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">User</span>
 <span class="p">}</span>
 </code></pre></p>
@@ -522,7 +522,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildDelete</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guildId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
 <span class="p">}</span>
 </code></pre></p>
 
@@ -559,7 +559,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildEmojisUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guildId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
   <span class="k">let</span> <span class="nv">emojis</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="p">[</span><span class="kt">Emoji</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></p>
@@ -597,7 +597,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildIntegrationsUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guildId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
 <span class="p">}</span>
 </code></pre></p>
 
@@ -634,7 +634,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildMemberAdd</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guildId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
   <span class="k">let</span> <span class="nv">member</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Member</span>
 <span class="p">}</span>
 </code></pre></p>
@@ -672,7 +672,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildMemberRemove</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guildId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
   <span class="k">let</span> <span class="nv">user</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">User</span>
 <span class="p">}</span>
 </code></pre></p>
@@ -747,7 +747,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildRoleCreate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guildId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
   <span class="k">let</span> <span class="nv">role</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Role</span>
 <span class="p">}</span>
 </code></pre></p>
@@ -785,7 +785,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildRoleDelete</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guildId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
   <span class="k">let</span> <span class="nv">roleId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
 <span class="p">}</span>
 </code></pre></p>
@@ -823,7 +823,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildRoleUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guildId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
   <span class="k">let</span> <span class="nv">role</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Role</span>
 <span class="p">}</span>
 </code></pre></p>
@@ -972,8 +972,11 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageDelete</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">msgId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
-  <span class="k">let</span> <span class="nv">channelId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+ <span class="k">guard</span> <span class="k">let</span> <span class="nv">msg</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">Message</span> <span class="k">else</span> <span class="p">{</span>
+   <span class="c1">//data has returned a string</span>
+   <span class="k">return</span>
+ <span class="p">}</span>
+ <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
 <span class="p">}</span>
 </code></pre></p>
 
@@ -1011,7 +1014,7 @@
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageDeleteBulk</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
   <span class="k">let</span> <span class="nv">messageIds</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span>
-  <span class="k">let</span> <span class="nv">channelId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
 <span class="p">}</span>
 </code></pre></p>
 
@@ -1161,7 +1164,7 @@
 
 <p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">typingStart</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">channelId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
   <span class="k">let</span> <span class="nv">userId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
   <span class="k">let</span> <span class="nv">timestamp</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Date</span>
 <span class="p">}</span>

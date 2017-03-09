@@ -109,7 +109,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildBanAdd) { data in
-       let guildId = data[0] as! String
+       let guild = data[0] as! Guild
        let user = data[1] as! User
      }
      ```
@@ -122,7 +122,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildBanRemove) { data in
-       let guildId = data[0] as! String
+       let guild = data[0] as! Guild
        let user = data[1] as! User
      }
      ```
@@ -147,7 +147,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildDelete) { data in
-       let guildId = data[0] as! String
+       let guild = data[0] as! Guild
      }
      ```
     */
@@ -159,7 +159,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildEmojisUpdate) { data in
-       let guildId = data[0] as! String
+       let guild = data[0] as! Guild
        let emojis = data[1] as! [Emoji]
      }
      ```
@@ -172,7 +172,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildIntegrationsUpdate) { data in
-       let guildId = data[0] as! String
+       let guild = data[0] as! Guild
      }
      ```
     */
@@ -184,7 +184,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildMemberAdd) { data in
-       let guildId = data[0] as! String
+       let guild = data[0] as! Guild
        let member = data[1] as! Member
      }
      ```
@@ -197,7 +197,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildMemberRemove) { data in
-       let guildId = data[0] as! String
+       let guild = data[0] as! Guild
        let user = data[1] as! User
      }
      ```
@@ -225,7 +225,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildRoleCreate) { data in
-       let guildId = data[0] as! String
+       let guild = data[0] as! Guild
        let role = data[1] as! Role
      }
      ```
@@ -238,7 +238,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildRoleDelete) { data in
-       let guildId = data[0] as! String
+       let guild = data[0] as! Guild
        let roleId = data[1] as! String
      }
      ```
@@ -251,7 +251,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildRoleUpdate) { data in
-       let guildId = data[0] as! String
+       let guild = data[0] as! Guild
        let role = data[1] as! Role
      }
      ```
@@ -300,8 +300,11 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.messageDelete) { data in
-       let msgId = data[0] as! String
-       let channelId = data[1] as! String
+      guard let msg = data[0] as? Message else {
+        //data has returned a string
+        return
+      }
+      let channel = data[1] as! Channel
      }
      ```
     */
@@ -314,7 +317,7 @@ public enum Event: String {
      ```swift
      bot.on(.messageDeleteBulk) { data in
        let messageIds = data[0] as! [String]
-       let channelId = data[1] as! String
+       let channel = data[1] as! Channel
      }
      ```
     */
@@ -367,7 +370,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.typingStart) { data in
-       let channelId = data[0] as! String
+       let channel = data[0] as! Channel
        let userId = data[1] as! String
        let timestamp = data[2] as! Date
      }
