@@ -183,7 +183,7 @@
 <span class="k">let</span> <span class="nv">bot</span> <span class="o">=</span> <span class="kt">Sword</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="s">"Your bot token here"</span><span class="p">)</span>
 
 <span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">ready</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
-  <span class="n">bot</span><span class="o">.</span><span class="nf">editStatus</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">Presence</span><span class="p">(</span><span class="nv">status</span><span class="p">:</span> <span class="o">.</span><span class="n">dnd</span><span class="p">,</span> <span class="nv">playing</span><span class="p">:</span> <span class="s">"with Swords!"</span><span class="p">))</span>
+  <span class="n">bot</span><span class="o">.</span><span class="nf">editStatus</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="s">"online"</span><span class="p">,</span> <span class="nv">playing</span><span class="p">:</span> <span class="s">"with Sword!"</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageCreate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>

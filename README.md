@@ -29,7 +29,7 @@ import Sword
 let bot = Sword(token: "Your bot token here")
 
 bot.on(.ready) { _ in
-  bot.editStatus(to: Presence(status: .dnd, playing: "with Swords!"))
+  bot.editStatus(to: "online", playing: "with Sword!")
 }
 
 bot.on(.messageCreate) { data in
