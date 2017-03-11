@@ -275,7 +275,7 @@ public class VoiceConnection: Eventable {
   func handleWSPayload(_ payload: Payload) {
     guard payload.t != nil else {
 
-      guard let voiceOP = VoiceOPCode(rawValue: payload.op) else { return }
+      guard let voiceOP = VoiceOP(rawValue: payload.op) else { return }
 
       guard let data = payload.d as? [String: Any] else {
         self.heartbeat?.received = true

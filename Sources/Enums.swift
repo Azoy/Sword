@@ -9,21 +9,21 @@
 import Foundation
 
 /// Organize all dispatch events
-enum OPCode: Int {
+enum OP: Int {
 
   case dispatch, heartbeat, identify, statusUpdate, voiceStateUpdate, voiceServerPing, resume, reconnect, requestGuildMember, invalidSession, hello, heartbeatACK
 
 }
 
 /// Organize all voice evnets
-enum VoiceOPCode: Int {
+enum VoiceOP: Int {
 
   case identify, selectProtocol, ready, heartbeat, sessionDescription, speaking
 
 }
 
 /// Organize all websocket close codes
-enum CloseCode: Int {
+enum CloseOP: Int {
 
   case unknown = 1000, unknownError = 4000, unknownOPCode, decodeError, notAuthenticated, authenticationFailed, alreadyAuthenticated, invalidSeq = 4007, rateLimited, sessionTimeout, invalidShard, shardingRequired
 

@@ -226,7 +226,7 @@ class Shard {
       ws.onClose = { ws, code, _, _ in
         self.heartbeat = nil
         self.isConnected = false
-        switch CloseCode(rawValue: Int(code!))! {
+        switch CloseOP(rawValue: Int(code!))! {
           case .authenticationFailed:
             print("[Sword] - Invalid Bot Token")
             break

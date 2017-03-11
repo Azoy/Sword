@@ -18,7 +18,7 @@ extension Shard {
    */
   func handleGateway(_ payload: Payload) {
 
-    switch OPCode(rawValue: payload.op)! {
+    switch OP(rawValue: payload.op)! {
 
       /// OP: 1
       case .heartbeat:

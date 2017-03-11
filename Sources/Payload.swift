@@ -46,7 +46,7 @@ struct Payload {
    - parameter op: OP code to dispatch
    - parameter data: Either an Array | Dictionary to dispatch under the payload.d
   */
-  init(op: OPCode, data: Any) {
+  init(op: OP, data: Any) {
     self.op = op.rawValue
     self.d = data
     self.s = nil
@@ -59,7 +59,7 @@ struct Payload {
    - parameter voiceOP: VoiceOP code to dispatch
    - parameter data: Either an Array | Dictionary to dispatch under the payload.d
   */
-  init(voiceOP: VoiceOPCode, data: Any) {
+  init(voiceOP: VoiceOP, data: Any) {
     self.op = voiceOP.rawValue
     self.d = data
     self.s = nil
