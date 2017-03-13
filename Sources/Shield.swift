@@ -35,47 +35,48 @@ open class Shield: Sword {
     self.shieldOptions = shieldOptions
     super.init(token: token, with: swordOptions)
 
-    self.on(.messageCreate) { data in
-      let msg = data[0] as! Message
-      guard !shieldOptions.ignoreBots && msg.author?.isBot == false else { return }
-
-      if self.shieldOptions.prefixes.contains("@bot") {
-        self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
-        self.shieldOptions.prefixes.append("<@\(self.user!.id)>")
-      }
-
-      for prefix in self.shieldOptions.prefixes {
-        guard msg.content.hasPrefix(prefix) else { continue }
-
-        var content = msg.content.substring(from: msg.content.index(msg.content.startIndex, offsetBy: prefix.characters.count))
-        if content.hasPrefix(" ") {
-          content = content.substring(from: content.index(content.startIndex, offsetBy: 1))
-        }
-        var command = content.components(separatedBy: " ")
-
-        var commandName = command[0]
-        command.remove(at: 0)
-
-        guard self.commands[commandName] != nil || self.commandAliases[commandName] != nil else { return }
-
-        if self.commandAliases[commandName] != nil {
-          commandName = self.commandAliases[commandName]!
-        }
-
-        var requiredPermissions = 0
-        for permission in self.commands[commandName]!.options.requirements {
-          requiredPermissions |= permission.rawValue
-        }
-        guard let permissions = msg.member?.permissions,
-              permissions & requiredPermissions > 0  else { return }
-
-        self.commands[commandName]!.function(msg, command)
-      }
-
+    if self.shieldOptions.prefixes.contains("@bot") {
+      self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
+      self.shieldOptions.prefixes.append("<@\(self.user!.id)>")
     }
+
+    self.on(.messageCreate, handle)
   }
 
   // MARK: Functions
+
+  func handle(message data: [Any]) {
+    let msg = data[0] as! Message
+    guard !shieldOptions.ignoreBots && msg.author?.isBot == false else { return }
+
+    for prefix in self.shieldOptions.prefixes {
+      guard msg.content.hasPrefix(prefix) else { continue }
+
+      var content = msg.content.substring(from: msg.content.index(msg.content.startIndex, offsetBy: prefix.characters.count))
+      if content.hasPrefix(" ") {
+        content = content.substring(from: content.index(content.startIndex, offsetBy: 1))
+      }
+      var command = content.components(separatedBy: " ")
+
+      var commandName = command[0]
+      command.remove(at: 0)
+
+      guard self.commands[commandName] != nil || self.commandAliases[commandName] != nil else { return }
+
+      if self.commandAliases[commandName] != nil {
+        commandName = self.commandAliases[commandName]!
+      }
+
+      var requiredPermissions = 0
+      for permission in self.commands[commandName]!.options.requirements {
+        requiredPermissions |= permission.rawValue
+      }
+      guard let permissions = msg.member?.permissions,
+            permissions & requiredPermissions > 0  else { return }
+
+      self.commands[commandName]!.function(msg, command)
+    }
+  }
 
   /**
    Registers a command
