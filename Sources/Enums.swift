@@ -8,24 +8,69 @@
 
 import Foundation
 
+/// Organize OAuth2 scopes
+public enum Scope: String {
+
+case bot,
+     connections,
+     email,
+     identify,
+     guilds,
+     joinGuilds = "guilds.join",
+     joinGroupDM = "gdm.join",
+     readMessages = "messages.read",
+     rpc,
+     rpcApi = "rpc.api",
+     readRPCNotifications = "rpc.notifications.read",
+     incomingWebhook = "webhook.incoming"
+
+}
+
 /// Organize all dispatch events
 enum OP: Int {
 
-  case dispatch, heartbeat, identify, statusUpdate, voiceStateUpdate, voiceServerPing, resume, reconnect, requestGuildMember, invalidSession, hello, heartbeatACK
+  case dispatch,
+       heartbeat,
+       identify,
+       statusUpdate,
+       voiceStateUpdate,
+       voiceServerPing,
+       resume,
+       reconnect,
+       requestGuildMember,
+       invalidSession,
+       hello,
+       heartbeatACK
 
 }
 
 /// Organize all voice evnets
 enum VoiceOP: Int {
 
-  case identify, selectProtocol, ready, heartbeat, sessionDescription, speaking
+  case identify,
+       selectProtocol,
+       ready,
+       heartbeat,
+       sessionDescription,
+       speaking
 
 }
 
 /// Organize all websocket close codes
 enum CloseOP: Int {
 
-  case unknown = 1000, unknownError = 4000, unknownOPCode, decodeError, notAuthenticated, authenticationFailed, alreadyAuthenticated, invalidSeq = 4007, rateLimited, sessionTimeout, invalidShard, shardingRequired
+  case unknown = 1000,
+       unknownError = 4000,
+       unknownOPCode,
+       decodeError,
+       notAuthenticated,
+       authenticationFailed,
+       alreadyAuthenticated,
+       invalidSeq = 4007,
+       rateLimited,
+       sessionTimeout,
+       invalidShard,
+       shardingRequired
 
 }
 
