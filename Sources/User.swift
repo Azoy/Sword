@@ -68,13 +68,13 @@ public struct User {
       return
     }
 
-    self.avatarUrl = "https://images.discordapp.com/avatars/\(self.id)/\(self.avatar!).png"
+    self.avatarUrl = "https://cdn.discordapp.com/avatars/\(self.id)/\(self.avatar!).png"
   }
 
   // MARK: Functions
 
   /// Gets DM for user
-  public func getDM(completion: @escaping (RequestError?, DMChannel?) -> ()) {
+  public func getDM(then completion: @escaping (RequestError?, DMChannel?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.createDM(), body: ["recipient_id": self.id].createBody(), method: "POST") { error, data in
       if error != nil {
         completion(error, nil)

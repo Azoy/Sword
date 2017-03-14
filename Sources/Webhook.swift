@@ -63,7 +63,7 @@ public struct Webhook {
   }
 
   /// Deletes the current webhook from its guild
-  public func delete(completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func delete(then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.deleteWebhook(self.id), method: "DELETE") { error, data in
       if error != nil {
         completion(error)
@@ -87,7 +87,7 @@ public struct Webhook {
 
    - parameter content: String or dictionary containing message content
   */
-  public func execute(with content: Any, completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func execute(with content: Any, then completion: @escaping (RequestError?) -> () = {_ in}) {
     guard let message = content as? [String: Any] else {
       let data = ["content": content].createBody()
       self.sword!.requester.request(self.sword!.endpoints.executeWebhook(self.id, self.token), body: data, method: "POST") { error, data in
@@ -155,7 +155,7 @@ public struct Webhook {
 
    - parameter content: Dictionary containing slack webhook info
   */
-  public func executeSlack(with content: [String: Any], completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func executeSlack(with content: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.executeSlackWebhook(self.id, self.token), body: content.createBody(), method: "POST") { error, data in
       if error != nil {
         completion(error)
@@ -175,7 +175,7 @@ public struct Webhook {
 
    - parameter options: A dictionary of options to apply to this webhook
   */
-  public func modify(with options: [String: Any], completion: @escaping (RequestError?, Webhook?) -> () = {_ in}) {
+  public func modify(with options: [String: Any], then completion: @escaping (RequestError?, Webhook?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.modifyWebhook(self.id), body: options.createBody(), method: "PATCH") { error, data in
       if error != nil {
         completion(error, nil)

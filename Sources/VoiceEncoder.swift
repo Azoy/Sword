@@ -106,7 +106,7 @@ class Encoder {
   }
 
   /// Reads opus audio data from read pipe
-  func readFromPipe(completion: @escaping (Bool, [UInt8]) -> ()) {
+  func readFromPipe(then completion: @escaping (Bool, [UInt8]) -> ()) {
     self.readQueue.async {[weak self] in
       guard let fileDescriptor = self?.reader.fileHandleForReading.fileDescriptor else { return }
 

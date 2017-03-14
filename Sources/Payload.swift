@@ -14,10 +14,10 @@ struct Payload {
   // MARK: Properties
 
   /// OP Code for payload
-  let op: Int
+  var op: Int
 
   /// Data for payload
-  let d: Any
+  var d: Any
 
   /// Sequence number from payload
   let s: Int?

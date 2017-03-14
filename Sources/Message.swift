@@ -142,13 +142,13 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji to add to this message
   */
-  public func add(reaction: String, completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.channel.add(reaction: reaction, to: self.id, completion: completion)
+  public func add(reaction: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.channel.add(reaction: reaction, to: self.id, then: completion)
   }
 
   /// Deletes self
-  public func delete(completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.channel.delete(message: self.id, completion: completion)
+  public func delete(then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.channel.delete(message: self.id, then: completion)
   }
 
   /**
@@ -157,17 +157,17 @@ public struct Message {
    - parameter reaction: Either unicode or custom emoji reaction to remove
    - parameter userId: If nil, delete from self else delete from userId
   */
-  public func delete(reaction: String, from userId: String? = nil, completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.channel.delete(reaction: reaction, from: self.id, by: userId ?? nil, completion: completion)
+  public func delete(reaction: String, from userId: String? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.channel.delete(reaction: reaction, from: self.id, by: userId ?? nil, then: completion)
   }
 
   /// Deletes all reactions from self
-  public func deleteReactions(completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func deleteReactions(then completion: @escaping (RequestError?) -> () = {_ in}) {
     guard let channel = self.channel as? GuildChannel else {
       return
     }
 
-    channel.deleteReactions(from: self.id, completion: completion)
+    channel.deleteReactions(from: self.id, then: completion)
   }
 
   /**
@@ -175,8 +175,8 @@ public struct Message {
 
    - parameter content: Content to edit from self
   */
-  public func edit(to content: String, completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
-    self.channel.edit(message: self.id, to: content, completion: completion)
+  public func edit(to content: String, then completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
+    self.channel.edit(message: self.id, to: content, then: completion)
   }
 
   /**
@@ -184,19 +184,19 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji reaction to get users from
   */
-  public func get(reaction: String, completion: @escaping (RequestError?, [User]?) -> ()) {
-    self.channel.get(reaction: reaction, from: self.id, completion: completion)
+  public func get(reaction: String, then completion: @escaping (RequestError?, [User]?) -> ()) {
+    self.channel.get(reaction: reaction, from: self.id, then: completion)
   }
 
   /// Pins self
-  public func pin(completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.channel.pin(self.id, completion: completion)
+  public func pin(then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.channel.pin(self.id, then: completion)
   }
 
   /**
    Replies to message (alias to bot.send(_:to:)...)
   */
-  public func reply(with message: String, completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
+  public func reply(with message: String, then completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
     self.channel.send(message) { error, msg in
       if error != nil {
         completion(error, nil)

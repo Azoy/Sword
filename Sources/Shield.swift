@@ -45,6 +45,11 @@ open class Shield: Sword {
 
   // MARK: Functions
 
+  /**
+   Handles MESSAGE_CREATE
+
+   - parameter data: The [Any] that needs to be casted to Message to handle the message
+  */
   func handle(message data: [Any]) {
     let msg = data[0] as! Message
     guard !shieldOptions.ignoreBots && msg.author?.isBot == false else { return }
@@ -56,25 +61,24 @@ open class Shield: Sword {
       if content.hasPrefix(" ") {
         content = content.substring(from: content.index(content.startIndex, offsetBy: 1))
       }
-      var command = content.components(separatedBy: " ")
+      var arguments = content.components(separatedBy: " ")
 
-      var commandName = command[0]
-      command.remove(at: 0)
+      var command = arguments.remove(at: 0)
 
-      guard self.commands[commandName] != nil || self.commandAliases[commandName] != nil else { return }
+      guard self.commands[command] != nil || self.commandAliases[command] != nil else { return }
 
-      if self.commandAliases[commandName] != nil {
-        commandName = self.commandAliases[commandName]!
+      if self.commandAliases[command] != nil {
+        command = self.commandAliases[command]!
       }
 
       var requiredPermissions = 0
-      for permission in self.commands[commandName]!.options.requirements {
+      for permission in self.commands[command]!.options.requirements {
         requiredPermissions |= permission.rawValue
       }
       guard let permissions = msg.member?.permissions,
             permissions & requiredPermissions > 0  else { return }
 
-      self.commands[commandName]!.function(msg, command)
+      self.commands[command]!.function(msg, arguments)
     }
   }
 

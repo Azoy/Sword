@@ -53,7 +53,7 @@ class Request {
    - parameter method: Type of HTTP Method
    - parameter rateLimited: Whether or not the HTTP request needs to be rate limited
   */
-  func request(_ url: String, body: Data? = nil, file: [String: Any]? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, completion: @escaping (RequestError?, Any?) -> ()) {
+  func request(_ url: String, body: Data? = nil, file: [String: Any]? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, then completion: @escaping (RequestError?, Any?) -> ()) {
     let sema = DispatchSemaphore(value: 0) //Provide a way to urlsession from command line
 
     let route = rateLimited ? self.getRoute(for: url) : ""
@@ -116,7 +116,7 @@ class Request {
 
         if response.statusCode >= 500 {
           self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) {
-            self.request(url, body: body, file: file, authorization: authorization, method: method, rateLimited: rateLimited, completion: completion)
+            self.request(url, body: body, file: file, authorization: authorization, method: method, rateLimited: rateLimited, then: completion)
           }
 
           sema.signal()

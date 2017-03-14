@@ -112,7 +112,7 @@ public struct GuildChannel: Channel {
 
    - parameter options: Preconfigured options to create this webhook with
   */
-  public func createWebhook(with options: [String: String] = [:], completion: @escaping (RequestError?, Webhook?) -> () = {_ in}) {
+  public func createWebhook(with options: [String: String] = [:], then completion: @escaping (RequestError?, Webhook?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.createWebhook(self.id), body: options.createBody(), method: "POST") { error, data in
       if error != nil {
         completion(error, nil)
@@ -127,7 +127,7 @@ public struct GuildChannel: Channel {
 
    - parameter messageId: Message to delete all reactions from
   */
-  public func deleteReactions(from messageId: String, completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func deleteReactions(from messageId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword!.requester.request(self.sword!.endpoints.deleteAllReactions(self.id, messageId), method: "DELETE") { error, data in
       if error != nil {
         completion(error)
@@ -138,7 +138,7 @@ public struct GuildChannel: Channel {
   }
 
   /// Gets this channel's webhooks
-  public func getWebhooks(completion: @escaping (RequestError?, [Webhook]?) -> ()) {
+  public func getWebhooks(then completion: @escaping (RequestError?, [Webhook]?) -> ()) {
     self.sword!.requester.request(self.sword!.endpoints.getChannelWebhooks(self.id)) { error, data in
       if error != nil {
         completion(error, nil)

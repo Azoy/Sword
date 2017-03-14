@@ -58,21 +58,17 @@ class Heartbeat {
 
       guard self.received else { return }
 
-      if !self.voice {
-        let heartbeat = Payload(
-          op: .heartbeat,
-          data: self.sequence ?? NSNull()
-        ).encode()
+      var heartbeat = Payload(
+        op: .heartbeat,
+        data: self.sequence ?? NSNull()
+      )
 
-        try? self.session.send(heartbeat)
-      }else {
-        let heartbeat = Payload(
-          voiceOP: .heartbeat,
-          data: Int(Date().timeIntervalSince1970 * 1000)
-        ).encode()
-
-        try? self.session.send(heartbeat)
+      if self.voice {
+        heartbeat.op = VoiceOP.heartbeat.rawValue
+        heartbeat.d = Int(Date().timeIntervalSince1970 * 1000)
       }
+
+      try? self.session.send(heartbeat.encode())
 
       self.received = false
 
