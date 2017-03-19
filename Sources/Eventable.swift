@@ -35,10 +35,6 @@ extension Eventable {
    - parameter event: Event to listen for
    */
   public func on(_ event: Event, _ function: @escaping ([Any]) -> ()) {
-    guard self.listeners[event] != nil else {
-      self.listeners[event] = [function]
-      return
-    }
     self.listeners[event]!.append(function)
   }
 
