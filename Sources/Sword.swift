@@ -288,12 +288,12 @@ open class Sword: Eventable {
 
   /**
    Edits bot status
-   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
+   - parameter status: Status to set bot to. Either .online (default), .idle, .dnd, .invisible
    - parameter game: ["name": "with Swords!", "type": 0 || 1]
   */
-  public func editStatus(to status: String = "online", playing game: [String: Any]? = nil) {
+  public func editStatus(to status: Presence.Status = .online, playing game: [String: Any]? = nil) {
     guard self.shards.count > 0 else { return }
-    var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
+    var data: [String: Any] = ["afk": status == .idle, "game": NSNull(), "since": status == .idle ? Date().milliseconds : 0, "status": status.rawValue]
 
     if game != nil {
       data["game"] = game
@@ -309,7 +309,7 @@ open class Sword: Eventable {
   /**
    Executes a webhook
 
-   #### Content Dictionary Params ####
+   #### Content Params ####
 
    - **content**: Message to send
    - **username**: The username the webhook will send with the message
