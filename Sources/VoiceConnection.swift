@@ -24,7 +24,7 @@ public class VoiceConnection: Eventable {
   // MARK: Properties
 
   /// Whether or not the voice connection is closed
-  var closed: Bool = false
+  var closed = false
 
   /// Gets current time in milliseconds
   var currentTime: Int {
@@ -51,6 +51,9 @@ public class VoiceConnection: Eventable {
 
   /// Whether or not the WS is connected
   var isConnected = false
+
+  /// Whether or not the voice connection is playing something
+  public var isPlaying = false
 
   /// Event listeners
   public var listeners: [Event: [([Any]) -> ()]] = [:]
@@ -342,6 +345,11 @@ public class VoiceConnection: Eventable {
     }
     #endif
 
+    if self.isPlaying {
+      self.encoder?.finish()
+      self.doneReading()
+    }
+
     process.standardOutput = self.writer
 
     process.terminationHandler = { _ in
@@ -356,7 +364,22 @@ public class VoiceConnection: Eventable {
   }
 
   /**
-   Plays a youtube struct's process
+   Plays a file
+
+   - parameter location: Location of the file to play
+  */
+  public func play(_ location: String) {
+    let process = Process()
+    process.launchPath = "/bin/cat"
+    process.arguments = [
+      location
+    ]
+
+    self.play(process)
+  }
+
+  /**
+   Plays a youtube video/youtube-dl related sites
 
    - parameter youtube: Youtube structure to play
   */
@@ -373,8 +396,11 @@ public class VoiceConnection: Eventable {
     self.encoder?.readFromPipe {[weak self] done, data in
       guard let this = self, this.isConnected else { return }
 
+      this.isPlaying = true
+
       guard !done else {
         this.doneReading()
+        this.isPlaying = false
         return
       }
 

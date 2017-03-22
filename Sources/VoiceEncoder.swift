@@ -75,7 +75,7 @@ class Encoder {
     self.close()
   }
 
-  // MARK: Properties
+  // MARK: Functions
 
   /// Force closes the encoder
   func close() {
