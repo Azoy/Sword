@@ -23,11 +23,6 @@ public struct SwordOptions {
   /// Max amount of messages to cache in channels
   public var messageLimit = 50
 
-  // MARK: Initializer
-
-  /// Creates a default SwordOptions structure
-  public init() {}
-
 }
 
 /// Shield Options structure
@@ -41,10 +36,8 @@ public struct ShieldOptions {
   /// Array of prefixes commands should start with
   public var prefixes = ["@bot"]
 
-  // MARK: Initializer
-
-  /// Creates a default ShieldOptions structure
-  public init() {}
+  /// Default requirement for commands
+  public var requirements = CommandRequirements()
 
 }
 
@@ -56,12 +49,17 @@ public struct CommandOptions {
   /// Array of command aliases
   public var aliases: [String] = []
 
+  /// Required command options
+  public var requirements = CommandRequirements()
+
+}
+
+public struct CommandRequirements {
+
   /// Array of required permissions in order to use command
-  public var requirements: [Permission] = []
+  public var permissions: [Permission] = []
 
-  // MARK: Initializer
-
-  /// Creates a default CommandOptions structure
-  public init() {}
+  /// Array of users that can use this command
+  public var users: [String] = []
 
 }

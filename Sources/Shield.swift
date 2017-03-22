@@ -35,12 +35,7 @@ open class Shield: Sword {
     self.shieldOptions = shieldOptions
     super.init(token: token, with: swordOptions)
 
-    if self.shieldOptions.prefixes.contains("@bot") {
-      self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
-      self.shieldOptions.prefixes.append("<@\(self.user!.id)>")
-    }
-
-    self.on(.messageCreate, handle)
+    self.on(.messageCreate, do: handle)
   }
 
   // MARK: Functions
@@ -52,7 +47,22 @@ open class Shield: Sword {
   */
   func handle(message data: [Any]) {
     let msg = data[0] as! Message
-    guard !shieldOptions.ignoreBots && msg.author?.isBot == false else { return }
+
+    let permission = self.shieldOptions.requirements.permissions.map {
+      $0.rawValue
+    }.reduce(0, |)
+
+    guard !self.shieldOptions.ignoreBots && msg.author?.isBot == false,
+          let author = msg.author,
+          self.shieldOptions.requirements.users.contains(author.id),
+          let permissions = msg.member?.permissions,
+          permissions & permission > 0 else { return }
+
+    if self.shieldOptions.prefixes.contains("@bot") {
+      self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
+      self.shieldOptions.prefixes.append("<@!\(self.user!.id)>")
+      self.shieldOptions.prefixes.append("<@\(self.user!.id)>")
+    }
 
     for prefix in self.shieldOptions.prefixes {
       guard msg.content.hasPrefix(prefix) else { continue }
@@ -71,12 +81,13 @@ open class Shield: Sword {
         command = self.commandAliases[command]!
       }
 
-      var requiredPermissions = 0
-      for permission in self.commands[command]!.options.requirements {
-        requiredPermissions |= permission.rawValue
+      if !self.commands[command]!.options.requirements.permissions.isEmpty {
+        let permission = self.commands[command]!.options.requirements.permissions.map {
+          $0.rawValue
+        }.reduce(0, |)
+        guard let permissions = msg.member?.permissions,
+              permissions & permission > 0  else { return }
       }
-      guard let permissions = msg.member?.permissions,
-            permissions & requiredPermissions > 0  else { return }
 
       self.commands[command]!.function(msg, arguments)
     }
