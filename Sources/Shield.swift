@@ -35,6 +35,16 @@ open class Shield: Sword {
     self.shieldOptions = shieldOptions
     super.init(token: token, with: swordOptions)
 
+    self.on(.ready) { data in
+      let bot = data[0] as! User
+
+      if self.shieldOptions.prefixes.contains("@bot") {
+        self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
+        self.shieldOptions.prefixes.append("<@!\(bot.id)>")
+        self.shieldOptions.prefixes.append("<@\(bot.id)>")
+      }
+    }
+
     self.on(.messageCreate, do: handle)
   }
 
@@ -48,9 +58,9 @@ open class Shield: Sword {
   func handle(message data: [Any]) {
     let msg = data[0] as! Message
 
-    guard !self.shieldOptions.ignoreBots && msg.author?.isBot == false,
-          let author = msg.author,
-          self.shieldOptions.requirements.users.contains(author.id) else { return }
+    if self.shieldOptions.ignoreBots && msg.author?.isBot == true {
+      return
+    }
 
     if !self.shieldOptions.requirements.permissions.isEmpty {
       let permission = self.shieldOptions.requirements.permissions.map {
@@ -61,19 +71,15 @@ open class Shield: Sword {
             permissions & permission > 0 else { return }
     }
 
-    if self.shieldOptions.prefixes.contains("@bot") {
-      self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
-      self.shieldOptions.prefixes.append("<@!\(self.user!.id)>")
-      self.shieldOptions.prefixes.append("<@\(self.user!.id)>")
+    if !self.shieldOptions.requirements.users.isEmpty {
+      guard let author = msg.author,
+            self.shieldOptions.requirements.users.contains(author.id) else { return }
     }
 
     for prefix in self.shieldOptions.prefixes {
       guard msg.content.hasPrefix(prefix) else { continue }
 
-      var content = msg.content.substring(from: msg.content.index(msg.content.startIndex, offsetBy: prefix.characters.count))
-      if content.hasPrefix(" ") {
-        content = content.substring(from: content.index(content.startIndex, offsetBy: 1))
-      }
+      let content = msg.content.replacingOccurrences(of: prefix, with: "")
       var arguments = content.components(separatedBy: " ")
 
       var command = arguments.remove(at: 0)

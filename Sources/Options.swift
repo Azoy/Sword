@@ -54,6 +54,7 @@ public struct CommandOptions {
 
 }
 
+/// Command requirements, such as permissions, users, roles, etc
 public struct CommandRequirements {
 
   /// Array of required permissions in order to use command
