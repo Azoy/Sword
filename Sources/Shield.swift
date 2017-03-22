@@ -48,15 +48,18 @@ open class Shield: Sword {
   func handle(message data: [Any]) {
     let msg = data[0] as! Message
 
-    let permission = self.shieldOptions.requirements.permissions.map {
-      $0.rawValue
-    }.reduce(0, |)
-
     guard !self.shieldOptions.ignoreBots && msg.author?.isBot == false,
           let author = msg.author,
-          self.shieldOptions.requirements.users.contains(author.id),
-          let permissions = msg.member?.permissions,
-          permissions & permission > 0 else { return }
+          self.shieldOptions.requirements.users.contains(author.id) else { return }
+
+    if !self.shieldOptions.requirements.permissions.isEmpty {
+      let permission = self.shieldOptions.requirements.permissions.map {
+        $0.rawValue
+      }.reduce(0, |)
+
+      guard let permissions = msg.member?.permissions,
+            permissions & permission > 0 else { return }
+    }
 
     if self.shieldOptions.prefixes.contains("@bot") {
       self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
