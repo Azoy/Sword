@@ -23,6 +23,11 @@ public struct SwordOptions {
   /// Max amount of messages to cache in channels
   public var messageLimit = 50
 
+  /// MARK: Initializer
+
+  /// Creates a default SwordOptions
+  public init() {}
+
 }
 
 /// Shield Options structure
@@ -39,6 +44,11 @@ public struct ShieldOptions {
   /// Default requirement for commands
   public var requirements = CommandRequirements()
 
+  // MARK: Initializer
+
+  /// Creates a default ShieldOptions
+  public init() {}
+
 }
 
 /// Command Options structure
@@ -51,6 +61,11 @@ public struct CommandOptions {
 
   /// Required command options
   public var requirements = CommandRequirements()
+
+  // MARK: Initializer
+
+  /// Creates a default CommandOptions
+  public init() {}
 
 }
 
