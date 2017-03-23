@@ -328,6 +328,35 @@ public class VoiceConnection: Eventable {
   }
 
   /**
+   Plays a file
+
+   - parameter location: Location of the file to play
+  */
+  public func play(_ location: String, volume: Int) {
+    guard location.contains(".") else {
+      print("[Sword] The file you want to play doesn't have an extension.")
+      return
+    }
+
+    guard volume < 200 else {
+      print("[Sword] The volume you want to use was considered too loud.")
+      return
+    }
+
+    let process = Process()
+    process.launchPath = "/usr/local/bin/ffmpeg"
+    process.arguments = [
+      "-loglevel", "quiet",
+      "-i", location,
+      "-f", location.components(separatedBy: ".")[1],
+      "-af", "volume=\(Double(volume) / 100)",
+      "-"
+    ]
+
+    self.play(process)
+  }
+
+  /**
    Gets a process' info and sets its output to encoder's writePipe, then launches it
 
    - parameter process: Audio process to play from
@@ -361,35 +390,6 @@ public class VoiceConnection: Eventable {
     self.on(.connectionClose) { _ in
       kill(process.processIdentifier, SIGKILL)
     }
-  }
-
-  /**
-   Plays a file
-
-   - parameter location: Location of the file to play
-  */
-  public func play(_ location: String, volume: Int) {
-    guard location.contains(".") else {
-      print("[Sword] The file you want to play doesn't have an extension.")
-      return
-    }
-
-    guard volume < 200 else {
-      print("[Sword] The volume you want to use was considered too loud.")
-      return
-    }
-
-    let process = Process()
-    process.launchPath = "/usr/local/bin/ffmpeg"
-    process.arguments = [
-      "-loglevel", "quiet",
-      "-i", location,
-      "-f", location.components(separatedBy: ".")[1],
-      "-af", "\"volume=\(Double(volume) / 100)\"",
-      "-"
-    ]
-
-    self.play(process)
   }
 
   /**

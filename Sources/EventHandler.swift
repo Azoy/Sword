@@ -187,7 +187,9 @@ extension Shard {
         if guild != nil {
           guild!.channels[msg.channel.id]!.messages[msg.id] = msg
         }else {
-          self.sword.dms[msg.author!.id]!.messages[msg.id] = msg
+          if msg.author!.id != self.sword.user!.id {
+            self.sword.dms[msg.author!.id]!.messages[msg.id] = msg
+          }
         }
         self.sword.emit(.messageCreate, with: msg)
         break
@@ -260,9 +262,17 @@ extension Shard {
         self.sessionId = data["session_id"] as? String
 
         let guilds = data["guilds"] as! [[String: Any]]
+        let dms = data["private_channels"] as! [[String: Any]]
 
         for guild in guilds {
           self.sword.unavailableGuilds[guild["id"] as! String] = UnavailableGuild(guild, self.id)
+        }
+
+        for dm in dms {
+          let recipients = dm["recipients"] as! [[String: Any]]
+          for recipient in recipients {
+            self.sword.dms[recipient["id"] as! String] = DMChannel(self.sword, dm)
+          }
         }
 
         self.sword.shardsReady += 1
