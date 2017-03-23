@@ -43,6 +43,9 @@ open class Sword: Eventable {
   /// Array of Shard class
   var shards: [Shard] = []
 
+  /// How many shards are ready
+  var shardsReady = 0
+
   /// The bot token
   let token: String
 

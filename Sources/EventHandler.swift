@@ -265,8 +265,14 @@ extension Shard {
           self.sword.unavailableGuilds[guild["id"] as! String] = UnavailableGuild(guild, self.id)
         }
 
-        self.sword.user = User(self.sword, data["user"] as! [String: Any])
-        self.sword.emit(.ready, with: self.sword.user!)
+        self.sword.shardsReady += 1
+        self.sword.emit(.shardReady, with: self.id)
+
+        if self.sword.shardsReady == self.sword.shardCount {
+          self.sword.user = User(self.sword, data["user"] as! [String: Any])
+          self.sword.emit(.ready, with: self.sword.user!)
+        }
+
         break
 
       /// TYPING_START

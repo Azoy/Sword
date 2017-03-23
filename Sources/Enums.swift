@@ -410,6 +410,18 @@ public enum Event: String {
   case resume = "RESUME"
 
     /**
+     Fired when a shard becomes ready
+
+     ### Usage ###
+     ```swift
+     bot.on(.shardReady) { data in
+       let shardId = data[0] as! Int
+     }
+     ```
+    */
+  case shardReady
+
+    /**
      Fired when someone starts typing a message
 
      ### Usage ###
