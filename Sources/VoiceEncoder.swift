@@ -37,7 +37,7 @@ class Encoder {
   // MARK: Initializer
 
   /// Creates VoiceEncoder
-  init() {
+  init(volume: Int) {
 
     self.process = Process()
     self.reader = Pipe()
@@ -51,6 +51,7 @@ class Encoder {
       "-loglevel", "quiet",
       "-i", "pipe:0",
       "-f", "data",
+      "-af", "volume=\(Double(volume) / 100)",
       "-map", "0:a",
       "-ar", "48k",
       "-ac", "2",

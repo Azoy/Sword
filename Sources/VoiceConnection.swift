@@ -94,7 +94,7 @@ public class VoiceConnection: Eventable {
   var udpWriteQueue: DispatchQueue
 
   /// The encoder's writePipe to send audio to
-  public var writer: FileHandle? {
+  var writer: FileHandle? {
     return self.encoder?.writer.fileHandleForWriting
   }
 
@@ -165,11 +165,11 @@ public class VoiceConnection: Eventable {
   }
 
   /// Creates a VoiceEncoder
-  func createEncoder() {
+  func createEncoder(volume: Int = 100) {
     self.shouldMakeEncoder = false
 
     self.encoder = nil
-    self.encoder = Encoder()
+    self.encoder = Encoder(volume: volume)
 
     self.readEncoder(for: 1)
 
@@ -343,17 +343,18 @@ public class VoiceConnection: Eventable {
       return
     }
 
+    let locationPaths = location.components(separatedBy: ".")
+
     let process = Process()
     process.launchPath = "/usr/local/bin/ffmpeg"
     process.arguments = [
       "-loglevel", "quiet",
       "-i", location,
-      "-f", location.components(separatedBy: ".")[1],
-      "-af", "volume=\(Double(volume) / 100)",
+      "-f", locationPaths[locationPaths.count - 1],
       "-"
     ]
 
-    self.play(process)
+    self.play(process, volume: volume)
   }
 
   /**
@@ -361,7 +362,7 @@ public class VoiceConnection: Eventable {
 
    - parameter process: Audio process to play from
   */
-  public func play(_ process: Process) {
+  public func play(_ process: Process, volume: Int = 100) {
     #if !os(Linux)
     guard !process.isRunning else {
       print("[Sword] The audio process passed to play from has already launched. Don't launch the process.")
@@ -374,10 +375,12 @@ public class VoiceConnection: Eventable {
     }
     #endif
 
-    if self.isPlaying {
-      self.encoder?.finish()
-      self.doneReading()
+    guard volume < 200 else {
+      print("[Sword] The volume you want to use was considered too loud.")
+      return
     }
+
+    self.createEncoder(volume: volume)
 
     process.standardOutput = self.writer
 
@@ -397,8 +400,13 @@ public class VoiceConnection: Eventable {
 
    - parameter youtube: Youtube structure to play
   */
-  public func play(_ youtube: Youtube) {
-    self.play(youtube.process)
+  public func play(_ youtube: Youtube, volume: Int = 100) {
+    guard volume < 200 else {
+      print("[Sword] The volume you want to use was considered too loud.")
+      return
+    }
+
+    self.play(youtube.process, volume: volume)
   }
 
   /**
@@ -465,9 +473,7 @@ public class VoiceConnection: Eventable {
 
     try? self.session?.send(payload)
 
-    if self.encoder == nil {
-      self.createEncoder()
-    }else {
+    if self.encoder != nil {
       self.readEncoder(for: 1)
     }
 
