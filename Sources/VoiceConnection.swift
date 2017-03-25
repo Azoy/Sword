@@ -338,11 +338,6 @@ public class VoiceConnection: Eventable {
       return
     }
 
-    guard volume < 200 else {
-      print("[Sword] The volume you want to use was considered too loud.")
-      return
-    }
-
     let locationPaths = location.components(separatedBy: ".")
 
     let process = Process()
@@ -375,9 +370,11 @@ public class VoiceConnection: Eventable {
     }
     #endif
 
-    guard volume < 200 else {
-      print("[Sword] The volume you want to use was considered too loud.")
-      return
+    var volume = volume
+
+    if volume > 200 {
+      print("[Sword] The volume you want to use was considered too loud. Using default: 100.")
+      volume = 100
     }
 
     self.createEncoder(volume: volume)
@@ -401,11 +398,6 @@ public class VoiceConnection: Eventable {
    - parameter youtube: Youtube structure to play
   */
   public func play(_ youtube: Youtube, volume: Int = 100) {
-    guard volume < 200 else {
-      print("[Sword] The volume you want to use was considered too loud.")
-      return
-    }
-
     self.play(youtube.process, volume: volume)
   }
 
