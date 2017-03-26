@@ -40,8 +40,8 @@ open class Shield: Sword {
 
       if self.shieldOptions.prefixes.contains("@bot") {
         self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
-        self.shieldOptions.prefixes.append("<@!\(bot.id)>")
-        self.shieldOptions.prefixes.append("<@\(bot.id)>")
+        self.shieldOptions.prefixes.append("<@!\(bot.id)> ")
+        self.shieldOptions.prefixes.append("<@\(bot.id)> ")
       }
     }
 
