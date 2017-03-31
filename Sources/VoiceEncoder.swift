@@ -9,11 +9,6 @@
 import Foundation
 import Dispatch
 
-/// Nifty alias for linux users
-#if os(Linux)
-public typealias Process = Task
-#endif
-
 /// Creates VoiceEncoder
 class Encoder {
 
@@ -80,11 +75,7 @@ class Encoder {
 
   /// Force closes the encoder
   func close() {
-    #if !os(Linux)
     guard self.process.isRunning else { return }
-    #else
-    guard self.process.running else { return }
-    #endif
 
     let waiter = DispatchSemaphore(value: 0)
 

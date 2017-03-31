@@ -19,11 +19,7 @@ extension Request {
   */
   func getRoute(for url: String) -> String {
 
-    #if !os(Linux)
     let regex = try! NSRegularExpression(pattern: "/([a-z-]+)/(?:[0-9]{17,})+?", options: .caseInsensitive)
-    #else
-    let regex = try! RegularExpression(pattern: "/([a-z-]+)/(?:[0-9]{17,})+?", options: .caseInsensitive)
-    #endif
 
     let string = NSString(string: url)
     let matches = regex.matches(in: url, options: [], range: NSMakeRange(0, string.length))

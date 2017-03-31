@@ -358,17 +358,10 @@ public class VoiceConnection: Eventable {
    - parameter process: Audio process to play from
   */
   public func play(_ process: Process, volume: Int = 100) {
-    #if !os(Linux)
     guard !process.isRunning else {
       print("[Sword] The audio process passed to play from has already launched. Don't launch the process.")
       return
     }
-    #else
-    guard !process.running else {
-      print("[Sword] The audio process passed to play from has already launched. Don't launch the process.")
-      return
-    }
-    #endif
 
     var volume = volume
 
