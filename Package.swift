@@ -4,7 +4,7 @@ let package = Package(
   name: "Sword",
   dependencies: [
     .Package(
-      url: "https://github.com/vapor/engine", majorVersion: 1, minor: 3
+      url: "https://github.com/vapor/engine", majorVersion: 1
     ),
     .Package(
       url: "https://github.com/Azoy/Sodium", majorVersion: 1

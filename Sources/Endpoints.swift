@@ -113,7 +113,7 @@ struct Endpoints {
 
   func deleteWebhook(_ webhookId: String, _ webhookToken: String? = nil) -> String {
     if webhookToken != nil {
-      return "/webhooks/\(webhookId)/\(webhookToken)"
+      return "/webhooks/\(webhookId)/\(webhookToken!)"
     }else {
       return "/webhooks/\(webhookId)"
     }
@@ -229,7 +229,7 @@ struct Endpoints {
 
   func getWebhook(_ webhookId: String, _ webhookToken: String? = nil) -> String {
     if webhookToken != nil {
-      return "/webhooks/\(webhookId)/\(webhookToken)"
+      return "/webhooks/\(webhookId)/\(webhookToken!)"
     }else {
       return "/webhooks/\(webhookId)"
     }
@@ -285,7 +285,7 @@ struct Endpoints {
 
   func modifyWebhook(_ webhookId: String, _ webhookToken: String? = nil) -> String {
     if webhookToken != nil {
-      return "/webhooks/\(webhookId)/\(webhookToken)"
+      return "/webhooks/\(webhookId)/\(webhookToken!)"
     }else {
       return "/webhooks/\(webhookId)"
     }
