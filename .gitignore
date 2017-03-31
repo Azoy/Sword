@@ -1,9 +1,9 @@
 .DS_Store
 /.build
-/Packages
 /*.xcodeproj
 /build
 /docs/undocumented.json
 /docs/docsets
 /Tests
 .swift-version
+Package.pins
