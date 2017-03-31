@@ -1,10 +1,10 @@
 # Sword - A Discord Library for Swift
 
-[![Swift Version](https://img.shields.io/badge/Swift-3.0.2-orange.svg?style=flat-square)](https://swift.org) [![Build Status](https://img.shields.io/travis/Azoy/Sword.svg?&style=flat-square)](https://travis-ci.org/Azoy/Sword) [![Tag](https://img.shields.io/github/tag/Azoy/Sword.svg?style=flat-square&label=release&colorB=)](https://github.com/Azoy/Sword/releases)
+[![Swift Version](https://img.shields.io/badge/Swift-3.0.1-orange.svg?style=flat-square)](https://swift.org) [![Build Status](https://img.shields.io/travis/Azoy/Sword.svg?&style=flat-square)](https://travis-ci.org/Azoy/Sword) [![Tag](https://img.shields.io/github/tag/Azoy/Sword.svg?style=flat-square&label=release&colorB=)](https://github.com/Azoy/Sword/releases)
 
 # Requirements
 1. macOS or Linux (Foundation for Linux stability is not trustworthy, so use with caution)
-2. Swift 3.0
+2. Swift 3.1
 3. An internet connection
 
 # Adding Sword

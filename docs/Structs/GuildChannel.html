@@ -20,7 +20,7 @@
         <a class="header-link" href="../index.html">
           Sword Docs
         </a>
-         (100% documented)
+         (96% documented)
       </p>
     
         <p class="header-col header-col--secondary">
@@ -70,6 +70,9 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/RequestError.html">RequestError</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/Scope.html">Scope</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -94,6 +97,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/CommandOptions.html">CommandOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CommandRequirements.html">CommandRequirements</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/DMChannel.html">DMChannel</a>
@@ -569,9 +575,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword12GuildChannel13createWebhookFT4withGVs10DictionarySSSS_10completionFTGSqOS_12RequestError_GSqVS_7Webhook__T__T_"></a>
-                    <a name="//apple_ref/swift/Method/createWebhook(with:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword12GuildChannel13createWebhookFT4withGVs10DictionarySSSS_10completionFTGSqOS_12RequestError_GSqVS_7Webhook__T__T_">createWebhook(with:completion:)</a>
+                    <a name="/s:FV5Sword12GuildChannel13createWebhookFT4withGVs10DictionarySSSS_4thenFTGSqOS_12RequestError_GSqVS_7Webhook__T__T_"></a>
+                    <a name="//apple_ref/swift/Method/createWebhook(with:then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV5Sword12GuildChannel13createWebhookFT4withGVs10DictionarySSSS_4thenFTGSqOS_12RequestError_GSqVS_7Webhook__T__T_">createWebhook(with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -593,7 +599,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createWebhook</span><span class="p">(</span><span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:],</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?,</span> <span class="kt"><a href="../Structs/Webhook.html">Webhook</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createWebhook</span><span class="p">(</span><span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?,</span> <span class="kt"><a href="../Structs/Webhook.html">Webhook</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -623,9 +629,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword12GuildChannel15deleteReactionsFT4fromSS10completionFGSqOS_12RequestError_T__T_"></a>
-                    <a name="//apple_ref/swift/Method/deleteReactions(from:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword12GuildChannel15deleteReactionsFT4fromSS10completionFGSqOS_12RequestError_T__T_">deleteReactions(from:completion:)</a>
+                    <a name="/s:FV5Sword12GuildChannel15deleteReactionsFT4fromSS4thenFGSqOS_12RequestError_T__T_"></a>
+                    <a name="//apple_ref/swift/Method/deleteReactions(from:then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV5Sword12GuildChannel15deleteReactionsFT4fromSS4thenFGSqOS_12RequestError_T__T_">deleteReactions(from:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -640,7 +646,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteReactions</span><span class="p">(</span><span class="n">from</span> <span class="nv">messageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteReactions</span><span class="p">(</span><span class="n">from</span> <span class="nv">messageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -670,9 +676,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword12GuildChannel11getWebhooksFT10completionFTGSqOS_12RequestError_GSqGSaVS_7Webhook___T__T_"></a>
-                    <a name="//apple_ref/swift/Method/getWebhooks(completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword12GuildChannel11getWebhooksFT10completionFTGSqOS_12RequestError_GSqGSaVS_7Webhook___T__T_">getWebhooks(completion:)</a>
+                    <a name="/s:FV5Sword12GuildChannel11getWebhooksFT4thenFTGSqOS_12RequestError_GSqGSaVS_7Webhook___T__T_"></a>
+                    <a name="//apple_ref/swift/Method/getWebhooks(then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV5Sword12GuildChannel11getWebhooksFT4thenFTGSqOS_12RequestError_GSqGSaVS_7Webhook___T__T_">getWebhooks(then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -687,7 +693,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getWebhooks</span><span class="p">(</span><span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?,</span> <span class="p">[</span><span class="kt"><a href="../Structs/Webhook.html">Webhook</a></span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="p">())</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getWebhooks</span><span class="p">(</span><span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?,</span> <span class="p">[</span><span class="kt"><a href="../Structs/Webhook.html">Webhook</a></span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="p">())</span></code></pre>
 
                         </div>
                       </div>
@@ -702,7 +708,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-03-08)</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-03-30)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
