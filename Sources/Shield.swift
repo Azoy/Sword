@@ -98,6 +98,11 @@ open class Shield: Sword {
               permissions & permission > 0  else { return }
       }
 
+      if !self.commands[command]!.options.requirements.users.isEmpty {
+        guard let author = msg.author,
+              self.commands[command]!.options.requirements.users.contains(author.id) else { return }
+      }
+
       self.commands[command]!.function(msg, arguments)
     }
   }

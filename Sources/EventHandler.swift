@@ -40,7 +40,6 @@ extension Shard {
           self.sword.guilds[channel.guild!.id]!.channels[channel.id] = channel
           self.sword.emit(.channelCreate, with: channel)
         }
-        break
 
       /// CHANNEL_DELETE
       case .channelDelete:
@@ -51,22 +50,18 @@ extension Shard {
           self.sword.guilds[channel.guild!.id]!.channels.removeValue(forKey: channel.id)
           self.sword.emit(.channelDelete, with: channel)
         }
-        break
 
       /// CHANNEL_UPDATE
       case .channelUpdate:
         self.sword.emit(.channelUpdate, with: GuildChannel(self.sword, data))
-        break
 
       /// GUILD_BAN_ADD
       case .guildBanAdd:
         self.sword.emit(.guildBanAdd, with: self.sword.guilds[data["guild_id"] as! String]!, User(self.sword, data["user"] as! [String: Any]))
-        break
 
       /// GUILD_BAN_REMOVE
       case .guildBanRemove:
         self.sword.emit(.guildBanRemove, with: self.sword.guilds[data["guild_id"] as! String]!, User(self.sword, data["user"] as! [String: Any]))
-        break
 
       /// GUILD_CREATE
       case .guildCreate:
@@ -85,8 +80,6 @@ extension Shard {
           self.requestOfflineMembers(for: guild.id)
         }
 
-        break
-
       /// GUILD_DELETE
       case .guildDelete:
         let guild = self.sword.guilds[data["id"] as! String]!
@@ -100,7 +93,6 @@ extension Shard {
         }
 
         self.sword.guilds.removeValue(forKey: guild.id)
-        break
 
       /// GUILD_EMOJIS_UPDATE
       case .guildEmojisUpdate:
@@ -110,12 +102,10 @@ extension Shard {
           emitEmojis.append(Emoji(emoji))
         }
         self.sword.emit(.guildEmojisUpdate, with: self.sword.guilds[data["guild_id"] as! String]!, emitEmojis)
-        break
 
       /// GUILD_INTEGRATIONS_UPDATE
       case .guildIntegrationsUpdate:
         self.sword.emit(.guildIntegrationsUpdate, with: self.sword.guilds[data["guild_id"] as! String]!)
-        break
 
       /// GUILD_MEMBER_ADD
       case .guildMemberAdd:
@@ -123,7 +113,6 @@ extension Shard {
         let member = Member(self.sword, guild, data)
         guild.members[member.user.id] = member
         self.sword.emit(.guildMemberAdd, with: guild, member)
-        break
 
       /// GUILD_MEMBER_REMOVE
       case .guildMemberRemove:
@@ -131,7 +120,6 @@ extension Shard {
         let user = User(self.sword, data["user"] as! [String: Any])
         guild.members.removeValue(forKey: user.id)
         self.sword.emit(.guildMemberRemove, with: guild, user)
-        break
 
       /// GUILD_MEMBERS_CHUNK
       case .guildMembersChunk:
@@ -141,7 +129,6 @@ extension Shard {
           let member = Member(self.sword, guild, member)
           guild.members[member.user.id] = member
         }
-        break
 
       /// GUILD_MEMBER_UPDATE
       case .guildMemberUpdate:
@@ -149,7 +136,6 @@ extension Shard {
         let member = Member(self.sword, guild, data)
         guild.members[member.user.id] = member
         self.sword.emit(.guildMemberUpdate, with: member)
-        break
 
       /// GUILD_ROLE_CREATE
       case .guildRoleCreate:
@@ -157,7 +143,6 @@ extension Shard {
         let role = Role(data["role"] as! [String: Any])
         guild.roles[role.id] = role
         self.sword.emit(.guildRoleCreate, with: guild, role)
-        break
 
       /// GUILD_ROLE_DELETE
       case .guildRoleDelete:
@@ -165,7 +150,6 @@ extension Shard {
         let role = guild.roles[data["role_id"] as! String]!
         guild.roles.removeValue(forKey: role.id)
         self.sword.emit(.guildRoleDelete, with: guild, role)
-        break
 
       /// GUILD_ROLE_UPDATE
       case .guildRoleUpdate:
@@ -173,12 +157,10 @@ extension Shard {
         let role = Role(data["role"] as! [String: Any])
         guild.roles[role.id] = role
         self.sword.emit(.guildRoleUpdate, with: guild, role)
-        break
 
       /// GUILD_UPDATE
       case .guildUpdate:
         self.sword.emit(.guildUpdate, with: Guild(self.sword, data, self.id))
-        break
 
       /// MESSAGE_CREATE
       case .messageCreate:
@@ -192,7 +174,6 @@ extension Shard {
           }
         }
         self.sword.emit(.messageCreate, with: msg)
-        break
 
       /// MESSAGE_DELETE
       case .messageDelete:
@@ -211,7 +192,6 @@ extension Shard {
           }
           self.sword.emit(.messageDelete, with: msg, self.sword.getDM(for: channelId)!)
         }
-        break
 
       /// MESSAGE_BULK_DELETE
       case .messageDeleteBulk:
@@ -239,12 +219,10 @@ extension Shard {
           }
           self.sword.emit(.messageDeleteBulk, with: messages, dm)
         }
-        break
 
       /// MESSAGE_UPDATE
       case .messageUpdate:
         self.sword.emit(.messageUpdate, with: data)
-        break
 
       /// PRESENCE_UPDATE
       case .presenceUpdate:
@@ -254,7 +232,6 @@ extension Shard {
           self.sword.guilds[data["guild_id"] as! String]!.members[userId]!.presence = presence
         }
         self.sword.emit(.presenceUpdate, with: userId, presence)
-        break
 
       /// READY
       case .ready:
@@ -283,8 +260,6 @@ extension Shard {
           self.sword.emit(.ready, with: self.sword.user!)
         }
 
-        break
-
       /// TYPING_START
       case .typingStart:
         #if !os(Linux)
@@ -294,17 +269,16 @@ extension Shard {
         #endif
         let channelId = data["channel_id"] as! String
         let guild = self.sword.getGuild(for: channelId)
+
         if guild != nil {
           self.sword.emit(.typingStart, with: guild!.channels[channelId]!, data["user_id"] as! String, timestamp)
         }else {
           self.sword.emit(.typingStart, with: self.sword.getDM(for: channelId)!, data["user_id"] as! String, timestamp)
         }
-        break
 
       /// USER_UPDATE
       case .userUpdate:
         self.sword.emit(.userUpdate, with: User(self.sword, data))
-        break
 
       /// VOICE_STATE_UPDATE
       case .voiceStateUpdate:
@@ -334,7 +308,6 @@ extension Shard {
         }else {
           self.sword.voiceManager.leave(guildId)
         }
-        break
 
       /// VOICE_SERVER_UPDATE
       case .voiceServerUpdate:
@@ -355,7 +328,6 @@ extension Shard {
         ).encode()
 
         self.sword.voiceManager.join(guildId, endpoint, payload)
-        break
 
       default:
         break
