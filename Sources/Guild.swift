@@ -23,7 +23,7 @@ public class Guild {
   public let afkTimeout: Int?
 
   /// Collection of channels mapped by channel ID
-  public internal(set) var channels: [String: GuildChannel] = [:]
+  public internal(set) var channels = [String: GuildChannel]()
 
   /// Default notification protocol
   public let defaultMessageNotifications: Int
@@ -32,10 +32,10 @@ public class Guild {
   public let embedChannelId: Int?
 
   /// Array of custom emojis for this guild
-  public internal(set) var emojis: [Emoji] = []
+  public internal(set) var emojis = [Emoji]()
 
   /// Array of features this guild has
-  public private(set) var features: [String] = []
+  public private(set) var features = [String]()
 
   /// Icon hash for guild
   public let icon: String?
@@ -56,7 +56,7 @@ public class Guild {
   public let memberCount: Int
 
   /// Collection of members mapped by user ID
-  public internal(set) var members: [String: Member] = [:]
+  public internal(set) var members = [String: Member]()
 
   /// MFA level of guild
   public let mfaLevel: Int
@@ -71,7 +71,7 @@ public class Guild {
   public let region: String
 
   /// Collection of roles mapped by role ID
-  public internal(set) var roles: [String: Role] = [:]
+  public internal(set) var roles = [String: Role]()
 
   /// Shard ID this guild is handled by
   public let shard: Int?
@@ -701,7 +701,7 @@ public struct Emoji {
   public let requireColons: Bool
 
   /// Array of roles that can use this emoji
-  public var roles: [Role] = []
+  public var roles = [Role]()
 
   // MARK: Initializer
 

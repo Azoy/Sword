@@ -12,7 +12,7 @@ public struct SwordOptions {
   // MARK: Properties
 
   /// Array of event names to disable
-  public var disabledEvents: [Event] = []
+  public var disabledEvents = [Event]()
 
   /// Whether or not caching offline members is allowed
   public var isCachingAllMembers = false
@@ -57,7 +57,7 @@ public struct CommandOptions {
   // MARK: Properties
 
   /// Array of command aliases
-  public var aliases: [String] = []
+  public var aliases = [String]()
 
   /// Required command options
   public var requirements = CommandRequirements()
@@ -73,9 +73,9 @@ public struct CommandOptions {
 public struct CommandRequirements {
 
   /// Array of required permissions in order to use command
-  public var permissions: [Permission] = []
+  public var permissions = [Permission]()
 
   /// Array of users that can use this command
-  public var users: [String] = []
+  public var users = [String]()
 
 }

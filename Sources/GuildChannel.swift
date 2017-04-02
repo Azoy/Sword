@@ -35,7 +35,7 @@ public struct GuildChannel: Channel {
   public let lastPinTimestamp: Date?
 
   /// Collection of messages mapped by message id
-  public internal(set) var messages: [String: Message] = [:] {
+  public internal(set) var messages = [String: Message]() {
     didSet {
       if messages.count > self.sword!.options.messageLimit {
         let firstPair = messages.first!
@@ -48,7 +48,7 @@ public struct GuildChannel: Channel {
   public let name: String?
 
   /// Array of Overwrite strcuts for channel
-  public private(set) var permissionOverwrites: [String: Overwrite] = [:]
+  public private(set) var permissionOverwrites = [String: Overwrite]()
 
   /// Position of channel
   public let position: Int?

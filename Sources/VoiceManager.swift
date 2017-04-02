@@ -12,13 +12,13 @@ class VoiceManager {
   // MARK: Properties
 
   /// Object of connections mapped by guildId
-  var connections: [String: VoiceConnection] = [:]
+  var connections = [String: VoiceConnection]()
 
   /// Used to determine whether or not voiceServerUpdate is us needing to connect
-  var guilds: [String: [String: String]] = [:]
+  var guilds = [String: [String: String]]()
 
   /// Object of completion handlers mapped by guildId
-  var handlers: [String: (VoiceConnection) -> ()] = [:]
+  var handlers = [String: (VoiceConnection) -> ()]()
 
   // MARK: Functions
 

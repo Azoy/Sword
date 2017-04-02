@@ -12,10 +12,10 @@ open class Shield: Sword {
   // MARK: Properties
 
   /// Object pointing command aliases to their respected full name
-  public var commandAliases: [String: String] = [:]
+  public var commandAliases = [String: String]()
 
   /// Object pointing command names to their Command Object
-  public var commands: [String: Command] = [:]
+  public var commands = [String: Command]()
 
   /// Shield Options structure
   public var shieldOptions: ShieldOptions

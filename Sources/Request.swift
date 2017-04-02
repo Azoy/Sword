@@ -15,7 +15,7 @@ class Request {
   // MARK: Properties
 
   /// Used to store requests when being globally rate limited
-  var globalLockQueue: [() -> ()] = []
+  var globalLockQueue = [() -> ()]()
 
   /// Whether or not the global queue is locked
   var globallyLocked = false
@@ -24,7 +24,7 @@ class Request {
   let globalQueue = DispatchQueue(label: "gg.azoy.sword.global")
 
   /// Collection of Collections of buckets mapped by route
-  var rateLimits: [String: Bucket] = [:]
+  var rateLimits = [String: Bucket]()
 
   /// Global URLSession (trust me i saw it on a wwdc talk, this is legit lmfao)
   let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue())

@@ -14,7 +14,7 @@ public struct Message {
   // MARK: Properties
 
   /// Array of Attachment structs that was sent with the message
-  public internal(set) var attachments: [Attachment] = []
+  public internal(set) var attachments = [Attachment]()
 
   /// User struct of the author (not returned if webhook)
   public let author: User?
@@ -29,7 +29,7 @@ public struct Message {
   public let editedTimestamp: Date?
 
   /// Array of embeds sent with message
-  public internal(set) var embeds: [Embed] = []
+  public internal(set) var embeds = [Embed]()
 
   /// Message ID
   public let id: String
@@ -47,13 +47,13 @@ public struct Message {
   public private(set) var member: Member?
 
   /// Array of Users that were mentioned
-  public internal(set) var mentions: [User] = []
+  public internal(set) var mentions = [User]()
 
   /// Array of Roles that were mentioned
-  public internal(set) var mentionedRoles: [Role] = []
+  public internal(set) var mentionedRoles = [Role]()
 
   /// Array of reactions with message
-  public internal(set) var reactions: [[String: Any]] = []
+  public internal(set) var reactions = [[String: Any]]()
 
   /// Time when message was sent
   public let timestamp: Date

@@ -14,7 +14,7 @@ open class Sword: Eventable {
   // MARK: Properties
 
   /// Collection of DMChannels mapped by user id
-  public internal(set) var dms: [String: DMChannel] = [:]
+  public internal(set) var dms = [String: DMChannel]()
 
   /// Endpoints structure
   let endpoints = Endpoints()
@@ -23,10 +23,10 @@ open class Sword: Eventable {
   var gatewayUrl: String?
 
   /// Array of guilds the bot is currently connected to
-  public internal(set) var guilds: [String: Guild] = [:]
+  public internal(set) var guilds = [String: Guild]()
 
   /// Event listeners
-  public var listeners: [Event: [([Any]) -> ()]] = [:]
+  public var listeners = [Event: [([Any]) -> ()]]
 
   /// Optional options to apply to bot
   var options: SwordOptions
@@ -41,7 +41,7 @@ open class Sword: Eventable {
   public internal(set) var shardCount = 1
 
   /// Array of Shard class
-  var shards: [Shard] = []
+  var shards = [Shard]()
 
   /// How many shards are ready
   var shardsReady = 0
@@ -50,7 +50,7 @@ open class Sword: Eventable {
   let token: String
 
   /// Array of unavailable guilds the bot is currently connected to
-  public internal(set)var unavailableGuilds: [String: UnavailableGuild] = [:]
+  public internal(set)var unavailableGuilds = [String: UnavailableGuild]()
 
   /// Int in seconds of how long the bot has been online
   public var uptime: Int? {
