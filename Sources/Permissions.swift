@@ -6,8 +6,6 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-import Foundation
-
 /// Permission enum to prevent wrong permission checks
 public enum Permission: Int {
 

@@ -6,8 +6,6 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-import Foundation
-
 /// Organize OAuth2 scopes
 public enum Scope: String {
 

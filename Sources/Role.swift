@@ -6,8 +6,6 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-import Foundation
-
 /// Role Type
 public struct Role {
 

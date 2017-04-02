@@ -33,7 +33,7 @@ extension Shard {
       case .channelCreate:
         if (data["type"] as! Int) == 1 {
           let dm = DMChannel(self.sword, data)
-          self.sword.dms[dm.recipient!.id] = dm
+          self.sword.dms[dm.recipients[0].id] = dm
           self.sword.emit(.channelCreate, with: dm)
         }else {
           let channel = GuildChannel(self.sword, data)
