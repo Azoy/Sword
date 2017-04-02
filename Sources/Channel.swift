@@ -270,8 +270,9 @@ public struct DMChannel: Channel {
 
     self.id = json["id"] as! String
 
-    if json["user"] != nil {
-      self.recipient = User(sword, json["recipient"] as! [String: Any])
+    if json["recipients"] != nil {
+      let recipients = json["recipients"] as! [[String: Any]]
+      self.recipient = User(sword, recipients[0])
     }else {
       self.recipient = nil
     }

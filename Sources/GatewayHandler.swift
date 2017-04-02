@@ -27,12 +27,10 @@ extension Shard {
           data: self.lastSeq ?? NSNull()
         ).encode()
         self.send(heartbeat)
-        break
 
       /// OP: 11
       case .heartbeatACK:
         self.heartbeat?.received = true
-        break
 
       /// OP: 10
       case .hello:
@@ -56,19 +54,16 @@ extension Shard {
         }
 
         self.identify()
-        break
 
       /// OP: 9
       case .invalidSession:
         self.stop()
         sleep(2)
         self.startWS(self.gatewayUrl)
-        break
 
       /// OP: 7
       case .reconnect:
         self.reconnect()
-        break
 
       /// Others~~~
       default:

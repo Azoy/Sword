@@ -31,7 +31,7 @@ extension Shard {
 
       /// CHANNEL_CREATE
       case .channelCreate:
-        if data["is_private"] != nil {
+        if (data["type"] as! Int) == 1 {
           let dm = DMChannel(self.sword, data)
           self.sword.dms[dm.recipient!.id] = dm
           self.sword.emit(.channelCreate, with: dm)
@@ -43,7 +43,7 @@ extension Shard {
 
       /// CHANNEL_DELETE
       case .channelDelete:
-        if data["is_private"] != nil {
+        if (data["type"] as! Int) == 1 {
           self.sword.emit(.channelDelete, with: DMChannel(self.sword, data))
         }else {
           let channel = GuildChannel(self.sword, data)

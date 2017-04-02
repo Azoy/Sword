@@ -296,10 +296,9 @@ public class VoiceConnection: Eventable {
 
           self.startUDPSocket(data["port"] as! Int)
 
-          break
         case .sessionDescription:
           self.secret = data["secret_key"] as! [UInt8]
-          break
+
         default:
           break
       }
