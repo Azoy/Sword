@@ -26,7 +26,7 @@ open class Sword: Eventable {
   public internal(set) var guilds = [String: Guild]()
 
   /// Event listeners
-  public var listeners = [Event: [([Any]) -> ()]]
+  public var listeners = [Event: [([Any]) -> ()]]()
 
   /// Optional options to apply to bot
   var options: SwordOptions
