@@ -53,7 +53,7 @@ class Request {
    - parameter method: Type of HTTP Method
    - parameter rateLimited: Whether or not the HTTP request needs to be rate limited
   */
-  func request(_ url: String, body: Data? = nil, file: [String: Any]? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, then completion: @escaping (RequestError?, Any?) -> ()) {
+  func request(_ url: String, body: Data? = nil, file: [String: Any]? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, then completion: @escaping (Any?, RequestError?) -> ()) {
     let sema = DispatchSemaphore(value: 0) //Provide a way to urlsession from command line
 
     let route = rateLimited ? self.getRoute(for: url) : ""
@@ -93,7 +93,7 @@ class Request {
       let headers = response.allHeaderFields
 
       if error != nil {
-        completion(.unknown, nil)
+        completion(nil, .unknown)
         sema.signal()
         return
       }
@@ -119,7 +119,7 @@ class Request {
           return
         }
 
-        completion(response.status, nil)
+        completion(nil, response.status)
         sema.signal()
         return
       }
@@ -130,9 +130,9 @@ class Request {
 
       do {
         let returnedData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-        completion(nil, returnedData)
+        completion(returnedData, nil)
       }catch {
-        completion(.unknown, nil)
+        completion(nil, .unknown)
       }
 
       sema.signal()

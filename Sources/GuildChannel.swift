@@ -1,3 +1,11 @@
+//
+//  GuildChannel.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2017 Alejandro Alonso. All rights reserved.
+//
+
 import Foundation
 
 /// GuildChannel Type
@@ -11,7 +19,7 @@ public struct GuildChannel: Channel {
   /// (Voice) bitrate (in bits) for channel
   public let bitrate: Int?
 
-  /// Guild ID that this channel belongs to
+  /// Guild object for this channel
   public var guild: Guild? {
     if self.guildId != nil {
       return self.sword!.guilds[self.guildId!]
@@ -20,6 +28,7 @@ public struct GuildChannel: Channel {
     }
   }
 
+  /// Guild ID that this channel belongs to
   private let guildId: String?
 
   /// ID of the channel
@@ -112,14 +121,8 @@ public struct GuildChannel: Channel {
 
    - parameter options: Preconfigured options to create this webhook with
   */
-  public func createWebhook(with options: [String: String] = [:], then completion: @escaping (RequestError?, Webhook?) -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.createWebhook(self.id), body: options.createBody(), method: "POST") { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        completion(nil, Webhook(self.sword!, data as! [String: Any]))
-      }
-    }
+  public func createWebhook(with options: [String: String] = [:], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
+    self.sword!.createWebhook(for: self.id, with: options, then: completion)
   }
 
   /**
@@ -128,29 +131,12 @@ public struct GuildChannel: Channel {
    - parameter messageId: Message to delete all reactions from
   */
   public func deleteReactions(from messageId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.deleteAllReactions(self.id, messageId), method: "DELETE") { error, data in
-      if error != nil {
-        completion(error)
-      }else {
-        completion(nil)
-      }
-    }
+    self.sword!.deleteReactions(from: messageId, in: self.id, then: completion)
   }
 
   /// Gets this channel's webhooks
-  public func getWebhooks(then completion: @escaping (RequestError?, [Webhook]?) -> ()) {
-    self.sword!.requester.request(self.sword!.endpoints.getChannelWebhooks(self.id)) { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        var returnWebhooks: [Webhook] = []
-        let webhooks = data as! [[String: Any]]
-        for webhook in webhooks {
-          returnWebhooks.append(Webhook(self.sword!, webhook))
-        }
-        completion(nil, returnWebhooks)
-      }
-    }
+  public func getWebhooks(then completion: @escaping ([Webhook]?, RequestError?) -> ()) {
+    self.sword!.getWebhooks(from: self.id, then: completion)
   }
 
 }

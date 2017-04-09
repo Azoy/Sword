@@ -6,7 +6,7 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-/// Organize OAuth2 scopes
+/** Organize OAuth2 scopes
 public enum Scope: String {
 
 case bot,
@@ -23,6 +23,7 @@ case bot,
      incomingWebhook = "webhook.incoming"
 
 }
+*/
 
 /// Organize all dispatch events
 enum OP: Int {

@@ -16,9 +16,6 @@ open class Sword: Eventable {
   /// Collection of DMChannels mapped by user id
   public internal(set) var dms = [String: DMChannel]()
 
-  /// Endpoints structure
-  let endpoints = Endpoints()
-
   /// The gateway url to connect to
   var gatewayUrl: String?
 
@@ -64,6 +61,9 @@ open class Sword: Eventable {
   /// The user account for the bot
   public internal(set) var user: User?
 
+  /// Array of users mapped by userId that the bot sees
+  public internal(set) var users = [String: User]()
+
   /// Object of voice connections the bot is currently connected to. Mapped by guildId
   public var voiceConnections: [String: VoiceConnection] {
     return self.voiceManager.connections
@@ -89,25 +89,25 @@ open class Sword: Eventable {
   // MARK: Functions
 
   /// Gets the gateway URL to connect to
-  func getGateway(then completion: @escaping (RequestError?, [String: Any]?) -> ()) {
-    self.requester.request(self.endpoints.gateway(), rateLimited: false) { error, data in
+  func getGateway(then completion: @escaping ([String: Any]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.gateway(), rateLimited: false) { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
         return
       }
 
       guard let data = data as? [String: Any] else {
-        completion(.unknown, nil)
+        completion(nil, .unknown)
         return
       }
 
-      completion(nil, data)
+      completion(data, nil)
     }
   }
 
   /// Starts the bot
   public func connect() {
-    self.getGateway() { error, data in
+    self.getGateway() { data, error in
       if error != nil {
         guard error == .unauthorized else {
           sleep(3)
@@ -135,12 +135,56 @@ open class Sword: Eventable {
     }
   }
 
-  public func ban(_ member: String, in guild: String, with options: [String: Int] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.requester.request(self.endpoints.createGuildBan(guild, member), body: options.createBody(), method: "PUT") { error, data in
+  /**
+   Adds a reaction (unicode or custom emoji) to a message
+
+   - parameter reaction: Unicode or custom emoji reaction
+   - parameter messageId: Message to add reaction to
+   - parameter channelId: Channel to add reaction to message in
+  */
+  public func addReaction(_ reaction: String, to messageId: String, in channelId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.createReaction(channelId, messageId, reaction), method: "PUT") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Bans a member from a guild
+
+   #### Option Params ####
+
+   - **delete-message-days**: Number of days to delete messages for (0-7)
+
+   - parameter userId: Member to ban
+   - parameter guildId: Guild to ban member in
+   - parameter options: Deletes messages from this user by amount of days
+  */
+  public func ban(_ userId: String, in guildId: String, with options: [String: Int] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.createGuildBan(guildId, userId), body: options.createBody(), method: "PUT") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Creates a channel in a guild
+
+   #### Option Params ####
+
+   - **name**: The name to give this channel
+   - **type**: The type of channel to create
+   - **bitrate**: If a voice channel, sets the bitrate for the voice channel
+   - **user_limit**: If a voice channel, sets the maximum amount of users to be allowed at a time
+   - **permission_overwrites**: Array of overwrite objects to give this channel
+
+   - parameter guildId: Guild to create channel for
+   - parameter options: Preconfigured options to give the channel on create
+  */
+  public func createChannel(for guildId: String, with options: [String: Any], then completion: @escaping (GuildChannel?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.createGuildChannel(guildId), body: options.createBody(), method: "POST") { data, error in
       if error != nil {
-        completion(error)
+        completion(nil, error)
       }else {
-        completion(nil)
+        completion(GuildChannel(self, data as! [String: Any]), error)
       }
     }
   }
@@ -150,13 +194,30 @@ open class Sword: Eventable {
 
    - parameter options: Refer to [discord docs](https://discordapp.com/developers/docs/resources/guild#create-guild) for guild options
   */
-  public func createGuild(with options: [String: Any], then completion: @escaping (RequestError?, Guild?) -> () = {_ in}) {
-    self.requester.request(endpoints.createGuild(), body: options.createBody(), method: "POST") { error, data in
+  public func createGuild(with options: [String: Any], then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.createGuild(), body: options.createBody(), method: "POST") { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
-        completion(nil, Guild(self, data as! [String: Any]))
+        completion(Guild(self, data as! [String: Any]), nil)
       }
+    }
+  }
+
+  /**
+   Creates an integration for a guild
+
+   #### Option Params ####
+
+   - **type**: The type of integration to create
+   - **id**: The id of the user's integration to link to this guild
+
+   - parameter guildId: Guild to create integration for
+   - parameter options: Preconfigured options for this integration
+  */
+  public func createIntegration(for guildId: String, with options: [String: String], then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.createGuildIntegration(guildId), body: options.createBody(), method: "POST") { data, error in
+      completion(error)
     }
   }
 
@@ -173,12 +234,53 @@ open class Sword: Eventable {
    - parameter channelId: Channel to create invite for
    - parameter options: Options to give invite
   */
-  public func createInvite(for channelId: String, with options: [String: Any] = [:], then completion: @escaping (RequestError?, Any?) -> () = {_ in}) {
-    self.requester.request(endpoints.createChannelInvite(channelId), body: options.createBody(), method: "POST") { error, data in
+  public func createInvite(for channelId: String, with options: [String: Any] = [:], then completion: @escaping ([String: Any]?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.createChannelInvite(channelId), body: options.createBody(), method: "POST") { data, error in
+      completion(data as? [String: Any], error)
+    }
+  }
+
+  /**
+   Creates a guild role
+
+   #### Option Params ####
+
+   - **name**: The name of the role
+   - **permissions**: The bitwise number to set role with
+   - **color**: Integer value of RGB color
+   - **hoist**: Whether or not this role is hoisted on the member list
+   - **mentionable**: Whether or not this role is mentionable in chat
+
+   - parameter guildId: Guild to create role for
+   - parameter options: Preset options to configure role with
+  */
+  public func createRole(for guildId: String, with options: [String: Any], then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.createGuildRole(guildId), body: options.createBody(), method: "POST") { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
-        completion(nil, data)
+        completion(Role(data as! [String: Any]), nil)
+      }
+    }
+  }
+
+  /**
+   Creates a webhook for a channel
+
+   #### Options Params ####
+
+   - **name**: The name of the webhook
+   - **avatar**: The avatar string to assign this webhook in base64
+
+   - parameter channelId: Guild channel to create webhook for
+   - parameter options: Preconfigured options to create this webhook with
+  */
+  public func createWebhook(for channelId: String, with options: [String: String] = [:], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.createWebhook(channelId), body: options.createBody(), method: "POST") { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        completion(Webhook(self, data as! [String: Any]), nil)
       }
     }
   }
@@ -188,16 +290,16 @@ open class Sword: Eventable {
 
    - parameter channelId: Channel to delete
   */
-  public func delete(channel channelId: String, then completion: @escaping (RequestError?, Channel?) -> () = {_ in}) {
-    self.requester.request(endpoints.deleteChannel(channelId), method: "DELETE") { error, data in
+  public func deleteChannel(_ channelId: String, then completion: @escaping (Channel?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.deleteChannel(channelId), method: "DELETE") { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
         let channelData = data as! [String: Any]
-        if channelData["recipient"] == nil {
-          completion(nil, GuildChannel(self, channelData))
+        if channelData["recipients"] == nil {
+          completion(GuildChannel(self, channelData), nil)
         }else {
-          completion(nil, DMChannel(self, channelData))
+          completion(DMChannel(self, channelData), nil)
         }
       }
     }
@@ -208,15 +310,27 @@ open class Sword: Eventable {
 
    - parameter guildId: Guild to delete
   */
-  public func delete(guild guildId: String, then completion: @escaping (RequestError?, Guild?) -> () = {_ in}) {
-    self.requester.request(endpoints.deleteGuild(guildId), method: "DELETE") { error, data in
+  public func deleteGuild(_ guildId: String, then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.deleteGuild(guildId), method: "DELETE") { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
         let guild = Guild(self, data as! [String: Any])
         self.guilds.removeValue(forKey: guild.id)
-        completion(nil, guild)
+        completion(guild, nil)
       }
+    }
+  }
+
+  /**
+   Deletes an integration from a guild
+
+   - parameter integrationId: Integration to delete
+   - parameter guildId: Guild to delete integration from
+  */
+  public func deleteIntegration(_ integrationId: String, from guildId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.deleteGuildIntegration(guildId, integrationId), method: "DELETE") { data, error in
+      completion(error)
     }
   }
 
@@ -225,28 +339,42 @@ open class Sword: Eventable {
 
    - parameter inviteId: Invite to delete
   */
-  public func delete(invite inviteId: String, then completion: @escaping (RequestError?, Any?) -> () = {_ in}) {
-    self.requester.request(endpoints.deleteInvite(inviteId), method: "DELETE") { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        completion(nil, data as! [String: Any])
-      }
+  public func deleteInvite(_ inviteId: String, then completion: @escaping ([String: Any]?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.deleteInvite(inviteId), method: "DELETE") { data, error in
+      completion(data as? [String: Any], error)
     }
   }
 
   /**
-   Deletes a webhook
+   Deletes a message from a channel
 
-   - parameter webhookId: Webhook to delete
+   - parameter messageId: Message to delete
   */
-  public func delete(webhook webhookId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.requester.request(endpoints.deleteWebhook(webhookId), method: "DELETE") { error, data in
-      if error != nil {
-        completion(error)
-      }else {
-        completion(nil)
+  public func deleteMessage(_ messageId: String, from channelId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.deleteMessage(channelId, messageId), method: "DELETE") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Bulk deletes messages
+
+   - parameter messages: Array of message ids to delete
+  */
+  public func deleteMessages(_ messages: [String], from channelId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    for message in messages {
+      let oldestMessage = (Date().timeIntervalSince1970 - 1421280000000) * 4194304
+      guard let messageId = Double(message) else {
+        completion(.unknown)
+        return
       }
+      if messageId < oldestMessage {
+        completion(.unknown)
+      }
+    }
+
+    self.requester.request(Endpoints.bulkDeleteMessages(channelId), body: messages.createBody(), method: "POST") { data, error in
+      completion(error)
     }
   }
 
@@ -256,12 +384,85 @@ open class Sword: Eventable {
    - parameter channelId: Channel to delete permissions from
    - parameter overwriteId: Overwrite ID to use for permissons
   */
-  public func deletePermission(for channelId: String, with overwriteId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.requester.request(endpoints.deleteChannelPermission(channelId, overwriteId), method: "DELETE") { error, data in
+  public func deletePermission(from channelId: String, with overwriteId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.deleteChannelPermission(channelId, overwriteId), method: "DELETE") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Deletes a reaction from a message by user
+
+   - parameter reaction: Unicode or custom emoji to delete
+   - parameter messageId: Message to delete reaction from
+   - parameter userId: If nil, deletes bot's reaction from, else delete a reaction from user
+   - parameter channelId: Channel to delete reaction from
+  */
+  public func deleteReaction(_ reaction: String, from messageId: String, by userId: String? = nil, in channelId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    var url = ""
+    if userId != nil {
+      url = Endpoints.deleteUserReaction(channelId, messageId, reaction, userId!)
+    }else {
+      url = Endpoints.deleteOwnReaction(channelId, messageId, reaction)
+    }
+
+    self.requester.request(url, method: "DELETE") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Deletes all reactions from a message
+
+   - parameter messageId: Message to delete all reactions from
+   - parameter channelId: Channel to remove reactions in
+  */
+  public func deleteReactions(from messageId: String, in channelId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.deleteAllReactions(channelId, messageId), method: "DELETE") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Deletes a role from this guild
+
+   - parameter roleId: Role to delete
+   - parameter guildId: Guild to delete role from
+  */
+  public func deleteRole(_ roleId: String, from guildId: String, then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.deleteGuildRole(guildId, roleId), method: "DELETE") { data, error in
       if error != nil {
-        completion(error)
+        completion(nil, error)
       }else {
-        completion(nil)
+        completion(Role(data as! [String: Any]), nil)
+      }
+    }
+  }
+
+  /**
+   Deletes a webhook
+
+   - parameter webhookId: Webhook to delete
+  */
+  public func deleteWebhook(_ webhookId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.deleteWebhook(webhookId), method: "DELETE") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Edits a message's content
+
+   - parameter messageId: Message to edit
+   - parameter content: Text to change message to
+   - parameter channelId: Channel to edit message in
+  */
+  public func editMessage(_ messageId: String, to content: String, in channelId: String, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.editMessage(channelId, messageId), body: ["content": content].createBody(), method: "PATCH") { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        completion(Message(self, data as! [String: Any]), nil)
       }
     }
   }
@@ -279,13 +480,9 @@ open class Sword: Eventable {
    - parameter channelId: Channel to edit permissions for
    - parameter overwriteId: Overwrite ID to use for permissions
   */
-  public func edit(permissions: [String: Any], for channelId: String, with overwriteId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.requester.request(endpoints.editChannelPermissions(channelId, overwriteId), body: permissions.createBody(), method: "PUT") { error, data in
-      if error != nil {
-        completion(error)
-      }else {
-        completion(nil)
-      }
+  public func editPermissions(_ permissions: [String: Any], for channelId: String, with overwriteId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.editChannelPermissions(channelId, overwriteId), body: permissions.createBody(), method: "PUT") { data, error in
+      completion(error)
     }
   }
 
@@ -310,6 +507,23 @@ open class Sword: Eventable {
   }
 
   /**
+   Executs a slack style webhook
+
+   #### Content Params ####
+
+   Refer to the [slack documentation](https://api.slack.com/incoming-webhooks) for their webhook structure
+
+   - parameter webhookId: Webhook to execute
+   - parameter webhookToken: Token for auth to execute
+   - parameter content: The slack webhook content to send
+  */
+  public func executeSlackWebhook(_ webhookId: String, token webhookToken: String, with content: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.executeSlackWebhook(webhookId, webhookToken), body: content.createBody(), method: "POST") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
    Executes a webhook
 
    #### Content Params ####
@@ -325,15 +539,11 @@ open class Sword: Eventable {
    - parameter webhookToken: Token for auth to execute
    - parameter content: String or dictionary containing message content
   */
-  public func execute(webhook webhookId: String, token webhookToken: String, with content: Any, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func executeWebhook(_ webhookId: String, token webhookToken: String, with content: Any, then completion: @escaping (RequestError?) -> () = {_ in}) {
     guard let message = content as? [String: Any] else {
       let data = ["content": content].createBody()
-      self.requester.request(endpoints.executeWebhook(webhookId, webhookToken), body: data, method: "POST") { error, data in
-        if error != nil {
-          completion(error)
-        }else {
-          completion(nil)
-        }
+      self.requester.request(Endpoints.executeWebhook(webhookId, webhookToken), body: data, method: "POST") { data, error in
+        completion(error)
       }
       return
     }
@@ -364,132 +574,74 @@ open class Sword: Eventable {
     }
 
     if file.isEmpty && !parameters.isEmpty {
-      self.requester.request(endpoints.executeWebhook(webhookId, webhookToken), body: parameters.createBody(), method: "POST") { error, data in
-        if error != nil {
-          completion(error)
-        }else {
-          completion(nil)
-        }
+      self.requester.request(Endpoints.executeWebhook(webhookId, webhookToken), body: parameters.createBody(), method: "POST") { data, error in
+        completion(error)
       }
     }else {
       file["parameters"] = parameters
 
-      self.requester.request(endpoints.executeWebhook(webhookId, webhookToken), file: file, method: "POST") { error, data in
-        if error != nil {
-          completion(error)
-        }else {
-          completion(nil)
-        }
-      }
-    }
-
-  }
-
-  /**
-   Executs a slack style webhook
-
-   #### Content Params ####
-
-   Refer to the [slack documentation](https://api.slack.com/incoming-webhooks) for their webhook structure
-
-   - parameter webhookId: Webhook to execute
-   - parameter webhookToken: Token for auth to execute
-   - parameter content: The slack webhook content to send
-  */
-  public func executeSlack(webhook webhookId: String, token webhookToken: String, with content: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.requester.request(endpoints.executeSlackWebhook(webhookId, webhookToken), body: content.createBody(), method: "POST") { error, data in
-      if error != nil {
+      self.requester.request(Endpoints.executeWebhook(webhookId, webhookToken), file: file, method: "POST") { data, error in
         completion(error)
-      }else {
-        completion(nil)
       }
     }
+
   }
 
   /**
-   Gets a message from channel
+   Gets a guild's bans
 
-   - parameter messageId: Message to get
-   - parameter channelId: Channel to get message from
+   - parameter guildId: Guild to get bans from
   */
-  public func get(message messageId: String, from channelId: String, then completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
-    self.requester.request(endpoints.getChannelMessage(channelId, messageId)) { error, data in
+  public func getBans(from guildId: String, then completion: @escaping ([User]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getGuildBans(guildId)) { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
-        completion(nil, Message(self, data as! [String: Any]))
+        var returnUsers: [User] = []
+        let users = data as! [[String: Any]]
+        for user in users {
+          returnUsers.append(User(self, user))
+        }
+
+        completion(returnUsers, nil)
       }
     }
   }
 
   /**
-   Gets an array of messages from channel
+   Either get a cached channel or restfully get a channel
 
-   - parameter limit: Amount of messages to get
-   - parameter channelId: Channel to get messages from
+   - parameter channelId: Channel to get
   */
-  public func get(_ limit: Int, messagesFrom channelId: String, then completion: @escaping (RequestError?, [Message]?) -> () = {_ in}) {
-    if limit > 100 || limit < 1 {
-      completion(.unknown, nil)
+  public func getChannel(_ channelId: String, rest: Bool = false, then completion: @escaping (Channel?, RequestError?) -> ()) {
+    guard rest else {
+      let guild = self.getGuild(for: channelId)
+      let dm = self.getDM(for: channelId)
+
+      guard guild != nil else {
+        guard dm != nil else {
+          completion(nil, .unknown)
+          return
+        }
+
+        completion(dm, nil)
+        return
+      }
+
+      completion(guild!.channels[channelId]!, nil)
       return
     }
-    self.requester.request(endpoints.getChannelMessages(channelId), body: ["limit": limit].createBody()) { error, data in
+
+    self.requester.request(Endpoints.getChannel(channelId)) { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
-        var returnMessages: [Message] = []
-        let messages = data as! [[String: Any]]
-        for message in messages {
-          returnMessages.append(Message(self, message))
+        let channelData = data as! [String: Any]
+        if channelData["recipients"] == nil {
+          completion(GuildChannel(self, channelData), nil)
+        }else {
+          completion(DMChannel(self, channelData), nil)
         }
-        completion(nil, returnMessages)
-      }
-    }
-  }
-
-  /**
-   Gets an invite
-
-   - parameter inviteId: Invite to get
-  */
-  public func get(invite inviteId: String, then completion: @escaping (RequestError?, Any?) -> () = {_ in}) {
-    self.requester.request(endpoints.getInvite(inviteId)) { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        completion(nil, data as! [String: Any])
-      }
-    }
-  }
-
-  /**
-   Gets a user from guild
-
-   - parameter userId: User to get
-   - parameter guildId: Guild to get user from
-  */
-  public func get(user userId: String, from guildId: String, then completion: @escaping (RequestError?, Member?) -> () = {_ in}) {
-    self.requester.request(endpoints.getGuildMember(guildId, userId)) { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        let member = Member(self, self.guilds[guildId]!, data as! [String: Any])
-        completion(nil, member)
-      }
-    }
-  }
-
-  /**
-   Gets a webhook
-
-   - parameter webhookId: Webhook to get
-  */
-  public func get(webhook webhookId: String, then completion: @escaping (RequestError?, Webhook?) -> ()) {
-    self.requester.request(endpoints.getWebhook(webhookId)) { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        completion(nil, Webhook(self, data as! [String: Any]))
       }
     }
   }
@@ -499,12 +651,70 @@ open class Sword: Eventable {
 
    - parameter channelId: Channel to get invites from
   */
-  public func getInvites(for channelId: String, then completion: @escaping (RequestError?, Any?) -> () = {_ in}) {
-    self.requester.request(endpoints.getChannelInvites(channelId)) { error, data in
+  public func getChannelInvites(from channelId: String, then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getChannelInvites(channelId)) { data, error in
+      completion(data as? [[String: Any]], error)
+    }
+  }
+
+  /**
+   Either get cached channels from guild
+
+   - parameter guildId: Guild to get channels from
+  */
+  public func getChannels(from guildId: String, rest: Bool = false, then completion: @escaping ([GuildChannel]?, RequestError?) -> ()) {
+    guard rest else {
+      guard self.guilds[guildId] != nil else {
+        completion(nil, nil)
+        return
+      }
+
+      completion(Array(self.guilds[guildId]!.channels.values), nil)
+      return
+    }
+
+    self.requester.request(Endpoints.getGuildChannels(guildId)) { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
-        completion(nil, data)
+        var returnChannels: [GuildChannel] = []
+        let channels = data as! [[String: Any]]
+        for channel in channels {
+          returnChannels.append(GuildChannel(self, channel))
+        }
+
+        completion(returnChannels, nil)
+      }
+    }
+  }
+
+  /**
+   Function to get dm from channelId
+
+   - parameter channelId: Channel to get dm from
+  */
+  public func getDM(for channelId: String) -> DMChannel? {
+    var dms = self.dms.filter {
+      $0.1.id == channelId
+    }
+
+    if dms.isEmpty { return nil }
+    return dms[0].1
+  }
+
+  /**
+   Gets a DM for a user
+
+   - parameter userId: User to get DM for
+  */
+  public func getDM(for userId: String, then completion: @escaping (DMChannel?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.createDM(), body: ["recipient_id": userId].createBody(), method: "POST") { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        let dm = DMChannel(self, data as! [String: Any])
+        self.dms[userId] = dm
+        completion(dm, nil)
       }
     }
   }
@@ -524,105 +734,331 @@ open class Sword: Eventable {
   }
 
   /**
-   Function to get dm from channelId
+   Either get a cached guild or restfully get a guild
 
-   - parameter channelId: Channel to get dm from
+   - parameter guildId: Guild to get
   */
-  public func getDM(for channelId: String) -> DMChannel? {
-    var dms = self.dms.filter {
-      $0.1.id == channelId
+  public func getGuild(_ guildId: String, rest: Bool = false, then completion: @escaping (Guild?, RequestError?) -> ()) {
+    guard rest else {
+      completion(self.guilds[guildId], nil)
+      return
     }
 
-    if dms.isEmpty { return nil }
-    return dms[0].1
-  }
-
-  /**
-   Restfully gets a channel
-
-   - parameter channelId: Channel to get restfully
-  */
-  public func getREST(channel channelId: String, then completion: @escaping (RequestError?, Channel?) -> ()) {
-    self.requester.request(endpoints.getChannel(channelId)) { error, data in
+    self.requester.request(Endpoints.getGuild(guildId)) { data, error in
       if error != nil {
-        completion(error, nil)
-      }else {
-        let channelData = data as! [String: Any]
-        if channelData["recipient"] == nil {
-          completion(nil, GuildChannel(self, channelData))
-        }else {
-          completion(nil, DMChannel(self, channelData))
-        }
-      }
-    }
-  }
-
-  /**
-   Restfully gets a guild
-
-   - parameter guildId: Guild to get restfully
-  */
-  public func getREST(guild guildId: String, then completion: @escaping (RequestError?, Guild?) -> ()) {
-    self.requester.request(endpoints.getGuild(guildId)) { error, data in
-      if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
         let guild = Guild(self, data as! [String: Any])
         self.guilds[guild.id] = guild
-        completion(nil, guild)
+        completion(guild, nil)
       }
     }
   }
 
   /**
-   Restfully gets a user
+   Gets a guild's embed
 
-   - parameter userId: User to get restfully
+   - parameter guildId: Guild to get embed from
   */
-  public func getREST(user userId: String, then completion: @escaping (RequestError?, User?) -> ()) {
-    self.requester.request(endpoints.getUser(userId)) { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        completion(nil, User(self, data as! [String: Any]))
-      }
+  public func getGuildEmbed(from guildId: String, then completion: @escaping ([String: Any]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getGuildEmbed(guildId)) { data, error in
+      completion(data as? [String: Any], error)
     }
   }
 
   /**
-   Restfully gets channels from guild
+   Gets a guild's invites
 
-   - parameter guildId: Guild to get channels from
+   - parameter guildId: Guild to get invites from
   */
-  public func getRESTChannels(from guildId: String, then completion: @escaping (RequestError?, [GuildChannel]?) -> ()) {
-    self.requester.request(endpoints.getGuildChannels(guildId)) { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        var returnChannels: [GuildChannel] = []
-        let channels = data as! [[String: Any]]
-        for channel in channels {
-          returnChannels.append(GuildChannel(self, channel))
-        }
-
-        completion(nil, returnChannels)
-      }
+  public func getGuildInvites(from guildId: String, then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getGuildInvites(guildId)) { data, error in
+      completion(data as? [[String: Any]], error)
     }
   }
 
-  /// Restfully get guilds bot is in
-  public func getRESTGuilds(then completion: @escaping (RequestError?, [Guild]?) -> ()) {
-    self.requester.request(endpoints.getCurrentUserGuilds()) { error, data in
+  /// Either get cached guilds or restfully get guilds
+  public func getGuilds(rest: Bool = false, then completion: @escaping ([Guild]?, RequestError?) -> ()) {
+    guard rest else {
+      completion(Array(self.guilds.values), nil)
+      return
+    }
+
+    self.requester.request(Endpoints.getCurrentUserGuilds()) { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
         var returnGuilds: [Guild] = []
         let guilds = data as! [[String: Any]]
         for guild in guilds {
-          returnGuilds.append(Guild(self, guild))
+          returnGuilds.append(Guild(self, guild, self.getShard(for: guild["id"] as! String)))
         }
 
-        completion(nil, returnGuilds)
+        completion(returnGuilds, nil)
+      }
+    }
+  }
+
+  /**
+   Gets a guild's webhooks
+
+   - parameter guildId: Guild to get webhooks from
+  */
+  public func getGuildWebhooks(from guildId: String, then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getGuildWebhooks(guildId)) { data, error in
+      completion(data as? [[String: Any]], error)
+    }
+  }
+
+  /**
+   Gets a guild's integrations
+
+   - parameter guildId: Guild to get integrations from
+  */
+  public func getIntegrations(from guildId: String, then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getGuildIntegrations(guildId)) { data, error in
+      completion(data as? [[String: Any]], error)
+    }
+  }
+
+  /**
+   Gets an invite
+
+   - parameter inviteId: Invite to get
+  */
+  public func getInvite(_ inviteId: String, then completion: @escaping ([String: Any]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getInvite(inviteId)) { data, error in
+      completion(data as? [String: Any], error)
+    }
+  }
+
+  /**
+   Gets a member from guild
+
+   - parameter userId: Member to get
+   - parameter guildId: Guild to get member from
+  */
+  public func getMember(_ userId: String, in guildId: String, then completion: @escaping (Member?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getGuildMember(guildId, userId)) { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        let member = Member(self, self.guilds[guildId]!, data as! [String: Any])
+        completion(member, nil)
+      }
+    }
+  }
+
+  /**
+   Gets an array of guild members in a guild
+
+   - parameter guildId: Guild to get members from
+  */
+  public func getMembers(in guildId: String, then completion: @escaping ([Member]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.listGuildMembers(guildId)) { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        var returnMembers: [Member] = []
+        let members = data as! [[String: Any]]
+        for member in members {
+          returnMembers.append(Member(self, self.guilds[guildId]!, member))
+        }
+
+        completion(returnMembers, nil)
+      }
+    }
+  }
+
+  /**
+   Gets a message from channel
+
+   - parameter messageId: Message to get
+   - parameter channelId: Channel to get message from
+  */
+  public func getMessage(_ messageId: String, from channelId: String, then completion: @escaping (Message?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getChannelMessage(channelId, messageId)) { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        completion(Message(self, data as! [String: Any]), nil)
+      }
+    }
+  }
+
+  /**
+   Gets an array of messages from channel
+
+   - parameter limit: Amount of messages to get
+   - parameter channelId: Channel to get messages from
+  */
+  public func getMessages(_ limit: Int, from channelId: String, then completion: @escaping ([Message]?, RequestError?) -> ()) {
+    if limit > 100 || limit < 1 {
+      completion(nil, .unknown)
+      return
+    }
+    self.requester.request(Endpoints.getChannelMessages(channelId), body: ["limit": limit].createBody()) { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        var returnMessages: [Message] = []
+        let messages = data as! [[String: Any]]
+        for message in messages {
+          returnMessages.append(Message(self, message))
+        }
+        completion(returnMessages, nil)
+      }
+    }
+  }
+
+  /**
+   Get pinned messages from a channel
+
+   - parameter channelId: Channel to get pinned messages fromn
+  */
+  public func getPinnedMessages(from channelId: String, then completion: @escaping ([Message]?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.getPinnedMessages(channelId)) { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        var returnMessages: [Message] = []
+        let messages = data as! [[String: Any]]
+        for message in messages {
+          returnMessages.append(Message(self, message))
+        }
+
+        completion(returnMessages, nil)
+      }
+    }
+  }
+
+  /**
+   Gets number of users who would be pruned by x amount of days in a guild
+
+   - parameter guildId: Guild to get prune count for
+   - parameter limit: Number of days to get prune count for
+  */
+  public func getPruneCount(from guildId: String, for limit: Int, then completion: @escaping (Int?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getGuildPruneCount(guildId), body: ["days": limit].createBody()) { data, error in
+      completion(data as? Int, error)
+    }
+  }
+
+  /**
+   Gets an array of users who used reaction from message
+
+   - parameter reaction: Unicode or custom emoji to get
+   - parameter messageId: Message to get reaction users from
+   - parameter channelId: Channel to get reaction from
+  */
+  public func getReaction(_ reaction: String, from messageId: String, in channelId: String, then completion: @escaping ([User]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getReactions(channelId, messageId, reaction)) { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        var returnUsers: [User] = []
+        let users = data as! [[String: Any]]
+        for user in users {
+          returnUsers.append(User(self, user))
+        }
+
+        completion(returnUsers, nil)
+      }
+    }
+  }
+
+  /**
+   Gets a guild's roles
+
+   - parameter guildId: Guild to get roles from
+  */
+  public func getRoles(from guildId: String, then completion: @escaping ([Role]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getGuildRoles(guildId)) { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        var returnRoles: [Role] = []
+        let roles = data as! [[String: Any]]
+        for role in roles {
+          returnRoles.append(Role(role))
+        }
+
+        completion(returnRoles, nil)
+      }
+    }
+  }
+
+  /**
+   Gets shard that is handling a guild
+
+   - parameter guildId: Guild to get shard for
+  */
+  public func getShard(for guildId: String) -> Int {
+    return (Int(guildId)! >> 22) & self.shardCount
+  }
+
+  /**
+   Either get a cached user or restfully get a user
+
+   - parameter userId: User to get
+  */
+  public func getUser(_ userId: String, rest: Bool = false, then completion: @escaping (User?, RequestError?) -> ()) {
+    guard rest else {
+      completion(self.users[userId], nil)
+      return
+    }
+
+    self.requester.request(Endpoints.getUser(userId)) { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        completion(User(self, data as! [String: Any]), nil)
+      }
+    }
+  }
+
+  /**
+   Gets an array of voice regions from a guild
+
+   - parameter guildId: Guild to get voice regions from
+  */
+  public func getVoiceRegions(from guildId: String, then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getGuildVoiceRegions(guildId)) { data, error in
+      completion(data as? [[String: Any]], error)
+    }
+  }
+
+  /**
+   Gets a webhook
+
+   - parameter webhookId: Webhook to get
+  */
+  public func getWebhook(_ webhookId: String, then completion: @escaping (Webhook?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getWebhook(webhookId)) { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        completion(Webhook(self, data as! [String: Any]), nil)
+      }
+    }
+  }
+
+  /**
+   Gets a channel's webhooks
+
+   - parameter channelId: Channel to get webhooks from
+  */
+  public func getWebhooks(from channelId: String, then completion: @escaping ([Webhook]?, RequestError?) -> ()) {
+    self.requester.request(Endpoints.getChannelWebhooks(channelId)) { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        var returnWebhooks: [Webhook] = []
+        let webhooks = data as! [[String: Any]]
+        for webhook in webhooks {
+          returnWebhooks.append(Webhook(self, webhook))
+        }
+        completion(returnWebhooks, nil)
       }
     }
   }
@@ -659,12 +1095,8 @@ open class Sword: Eventable {
    - parameter guildId: Guild to leave
    */
   public func leave(guild guildId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.requester.request(endpoints.leaveGuild(guildId), method: "DELETE") { error, data in
-      if error != nil {
-        completion(error)
-      }else {
-        completion(nil)
-      }
+    self.requester.request(Endpoints.leaveGuild(guildId), method: "DELETE") { data, error in
+      completion(error)
     }
   }
 
@@ -709,12 +1141,165 @@ open class Sword: Eventable {
    - parameter channelId: Channel to edit
    - parameter options: Optons to give channel
   */
-  public func modify(channel channelId: String, with options: [String: Any] = [:], then completion: @escaping (RequestError?, GuildChannel?) -> () = {_ in}) {
-    self.requester.request(endpoints.modifyChannel(channelId), body: options.createBody(), method: "PATCH") { error, data in
+  public func modifyChannel(_ channelId: String, with options: [String: Any] = [:], then completion: @escaping (GuildChannel?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.modifyChannel(channelId), body: options.createBody(), method: "PATCH") { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
-        completion(nil, GuildChannel(self, data as! [String: Any]))
+        completion(GuildChannel(self, data as! [String: Any]), nil)
+      }
+    }
+  }
+
+  /**
+   Modifies channel positions from a guild
+
+   #### Options Params ####
+
+   Array of the following:
+
+   - **id**: The channel id to modify
+   - **position**: The sorting position of the channel
+
+   - parameter guildId: Guild to modify channel positions from
+   - parameter options: Preconfigured options to set channel positions to
+  */
+  public func modifyChannelPositions(for guildId: String, with options: [[String: Any]], then completion: @escaping ([GuildChannel]?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.modifyGuildChannelPositions(guildId), body: options.createBody(), method: "PATCH") { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        var returnChannels: [GuildChannel] = []
+        let channels = data as! [[String: Any]]
+        for channel in channels {
+          returnChannels.append(GuildChannel(self, channel))
+        }
+
+        completion(returnChannels, nil)
+      }
+    }
+  }
+
+  /**
+   Modifies a guild
+
+   #### Options Params ####
+
+   - **name**: The name to assign to the guild
+   - **region**: The region to set this guild to
+   - **verification_level**: The guild verification level integer
+   - **default_message_notifications**: The guild default message notification settings integer
+   - **afk_channel_id**: The channel id to assign afks
+   - **afk_timeout**: The amount of time in seconds to afk a user in voice
+   - **icon**: The icon in base64 string
+   - **owner_id**: The user id to make own of this server
+   - **splash**: If a VIP server, the splash image in base64 to assign
+
+   - parameter guildId: Guild to modify
+   - parameter options: Preconfigured options to modify guild with
+  */
+  public func modifyGuild(_ guildId: String, with options: [String: Any], then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.modifyGuild(guildId), body: options.createBody(), method: "PATCH") { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        let guild = Guild(self, data as! [String: Any], self.getShard(for: guildId))
+        self.guilds[guildId] = guild
+        completion(guild, nil)
+      }
+    }
+  }
+
+  /**
+   Modifies an integration from a guild
+
+   #### Option Params ####
+
+   - **expire_behavior**: The behavior when an integration subscription lapses (see the [integration](https://discordapp.com/developers/docs/resources/guild#integration-object) object documentation)
+   - **expire_grace_period**: Period (in seconds) where the integration will ignore lapsed subscriptions
+   - **enable_emoticons**: Whether emoticons should be synced for this integration (twitch only currently), true or false
+
+   - parameter integrationId: Integration to modify
+   - parameter guildId: Guild to modify integration from
+   - parameter options: Preconfigured options to modify this integration with
+  */
+  public func modifyIntegration(_ integrationId: String, for guildId: String, with options: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.modifyGuildIntegration(guildId, integrationId), body: options.createBody(), method: "PATCH") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Modifies a member from a guild
+
+   #### Options Params ####
+
+   - **nick**: The nickname to assign
+   - **roles**: Array of role id's that should be assigned to the member
+   - **mute**: Whether or not to server mute the member
+   - **deaf**: Whether or not to server deafen the member
+   - **channel_id**: If the user is connected to a voice channel, assigns them the new voice channel they are to connect.
+
+   - parameter userId: Member to modify
+   - parameter guildId: Guild to modify member in
+   - parameter options: Preconfigured options to modify member with
+  */
+  public func modifyMember(_ userId: String, in guildId: String, with options: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.modifyGuildMember(guildId, userId), body: options.createBody(), method: "PATCH") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Modifies a role from a guild
+
+   #### Options Params ####
+
+   - **name**: The name to assign to the role
+   - **permissions**: The bitwise permission integer
+   - **color**: RGB int color value to assign to the role
+   - **hoist**: Whether or not this role should be hoisted on the member list
+   - **mentionable**: Whether or not this role should be mentionable by everyone
+
+   - parameter roleId: Role to modify
+   - parameter guildId: Guild to modify role from
+   - parameter options: Preconfigured options to modify guild roles with
+  */
+  public func modifyRole(_ roleId: String, for guildId: String, with options: [String: Any], then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.modifyGuildRole(guildId, roleId), body: options.createBody(), method: "PATCH") { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        completion(Role(data as! [String: Any]), nil)
+      }
+    }
+  }
+
+  /**
+   Modifies role positions from a guild
+
+   #### Options Params ####
+
+   Array of the following:
+
+   - **id**: The role id to edit position
+   - **position**: The sorting position of the role
+
+   - parameter guildId: Guild to modify role positions from
+   - parameter options: Preconfigured options to set role positions to
+  */
+  public func modifyRolePositions(for guildId: String, with options: [[String: Any]], then completion: @escaping ([Role]?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.modifyGuildRolePositions(guildId), body: options.createBody(), method: "PATCH") { data, error in
+      if error != nil {
+        completion(nil, error)
+      }else {
+        var returnRoles: [Role] = []
+        let roles = data as! [[String: Any]]
+        for role in roles {
+          returnRoles.append(Role(role))
+        }
+
+        completion(returnRoles, nil)
       }
     }
   }
@@ -730,13 +1315,67 @@ open class Sword: Eventable {
    - parameter webhookId: Webhook to modify
    - parameter options: Preconfigured options to modify webhook with
   */
-  public func modify(webhook webhookId: String, with options: [String: String], then completion: @escaping (RequestError?, Webhook?) -> () = {_ in}) {
-    self.requester.request(endpoints.modifyWebhook(webhookId), body: options.createBody(), method: "PATCH") { error, data in
+  public func modifyWebhook(_ webhookId: String, with options: [String: String], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.modifyWebhook(webhookId), body: options.createBody(), method: "PATCH") { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
-        completion(nil, Webhook(self, data as! [String: Any]))
+        completion(Webhook(self, data as! [String: Any]), nil)
       }
+    }
+  }
+
+  /**
+   Moves a member in a guild to another voice channel (if they are in one)
+
+   - parameter userId: User to move
+   - parameter guildId: Guild that they're in currently
+   - parameter channelId: The Id of the channel to send them to
+  */
+  public func moveMember(_ userId: String, in guildId: String, to channelId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.modifyGuildMember(guildId, userId), body: ["channel_id": channelId].createBody(), method: "PATCH") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Pins a message to a channel
+
+   - parameter messageId: Message to pin
+   - parameter channelId: Channel to pin message in
+  */
+  public func pin(_ messageId: String, in channelId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.addPinnedChannelMessage(channelId, messageId), method: "PUT") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Prunes members for x amount of days in a guild
+
+   - parameter guildId: Guild to prune members in
+   - parameter limit: Amount of days for prunned users
+  */
+  public func pruneMembers(in guildId: String, for limit: Int, then completion: @escaping (Int?, RequestError?) -> () = {_ in}) {
+    guard limit > 1 else {
+      completion(nil, .unknown)
+      return
+    }
+
+    self.requester.request(Endpoints.beginGuildPrune(guildId), body: ["days": limit].createBody(), method: "POST") { data, error in
+      completion(data as? Int, error)
+    }
+  }
+
+  /**
+   Removes member from a guild
+
+   - parameter userId: Member to remove from server
+   - parameter guildId: Guild to remove them from
+  */
+  public func removeMember(_ userId: String, from guildId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.removeGuildMember(guildId, userId), method: "DELETE") { data, error in
+      completion(error)
     }
   }
 
@@ -755,14 +1394,14 @@ open class Sword: Eventable {
    - parameter content: Either string or dictionary containing info on message
    - parameter channelId: Channel to send message to
   */
-  public func send(_ content: Any, to channelId: String, then completion: @escaping (RequestError?, Message?) -> () = {_ in}) {
+  public func send(_ content: Any, to channelId: String, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
     guard let message = content as? [String: Any] else {
       let data = ["content": content].createBody()
-      self.requester.request(endpoints.createMessage(channelId), body: data, method: "POST") { error, data in
+      self.requester.request(Endpoints.createMessage(channelId), body: data, method: "POST") { data, error in
         if error != nil {
-          completion(error, nil)
+          completion(nil, error)
         }else {
-          completion(nil, Message(self, data as! [String: Any]))
+          completion(Message(self, data as! [String: Any]), nil)
         }
       }
       return
@@ -785,11 +1424,11 @@ open class Sword: Eventable {
 
     file["parameters"] = parameters
 
-    self.requester.request(endpoints.createMessage(channelId), file: file, method: "POST") { error, data in
+    self.requester.request(Endpoints.createMessage(channelId), file: file, method: "POST") { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
-        completion(nil, Message(self, data as! [String: Any]))
+        completion(Message(self, data as! [String: Any]), nil)
       }
     }
   }
@@ -800,12 +1439,8 @@ open class Sword: Eventable {
    - parameter channelId: Channel to set typing to
   */
   public func setTyping(for channelId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.requester.request(endpoints.triggerTypingIndicator(channelId), method: "POST") { error, data in
-      if error != nil {
-        completion(error)
-      }else {
-        completion(nil)
-      }
+    self.requester.request(Endpoints.triggerTypingIndicator(channelId), method: "POST") { data, error in
+      completion(error)
     }
   }
 
@@ -814,15 +1449,49 @@ open class Sword: Eventable {
 
    - parameter name: Name to set bot's username to
   */
-  public func setUsername(to name: String, then completion: @escaping (RequestError?, User?) -> () = {_ in}) {
-    self.requester.request(endpoints.modifyCurrentUser(), body: ["username": name].createBody(), method: "PATCH") { error, data in
+  public func setUsername(to name: String, then completion: @escaping (User?, RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.modifyCurrentUser(), body: ["username": name].createBody(), method: "PATCH") { data, error in
       if error != nil {
-        completion(error, nil)
+        completion(nil, error)
       }else {
         let user = User(self, data as! [String: Any])
         self.user = user
-        completion(nil, user)
+        completion(user, nil)
       }
+    }
+  }
+
+  /**
+   Syncs an integration for a guild
+
+   - parameter integrationId: Integration to sync
+   - parameter guildId: Guild to sync intregration for
+  */
+  public func syncIntegration(_ integrationId: String, for guildId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.syncGuildIntegration(guildId, integrationId), method: "POST") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Unbans a user from this guild
+
+   - parameter userId: User to unban
+  */
+  public func unbanMember(_ userId: String, from guildId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.removeGuildBan(guildId, userId), method: "DELETE") { data, error in
+      completion(error)
+    }
+  }
+
+  /**
+   Unpins a pinned message from a channel
+
+   - parameter messageId: Pinned message to unpin
+  */
+  public func unpin(_ messageId: String, from channelId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.requester.request(Endpoints.deletePinnedChannelMessage(channelId, messageId), method: "DELETE") { data, error in
+      completion(error)
     }
   }
 

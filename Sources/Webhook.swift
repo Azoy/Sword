@@ -62,13 +62,7 @@ public struct Webhook {
 
   /// Deletes the current webhook from its guild
   public func delete(then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.deleteWebhook(self.id), method: "DELETE") { error, data in
-      if error != nil {
-        completion(error)
-      }else {
-        completion(nil)
-      }
-    }
+    self.sword!.deleteWebhook(self.id, then: completion)
   }
 
   /**
@@ -86,62 +80,7 @@ public struct Webhook {
    - parameter content: String or dictionary containing message content
   */
   public func execute(with content: Any, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    guard let message = content as? [String: Any] else {
-      let data = ["content": content].createBody()
-      self.sword!.requester.request(self.sword!.endpoints.executeWebhook(self.id, self.token), body: data, method: "POST") { error, data in
-        if error != nil {
-          completion(error)
-        }else {
-          completion(nil)
-        }
-      }
-      return
-    }
-    var file: [String: Any] = [:]
-    var parameters: [String: String] = [:]
-
-    if message["file"] != nil {
-      file["file"] = message["file"] as! String
-    }
-    if message["content"] != nil {
-      parameters["content"] = (message["content"] as! String)
-    }
-    if message["tts"] != nil {
-      parameters["tts"] = (message["tts"] as! String)
-    }
-    if message["embed"] != nil {
-      if file.isEmpty {
-        parameters["embeds"] = (message["embed"] as! [String: Any]).encode()
-      }else {
-        parameters["payload_json"] = (message["embed"] as! [String: Any]).encode()
-      }
-    }
-    if message["username"] != nil {
-      parameters["username"] = (message["user"] as! String)
-    }
-    if message["avatar_url"] != nil {
-      parameters["avatar_url"] = (message["avatar_url"] as! String)
-    }
-
-    if file.isEmpty && !parameters.isEmpty {
-      self.sword!.requester.request(self.sword!.endpoints.executeWebhook(self.id, self.token), body: parameters.createBody(), method: "POST") { error, data in
-        if error != nil {
-          completion(error)
-        }else {
-          completion(nil)
-        }
-      }
-    }else {
-      file["parameters"] = parameters
-
-      self.sword!.requester.request(self.sword!.endpoints.executeWebhook(self.id, self.token), file: file, method: "POST") { error, data in
-        if error != nil {
-          completion(error)
-        }else {
-          completion(nil)
-        }
-      }
-    }
+    self.sword!.executeWebhook(self.id, token: self.token, with: content, then: completion)
   }
 
   /**
@@ -154,13 +93,7 @@ public struct Webhook {
    - parameter content: Dictionary containing slack webhook info
   */
   public func executeSlack(with content: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.executeSlackWebhook(self.id, self.token), body: content.createBody(), method: "POST") { error, data in
-      if error != nil {
-        completion(error)
-      }else {
-        completion(nil)
-      }
-    }
+    self.sword!.executeSlackWebhook(self.id, token: self.token, with: content, then: completion)
   }
 
   /**
@@ -173,14 +106,8 @@ public struct Webhook {
 
    - parameter options: A dictionary of options to apply to this webhook
   */
-  public func modify(with options: [String: Any], then completion: @escaping (RequestError?, Webhook?) -> () = {_ in}) {
-    self.sword!.requester.request(self.sword!.endpoints.modifyWebhook(self.id), body: options.createBody(), method: "PATCH") { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        completion(nil, Webhook(self.sword!, data as! [String: Any]))
-      }
-    }
+  public func modify(with options: [String: String], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
+    self.sword!.modifyWebhook(self.id, with: options, then: completion)
   }
 
 }

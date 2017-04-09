@@ -72,16 +72,8 @@ public struct User {
   // MARK: Functions
 
   /// Gets DM for user
-  public func getDM(then completion: @escaping (RequestError?, DMChannel?) -> ()) {
-    self.sword!.requester.request(self.sword!.endpoints.createDM(), body: ["recipient_id": self.id].createBody(), method: "POST") { error, data in
-      if error != nil {
-        completion(error, nil)
-      }else {
-        let dm = DMChannel(self.sword!, data as! [String: Any])
-        self.sword!.dms[self.id] = dm
-        completion(nil, dm)
-      }
-    }
+  public func getDM(then completion: @escaping (DMChannel?, RequestError?) -> ()) {
+    self.sword!.getDM(for: self.id, then: completion)
   }
 
 }
