@@ -73,13 +73,13 @@ class Request {
       #if !os(Linux)
       let boundary = createBoundary()
       let fileUrl = file!["file"] as! String
-      let payloadJson = (file!["parameters"] as! [String: [String: Any]])["payload_json"]!.encode()
+      let payloadJson = (file!["payload_json"] as! [String: Any]).encode()
 
       request.httpBody = try? createMultipartBody(with: payloadJson, fileUrl: fileUrl, boundary: boundary)
       request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
       #else
-      if file!["parameters"] != nil {
-        request.httpBody = (file!["parameters"] as! [String: String]).encode().data(using: .utf8)
+      if file!["payload_json"] != nil {
+        request.httpBody = (file!["payload_json"] as! [String: Any]).encode().data(using: .utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
       }
       #endif

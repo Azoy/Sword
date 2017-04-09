@@ -1406,29 +1406,39 @@ open class Sword: Eventable {
       }
       return
     }
-    var file: [String: Any] = [:]
-    var parameters: [String: [String: Any]] = ["payload_json": [:]]
 
-    if message["file"] != nil {
-      file["file"] = message["file"] as! String
-    }
+    var file: [String: Any] = [:]
+    var parameters: [String: Any] = [:]
+
     if message["content"] != nil {
-      parameters["payload_json"]!["content"] = message["content"] as! String
+      parameters["content"] = message["content"] as! String
     }
     if message["tts"] != nil {
-      parameters["payload_json"]!["tts"] = message["tts"] as! String
+      parameters["tts"] = message["tts"] as! String
     }
     if message["embed"] != nil {
-      parameters["payload_json"]!["embed"] = message["embed"] as! [String: Any]
+      parameters["embed"] = message["embed"] as! [String: Any]
+    }
+    if message["file"] != nil {
+      file["file"] = message["file"] as! String
+      file["payload_json"] = parameters
     }
 
-    file["parameters"] = parameters
-
-    self.requester.request(Endpoints.createMessage(channelId), file: file, method: "POST") { data, error in
-      if error != nil {
-        completion(nil, error)
-      }else {
-        completion(Message(self, data as! [String: Any]), nil)
+    if file.isEmpty {
+      self.requester.request(Endpoints.createMessage(channelId), body: parameters.createBody(), method: "POST") { data, error in
+        if error != nil {
+          completion(nil, error)
+        }else {
+          completion(Message(self, data as! [String: Any]), nil)
+        }
+      }
+    }else {
+      self.requester.request(Endpoints.createMessage(channelId), file: file, method: "POST") { data, error in
+        if error != nil {
+          completion(nil, error)
+        }else {
+          completion(Message(self, data as! [String: Any]), nil)
+        }
       }
     }
   }
