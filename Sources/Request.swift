@@ -53,7 +53,7 @@ class Request {
    - parameter method: Type of HTTP Method
    - parameter rateLimited: Whether or not the HTTP request needs to be rate limited
   */
-  func request(_ url: String, body: Data? = nil, file: [String: Any]? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, then completion: @escaping (Any?, RequestError?) -> ()) {
+  func request(_ url: String, body: [String: Any]? = nil, file: String? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, then completion: @escaping (Any?, RequestError?) -> ()) {
     let sema = DispatchSemaphore(value: 0) //Provide a way to urlsession from command line
 
     let route = rateLimited ? self.getRoute(for: url) : ""
@@ -69,24 +69,29 @@ class Request {
 
     request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.4.0)", forHTTPHeaderField: "User-Agent")
 
-    if file != nil {
-      #if !os(Linux)
-      let boundary = createBoundary()
-      let fileUrl = file!["file"] as! String
-      let payloadJson = (file!["payload_json"] as! [String: Any]).encode()
+    if body != nil {
+      request.httpBody = body!.createBody()
 
-      request.httpBody = try? createMultipartBody(with: payloadJson, fileUrl: fileUrl, boundary: boundary)
-      request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-      #else
-      if file!["payload_json"] != nil {
-        request.httpBody = (file!["payload_json"] as! [String: Any]).encode().data(using: .utf8)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+      if body!["array"] != nil {
+        request.httpBody = (body!["array"] as! [Any]).createBody()
       }
-      #endif
-    }else if body != nil {
-      request.httpBody = body
+
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     }
+
+    #if os(macOS)
+    if file != nil {
+      let boundary = createBoundary()
+      var payloadJson = body?.encode()
+
+      if body?["array"] != nil {
+        payloadJson = (body?["array"] as? [Any])?.encode()
+      }
+
+      request.httpBody = try? createMultipartBody(with: payloadJson, fileUrl: file!, boundary: boundary)
+      request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+    }
+    #endif
 
     let task = self.session.dataTask(with: request) { data, response, error in
       let response = response as! HTTPURLResponse

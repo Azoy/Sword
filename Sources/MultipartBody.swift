@@ -20,13 +20,16 @@ extension Request {
    - parameter paths: Array of URLS to get file data from
    - parameter boundary: UUID Boundary
   */
-  func createMultipartBody(with payloadJson: String, fileUrl: String, boundary: String) throws -> Data {
+  func createMultipartBody(with payloadJson: String?, fileUrl: String, boundary: String) throws -> Data {
 
     var body = Data()
 
     body.append("--\(boundary)\r\n")
-    body.append("Content-Disposition: form-data; name=\"payload_json\"\r\nContent-Type: application/json\r\n\r\n")
-    body.append("\(payloadJson)\r\n")
+
+    if payloadJson != nil {
+      body.append("Content-Disposition: form-data; name=\"payload_json\"\r\nContent-Type: application/json\r\n\r\n")
+      body.append("\(payloadJson!)\r\n")
+    }
 
     let url = URL(string: fileUrl)!
     let filename = url.lastPathComponent

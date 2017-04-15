@@ -17,6 +17,9 @@ public struct SwordOptions {
   /// Whether or not caching offline members is allowed
   public var isCachingAllMembers = false
 
+  /// Whether or not the bot will log to console
+  public var isLogging = false
+
   /// Whether or not this bot is sharded
   public var isSharded = true
 

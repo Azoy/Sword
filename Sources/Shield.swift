@@ -29,7 +29,7 @@ open class Shield: Sword {
    - parameter swordOptions: SwordOptions structure to apply to bot
    - parameter shieldOptions: ShieldOptions structure to apply to command client
   */
-  public init(token: String, swordOptions: SwordOptions = SwordOptions(), shieldOptions: ShieldOptions = ShieldOptions()) {
+  public init(token: String, with swordOptions: SwordOptions = SwordOptions(), and shieldOptions: ShieldOptions = ShieldOptions()) {
     self.shieldOptions = shieldOptions
     super.init(token: token, with: swordOptions)
 
