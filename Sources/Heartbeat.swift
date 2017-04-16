@@ -54,25 +54,27 @@ class Heartbeat {
   func send() {
     let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(self.interval)
 
-    queue.asyncAfter(deadline: deadline) { [unowned self] in
+    queue.asyncAfter(deadline: deadline) { [weak self] in
 
-      guard self.received else { return }
+      guard let this = self else { return }
+
+      guard this.received else { return }
 
       var heartbeat = Payload(
         op: .heartbeat,
-        data: self.sequence ?? NSNull()
+        data: this.sequence ?? NSNull()
       )
 
-      if self.voice {
+      if this.voice {
         heartbeat.op = VoiceOP.heartbeat.rawValue
         heartbeat.d = Int(Date().timeIntervalSince1970 * 1000)
       }
 
-      try? self.session.send(heartbeat.encode())
+      try? this.session.send(heartbeat.encode())
 
-      self.received = false
+      this.received = false
 
-      self.send()
+      this.send()
     }
   }
 

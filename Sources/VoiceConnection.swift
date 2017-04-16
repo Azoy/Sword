@@ -373,7 +373,7 @@ public class VoiceConnection: Eventable {
 
     process.standardOutput = self.writer
 
-    process.terminationHandler = { _ in
+    process.terminationHandler = { [unowned self] _ in
       self.finish()
     }
 
@@ -399,7 +399,7 @@ public class VoiceConnection: Eventable {
    - parameter amount: Number in sequence of reading encoder
   */
   func readEncoder(for amount: Int) {
-    self.encoder?.readFromPipe {[weak self] done, data in
+    self.encoder?.readFromPipe { [weak self] done, data in
       guard let this = self, this.isConnected else { return }
 
       this.isPlaying = true
@@ -424,7 +424,7 @@ public class VoiceConnection: Eventable {
 
   /// Reads audio data from udp client
   func receiveAudio() {
-    self.udpReadQueue.async {[weak self] in
+    self.udpReadQueue.async { [weak self] in
       guard let client = self?.udpClient else { return }
 
       do {
@@ -472,7 +472,7 @@ public class VoiceConnection: Eventable {
    - parameter data: Encrypted audio to send to udp client
   */
   func sendPacket(with data: [UInt8]) {
-    self.udpWriteQueue.async {
+    self.udpWriteQueue.async { [unowned self] in
       guard data.count <= 320 else { return }
 
       do {
@@ -535,7 +535,7 @@ public class VoiceConnection: Eventable {
   */
   func startWS(_ identify: String) {
 
-    try? WebSocket.background(to: "wss://\(self.endpoint)") { ws in
+    try? WebSocket.background(to: "wss://\(self.endpoint)") { [unowned self] ws in
       self.session = ws
       self.isConnected = true
 

@@ -85,7 +85,7 @@ class Encoder {
 
     self.reader.fileHandleForReading.closeFile()
 
-    self.readQueue.async {
+    self.readQueue.async { [unowned waiter] in
       waiter.signal()
     }
 
