@@ -54,7 +54,7 @@ class Heartbeat {
   func send() {
     let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(self.interval)
 
-    queue.asyncAfter(deadline: deadline) {
+    queue.asyncAfter(deadline: deadline) { [unowned self] in
 
       guard self.received else { return }
 

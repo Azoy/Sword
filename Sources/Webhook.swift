@@ -62,7 +62,7 @@ public struct Webhook {
 
   /// Deletes the current webhook from its guild
   public func delete(then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.deleteWebhook(self.id, then: completion)
+    self.sword?.deleteWebhook(self.id, then: completion)
   }
 
   /**
@@ -80,7 +80,7 @@ public struct Webhook {
    - parameter content: String or dictionary containing message content
   */
   public func execute(with content: Any, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.executeWebhook(self.id, token: self.token, with: content, then: completion)
+    self.sword?.executeWebhook(self.id, token: self.token, with: content, then: completion)
   }
 
   /**
@@ -93,7 +93,7 @@ public struct Webhook {
    - parameter content: Dictionary containing slack webhook info
   */
   public func executeSlack(with content: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.executeSlackWebhook(self.id, token: self.token, with: content, then: completion)
+    self.sword?.executeSlackWebhook(self.id, token: self.token, with: content, then: completion)
   }
 
   /**
@@ -107,7 +107,7 @@ public struct Webhook {
    - parameter options: A dictionary of options to apply to this webhook
   */
   public func modify(with options: [String: String], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
-    self.sword!.modifyWebhook(self.id, with: options, then: completion)
+    self.sword?.modifyWebhook(self.id, with: options, then: completion)
   }
 
 }

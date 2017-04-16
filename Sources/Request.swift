@@ -93,7 +93,7 @@ class Request {
     }
     #endif
 
-    let task = self.session.dataTask(with: request) { data, response, error in
+    let task = self.session.dataTask(with: request) { [unowned self, sema] data, response, error in
       let response = response as! HTTPURLResponse
       let headers = response.allHeaderFields
 
@@ -143,7 +143,7 @@ class Request {
       sema.signal()
     }
 
-    let apiCall = {
+    let apiCall = { [unowned self, sema] in
       if rateLimited && self.rateLimits[route] != nil {
         let item = DispatchWorkItem {
           task.resume()

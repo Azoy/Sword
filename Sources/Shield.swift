@@ -33,7 +33,7 @@ open class Shield: Sword {
     self.shieldOptions = shieldOptions
     super.init(token: token, with: swordOptions)
 
-    self.on(.ready) { data in
+    self.on(.ready) { [unowned self] data in
       let bot = data[0] as! User
 
       if self.shieldOptions.prefixes.contains("@bot") {
@@ -130,7 +130,7 @@ open class Shield: Sword {
    - parameter message: String to send on command
   */
   public func register(_ commandName: String, with options: CommandOptions = CommandOptions(), message: String) {
-    let function: (Message, [String]) -> () = { msg, args in
+    let function: (Message, [String]) -> () = { [unowned self] msg, args in
       self.send(message, to: msg.channel.id)
     }
 

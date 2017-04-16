@@ -96,7 +96,7 @@ extension Request {
   func handleRateLimited(_ retryAfter: Int, _ global: Any?, _ sema: DispatchSemaphore) {
     guard global == nil else {
       self.globallyLocked = true
-      self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(retryAfter)) {
+      self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(retryAfter)) { [unowned self] in
         self.globalUnlock()
       }
 

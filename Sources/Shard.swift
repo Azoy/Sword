@@ -215,7 +215,7 @@ class Shard {
   func startWS(_ gatewayUrl: String) {
     self.gatewayUrl = gatewayUrl
 
-    try? WebSocket.connect(to: gatewayUrl) { ws in
+    try? WebSocket.connect(to: gatewayUrl) { [unowned self] ws in
       self.session = ws
       self.isConnected = true
 

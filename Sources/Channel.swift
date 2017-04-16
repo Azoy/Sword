@@ -38,12 +38,12 @@ public extension Channel {
    - parameter messageId: Message to add reaction to
   */
   public func addReaction(_ reaction: String, to messageId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.addReaction(reaction, to: messageId, in: self.id, then: completion)
+    self.sword?.addReaction(reaction, to: messageId, in: self.id, then: completion)
   }
 
   /// Deletes the current channel, whether it be a DMChannel or GuildChannel
   public func delete(then completion: @escaping (Channel?, RequestError?) -> () = {_ in}) {
-    self.sword!.deleteChannel(self.id, then: completion)
+    self.sword?.deleteChannel(self.id, then: completion)
   }
 
   /**
@@ -52,7 +52,7 @@ public extension Channel {
    - parameter messageId: Message to delete
   */
   public func deleteMessage(_ messageId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.deleteMessage(messageId, from: self.id, then: completion)
+    self.sword?.deleteMessage(messageId, from: self.id, then: completion)
   }
 
   /**
@@ -61,7 +61,7 @@ public extension Channel {
    - parameter messages: Array of message ids to delete
   */
   public func deleteMessages(_ messages: [String], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.deleteMessages(messages, from: self.id, then: completion)
+    self.sword?.deleteMessages(messages, from: self.id, then: completion)
   }
 
   /**
@@ -72,7 +72,7 @@ public extension Channel {
    - parameter userId: If nil, deletes bot's reaction from, else delete a reaction from user
   */
   public func deleteReaction(_ reaction: String, from messageId: String, by userId: String? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.deleteReaction(reaction, from: messageId, by: userId, in: self.id, then: completion)
+    self.sword?.deleteReaction(reaction, from: messageId, by: userId, in: self.id, then: completion)
   }
 
   /**
@@ -82,7 +82,7 @@ public extension Channel {
    - parameter content: Text to change message to
   */
   public func editMessage(_ messageId: String, to content: String, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
-    self.sword!.editMessage(messageId, to: content, in: self.id, then: completion)
+    self.sword?.editMessage(messageId, to: content, in: self.id, then: completion)
   }
 
   /**
@@ -92,12 +92,12 @@ public extension Channel {
    - parameter messageId: Message to get reaction users from
   */
   public func getReaction(_ reaction: String, from messageId: String, then completion: @escaping ([User]?, RequestError?) -> ()) {
-    self.sword!.getReaction(reaction, from: messageId, in: self.id, then: completion)
+    self.sword?.getReaction(reaction, from: messageId, in: self.id, then: completion)
   }
 
   /// Get Pinned messages for this channel
   public func getPinnedMessages(then completion: @escaping ([Message]?, RequestError?) -> () = {_ in}) {
-    self.sword!.getPinnedMessages(from: self.id, then: completion)
+    self.sword?.getPinnedMessages(from: self.id, then: completion)
   }
 
   /**
@@ -106,7 +106,7 @@ public extension Channel {
    - parameter messageId: Message to pin
   */
   public func pin(_ messageId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.pin(messageId, in: self.id, then: completion)
+    self.sword?.pin(messageId, in: self.id, then: completion)
   }
 
   /**
@@ -115,7 +115,7 @@ public extension Channel {
    - parameter message: Message to send
   */
   public func send(_ message: Any, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
-    self.sword!.send(message, to: self.id, then: completion)
+    self.sword?.send(message, to: self.id, then: completion)
   }
 
   /**
@@ -124,7 +124,7 @@ public extension Channel {
    - parameter messageId: Pinned message to unpin
   */
   public func unpin(_ messageId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.unpin(messageId, from: self.id, then: completion)
+    self.sword?.unpin(messageId, from: self.id, then: completion)
   }
 
 }

@@ -73,7 +73,7 @@ public struct User {
 
   /// Gets DM for user
   public func getDM(then completion: @escaping (DMChannel?, RequestError?) -> ()) {
-    self.sword!.getDM(for: self.id, then: completion)
+    self.sword?.getDM(for: self.id, then: completion)
   }
 
 }

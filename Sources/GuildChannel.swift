@@ -122,7 +122,7 @@ public struct GuildChannel: Channel {
    - parameter options: Preconfigured options to create this webhook with
   */
   public func createWebhook(with options: [String: String] = [:], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
-    self.sword!.createWebhook(for: self.id, with: options, then: completion)
+    self.sword?.createWebhook(for: self.id, with: options, then: completion)
   }
 
   /**
@@ -131,12 +131,12 @@ public struct GuildChannel: Channel {
    - parameter messageId: Message to delete all reactions from
   */
   public func deleteReactions(from messageId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword!.deleteReactions(from: messageId, in: self.id, then: completion)
+    self.sword?.deleteReactions(from: messageId, in: self.id, then: completion)
   }
 
   /// Gets this channel's webhooks
   public func getWebhooks(then completion: @escaping ([Webhook]?, RequestError?) -> ()) {
-    self.sword!.getWebhooks(from: self.id, then: completion)
+    self.sword?.getWebhooks(from: self.id, then: completion)
   }
 
 }
