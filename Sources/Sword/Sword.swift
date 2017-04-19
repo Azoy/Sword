@@ -64,8 +64,6 @@ open class Sword: Eventable {
   /// Array of users mapped by userId that the bot sees
   public internal(set) var users = [String: User]()
 
-  #if !os(iOS)
-
   /// Object of voice connections the bot is currently connected to. Mapped by guildId
   public var voiceConnections: [String: VoiceConnection] {
     return self.voiceManager.connections
@@ -73,8 +71,6 @@ open class Sword: Eventable {
 
   /// Voice handler
   let voiceManager = VoiceManager()
-
-  #endif
 
   // MARK: Initializer
 

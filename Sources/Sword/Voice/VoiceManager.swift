@@ -6,8 +6,6 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-#if !os(iOS)
-
 /// Creates VoiceManager
 class VoiceManager {
 
@@ -55,5 +53,3 @@ class VoiceManager {
   }
 
 }
-
-#endif

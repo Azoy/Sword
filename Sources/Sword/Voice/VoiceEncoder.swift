@@ -6,8 +6,6 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-#if !os(iOS)
-
 import Foundation
 import Dispatch
 
@@ -125,5 +123,3 @@ class Encoder {
   }
 
 }
-
-#endif
