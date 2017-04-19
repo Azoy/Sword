@@ -6,7 +6,7 @@ matrix:
       dist: trusty
       sudo: required
       env:
-        - SWIFT_VERSION=3.1-RELEASE
+        - SWIFT_VERSION=https://swift.org/builds/swift-3.1-release/ubuntu1404/swift-3.1-RELEASE/swift-3.1-RELEASE-ubuntu14.04.tar.gz
       addons:
         apt:
           sources:
