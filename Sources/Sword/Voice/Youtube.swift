@@ -6,6 +6,8 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
+#if !os(iOS)
+
 import Foundation
 
 /// Creates a Youtube structure to play audio from (Requires youtube-dl to be installed)
@@ -30,3 +32,5 @@ public struct Youtube {
   }
 
 }
+
+#endif

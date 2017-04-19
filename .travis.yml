@@ -1,6 +1,20 @@
-language: objective-c
+os:
+  - linux
+  - osx
+language: generic
+dist: trusty
+sudo: required
 osx_image: xcode8.3
 before_install:
-  - brew update
-  - brew install libsodium
-script: swift build
+  - if [$TRAVIS_OS_NAME == "osx"]; then
+      brew update;
+      brew install libsodium;
+    else
+      wget https://swift.org/builds/swift-3.1-release/ubuntu1404/swift-3.1-RELEASE/swift-3.1-RELEASE-ubuntu14.04.tar.gz;
+      tar xzf swift-3.1-RELEASE-ubuntu14.04.tar.gz;
+      export PATH=swift-3.1-RELEASE-ubuntu14.04/usr/bin:"${PATH}";
+      sudo add-apt-repository ppa:chris-lea/libsodium;
+      sudo apt-get update && sudo apt-get install libsodium-dev;
+    fi
+script:
+  - swift build

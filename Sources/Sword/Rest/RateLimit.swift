@@ -69,20 +69,22 @@ extension Request {
       interval = Int(Double(intervalHeader as! String)! - date)
     }
 
-    if route != "" && self.rateLimits[route] == nil {
-      let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: limit, interval: interval)
-      bucket.take(1)
+    if route != "" {
+      if self.rateLimits[route] == nil {
+        let bucket = Bucket(name: "gg.azoy.sword.\(route)", limit: limit, interval: interval)
+        bucket.take(1)
 
-      self.rateLimits[route] = bucket
-    }else {
-      if self.rateLimits[route]!.tokens != remaining {
-        self.rateLimits[route]!.tokens = remaining
-      }
-      if self.rateLimits[route]!.limit != limit {
-        self.rateLimits[route]!.limit = limit
-      }
-      if self.rateLimits[route]!.interval != interval {
-        self.rateLimits[route]!.interval = interval
+        self.rateLimits[route] = bucket
+      }else {
+        if self.rateLimits[route]!.tokens != remaining {
+          self.rateLimits[route]!.tokens = remaining
+        }
+        if self.rateLimits[route]!.limit != limit {
+          self.rateLimits[route]!.limit = limit
+        }
+        if self.rateLimits[route]!.interval != interval {
+          self.rateLimits[route]!.interval = interval
+        }
       }
     }
   }

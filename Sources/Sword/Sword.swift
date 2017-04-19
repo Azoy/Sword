@@ -64,6 +64,8 @@ open class Sword: Eventable {
   /// Array of users mapped by userId that the bot sees
   public internal(set) var users = [String: User]()
 
+  #if !os(iOS)
+
   /// Object of voice connections the bot is currently connected to. Mapped by guildId
   public var voiceConnections: [String: VoiceConnection] {
     return self.voiceManager.connections
@@ -71,6 +73,8 @@ open class Sword: Eventable {
 
   /// Voice handler
   let voiceManager = VoiceManager()
+
+  #endif
 
   // MARK: Initializer
 
@@ -1055,7 +1059,7 @@ open class Sword: Eventable {
 
    - parameter channelId: Channel to connect to
   */
-  public func join(voiceChannel channelId: String, then completion: @escaping (VoiceConnection) -> () = {_ in}) {
+  public func joinVoiceChannel(_ channelId: String, then completion: @escaping (VoiceConnection) -> () = {_ in}) {
     let guild = self.getGuild(for: channelId)
 
     guard guild != nil else { return }
@@ -1073,7 +1077,7 @@ open class Sword: Eventable {
 
     self.voiceManager.handlers[guild!.id] = completion
 
-    shard.join(voiceChannel: channelId, in: guild!.id)
+    shard.joinVoiceChannel(channelId, in: guild!.id)
   }
 
   /**
@@ -1081,7 +1085,7 @@ open class Sword: Eventable {
 
    - parameter guildId: Guild to leave
    */
-  public func leave(guild guildId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func leaveGuild(_ guildId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.requester.request(Endpoints.leaveGuild(guildId), method: "DELETE") { data, error in
       completion(error)
     }
@@ -1092,7 +1096,7 @@ open class Sword: Eventable {
 
    - parameter channelId: Channel to disconnect from
   */
-  public func leave(voiceChannel channelId: String) {
+  public func leaveVoiceChannel(_ channelId: String) {
     let guild = self.getGuild(for: channelId)
 
     guard guild != nil else { return }

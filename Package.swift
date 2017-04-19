@@ -3,19 +3,38 @@
 import PackageDescription
 
 #if os(macOS)
-let sodium = Package.Dependency.Package(url: "https://github.com/Azoy/Sodium", majorVersion: 1)
+let dependencies: [Package.Dependency] = [
+  .Package(
+    url: "https://github.com/Azoy/Sodium",
+    majorVersion: 1
+  )
+]
 #else
-let sodium = Package.Dependency.Package(url: "https://github.com/Azoy/Sodium-Linux", majorVersion: 1)
+let dependencies: [Package.Dependency] = [
+  .Package(
+    url: "https://github.com/Azoy/Sodium-Linux",
+    majorVersion: 1
+  )
+]
 #endif
 
 let package = Package(
   name: "Sword",
-  dependencies: [
-    .Package(
-      url: "https://github.com/vapor/engine", majorVersion: 1
+  targets: [
+    Target(
+      name: "Sword",
+      dependencies: []
     )
   ],
-  swiftLanguageVersions: [3]
+  dependencies: [
+    .Package(
+      url: "https://github.com/vapor/engine",
+      majorVersion: 1,
+      minor: 3
+    )
+  ],
+  swiftLanguageVersions: [3],
+  exclude: ["Examples", "docs"]
 )
 
-package.dependencies.append(sodium)
+package.dependencies += dependencies

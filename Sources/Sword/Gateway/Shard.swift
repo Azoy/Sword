@@ -133,7 +133,7 @@ class Shard {
    - parameter channelId: Channel to join
    - parameter guildId: Guild that the channel belongs to
   */
-  func join(voiceChannel channelId: String, in guildId: String) {
+  func joinVoiceChannel(_ channelId: String, in guildId: String) {
     let payload = Payload(
       op: .voiceStateUpdate,
       data: [
@@ -172,7 +172,8 @@ class Shard {
    - parameter payload: Reconnect payload to send to connection
   */
   func reconnect() {
-    try? self.session!.close()
+    try? self.session?.close()
+
     self.isConnected = false
     self.heartbeat = nil
     self.reconnecting = true
@@ -201,8 +202,8 @@ class Shard {
    - parameter presence: Whether or not this WS payload updates shard presence
   */
   func send(_ text: String, presence: Bool = false) {
-    let item = DispatchWorkItem {
-      try? self.session!.send(text)
+    let item = DispatchWorkItem { [weak self] in
+      try? self?.session?.send(text)
     }
     presence ? self.presenceBucket.queue(item) : self.globalBucket.queue(item)
   }
@@ -219,29 +220,25 @@ class Shard {
       self.session = ws
       self.isConnected = true
 
-      ws.onText = { ws, text in
+      ws.onText = { _, text in
         self.event(Payload(with: text))
       }
 
-      ws.onClose = { ws, code, _, _ in
+      ws.onClose = { _, code, _, _ in
         self.heartbeat = nil
         self.isConnected = false
         switch CloseOP(rawValue: Int(code!))! {
           case .authenticationFailed:
             print("[Sword] - Invalid Bot Token")
-            break
 
           case .invalidShard:
             print("[Sword] - Invalid Shard (We messed up here. Try again.)")
-            break
 
           case .shardingRequired:
             print("[Sword] - Sharding is required for this bot to run correctly.")
-            break
 
           default:
             self.reconnect()
-            break
         }
       }
     }
@@ -249,7 +246,8 @@ class Shard {
 
   /// Used to stop WS connection
   func stop() {
-    try? self.session!.close()
+    try? self.session?.close()
+
     self.isConnected = false
     self.heartbeat = nil
   }
