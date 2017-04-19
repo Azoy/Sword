@@ -5,10 +5,9 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
-      addons:
-        apt:
-          sources:
-            - sourceline: "ppa:chris-lea/libsodium"
+      before_install:
+        - sudo -E add-apt-repository -y ppa:chris-lea/libsodium
+        - sudo apt-get update && sudo apt-get install -y libsodium-dev
       install:
         - eval "$(curl -sL https://gist.githubusercontent.com/Azoy/a723677c6cdc891e9b0ab2df1fc1d018/raw/dd4104202deb7ba2af2b062a45e1d20aaa48f47e/swift-3.1-travis.sh)"
     - os: osx
