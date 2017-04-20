@@ -8,12 +8,21 @@
 
 import Foundation
 import Dispatch
+
+#if !os(Linux)
+import Starscream
+#else
 import WebSockets
+#endif
 
 /// WS class
 class Shard {
 
   // MARK: Properties
+
+  #if !os(Linux)
+  let gatewayQueue = DispatchQueue(label: "gg.azoy.gateway")
+  #endif
 
   /// Gateway URL for gateway
   var gatewayUrl = ""
@@ -172,7 +181,11 @@ class Shard {
    - parameter payload: Reconnect payload to send to connection
   */
   func reconnect() {
+    #if !os(Linux)
+    self.session?.disconnect()
+    #else
     try? self.session?.close()
+    #endif
 
     self.isConnected = false
     self.heartbeat = nil
@@ -202,8 +215,12 @@ class Shard {
    - parameter presence: Whether or not this WS payload updates shard presence
   */
   func send(_ text: String, presence: Bool = false) {
-    let item = DispatchWorkItem { [weak self] in
-      try? self?.session?.send(text)
+    let item = DispatchWorkItem { [unowned self] in
+      #if !os(Linux)
+      self.session?.write(string: text)
+      #else
+      try? self.session?.send(text)
+      #endif
     }
     presence ? self.presenceBucket.queue(item) : self.globalBucket.queue(item)
   }
@@ -216,6 +233,38 @@ class Shard {
   func startWS(_ gatewayUrl: String) {
     self.gatewayUrl = gatewayUrl
 
+    #if !os(Linux)
+    self.session = WebSocket(url: URL(string: gatewayUrl)!)
+    self.session?.callbackQueue = self.gatewayQueue
+
+    self.session?.onConnect = { [unowned self] in
+      self.isConnected = true
+    }
+
+    self.session?.onText = { [unowned self] text in
+      self.event(Payload(with: text))
+    }
+
+    self.session?.onDisconnect = { [unowned self] error in
+      self.heartbeat = nil
+      self.isConnected = false
+      switch CloseOP(rawValue: Int(error!.code))! {
+        case .authenticationFailed:
+          print("[Sword] - Invalid Bot Token")
+
+        case .invalidShard:
+          print("[Sword] - Invalid Shard (We messed up here. Try again.)")
+
+        case .shardingRequired:
+          print("[Sword] - Sharding is required for this bot to run correctly.")
+
+        default:
+          self.reconnect()
+      }
+    }
+
+    self.session?.connect()
+    #else
     try? WebSocket.connect(to: gatewayUrl) { [unowned self] ws in
       self.session = ws
       self.isConnected = true
@@ -242,11 +291,16 @@ class Shard {
         }
       }
     }
+    #endif
   }
 
   /// Used to stop WS connection
   func stop() {
+    #if !os(Linux)
+    self.session?.disconnect()
+    #else
     try? self.session?.close()
+    #endif
 
     self.isConnected = false
     self.heartbeat = nil

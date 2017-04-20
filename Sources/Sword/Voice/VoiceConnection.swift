@@ -8,7 +8,13 @@
 
 import Foundation
 import Dispatch
+
+#if !os(Linux)
+import Starscream
+#else
 import WebSockets
+#endif
+
 import Socks
 
 /// Import right libsodium (no cross compatibility with system module maps)
@@ -159,7 +165,13 @@ public class VoiceConnection: Eventable {
     }
 
     self.closed = true
+
+    #if !os(Linux)
+    self.session?.disconnect()
+    #else
     try? self.session?.close()
+    #endif
+
     try? self.udpClient?.close()
     self.encoder = nil
   }
@@ -320,7 +332,13 @@ public class VoiceConnection: Eventable {
     self.udpReadQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpRead.\(guildId)")
     self.udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite.\(guildId)")
     self.closed = true
+
+    #if !os(Linux)
+    self.session?.disconnect()
+    #else
     try? self.session?.close()
+    #endif
+
     try? self.udpClient?.close()
 
     self.startWS(identify)
@@ -456,7 +474,11 @@ public class VoiceConnection: Eventable {
 
     let payload = Payload(voiceOP: .selectProtocol, data: ["protocol": "udp", "data": ["address": localIp, "port": localPort, "mode": "xsalsa20_poly1305"]]).encode()
 
+    #if !os(Linux)
+    self.session?.disconnect()
+    #else
     try? self.session?.send(payload)
+    #endif
 
     if self.encoder != nil {
       self.readEncoder(for: 1)
@@ -500,7 +522,11 @@ public class VoiceConnection: Eventable {
   func setSpeaking(to value: Bool) {
     let payload = Payload(voiceOP: .speaking, data: ["speaking": value, "delay": 0]).encode()
 
+    #if !os(Linux)
+    self.session?.write(string: payload)
+    #else
     try? self.session?.send(payload)
+    #endif
   }
 
   /**
@@ -535,7 +561,26 @@ public class VoiceConnection: Eventable {
    - parameter identify: Identify to send to give details about our connection
   */
   func startWS(_ identify: String) {
+    #if !os(Linux)
+    self.session = WebSocket(url: URL(string: "wss://\(self.endpoint)")!)
+    self.session?.callbackQueue = DispatchQueue(label: "gg.azoy.\(self.guildId).voiceGateway")
 
+    self.session?.onConnect = { [unowned self] in
+      self.isConnected = true
+    }
+
+    self.session?.onText = { [unowned self] text in
+      self.handleWSPayload(Payload(with: text))
+    }
+
+    self.session?.onDisconnect = { [unowned self] error in
+      self.session = nil
+      self.heartbeat = nil
+      self.isConnected = false
+    }
+
+    self.session?.connect()
+    #else
     try? WebSocket.background(to: "wss://\(self.endpoint)") { [unowned self] ws in
       self.session = ws
       self.isConnected = true
@@ -552,7 +597,7 @@ public class VoiceConnection: Eventable {
         self.isConnected = false
       }
     }
-
+    #endif
   }
 
 }
