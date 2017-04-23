@@ -136,6 +136,8 @@ class Shard {
     self.send(identity)
   }
 
+  #if !os(iOS)
+
   /**
    Sends a payload to socket telling it we want to join a voice channel
 
@@ -174,6 +176,8 @@ class Shard {
 
     self.send(payload)
   }
+
+  #endif
 
   /**
    Used to reconnect to gateway

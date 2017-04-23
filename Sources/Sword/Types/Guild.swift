@@ -53,7 +53,7 @@ public class Guild {
   public let joinedAt: Date?
 
   /// Amount of members this guild has
-  public let memberCount: Int
+  public let memberCount: Int?
 
   /// Collection of members mapped by user ID
   public internal(set) var members = [String: Member]()
@@ -81,6 +81,9 @@ public class Guild {
 
   /// Level of verification for guild
   public let verificationLevel: Int
+
+  /// Collection of member voice states currently in this guild
+  public internal(set) var voiceStates = [String: VoiceState]()
 
   // MARK: Initializer
 
@@ -133,7 +136,7 @@ public class Guild {
     }
 
     self.isLarge = json["large"] as? Bool
-    self.memberCount = json["member_count"] as! Int
+    self.memberCount = json["member_count"] as? Int
 
     self.mfaLevel = json["mfa_level"] as! Int
     self.name = json["name"] as! String
@@ -170,6 +173,7 @@ public class Guild {
       for voiceState in voiceStates! {
         let voiceStateObjc = VoiceState(voiceState)
 
+        self.voiceStates[voiceState["user_id"] as! String] = voiceStateObjc
         self.members[voiceState["user_id"] as! String]!.voiceState = voiceStateObjc
       }
     }

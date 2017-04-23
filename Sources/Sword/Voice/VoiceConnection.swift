@@ -6,6 +6,8 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
+#if !os(iOS)
+
 import Foundation
 import Dispatch
 
@@ -602,3 +604,5 @@ public class VoiceConnection: Eventable {
   }
 
 }
+
+#endif

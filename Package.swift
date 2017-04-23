@@ -18,6 +18,13 @@ let dependencies: [Package.Dependency] = [
     minor: 2
   )
 ]
+#elseif os(iOS)
+let dependencies: [Package.Dependency] = [
+  .Package(
+    url: "https://github.com/daltoniam/Starscream",
+    majorVersion: 2
+  )
+]
 #else
 let dependencies: [Package.Dependency] = [
   .Package(

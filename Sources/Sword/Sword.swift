@@ -64,6 +64,8 @@ open class Sword: Eventable {
   /// Array of users mapped by userId that the bot sees
   public internal(set) var users = [String: User]()
 
+  #if !os(iOS)
+
   /// Object of voice connections the bot is currently connected to. Mapped by guildId
   public var voiceConnections: [String: VoiceConnection] {
     return self.voiceManager.connections
@@ -71,6 +73,8 @@ open class Sword: Eventable {
 
   /// Voice handler
   let voiceManager = VoiceManager()
+
+  #endif
 
   // MARK: Initializer
 
@@ -1055,6 +1059,8 @@ open class Sword: Eventable {
     }
   }
 
+  #if !os(iOS)
+
   /**
    Joins a voice channel
 
@@ -1081,6 +1087,8 @@ open class Sword: Eventable {
     shard.joinVoiceChannel(channelId, in: guild!.id)
   }
 
+  #endif
+
   /**
    Leaves a guild
 
@@ -1091,6 +1099,8 @@ open class Sword: Eventable {
       completion(error)
     }
   }
+
+  #if !os(iOS)
 
   /**
    Leaves a voice channel
@@ -1118,6 +1128,8 @@ open class Sword: Eventable {
 
     shard.leaveVoiceChannel(in: guild!.id)
   }
+
+  #endif
 
   /**
    Modifies a channel
