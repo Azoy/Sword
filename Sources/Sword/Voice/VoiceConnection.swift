@@ -564,6 +564,7 @@ public class VoiceConnection: Eventable {
     #if !os(Linux)
     self.session = WebSocket(url: URL(string: "wss://\(self.endpoint)")!)
     self.session?.callbackQueue = DispatchQueue(label: "gg.azoy.\(self.guildId).voiceGateway")
+    self.session?.voipEnabled = true
 
     self.session?.onConnect = { [unowned self] in
       self.isConnected = true

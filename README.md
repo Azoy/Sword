@@ -28,7 +28,7 @@ import Sword
 
 let bot = Sword(token: "Your bot token here")
 
-bot.on(.ready) { _ in
+bot.on(.ready) { [unowned bot] _ in
   bot.editStatus(to: "online", playing: "with Sword!")
 }
 
