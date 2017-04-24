@@ -161,16 +161,16 @@ public class Guild {
       }
     }
 
-    let presences = json["presences"] as! [[String: Any]]
-    for presence in presences {
-      let userId = (presence["user"] as! [String: Any])["id"] as! String
-      let presence = Presence(presence)
-      self.members[userId]!.presence = presence
+    if let presences = json["presences"] as? [[String: Any]] {
+      for presence in presences {
+        let userId = (presence["user"] as! [String: Any])["id"] as! String
+        let presence = Presence(presence)
+        self.members[userId]!.presence = presence
+      }
     }
 
-    let voiceStates = json["voice_states"] as? [[String: Any]]
-    if voiceStates != nil {
-      for voiceState in voiceStates! {
+    if let voiceStates = json["voice_states"] as? [[String: Any]] {
+      for voiceState in voiceStates {
         let voiceStateObjc = VoiceState(voiceState)
 
         self.voiceStates[voiceState["user_id"] as! String] = voiceStateObjc

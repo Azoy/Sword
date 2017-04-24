@@ -24,7 +24,7 @@ public struct SwordOptions {
   public var isSharded = true
 
   /// Max amount of messages to cache in channels
-  public var messageLimit = 50
+  public var messageLimit = 0
 
   /// MARK: Initializer
 

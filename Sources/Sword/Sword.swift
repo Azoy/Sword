@@ -492,8 +492,9 @@ open class Sword: Eventable {
 
   /**
    Edits bot status
+
    - parameter status: Status to set bot to. Either .online (default), .idle, .dnd, .invisible
-   - parameter game: ["name": "with Swords!", "type": 0 || 1]
+   - parameter game: Either a string with the game name or ["name": "with Swords!", "type": 0 || 1]
   */
   public func editStatus(to status: Presence.Status = .online, playing game: Any? = nil) {
     var data: [String: Any] = ["afk": status == .idle, "game": NSNull(), "since": status == .idle ? Date().milliseconds : 0, "status": status.rawValue]
