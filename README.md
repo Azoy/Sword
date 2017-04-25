@@ -3,9 +3,9 @@
 [![Swift Version](https://img.shields.io/badge/Swift-3.1-orange.svg?style=flat-square)](https://swift.org) [![Build Status](https://img.shields.io/travis/Azoy/Sword.svg?&style=flat-square)](https://travis-ci.org/Azoy/Sword) [![Tag](https://img.shields.io/github/tag/Azoy/Sword.svg?style=flat-square&label=release&colorB=)](https://github.com/Azoy/Sword/releases)
 
 # Requirements
-1. macOS or Linux
-2. Swift 3.1
-3. An internet connection
+1. macOS, Linux, or iOS (no voice for iOS)
+2. Swift 3.0
+3. libsodium (brew update && brew install libsodium)
 
 # Adding Sword
 In order to add Sword as a dependency, you must first create a Swift executable in a designated folder, like so `swift package init --type executable`. Then in the newly created Package.swift, open it and add Sword as a dependency
@@ -41,6 +41,13 @@ bot.on(.messageCreate) { data in
 
 bot.connect()
 ```
+
+Then build the libraries with `swift build`
+To run the bot, simply `.build/debug/yourswiftexecutablehere`
+
+# Running with Xcode
+To build with Xcode, generate an Xcode project with `swift package generate-xcodeproj`
+Finally, open the project with Xcode and press the play button.
 
 # Links
 [Documentation](http://sword.azoy.gg) - (created with [Jazzy](https://github.com/Realm/Jazzy))
