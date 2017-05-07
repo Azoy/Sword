@@ -34,7 +34,7 @@ extension Sword {
     let realUrl = "https://discordapp.com/api/v7\(endpointInfo.url)"
 
     var request = URLRequest(url: URL(string: realUrl)!)
-    request.httpMethod = endpointInfo.method.rawValue
+    request.httpMethod = endpointInfo.method.rawValue.uppercased()
 
     if authorization {
       request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
