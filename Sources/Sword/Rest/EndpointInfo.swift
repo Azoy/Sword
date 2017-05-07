@@ -47,7 +47,7 @@ extension Endpoint {
         return ("/guilds/\(guild)/roles", .post)
 
       case let .createMessage(channel):
-        return ("/channels/\(channel)/message", .post)
+        return ("/channels/\(channel)/messages", .post)
 
       case let .createReaction(channel, message, reaction):
         return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction)/@me", .put)
