@@ -56,7 +56,7 @@ open class Shield: Sword {
   func handle(message data: [Any]) {
     let msg = data[0] as! Message
 
-    if self.shieldOptions.ignoreBots && msg.author?.isBot == true {
+    if self.shieldOptions.willIgnoreBots && msg.author?.isBot == true {
       return
     }
 

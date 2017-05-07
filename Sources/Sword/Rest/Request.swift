@@ -10,38 +10,9 @@ import Foundation
 import Dispatch
 
 /// HTTP Handler
-class Request {
+extension Sword {
 
-  // MARK: Properties
-
-  /// Used to store requests when being globally rate limited
-  var globalLockQueue = [() -> ()]()
-
-  /// Whether or not the global queue is locked
-  var globallyLocked = false
-
-  /// The queue that handles requests made after being globally limited
-  let globalQueue = DispatchQueue(label: "gg.azoy.sword.global")
-
-  /// Collection of Collections of buckets mapped by route
-  var rateLimits = [String: Bucket]()
-
-  /// Global URLSession (trust me i saw it on a wwdc talk, this is legit lmfao)
-  let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue())
-
-  /// The bot token
-  let token: String
-
-  // MARK: Initializer
-
-  /**
-   Creates Request Class
-
-   - parameter token: Bot token to use for Authorization
-  */
-  init(_ token: String) {
-    self.token = token
-  }
+  // MARK: Functions
 
   /**
    Actual HTTP Request
@@ -53,21 +24,23 @@ class Request {
    - parameter method: Type of HTTP Method
    - parameter rateLimited: Whether or not the HTTP request needs to be rate limited
   */
-  func request(_ url: String, body: [String: Any]? = nil, file: String? = nil, authorization: Bool = true, method: String = "GET", rateLimited: Bool = true, then completion: @escaping (Any?, RequestError?) -> ()) {
+  func request(_ endpoint: Endpoint, body: [String: Any]? = nil, file: String? = nil, authorization: Bool = true, rateLimited: Bool = true, then completion: @escaping (Any?, RequestError?) -> ()) {
     let sema = DispatchSemaphore(value: 0) //Provide a way to urlsession from command line
 
-    let route = rateLimited ? self.getRoute(for: url) : ""
+    let endpointInfo = endpoint.httpInfo
 
-    let realUrl = "https://discordapp.com/api/v6\(url)"
+    let route = self.getRoute(for: endpointInfo.url)
+
+    let realUrl = "https://discordapp.com/api/v7\(endpointInfo.url)"
 
     var request = URLRequest(url: URL(string: realUrl)!)
-    request.httpMethod = method
+    request.httpMethod = endpointInfo.method.rawValue
 
     if authorization {
       request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
     }
 
-    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.4.0)", forHTTPHeaderField: "User-Agent")
+    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.5.0)", forHTTPHeaderField: "User-Agent")
 
     if body != nil {
       request.httpBody = body!.createBody()
@@ -88,7 +61,7 @@ class Request {
         payloadJson = (body?["array"] as? [Any])?.encode()
       }
 
-      request.httpBody = try? createMultipartBody(with: payloadJson, fileUrl: file!, boundary: boundary)
+      request.httpBody = try? self.createMultipartBody(with: payloadJson, fileUrl: file!, boundary: boundary)
       request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
     }
     #endif
@@ -112,12 +85,29 @@ class Request {
       if response.statusCode != 200 && response.statusCode != 201 {
 
         if response.statusCode == 429 {
-          self.handleRateLimited(Int(headers["retry-after"] as! String)!, headers["x-ratelimit-global"], sema)
+          print("[Sword] You're being rate limited. (This shouldn't happen, check your system clock)")
+
+          let retryAfter = Int(headers["retry-after"] as! String)!
+          let global = headers["x-ratelimit-global"] as? Bool
+
+          guard global == nil else {
+            self.isGloballyLocked = true
+            self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(retryAfter)) { [unowned self] in
+              self.globalUnlock()
+            }
+
+            sema.signal()
+            return
+          }
+
+          self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(retryAfter)) {
+            self.request(endpoint, body: body, file: file, authorization: authorization, rateLimited: rateLimited, then: completion)
+          }
         }
 
         if response.statusCode >= 500 {
           self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) {
-            self.request(url, body: body, file: file, authorization: authorization, method: method, rateLimited: rateLimited, then: completion)
+            self.request(endpoint, body: body, file: file, authorization: authorization, rateLimited: rateLimited, then: completion)
           }
 
           sema.signal()
@@ -144,24 +134,26 @@ class Request {
     }
 
     let apiCall = { [unowned self, sema] in
-      if rateLimited && self.rateLimits[route] != nil {
-        let item = DispatchWorkItem {
-          task.resume()
+      guard rateLimited, self.rateLimits[route] != nil else {
+        task.resume()
 
-          sema.wait()
-        }
-        self.rateLimits[route]!.queue(item)
-      }else {
+        sema.wait()
+        return
+      }
+
+      let item = DispatchWorkItem {
         task.resume()
 
         sema.wait()
       }
+
+      self.rateLimits[route]!.queue(item)
     }
 
-    if !self.globallyLocked {
+    if !self.isGloballyLocked {
       apiCall()
     }else {
-      self.globalLockQueue.append(apiCall)
+      self.globalRequestQueue.append(apiCall)
     }
 
   }

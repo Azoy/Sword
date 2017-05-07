@@ -10,7 +10,7 @@
 import Foundation
 
 /// Image Handler
-extension Request {
+extension Sword {
 
   /**
    Creates HTTP Body for file uploads

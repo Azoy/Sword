@@ -15,13 +15,13 @@ public struct SwordOptions {
   public var disabledEvents = [Event]()
 
   /// Whether or not caching offline members is allowed
-  public var isCachingAllMembers = false
+  public var willCacheAllMembers = false
 
   /// Whether or not the bot will log to console
-  public var isLogging = false
+  public var willLog = false
 
   /// Whether or not this bot is sharded
-  public var isSharded = true
+  public var willShard = true
 
   /// Max amount of messages to cache in channels
   public var messageLimit = 0
@@ -39,7 +39,7 @@ public struct ShieldOptions {
   // MARK: Properties
 
   /// Whether or not to ignore commands from bots
-  public var ignoreBots = true
+  public var willIgnoreBots = true
 
   /// Array of prefixes commands should start with
   public var prefixes = ["@bot"]

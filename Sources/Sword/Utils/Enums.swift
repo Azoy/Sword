@@ -58,7 +58,7 @@ enum VoiceOP: Int {
 /// Organize all websocket close codes
 enum CloseOP: Int {
 
-  case unknown = 1000,
+  case clean = 1000,
        unknownError = 4000,
        unknownOPCode,
        decodeError,
@@ -71,6 +71,11 @@ enum CloseOP: Int {
        invalidShard,
        shardingRequired
 
+}
+
+/// Organize all the different http methods
+enum HTTPMethod: String {
+  case get, post, put, patch, delete
 }
 
 /// Organize all ws dispatch events

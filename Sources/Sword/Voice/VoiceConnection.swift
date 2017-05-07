@@ -32,7 +32,7 @@ public class VoiceConnection: Eventable {
   // MARK: Properties
 
   /// Whether or not the voice connection is closed
-  var closed = false
+  var isClosed = false
 
   /// Gets current time in milliseconds
   var currentTime: Int {
@@ -162,11 +162,11 @@ public class VoiceConnection: Eventable {
 
   /// Closes WS, UDP, and Encoder
   func close() {
-    if !self.closed {
+    if !self.isClosed {
       self.emit(.connectionClose)
     }
 
-    self.closed = true
+    self.isClosed = true
 
     #if !os(Linux)
     self.session?.disconnect()
@@ -333,7 +333,7 @@ public class VoiceConnection: Eventable {
     self.handler = handler
     self.udpReadQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpRead.\(guildId)")
     self.udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite.\(guildId)")
-    self.closed = true
+    self.isClosed = true
 
     #if !os(Linux)
     self.session?.disconnect()
@@ -503,7 +503,7 @@ public class VoiceConnection: Eventable {
       do {
         try self.udpClient?.send(bytes: self.createPacket(with: data))
       }catch {
-        guard self.closed else {
+        guard self.isClosed else {
           self.close()
           return
         }

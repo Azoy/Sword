@@ -36,7 +36,7 @@ class Heartbeat {
   let session: WebSocket
 
   /// Whether or not this heartbeat is voice
-  let voice: Bool
+  let isVoice: Bool
 
   // MARK: Initializer
 
@@ -50,7 +50,7 @@ class Heartbeat {
     self.session = ws
     self.queue = DispatchQueue(label: "gg.azoy.sword.\(name)", qos: .userInitiated)
     self.interval = interval
-    self.voice = voice
+    self.isVoice = voice
   }
 
   // MARK: Functions
@@ -70,7 +70,7 @@ class Heartbeat {
         data: this.sequence ?? NSNull()
       )
 
-      if this.voice {
+      if this.isVoice {
         heartbeat.op = VoiceOP.heartbeat.rawValue
         heartbeat.d = Int(Date().timeIntervalSince1970 * 1000)
       }

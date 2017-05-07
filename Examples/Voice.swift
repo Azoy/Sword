@@ -2,7 +2,7 @@ import Sword
 
 let bot = Shield(token: "Super secret token here")
 
-bot.register("join") { msg, args in
+bot.register("join") { [unowned bot] msg, args in
   guard msg.member?.voiceState != nil else {
     msg.reply(with: "User is not in voice channel.")
 
@@ -14,7 +14,7 @@ bot.register("join") { msg, args in
   }
 }
 
-bot.register("leave") { msg, args in
+bot.register("leave") { [unowned bot] msg, args in
   guard msg.member?.voiceState != nil else {
     msg.reply(with: "User is not in voice channel.")
 

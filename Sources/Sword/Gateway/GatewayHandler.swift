@@ -38,8 +38,8 @@ extension Shard {
         self.heartbeat?.received = true
         self.heartbeat?.send()
 
-        guard !self.reconnecting else {
-          self.reconnecting = false
+        guard !self.isReconnecting else {
+          self.isReconnecting = false
           var data: [String: Any] = ["token": self.sword.token, "session_id": self.sessionId!, "seq": NSNull()]
           if self.lastSeq != nil {
             data.updateValue(self.lastSeq!, forKey: "seq")
@@ -63,6 +63,7 @@ extension Shard {
 
       /// OP: 7
       case .reconnect:
+        self.isReconnecting = true
         self.reconnect()
 
       /// Others~~~

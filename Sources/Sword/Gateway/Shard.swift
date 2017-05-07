@@ -46,7 +46,7 @@ class Shard {
   let presenceBucket: Bucket
 
   /// Whether or not the shard is reconnecting
-  var reconnecting = false
+  var isReconnecting = false
 
   /// WS
   var session: WebSocket?
@@ -193,7 +193,6 @@ class Shard {
 
     self.isConnected = false
     self.heartbeat = nil
-    self.reconnecting = true
 
     self.startWS(self.gatewayUrl)
   }
@@ -263,7 +262,7 @@ class Shard {
           print("[Sword] - Sharding is required for this bot to run correctly.")
 
         default:
-          self.reconnect()
+          if self.isReconnecting { self.reconnect() }
       }
     }
 
@@ -291,7 +290,7 @@ class Shard {
             print("[Sword] - Sharding is required for this bot to run correctly.")
 
           default:
-            self.reconnect()
+            if self.isReconnecting { self.reconnect() }
         }
       }
     }
@@ -308,6 +307,7 @@ class Shard {
 
     self.isConnected = false
     self.heartbeat = nil
+    self.isReconnecting = false
   }
 
 }
