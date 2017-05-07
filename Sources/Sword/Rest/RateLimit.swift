@@ -19,35 +19,35 @@ extension Sword {
   */
   func getRoute(for url: String) -> String {
 
-  let regex = try! NSRegularExpression(pattern: "/([a-z-]+)/(?:[0-9]{17,})+?", options: .caseInsensitive)
+    let regex = try! NSRegularExpression(pattern: "/([a-z-]+)/(?:[0-9]{17,})+?", options: .caseInsensitive)
 
-  let string = NSString(string: url)
-  let matches = regex.matches(in: url, options: [], range: NSMakeRange(0, string.length))
+    let string = NSString(string: url)
+    let matches = regex.matches(in: url, options: [], range: NSMakeRange(0, string.length))
 
-  guard matches.count > 0 else {
-    return url
-  }
-
-  var route = ""
-
-  for match in matches {
-    let miniRoute = string.substring(with: match.range)
-    var parameters = miniRoute.components(separatedBy: "/")
-
-    parameters.remove(at: 0)
-
-    let parameterId = parameters[1]
-    parameters[1] = ":id"
-
-    if (parameters[0] == "channels" || parameters[0] == "guilds") && route.isEmpty {
-      parameters[1] = parameterId
+    guard matches.count > 0 else {
+      return url
     }
 
-    route += "/" + parameters.joined(separator: "/")
-  }
+    var route = ""
 
-  return route
-}
+    for match in matches {
+      let miniRoute = string.substring(with: match.range)
+      var parameters = miniRoute.components(separatedBy: "/")
+
+      parameters.remove(at: 0)
+
+      let parameterId = parameters[1]
+      parameters[1] = ":id"
+
+      if (parameters[0] == "channels" || parameters[0] == "guilds") && route.isEmpty {
+        parameters[1] = parameterId
+      }
+
+      route += "/" + parameters.joined(separator: "/")
+    }
+
+    return route
+  }
 
   /// Used to un clog the global queue full of requests that woudld've resulted in 429 because of global rate limit
   func globalUnlock() {
