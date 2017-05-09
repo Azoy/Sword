@@ -19,11 +19,7 @@ extension Shard {
    */
   func handleEvents(_ data: [String: Any], _ eventName: String) {
 
-    guard let event = Event(rawValue: eventName) else {
-      return
-    }
-
-    if self.sword.options.disabledEvents.contains(event) {
+    guard let event = Event(rawValue: eventName), !self.sword.options.disabledEvents.contains(event) else {
       return
     }
 

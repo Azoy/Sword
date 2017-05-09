@@ -13,18 +13,13 @@ import Dispatch
 
 #if !os(Linux)
 import Starscream
+import Sodium
 #else
 import WebSockets
+import SodiumLinux
 #endif
 
 import Socks
-
-/// Import right libsodium (no cross compatibility with system module maps)
-#if !os(Linux)
-import Sodium
-#else
-import SodiumLinux
-#endif
 
 /// Voice Connection class that handles connection to voice server
 public class VoiceConnection: Eventable {
@@ -351,7 +346,7 @@ public class VoiceConnection: Eventable {
 
    - parameter location: Location of the file to play
   */
-  public func play(_ location: String, volume: Int) {
+  public func play(_ location: String, volume: Int = 100) {
     guard location.contains(".") else {
       print("[Sword] The file you want to play doesn't have an extension.")
       return

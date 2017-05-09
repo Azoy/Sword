@@ -9,7 +9,7 @@ bot.register("join") { [unowned bot] msg, args in
     return
   }
 
-  bot.join(voiceChannel: msg.member!.voiceState!.channelId) { connection in
+  bot.joinVoiceChannel(msg.member!.voiceState!.channelId) { connection in
     connection.play(Youtube("https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
   }
 }
@@ -21,7 +21,7 @@ bot.register("leave") { [unowned bot] msg, args in
     return
   }
 
-  bot.leave(voiceChannel: msg.member!.voiceState!.channelId)
+  bot.leaveVoiceChannel(msg.member!.voiceState!.channelId)
 }
 
 bot.connect()

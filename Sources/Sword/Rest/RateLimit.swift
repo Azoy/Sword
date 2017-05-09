@@ -71,12 +71,7 @@ extension Sword {
     let remaining = Int(remainingHeader as! String)!
     let interval = Int(Double(intervalHeader as! String)! - date)
 
-    if self.rateLimits[route] == nil {
-      let bucket = Bucket(name: "gg.azoy.sword.rest.\(route)", limit: limit, interval: interval)
-      bucket.take(1)
-
-      self.rateLimits[route] = bucket
-    }else {
+    guard self.rateLimits[route] == nil else {
       if self.rateLimits[route]!.tokens != remaining {
         self.rateLimits[route]!.tokens = remaining
       }
@@ -88,7 +83,14 @@ extension Sword {
       if self.rateLimits[route]!.interval != interval {
         self.rateLimits[route]!.interval = interval
       }
+
+      return
     }
+
+    let bucket = Bucket(name: "gg.azoy.sword.rest.\(route)", limit: limit, interval: interval)
+    bucket.take(1)
+
+    self.rateLimits[route] = bucket
   }
 
 }

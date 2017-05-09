@@ -63,7 +63,7 @@ class Bucket {
       self.lastResetDispatch = DispatchTime.now()
     }
 
-    if self.tokens == 0 {
+    guard self.tokens > 0 else {
       self.worker.asyncAfter(deadline: self.lastResetDispatch + .seconds(self.interval)) {
         self.check()
       }

@@ -163,7 +163,7 @@ open class Sword: Eventable {
     }
 
     #if os(macOS)
-    CFRunLoopStop(CFRunLoopGetCurrent())
+    CFRunLoopStop(CFRunLoopGetMain())
     #endif
   }
 
