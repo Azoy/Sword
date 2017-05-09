@@ -42,13 +42,19 @@ bot.on(.messageCreate) { data in
 bot.connect()
 ```
 
-# Compling Resources
-Build the libraries with `swift build`
+# Running the bot
+Build the libraries with `swift build`, then type `.build/debug/yourswiftexecutablehere`
 
-# Running with Xcode
+# Running the bot in Xcode
+To run the bot in Xcode, you first have to compile the libraries with `swift build`. Then to build the xcode project, type `swift package generate-xcodeproj`. Finally, type `open yourswiftexecutablehere.xcodeproj`, look at the top and follow the steps below
 
-Then build the Xcode project with `swift package generate-xcodeproj`
-Finally open the project with Xcode and press the play button.
+![Step 1](images/step1.png)
+
+![Step 2](images/step2.png)
+
+![Step 3](images/step3.png)
+
+Then click the play button!
 
 # Links
 [Documentation](http://sword.azoy.gg) - (created with [Jazzy](https://github.com/Realm/Jazzy))
