@@ -189,10 +189,11 @@ public class Guild {
    - **delete-message-days**: Number of days to delete messages for (0-7)
 
    - parameter userId: Member to ban
+   - parameter reason: Optional -- reason to ban the member (attached to audit log)
    - parameter options: Deletes messages from this user by amount of days
   */
-  public func ban(_ member: String, with options: [String: Int] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.ban(member, in: self.id, with: options, then: completion)
+  public func ban(_ member: String, for reason: String? = nil, with options: [String: Int] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.sword?.ban(member, in: self.id, for: reason, with: options, then: completion)
   }
 
   /**
@@ -443,8 +444,8 @@ public class Guild {
 
    - parameter userId: Member to remove from server
   */
-  public func removeMember(_ userId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.removeMember(userId, from: self.id, then: completion)
+  public func removeMember(_ userId: String, for reason: String? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.sword?.removeMember(userId, from: self.id, for: reason, then: completion)
   }
 
   /**

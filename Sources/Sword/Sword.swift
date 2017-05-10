@@ -189,10 +189,11 @@ open class Sword: Eventable {
 
    - parameter userId: Member to ban
    - parameter guildId: Guild to ban member in
+   - parameter reason: Optional -- reason for ban (attached to audit log)
    - parameter options: Deletes messages from this user by amount of days
   */
-  public func ban(_ userId: String, in guildId: String, with options: [String: Int] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.request(.createGuildBan(guildId, userId), body: options) { data, error in
+  public func ban(_ userId: String, in guildId: String, for reason: String? = nil, with options: [String: Int] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.request(.createGuildBan(guildId, userId), body: options, reason: reason) { data, error in
       completion(error)
     }
   }
@@ -1405,9 +1406,10 @@ open class Sword: Eventable {
 
    - parameter userId: Member to remove from server
    - parameter guildId: Guild to remove them from
+   - parameter reason: Optional -- reason to remove the member from guild (attached to audit log)
   */
-  public func removeMember(_ userId: String, from guildId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.request(.removeGuildMember(guildId, userId)) { data, error in
+  public func removeMember(_ userId: String, from guildId: String, for reason: String? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.request(.removeGuildMember(guildId, userId), reason: reason) { data, error in
       completion(error)
     }
   }
