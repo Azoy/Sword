@@ -20,12 +20,12 @@ extension Sword {
    - parameter url: URL to request
    - parameter body: Optional Data to send to server
    - parameter file: Optional for when files
-   - parameter reason: Optional for when user wants to specify audit-log reason
    - parameter authorization: Whether or not the Authorization header is required by Discord
    - parameter method: Type of HTTP Method
    - parameter rateLimited: Whether or not the HTTP request needs to be rate limited
+   - parameter reason: Optional for when user wants to specify audit-log reason
   */
-  func request(_ endpoint: Endpoint, body: [String: Any]? = nil, reason: String? = nil, file: String? = nil, authorization: Bool = true, rateLimited: Bool = true, then completion: @escaping (Any?, RequestError?) -> ()) {
+  func request(_ endpoint: Endpoint, body: [String: Any]? = nil, file: String? = nil, authorization: Bool = true, rateLimited: Bool = true, reason: String? = nil, then completion: @escaping (Any?, RequestError?) -> ()) {
     let sema = DispatchSemaphore(value: 0) //Provide a way to urlsession from command line
 
     let endpointInfo = endpoint.httpInfo
@@ -40,7 +40,7 @@ extension Sword {
     if authorization {
       request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
     }
-    
+
     if reason != nil {
       request.addValue(reason!, forHTTPHeaderField: "X-Audit-Log-Reason")
     }

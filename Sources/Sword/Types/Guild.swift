@@ -189,11 +189,11 @@ public class Guild {
    - **delete-message-days**: Number of days to delete messages for (0-7)
 
    - parameter userId: Member to ban
-   - parameter reason: Optional -- reason to ban the member (attached to audit log)
+   - parameter reason: Reason why member was banned from guild (attached to audit log)
    - parameter options: Deletes messages from this user by amount of days
   */
   public func ban(_ member: String, for reason: String? = nil, with options: [String: Int] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.ban(member, in: self.id, for: reason, with: options, then: completion)
+    self.sword?.ban(member, from: self.id, for: reason, with: options, then: completion)
   }
 
   /**
@@ -317,6 +317,16 @@ public class Guild {
   }
 
   /**
+   Kicks member from this guild
+
+   - parameter userId: Member to kick from server
+   - parameter reason: Reason why member was kicked from server
+  */
+  public func kick(_ userId: String, for reason: String? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.sword?.removeMember(userId, from: self.id, for: reason, then: completion)
+  }
+
+  /**
    Modifies an integration from this guild
 
    #### Option Params ####
@@ -437,15 +447,6 @@ public class Guild {
   */
   public func pruneMembers(for limit: Int, then completion: @escaping (Int?, RequestError?) -> () = {_ in}) {
     self.sword?.pruneMembers(in: self.id, for: limit, then: completion)
-  }
-
-  /**
-   Removes member from this guild
-
-   - parameter userId: Member to remove from server
-  */
-  public func removeMember(_ userId: String, for reason: String? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.removeMember(userId, from: self.id, for: reason, then: completion)
   }
 
   /**
