@@ -1,7 +1,7 @@
 language: generic
 
 notifications:
-  webhooks: $SWORD_WEBHOOK
+  webhooks: https://azoy.gg/webhook/travis
 
 matrix:
   include:
