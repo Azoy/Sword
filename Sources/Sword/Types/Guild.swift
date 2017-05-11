@@ -323,7 +323,7 @@ public class Guild {
    - parameter reason: Reason why member was kicked from server
   */
   public func kick(_ userId: String, for reason: String? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.removeMember(userId, from: self.id, for: reason, then: completion)
+    self.sword?.kick(userId, from: self.id, for: reason, then: completion)
   }
 
   /**

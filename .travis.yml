@@ -1,5 +1,8 @@
 language: generic
 
+notifications:
+  webhooks: $SWORD_WEBHOOK
+
 matrix:
   include:
     - os: linux
