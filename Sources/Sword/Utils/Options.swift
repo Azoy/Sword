@@ -11,6 +11,9 @@ public struct SwordOptions {
 
   // MARK: Properties
 
+  /// Whether or not the application is a bot or oauth bearer
+  public var isBot = true
+
   /// Array of event names to disable
   public var disabledEvents = [Event]()
 

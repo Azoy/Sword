@@ -173,6 +173,9 @@ extension Endpoint {
       case let .getUser(user):
         return ("/users/\(user)", .get)
 
+      case .getUserConnections:
+        return ("/users/@me/connections", .get)
+
       case .getUserDM:
         return ("/users/@me/channels", .get)
 

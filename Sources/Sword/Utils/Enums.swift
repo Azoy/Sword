@@ -6,25 +6,6 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-/** Organize OAuth2 scopes
-public enum Scope: String {
-
-case bot,
-     connections,
-     email,
-     identify,
-     guilds,
-     joinGuilds = "guilds.join",
-     joinGroupDM = "gdm.join",
-     readMessages = "messages.read",
-     rpc,
-     rpcApi = "rpc.api",
-     readRPCNotifications = "rpc.notifications.read",
-     incomingWebhook = "webhook.incoming"
-
-}
-*/
-
 /// Organize all dispatch events
 enum OP: Int {
 

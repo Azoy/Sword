@@ -38,7 +38,11 @@ extension Sword {
     request.httpMethod = endpointInfo.method.rawValue.uppercased()
 
     if authorization {
-      request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
+      if self.options.isBot {
+        request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
+      }else {
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+      }
     }
 
     if reason != nil {
