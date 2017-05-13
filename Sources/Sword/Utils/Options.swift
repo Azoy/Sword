@@ -49,7 +49,10 @@ public struct ShieldOptions {
 
   /// Default requirement for commands
   public var requirements = CommandRequirements()
-
+  
+  /// Wether or not the bot will use case sensitive commands
+  public var isCaseSensitive = true
+  
   // MARK: Initializer
 
   /// Creates a default ShieldOptions
@@ -67,6 +70,9 @@ public struct CommandOptions {
 
   /// Required command options
   public var requirements = CommandRequirements()
+  
+  /// Wether or not the command overrides the default isCaseSensitive property
+  public var overwriteCaseSensitive = false
 
   // MARK: Initializer
 
