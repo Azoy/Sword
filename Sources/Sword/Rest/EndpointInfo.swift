@@ -35,7 +35,7 @@ extension Endpoint {
         return ("/guilds", .post)
 
       case let .createGuildBan(guild, user):
-        return ("/guilds/\(guild)/members/\(user)", .put)
+        return ("/guilds/\(guild)/bans/\(user)", .put)
 
       case let .createGuildChannel(guild):
         return ("/guilds/\(guild)/channels", .post)

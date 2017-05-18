@@ -41,18 +41,18 @@ public struct ShieldOptions {
 
   // MARK: Properties
 
-  /// Whether or not to ignore commands from bots
-  public var willIgnoreBots = true
-
   /// Array of prefixes commands should start with
   public var prefixes = ["@bot"]
 
   /// Default requirement for commands
   public var requirements = CommandRequirements()
-  
+
   /// Wether or not the bot will use case sensitive commands
-  public var isCaseSensitive = true
-  
+  public var willBeCaseSensitive = true
+
+  /// Whether or not to ignore commands from bots
+  public var willIgnoreBots = true
+
   // MARK: Initializer
 
   /// Creates a default ShieldOptions
@@ -68,11 +68,11 @@ public struct CommandOptions {
   /// Array of command aliases
   public var aliases = [String]()
 
+  /// Wether or not the command is case sensitive or not
+  public var isCaseSensitive = false
+
   /// Required command options
   public var requirements = CommandRequirements()
-  
-  /// Wether or not the command overrides the default isCaseSensitive property
-  public var overwriteCaseSensitive = false
 
   // MARK: Initializer
 
