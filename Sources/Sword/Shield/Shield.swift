@@ -90,10 +90,10 @@ open class Shield: Sword {
         if self.commands[command]!.options.isCaseSensitive! {
           guard self.commands[command]!.name == originalCommand else { return }
         }
-      }
-
-      if self.shieldOptions.willBeCaseSensitive {
-        guard self.commands[command]!.name == originalCommand else { return }
+      }else {
+        if self.shieldOptions.willBeCaseSensitive {
+          guard self.commands[command]!.name == originalCommand else { return }
+        }
       }
 
       if !self.commands[command]!.options.requirements.permissions.isEmpty {
@@ -123,7 +123,7 @@ open class Shield: Sword {
 
     if !options.aliases.isEmpty {
       for alias in options.aliases {
-        self.commandAliases[alias] = commandName.lowercased()
+        self.commandAliases[alias.lowercased()] = commandName.lowercased()
       }
     }
   }
@@ -143,7 +143,7 @@ open class Shield: Sword {
 
     if !options.aliases.isEmpty {
       for alias in options.aliases {
-        self.commandAliases[alias] = commandName.lowercased()
+        self.commandAliases[alias.lowercased()] = commandName.lowercased()
       }
     }
   }
