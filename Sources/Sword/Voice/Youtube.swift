@@ -19,7 +19,7 @@ public struct Youtube {
   public var process: Process
 
   /**
-   Creates a Youtube Strucutre
+   Creates a Youtube Structure
 
    - parameter link: The youtube-dl link to get audio from
    - parameter arguments: Extra arguments that you want to include in youtube-dl runtime

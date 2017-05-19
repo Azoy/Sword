@@ -69,7 +69,7 @@ public struct CommandOptions {
   public var aliases = [String]()
 
   /// Wether or not the command is case sensitive or not
-  public var isCaseSensitive = false
+  public var isCaseSensitive: Bool? = nil
 
   /// Required command options
   public var requirements = CommandRequirements()

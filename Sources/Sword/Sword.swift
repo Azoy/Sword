@@ -714,6 +714,7 @@ open class Sword: Eventable {
     }
   }
 
+  /// Gets the current user's connections
   public func getConnections(then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
     self.request(.getUserConnections) { data, error in
       completion(data as? [[String: Any]], error)
