@@ -949,7 +949,7 @@ open class Sword: Eventable {
 
    - parameter channelId: Channel to get pinned messages fromn
   */
-  public func getPinnedMessages(from channelId: String, then completion: @escaping ([Message]?, RequestError?) -> () = {_ in}) {
+  public func getPinnedMessages(from channelId: String, then completion: @escaping ([Message]?, RequestError?) -> ()) {
     self.request(.getPinnedMessages(channelId)) { [unowned self] data, error in
       if error != nil {
         completion(nil, error)
