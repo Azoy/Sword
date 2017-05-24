@@ -64,7 +64,7 @@ extension Sword {
       request.addValue(reason!, forHTTPHeaderField: "X-Audit-Log-Reason")
     }
 
-    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.5.0)", forHTTPHeaderField: "User-Agent")
+    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.5.3)", forHTTPHeaderField: "User-Agent")
 
     if body != nil {
       request.httpBody = body!.createBody()
@@ -144,7 +144,7 @@ extension Sword {
       }
 
       if rateLimited {
-        self.handleRateLimitHeaders(headers["x-ratelimit-limit"], headers["x-ratelimit-remaining"], headers["x-ratelimit-reset"], (headers["Date"] as! String).dateNorm.timeIntervalSince1970, route)
+        self.handleRateLimitHeaders(headers["x-ratelimit-limit"], headers["x-ratelimit-remaining"], headers["x-ratelimit-reset"], (headers["Date"] as! String).httpDate.timeIntervalSince1970, route)
       }
 
       do {

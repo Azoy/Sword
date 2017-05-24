@@ -69,7 +69,7 @@ extension Sword {
 
     let limit = Int(limitHeader as! String)!
     let remaining = Int(remainingHeader as! String)!
-    let interval = Int(Double(intervalHeader as! String)! - date)
+    let interval = Int(intervalHeader as! String)! - Int(date)
 
     guard self.rateLimits[route] == nil else {
       if self.rateLimits[route]!.tokens != remaining {
@@ -78,10 +78,6 @@ extension Sword {
 
       if self.rateLimits[route]!.limit != limit {
         self.rateLimits[route]!.limit = limit
-      }
-
-      if self.rateLimits[route]!.interval != interval {
-        self.rateLimits[route]!.interval = interval
       }
 
       return

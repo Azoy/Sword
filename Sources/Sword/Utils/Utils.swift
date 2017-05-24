@@ -34,9 +34,9 @@ extension String {
   }
 
   /// Computed property to get date from string (specifically the Date header from requests)
-  var dateNorm: Date {
+  var httpDate: Date {
     let dateFormat = DateFormatter()
-    dateFormat.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
+    dateFormat.dateFormat = "E, dd MMM yyyy HH:mm:ss zzzz"
 
     return dateFormat.date(from: self)!
   }
