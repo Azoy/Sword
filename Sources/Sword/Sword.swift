@@ -925,7 +925,7 @@ open class Sword: Eventable {
    - parameter limit: Amount of messages to get
    - parameter channelId: Channel to get messages from
   */
-  public func getMessages(_ limit: Int, from channelId: String, then completion: @escaping ([Message]?, RequestError?) -> ()) {
+  public func getMessages(amount limit: Int, from channelId: String, then completion: @escaping ([Message]?, RequestError?) -> ()) {
     if limit > 100 || limit < 1 {
       completion(nil, .unknown)
       return

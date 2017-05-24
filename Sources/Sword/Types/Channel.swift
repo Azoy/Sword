@@ -86,6 +86,24 @@ public extension Channel {
   }
 
   /**
+   Gets a message from this channel
+
+   - parameter messageId: Id of message you want to get
+  **/
+  public func getMessage(_ messageId: String, then completion: @escaping (Message?, RequestError?) -> ()) {
+    self.sword?.getMessage(messageId, from: self.id, then: completion)
+  }
+
+  /**
+   Gets an array of messages from this channel
+
+   - parameter limit: Amount of messages to get
+  **/
+  public func getMessages(amount limit: Int, then completion: @escaping ([Message]?, RequestError?) -> ()) {
+    self.sword?.getMessages(amount: limit, from: self.id, then: completion)
+  }
+
+  /**
    Gets an array of users who used reaction from message
 
    - parameter reaction: Unicode or custom emoji to get

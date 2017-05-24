@@ -19,7 +19,7 @@ import WebSockets
 import SodiumLinux
 #endif
 
-import Socks
+import Sockets
 
 /// Voice Connection class that handles connection to voice server
 public class VoiceConnection: Eventable {
@@ -88,7 +88,7 @@ public class VoiceConnection: Eventable {
   var startTime = 0
 
   /// The UDP Client used to send audio through
-  var udpClient: UDPClient?
+  var udpClient: UDPInternetSocket?
 
   /// The dispatch queue that handles reading audio
   var udpReadQueue: DispatchQueue
@@ -444,7 +444,7 @@ public class VoiceConnection: Eventable {
       guard let client = self?.udpClient else { return }
 
       do {
-        let (data, _) = try client.receive(maxBytes: 4096)
+        let (data, _) = try client.recvfrom(maxBytes: 4096)
         guard let audioData = try self?.decryptPacket(with: Data(bytes: data)) else { return }
         self?.emit(.audioData, with: audioData)
       }catch {
@@ -496,7 +496,7 @@ public class VoiceConnection: Eventable {
       guard data.count <= 320 else { return }
 
       do {
-        try self.udpClient?.send(bytes: self.createPacket(with: data))
+        try self.udpClient?.sendto(data: self.createPacket(with: data))
       }catch {
         guard self.isClosed else {
           self.close()
@@ -534,7 +534,7 @@ public class VoiceConnection: Eventable {
   func startUDPSocket(_ port: Int) {
     let address = InternetAddress(hostname: self.endpoint, port: Port(port))
 
-    guard let client = try? UDPClient(address: address) else {
+    guard let client = try? UDPInternetSocket(address: address) else {
       self.close()
 
       return
@@ -543,8 +543,8 @@ public class VoiceConnection: Eventable {
     self.udpClient = client
 
     do {
-      try client.send(bytes: [UInt8](repeating: 0x00, count: 70))
-      let (data, _) = try client.receive(maxBytes: 70)
+      try client.sendto(data: [UInt8](repeating: 0x00, count: 70))
+      let (data, _) = try client.recvfrom(maxBytes: 70)
 
       self.selectProtocol(data)
     } catch {
