@@ -93,7 +93,7 @@ enum Endpoint {
   case getGuildIntegrations(String)
 
   case getGuildInvites(String)
-  
+
   case getGuildMember(String, String)
 
   case getGuildPruneCount(String)
