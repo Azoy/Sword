@@ -12,6 +12,7 @@ import Dispatch
 #if !os(Linux)
 import Starscream
 #else
+import Sockets
 import WebSockets
 #endif
 
