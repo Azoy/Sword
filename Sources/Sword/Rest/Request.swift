@@ -31,7 +31,11 @@ extension Sword {
 
     let endpointInfo = endpoint.httpInfo
 
-    let route = self.getRoute(for: endpointInfo.url)
+    var route = self.getRoute(for: endpointInfo.url)
+
+    if route.hasSuffix("/messages/:id") && endpointInfo.method == .delete {
+      route += ".delete"
+    }
 
     var url = "https://discordapp.com/api/v7\(endpointInfo.url)"
 
