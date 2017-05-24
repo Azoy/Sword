@@ -270,7 +270,7 @@ class Shard {
     self.session?.connect()
     #else
     let gatewayInfo = gatewayUrl.components(separatedBy: "://")
-    let socket = try? TCPInternetSocket(scheme: gatewayInfo[0], hostname: gatewayInfo[1], port: 80)
+    let socket = try! TCPInternetSocket(scheme: gatewayInfo[0], hostname: gatewayInfo[1], port: 80)
     try? WebSocket.connect(to: gatewayUrl, using: socket) { [unowned self] ws in
       self.session = ws
       self.isConnected = true
