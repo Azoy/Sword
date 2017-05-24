@@ -579,7 +579,9 @@ public class VoiceConnection: Eventable {
 
     self.session?.connect()
     #else
-    try? WebSocket.background(to: "wss://\(self.endpoint)") { [unowned self] ws in
+    let gatewayInfo = "wss://\(self.endpoint)".components(separatedBy: "://")
+    let socket = try? TCPInternetSocket(scheme: gatewayInfo[0], hostname: gatewayInfo[1], port: 80)
+    try? WebSocket.background(to: "wss://\(self.endpoint)", using: socket) { [unowned self] ws in
       self.session = ws
       self.isConnected = true
 
