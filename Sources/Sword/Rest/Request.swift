@@ -18,6 +18,7 @@ extension Sword {
    Actual HTTP Request
 
    - parameter url: URL to request
+   - parameter params: Optional URL Query Parameters to send
    - parameter body: Optional Data to send to server
    - parameter file: Optional for when files
    - parameter authorization: Whether or not the Authorization header is required by Discord
@@ -25,16 +26,26 @@ extension Sword {
    - parameter rateLimited: Whether or not the HTTP request needs to be rate limited
    - parameter reason: Optional for when user wants to specify audit-log reason
   */
-  func request(_ endpoint: Endpoint, body: [String: Any]? = nil, file: String? = nil, authorization: Bool = true, rateLimited: Bool = true, reason: String? = nil, then completion: @escaping (Any?, RequestError?) -> ()) {
+  func request(_ endpoint: Endpoint, params: [String: Any]? = nil, body: [String: Any]? = nil, file: String? = nil, authorization: Bool = true, rateLimited: Bool = true, reason: String? = nil, then completion: @escaping (Any?, RequestError?) -> ()) {
     let sema = DispatchSemaphore(value: 0) //Provide a way to urlsession from command line
 
     let endpointInfo = endpoint.httpInfo
 
     let route = self.getRoute(for: endpointInfo.url)
 
-    let realUrl = "https://discordapp.com/api/v7\(endpointInfo.url)"
+    var url = "https://discordapp.com/api/v7\(endpointInfo.url)"
 
-    var request = URLRequest(url: URL(string: realUrl)!)
+    if params != nil {
+      url += "?"
+
+      for (key, value) in params! {
+        url += "\(key)=\(value)&"
+      }
+
+      url.remove(at: url.index(before: url.endIndex))
+    }
+
+    var request = URLRequest(url: URL(string: url)!)
     request.httpMethod = endpointInfo.method.rawValue.uppercased()
 
     if authorization {

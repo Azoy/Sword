@@ -287,9 +287,18 @@ public class Guild {
     self.sword?.getGuildInvites(from: self.id, then: completion)
   }
 
-  /// Gets an array of guild members
-  public func getMembers(then completion: @escaping ([Member]?, RequestError?) -> ()) {
-    self.sword?.getMembers(in: self.id, then: completion)
+  /**
+   Gets an array of guild members
+
+   #### Option Params ####
+
+   - **limit**: Amount of members to get (1-1000)
+   - **after**: Message Id of highest member to get members from
+
+   - parameter options: Dictionary containing optional optiond regarding what members are returned
+  */
+  public func getMembers(with options: [String: Any]? = nil, then completion: @escaping ([Member]?, RequestError?) -> ()) {
+    self.sword?.getMembers(from: self.id, with: options, then: completion)
   }
 
   /**

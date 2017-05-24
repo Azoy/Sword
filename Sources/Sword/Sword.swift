@@ -161,10 +161,6 @@ open class Sword: Eventable {
     for shard in self.shards {
       shard.stop()
     }
-
-    #if os(macOS)
-    CFRunLoopStop(CFRunLoopGetMain())
-    #endif
   }
 
   /**
@@ -770,6 +766,7 @@ open class Sword: Eventable {
    Either get a cached guild or restfully get a guild
 
    - parameter guildId: Guild to get
+   - parameter rest: Whether or not to get this guild restfully or not
   */
   public func getGuild(_ guildId: String, rest: Bool = false, then completion: @escaping (Guild?, RequestError?) -> ()) {
     guard rest else {
@@ -810,14 +807,25 @@ open class Sword: Eventable {
     }
   }
 
-  /// Either get cached guilds or restfully get guilds
-  public func getGuilds(rest: Bool = false, then completion: @escaping ([Guild]?, RequestError?) -> ()) {
+  /**
+   Either get cached guilds or restfully get guilds
+
+   #### Option Params ####
+
+   - **before**: Guild Id to get guilds before this one
+   - **after**: Guild Id to get guilds after this one
+   - **limit**: Amount of guilds to return (1-100)
+
+   - parameter rest: Whether or not to restfully get guilds
+   - parameter options: Dictionary containing options regarding what kind of guilds are returned, and amount
+  */
+  public func getGuilds(rest: Bool = false, with options: [String: Any]? = nil, then completion: @escaping ([Guild]?, RequestError?) -> ()) {
     guard rest else {
       completion(Array(self.guilds.values), nil)
       return
     }
 
-    self.request(.getCurrentUserGuilds) { [unowned self] data, error in
+    self.request(.getCurrentUserGuilds, params: options) { [unowned self] data, error in
       if error != nil {
         completion(nil, error)
       }else {
@@ -871,7 +879,7 @@ open class Sword: Eventable {
    - parameter userId: Member to get
    - parameter guildId: Guild to get member from
   */
-  public func getMember(_ userId: String, in guildId: String, then completion: @escaping (Member?, RequestError?) -> ()) {
+  public func getMember(_ userId: String, from guildId: String, then completion: @escaping (Member?, RequestError?) -> ()) {
     self.request(.getGuildMember(guildId, userId)) { [unowned self] data, error in
       if error != nil {
         completion(nil, error)
@@ -885,10 +893,16 @@ open class Sword: Eventable {
   /**
    Gets an array of guild members in a guild
 
+   #### Option Params ####
+
+   - **limit**: Amount of members to get (1-1000)
+   - **after**: Message Id of highest member to get members from
+
    - parameter guildId: Guild to get members from
+   - parameter options: Dictionary containing optional optiond regarding what members are returned
   */
-  public func getMembers(in guildId: String, then completion: @escaping ([Member]?, RequestError?) -> ()) {
-    self.request(.listGuildMembers(guildId)) { [unowned self] data, error in
+  public func getMembers(from guildId: String, with options: [String: Any]? = nil, then completion: @escaping ([Member]?, RequestError?) -> ()) {
+    self.request(.listGuildMembers(guildId), params: options) { [unowned self] data, error in
       if error != nil {
         completion(nil, error)
       }else {
@@ -922,15 +936,18 @@ open class Sword: Eventable {
   /**
    Gets an array of messages from channel
 
-   - parameter limit: Amount of messages to get
+   #### Option Params ####
+
+   - **around**: Message Id to get messages around
+   - **before**: Message Id to get messages before this one
+   - **after**: Message Id to get messages after this one
+   - **limit**: Number of how many messages you want to get (1-100)
+
    - parameter channelId: Channel to get messages from
+   - parameter options: Dictionary containing optional options regarding how many messages, or when to get them
   */
-  public func getMessages(amount limit: Int, from channelId: String, then completion: @escaping ([Message]?, RequestError?) -> ()) {
-    if limit > 100 || limit < 1 {
-      completion(nil, .unknown)
-      return
-    }
-    self.request(.getChannelMessages(channelId), body: ["limit": limit]) { [unowned self] data, error in
+  public func getMessages(from channelId: String, with options: [String: Any]? = nil, then completion: @escaping ([Message]?, RequestError?) -> ()) {
+    self.request(.getChannelMessages(channelId), params: options) { [unowned self] data, error in
       if error != nil {
         completion(nil, error)
       }else {
@@ -972,8 +989,8 @@ open class Sword: Eventable {
    - parameter limit: Number of days to get prune count for
   */
   public func getPruneCount(from guildId: String, for limit: Int, then completion: @escaping (Int?, RequestError?) -> ()) {
-    self.request(.getGuildPruneCount(guildId), body: ["days": limit]) { data, error in
-      completion(data as? Int, error)
+    self.request(.getGuildPruneCount(guildId), params: ["days": limit]) { data, error in
+      completion((data as! [String: Int])["pruned"], error)
     }
   }
 
@@ -1416,8 +1433,8 @@ open class Sword: Eventable {
       return
     }
 
-    self.request(.beginGuildPrune(guildId), body: ["days": limit]) { data, error in
-      completion(data as? Int, error)
+    self.request(.beginGuildPrune(guildId), params: ["days": limit]) { data, error in
+      completion((data as! [String: Int])["pruned"], error)
     }
   }
 

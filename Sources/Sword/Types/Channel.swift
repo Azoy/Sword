@@ -97,10 +97,17 @@ public extension Channel {
   /**
    Gets an array of messages from this channel
 
-   - parameter limit: Amount of messages to get
+   #### Option Params ####
+
+   - **around**: Message Id to get messages around
+   - **before**: Message Id to get messages before this one
+   - **after**: Message Id to get messages after this one
+   - **limit**: Number of how many messages you want to get (1-100)
+
+   - parameter options: Dictionary containing optional options regarding how many messages, or when to get them
   **/
-  public func getMessages(amount limit: Int, then completion: @escaping ([Message]?, RequestError?) -> ()) {
-    self.sword?.getMessages(amount: limit, from: self.id, then: completion)
+  public func getMessages(with options: [String: Any]? = nil, then completion: @escaping ([Message]?, RequestError?) -> ()) {
+    self.sword?.getMessages(from: self.id, with: options, then: completion)
   }
 
   /**
