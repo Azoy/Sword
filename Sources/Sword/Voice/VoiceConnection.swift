@@ -582,7 +582,7 @@ public class VoiceConnection: Eventable {
 
     self.session?.connect()
     #else
-    let gatewayUri = try! URI(gatewayUrl)
+    let gatewayUri = try! URI("wss://\(self.endpoint)")
     let tcp = try! TCPInternetSocket(scheme: "https", hostname: gatewayUri.hostname, port: gatewayUri.port ?? 443)
     let stream = try! TLS.InternetSocket(tcp, TLS.Context(.client))
     try? WebSocket.background(to: "wss://\(self.endpoint)", using: stream) { [unowned self] ws in
