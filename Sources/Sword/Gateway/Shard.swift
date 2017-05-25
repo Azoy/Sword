@@ -13,7 +13,10 @@ import Dispatch
 import Starscream
 #else
 import Sockets
+import TLS
 import WebSockets
+
+typealias WebSocket = WebSockets.WebSocket
 #endif
 
 /// WS class
@@ -269,9 +272,10 @@ class Shard {
 
     self.session?.connect()
     #else
-    let gatewayInfo = gatewayUrl.components(separatedBy: "://")
-    let socket = try! TCPInternetSocket(scheme: gatewayInfo[0], hostname: gatewayInfo[1], port: 80)
-    try? WebSocket.connect(to: gatewayUrl, using: socket) { [unowned self] ws in
+    let gatewayUri = try! URI(gatewayUrl)
+    let tcp = try! TCPInternetSocket(scheme: "https", hostname: gatewayUri.hostname, port: 443)
+    let stream = try! TLS.InternetSocket(tcp, TLS.Context(.client))
+    try? WebSocket.connect(to: gatewayUrl, using: stream) { [unowned self] ws in
       self.session = ws
       self.isConnected = true
 

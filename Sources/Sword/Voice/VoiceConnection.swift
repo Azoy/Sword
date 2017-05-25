@@ -15,8 +15,12 @@ import Dispatch
 import Starscream
 import Sodium
 #else
+import Sockets
+import TLS
 import WebSockets
 import SodiumLinux
+
+typealias WebSocket = WebSockets.WebSocket
 #endif
 
 import Sockets
@@ -579,9 +583,10 @@ public class VoiceConnection: Eventable {
 
     self.session?.connect()
     #else
-    let gatewayInfo = "wss://\(self.endpoint)".components(separatedBy: "://")
-    let socket = try! TCPInternetSocket(scheme: gatewayInfo[0], hostname: gatewayInfo[1], port: 80)
-    try? WebSocket.background(to: "wss://\(self.endpoint)", using: socket) { [unowned self] ws in
+    let gatewayUri = try! URI(gatewayUrl)
+    let tcp = try! TCPInternetSocket(scheme: "https", hostname: gatewayUri.hostname, port: gatewayUri.port ?? 443)
+    let stream = try! TLS.InternetSocket(tcp, TLS.Context(.client))
+    try? WebSocket.background(to: "wss://\(self.endpoint)", using: stream) { [unowned self] ws in
       self.session = ws
       self.isConnected = true
 
