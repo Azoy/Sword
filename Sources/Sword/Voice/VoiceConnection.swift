@@ -17,10 +17,9 @@ import Sodium
 #else
 import Sockets
 import TLS
+import URI
 import WebSockets
 import SodiumLinux
-
-typealias WebSocket = WebSockets.WebSocket
 #endif
 
 import Sockets
