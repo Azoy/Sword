@@ -27,29 +27,62 @@ extension Shard {
 
       /// CHANNEL_CREATE
       case .channelCreate:
-        if (data["type"] as! Int) == 1 {
-          let dm = DMChannel(self.sword, data)
-          self.sword.dms[dm.recipients[0].id] = dm
-          self.sword.emit(.channelCreate, with: dm)
-        }else {
-          let channel = GuildChannel(self.sword, data)
-          self.sword.guilds[channel.guild!.id]!.channels[channel.id] = channel
-          self.sword.emit(.channelCreate, with: channel)
+        switch data["type"] as! Int {
+          case 0, 2:
+            let channel = GuildChannel(self.sword, data)
+            self.sword.guilds[channel.guild!.id]!.channels[channel.id] = channel
+            self.sword.emit(.channelCreate, with: channel)
+
+          case 1:
+            let dm = DMChannel(self.sword, data)
+            self.sword.dms[dm.recipient.id] = dm
+            self.sword.emit(.channelCreate, with: dm)
+
+          case 3:
+            let group = GroupChannel(self.sword, data)
+            self.sword.groups[group.id] = group
+            self.sword.emit(.channelCreate, with: group)
+
+          default:
+            break
         }
 
       /// CHANNEL_DELETE
       case .channelDelete:
-        if (data["type"] as! Int) == 1 {
-          self.sword.emit(.channelDelete, with: DMChannel(self.sword, data))
-        }else {
-          let channel = GuildChannel(self.sword, data)
-          self.sword.guilds[channel.guild!.id]!.channels.removeValue(forKey: channel.id)
-          self.sword.emit(.channelDelete, with: channel)
+        switch data["type"] as! Int {
+          case 0, 2:
+            let channel = self.sword.guilds[data["guild_id"] as! String]!.channels.removeValue(forKey: data["id"] as! String)
+            self.sword.emit(.channelDelete, with: channel!)
+
+          case 1:
+            let recipient = (data["recipients"] as! [[String: Any]])[0]
+            let dm = self.sword.dms.removeValue(forKey: recipient["id"] as! String)
+            self.sword.emit(.channelDelete, with: dm!)
+
+          case 3:
+            let group = self.sword.groups.removeValue(forKey: data["id"] as! String)
+            self.sword.emit(.channelDelete, with: group!)
+
+          default:
+            break
         }
 
       /// CHANNEL_UPDATE
       case .channelUpdate:
-        self.sword.emit(.channelUpdate, with: GuildChannel(self.sword, data))
+        switch data["type"] as! Int {
+          case 0, 2:
+            let channel = GuildChannel(self.sword, data)
+            self.sword.guilds[channel.guild!.id]!.channels[channel.id] = channel
+            self.sword.emit(.channelUpdate, with: channel)
+
+          case 3:
+            let group = GroupChannel(self.sword, data)
+            self.sword.groups[group.id] = group
+            self.sword.emit(.channelUpdate, with: group)
+
+          default:
+            break
+        }
 
       /// GUILD_BAN_ADD
       case .guildBanAdd:

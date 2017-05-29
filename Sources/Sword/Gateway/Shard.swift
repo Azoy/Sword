@@ -9,7 +9,7 @@
 import Foundation
 import Dispatch
 
-#if !os(Linux)
+#if os(iOS)
 import Starscream
 #else
 import Sockets
@@ -24,10 +24,6 @@ typealias WebSocket = WebSockets.WebSocket
 class Shard {
 
   // MARK: Properties
-
-  #if !os(Linux)
-  let gatewayQueue = DispatchQueue(label: "gg.azoy.gateway")
-  #endif
 
   /// Gateway URL for gateway
   var gatewayUrl = ""
@@ -116,9 +112,11 @@ class Shard {
   /// Sends shard identity to WS connection
   func identify() {
     #if os(macOS)
-    let os = "macOS"
-    #else
-    let os = "Linux"
+    let osName = "macOS"
+    #elseif os(Linux)
+    let osName = "Linux"
+    #elseif os(iOS)
+    let osName = "iOS"
     #endif
 
     let identity = Payload(
@@ -126,7 +124,7 @@ class Shard {
       data: [
         "token": self.sword.token,
         "properties": [
-          "$os": os,
+          "$os": osName,
           "$browser": "Sword",
           "$device": "Sword"
         ],
@@ -190,7 +188,7 @@ class Shard {
    - parameter payload: Reconnect payload to send to connection
   */
   func reconnect() {
-    #if !os(Linux)
+    #if os(iOS)
     self.session?.disconnect()
     #else
     try? self.session?.close()
@@ -224,7 +222,7 @@ class Shard {
   */
   func send(_ text: String, presence: Bool = false) {
     let item = DispatchWorkItem { [unowned self] in
-      #if !os(Linux)
+      #if os(iOS)
       self.session?.write(string: text)
       #else
       try? self.session?.send(text)
@@ -241,7 +239,7 @@ class Shard {
   func startWS(_ gatewayUrl: String) {
     self.gatewayUrl = gatewayUrl
 
-    #if !os(Linux)
+    #if os(iOS)
     self.session = WebSocket(url: URL(string: gatewayUrl)!)
     self.session?.callbackQueue = self.gatewayQueue
 
@@ -307,7 +305,7 @@ class Shard {
 
   /// Used to stop WS connection
   func stop() {
-    #if !os(Linux)
+    #if os(iOS)
     self.session?.disconnect()
     #else
     try? self.session?.close()

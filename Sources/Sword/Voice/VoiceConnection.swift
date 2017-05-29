@@ -11,18 +11,16 @@
 import Foundation
 import Dispatch
 
-#if !os(Linux)
-import Starscream
-import Sodium
-#else
 import Sockets
 import TLS
 import URI
 import WebSockets
+
+#if os(macOS)
+import Sodium
+#else
 import SodiumLinux
 #endif
-
-import Sockets
 
 /// Voice Connection class that handles connection to voice server
 public class VoiceConnection: Eventable {
@@ -105,7 +103,7 @@ public class VoiceConnection: Eventable {
   }
 
   /// Used in making of rtp header
-  #if !os(Linux)
+  #if os(macOS)
   var sequence = UInt16(arc4random() >> 16)
   var timestamp = UInt32(arc4random())
   #else
@@ -166,11 +164,7 @@ public class VoiceConnection: Eventable {
 
     self.isClosed = true
 
-    #if !os(Linux)
-    self.session?.disconnect()
-    #else
     try? self.session?.close()
-    #endif
 
     try? self.udpClient?.close()
     self.encoder = nil
@@ -198,7 +192,7 @@ public class VoiceConnection: Eventable {
     var nonce = header + [UInt8](repeating: 0x00, count: 12)
     var buffer = data
 
-    #if !os(Linux)
+    #if os(macOS)
     let audioSize = Int(crypto_secretbox_MACBYTES) + data.count
     #else
     let audioSize = 16 + data.count
@@ -245,7 +239,7 @@ public class VoiceConnection: Eventable {
     let header = Array(data.prefix(12))
     var nonce = header + [UInt8](repeating: 0x00, count: 12)
     let audioData = Array(data.dropFirst(12))
-    #if !os(Linux)
+    #if os(macOS)
     let audioSize = audioData.count - Int(crypto_secretbox_MACBYTES)
     #else
     let audioSize = audioData.count - 16
@@ -333,11 +327,7 @@ public class VoiceConnection: Eventable {
     self.udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite.\(guildId)")
     self.isClosed = true
 
-    #if !os(Linux)
-    self.session?.disconnect()
-    #else
     try? self.session?.close()
-    #endif
 
     try? self.udpClient?.close()
 
@@ -474,11 +464,7 @@ public class VoiceConnection: Eventable {
 
     let payload = Payload(voiceOP: .selectProtocol, data: ["protocol": "udp", "data": ["address": localIp, "port": localPort, "mode": "xsalsa20_poly1305"]]).encode()
 
-    #if !os(Linux)
-    self.session?.disconnect()
-    #else
     try? self.session?.send(payload)
-    #endif
 
     if self.encoder != nil {
       self.readEncoder(for: 1)
@@ -522,11 +508,7 @@ public class VoiceConnection: Eventable {
   func setSpeaking(to value: Bool) {
     let payload = Payload(voiceOP: .speaking, data: ["speaking": value, "delay": 0]).encode()
 
-    #if !os(Linux)
-    self.session?.write(string: payload)
-    #else
     try? self.session?.send(payload)
-    #endif
   }
 
   /**
@@ -561,27 +543,6 @@ public class VoiceConnection: Eventable {
    - parameter identify: Identify to send to give details about our connection
   */
   func startWS(_ identify: String) {
-    #if !os(Linux)
-    self.session = WebSocket(url: URL(string: "wss://\(self.endpoint)")!)
-    self.session?.callbackQueue = DispatchQueue(label: "gg.azoy.\(self.guildId).voiceGateway")
-    self.session?.voipEnabled = true
-
-    self.session?.onConnect = { [unowned self] in
-      self.isConnected = true
-    }
-
-    self.session?.onText = { [unowned self] text in
-      self.handleWSPayload(Payload(with: text))
-    }
-
-    self.session?.onDisconnect = { [unowned self] error in
-      self.session = nil
-      self.heartbeat = nil
-      self.isConnected = false
-    }
-
-    self.session?.connect()
-    #else
     let gatewayUri = try! URI("wss://\(self.endpoint)")
     let tcp = try! TCPInternetSocket(scheme: "https", hostname: gatewayUri.hostname, port: gatewayUri.port ?? 443)
     let stream = try! TLS.InternetSocket(tcp, TLS.Context(.client))
@@ -601,7 +562,6 @@ public class VoiceConnection: Eventable {
         self.isConnected = false
       }
     }
-    #endif
   }
 
 }

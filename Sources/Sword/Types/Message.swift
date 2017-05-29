@@ -87,7 +87,12 @@ public struct Message {
     if guild != nil {
       self.channel = guild!.channels[json["channel_id"] as! String]!
     }else {
-      self.channel = DMChannel(sword, ["id": json["channel_id"] as! String])
+      let dm = sword.getDM(for: json["channel_id"] as! String)
+      if dm != nil {
+        self.channel = dm!
+      }else {
+        self.channel = sword.groups[json["channel_id"] as! String]!
+      }
     }
 
     if let editedTimestamp = json["edited_timestamp"] as? String {

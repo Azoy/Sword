@@ -9,7 +9,7 @@
 import Foundation
 import Dispatch
 
-#if !os(Linux)
+#if os(iOS)
 import Starscream
 #else
 import WebSockets
@@ -75,7 +75,7 @@ class Heartbeat {
         heartbeat.d = Int(Date().timeIntervalSince1970 * 1000)
       }
 
-      #if !os(Linux)
+      #if os(iOS)
       this.session.write(string: heartbeat.encode())
       #else
       try? this.session.send(heartbeat.encode())

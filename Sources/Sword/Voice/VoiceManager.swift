@@ -50,7 +50,11 @@ class VoiceManager {
    - parameter guildId: Guild to leave from
   */
   func leave(_ guildId: String) {
-    self.connections[guildId]!.close()
+    guard let connection = self.connections[guildId] else {
+      return
+    }
+
+    connection.close()
     self.connections.removeValue(forKey: guildId)
     self.guilds.removeValue(forKey: guildId)
   }

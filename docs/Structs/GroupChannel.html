@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Command Struct Reference</title>
+    <title>GroupChannel Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/Command" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/GroupChannel" class="dashAnchor"></a>
 
-    <a title="Command Struct Reference"></a>
+    <a title="GroupChannel Struct Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -35,7 +35,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Command Struct Reference
+      GroupChannel Struct Reference
     </p>
 
     <div class="content-wrapper">
@@ -160,14 +160,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Command</h1>
+            <h1>GroupChannel</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Command</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GroupChannel</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Channel.html">Channel</a></span></code></pre>
 
                 </div>
               </div>
-            <p>Command structure</p>
+            <p>DMChannel Type</p>
 
           </div>
         </section>
@@ -186,9 +186,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword7Command8functionFTVS_7MessageGSaSS__T_"></a>
-                    <a name="//apple_ref/swift/Property/function" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Command8functionFTVS_7MessageGSaSS__T_">function</a>
+                    <a name="/s:vV5Sword12GroupChannel5swordXwGSqCS_5Sword_"></a>
+                    <a name="//apple_ref/swift/Property/sword" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GroupChannel5swordXwGSqCS_5Sword_">sword</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -196,14 +196,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Function to execute once command is called</p>
+                        <p>Parent class</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">function</span><span class="p">:</span> <span class="p">(</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">,</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">sword</span><span class="p">:</span> <span class="kt"><a href="../Classes/Sword.html">Sword</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -213,9 +213,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword7Command4nameSS"></a>
-                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Command4nameSS">name</a>
+                    <a name="/s:vV5Sword12GroupChannel2idSS"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GroupChannel2idSS">id</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -223,14 +223,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Name of the command</p>
+                        <p>ID of DM</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -240,9 +240,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword7Command7optionsVS_14CommandOptions"></a>
-                    <a name="//apple_ref/swift/Property/options" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword7Command7optionsVS_14CommandOptions">options</a>
+                    <a name="/s:vV5Sword12GroupChannel10recipientsGSaVS_4User_"></a>
+                    <a name="//apple_ref/swift/Property/recipients" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GroupChannel10recipientsGSaVS_4User_">recipients</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -250,14 +250,68 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Options of the command</p>
+                        <p>The recipient of this DM</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/CommandOptions.html">CommandOptions</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">recipients</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Structs/User.html">User</a></span><span class="p">]()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword12GroupChannel13lastMessageIdGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/lastMessageId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GroupChannel13lastMessageIdGSqSS_">lastMessageId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The last message&rsquo;s ID</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">lastMessageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV5Sword12GroupChannel8messagesGVs10DictionarySSVS_7Message_"></a>
+                    <a name="//apple_ref/swift/Property/messages" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV5Sword12GroupChannel8messagesGVs10DictionarySSVS_7Message_">messages</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Collection of messages mapped by message id</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">messages</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">]()</span></code></pre>
 
                         </div>
                       </div>

@@ -2,37 +2,36 @@
 
 import PackageDescription
 
-#if !os(Linux)
-var dependencies: [Package.Dependency] = [
+#if os(iOS)
+let dependencies: [Package.Dependency] = [
   .Package(
     url: "https://github.com/daltoniam/Starscream",
     majorVersion: 2
   )
 ]
 #else
-let dependencies: [Package.Dependency] = [
+var dependencies: [Package.Dependency] = [
   .Package(
     url: "https://github.com/vapor/engine",
     majorVersion: 2
-  ),
-  .Package(
-    url: "https://github.com/Azoy/Sodium-Linux",
-    majorVersion: 1
   )
 ]
 #endif
 
 #if os(macOS)
-dependencies += [
+dependencies.append(
   .Package(
     url: "https://github.com/Azoy/Sodium",
     majorVersion: 1
-  ),
-  .Package(
-    url: "https://github.com/vapor/sockets",
-    majorVersion: 2
   )
-]
+)
+#elseif os(Linux)
+dependencies.append(
+  .Package(
+    url: "https://github.com/Azoy/Sodium-Linux",
+    majorVersion: 1
+  )
+)
 #endif
 
 let package = Package(

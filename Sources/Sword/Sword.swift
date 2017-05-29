@@ -29,7 +29,10 @@ open class Sword: Eventable {
   /// Used to store requests when being globally rate limited
   var globalRequestQueue = [() -> ()]()
 
-  /// Array of guilds the bot is currently connected to
+  /// Collection of group channels the bot is connected to
+  public internal(set) var groups = [String: GroupChannel]()
+
+  /// Colectionl of guilds the bot is currently connected to
   public internal(set) var guilds = [String: Guild]()
 
   /// Event listeners
@@ -148,10 +151,6 @@ open class Sword: Eventable {
         }
       }
     }
-
-    #if os(macOS)
-    CFRunLoopRun()
-    #endif
   }
 
   /// Disconnects the bot from the gateway
