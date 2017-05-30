@@ -194,6 +194,8 @@ class Shard {
     try? self.session?.close()
     #endif
 
+    self.sword.log("Disconnected from gateway... Resuming session")
+
     self.isConnected = false
     self.heartbeat = nil
 
@@ -228,6 +230,7 @@ class Shard {
       try? self.session?.send(text)
       #endif
     }
+
     presence ? self.presenceBucket.queue(item) : self.globalBucket.queue(item)
   }
 
@@ -248,6 +251,7 @@ class Shard {
     }
 
     self.session?.onText = { [unowned self] text in
+      self.sword.emit(.payload, with: text)
       self.event(Payload(with: text))
     }
 
@@ -256,13 +260,13 @@ class Shard {
       self.isConnected = false
       switch CloseOP(rawValue: Int(error!.code))! {
         case .authenticationFailed:
-          print("[Sword] - Invalid Bot Token")
+          print("[Sword] Invalid Bot Token")
 
         case .invalidShard:
-          print("[Sword] - Invalid Shard (We messed up here. Try again.)")
+          print("[Sword] Invalid Shard (We messed up here. Try again.)")
 
         case .shardingRequired:
-          print("[Sword] - Sharding is required for this bot to run correctly.")
+          print("[Sword] Sharding is required for this bot to run correctly.")
 
         default:
           if self.isReconnecting { self.reconnect() }
@@ -279,6 +283,7 @@ class Shard {
       self.isConnected = true
 
       ws.onText = { _, text in
+        self.sword.emit(.payload, with: text)
         self.event(Payload(with: text))
       }
 
@@ -287,13 +292,13 @@ class Shard {
         self.isConnected = false
         switch CloseOP(rawValue: Int(code!))! {
           case .authenticationFailed:
-            print("[Sword] - Invalid Bot Token")
+            print("[Sword] Invalid Bot Token")
 
           case .invalidShard:
-            print("[Sword] - Invalid Shard (We messed up here. Try again.)")
+            print("[Sword] Invalid Shard (We messed up here. Try again.)")
 
           case .shardingRequired:
-            print("[Sword] - Sharding is required for this bot to run correctly.")
+            print("[Sword] Sharding is required for this bot to run correctly.")
 
           default:
             if self.isReconnecting { self.reconnect() }
@@ -310,6 +315,8 @@ class Shard {
     #else
     try? self.session?.close()
     #endif
+
+    self.sword.log("Stopping gateway connection...")
 
     self.isConnected = false
     self.heartbeat = nil

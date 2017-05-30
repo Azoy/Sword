@@ -366,17 +366,29 @@ public enum Event: String {
     */
   case messageUpdate = "MESSAGE_UPDATE"
 
-    /**
-     Fired when a user's presences is updated
+  /**
+   Fired when a payload is received through the gateway
 
-     ### Usage ###
-     ```swift
-     bot.on(.presenceUpdate) { data in
-       let userId = data[0] as! String
-       let presence = data[1] as! Presence
-     }
-     ```
-    */
+   ### Usage ###
+   ```swift
+   bot.on(.payload) { data, in
+     let message = data[0] as! String
+   }
+   ```
+  */
+  case payload
+
+  /**
+   Fired when a user's presences is updated
+
+   ### Usage ###
+   ```swift
+   bot.on(.presenceUpdate) { data in
+     let userId = data[0] as! String
+     let presence = data[1] as! Presence
+   }
+   ```
+  */
   case presenceUpdate = "PRESENCE_UPDATE"
 
     /**

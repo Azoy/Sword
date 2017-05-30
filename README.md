@@ -6,6 +6,7 @@
 1. macOS, Linux, or iOS (no voice for iOS)
 2. Swift 3.0
 3. libsodium (brew update && brew install libsodium)
+4. For macOS, you'll need to install another dependency (brew tap vapor/tap && brew install ctls)
 
 # Adding Sword
 In order to add Sword as a dependency, you must first create a Swift executable in a designated folder, like so `swift package init --type executable`. Then in the newly created Package.swift, open it and add Sword as a dependency

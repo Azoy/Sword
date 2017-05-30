@@ -37,6 +37,7 @@ extension Eventable {
       self.listeners[event] = [function]
       return
     }
+
     self.listeners[event]!.append(function)
   }
 
@@ -48,6 +49,7 @@ extension Eventable {
    */
   public func emit(_ event: Event, with data: Any...) {
     guard let functions = self.listeners[event] else { return }
+
     for function in functions {
       function(data)
     }
