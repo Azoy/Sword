@@ -32,7 +32,7 @@ open class Shield: Sword {
     super.init(token: token, with: swordOptions)
 
     self.on(.ready) { [unowned self] data in
-      let bot = data[0] as! User
+      let bot = data as! User
 
       if self.shieldOptions.prefixes.contains("@bot") {
         self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
@@ -50,8 +50,8 @@ open class Shield: Sword {
    Handles MESSAGE_CREATE
    - parameter data: The [Any] that needs to be casted to Message to handle the message
   */
-  func handle(message data: [Any]) {
-    let msg = data[0] as! Message
+  func handle(message data: Any) {
+    let msg = data as! Message
 
     if self.shieldOptions.willIgnoreBots && msg.author?.isBot == true {
       return

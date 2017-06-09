@@ -34,7 +34,7 @@ bot.on(.ready) { [unowned bot] _ in
 }
 
 bot.on(.messageCreate) { data in
-  let msg = data[0] as! Message
+  let msg = data as! Message
   if msg.content == "!ping" {
     msg.reply(with: "Pong!")
   }

@@ -68,7 +68,7 @@ public enum Event: String {
    ### Usage ###
    ```swift
    connection.on(.audioData) { data in
-     let audioData = data[0] as! Data
+     let audioData = data as! Data
    }
    ```
   */
@@ -80,7 +80,7 @@ public enum Event: String {
    ### Usage ###
    ```swift
    bot.on(.channelCreate) { data in
-     let channel = data[0] as! Channel
+     let channel = data as! Channel
    }
   */
   case channelCreate = "CHANNEL_CREATE"
@@ -91,7 +91,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.channelDelete) { data in
-       let channel = data[0] as! Channel
+       let channel = data as! Channel
      }
      ```
     */
@@ -103,7 +103,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.channelUpdate) { data in
-       let channel = data[0] as! Channel
+       let channel = data as! Channel
      }
      ```
     */
@@ -127,7 +127,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildAvailable) { data in
-       let guild = data[0] as! Guild
+       let guild = data as! Guild
      }
      ```
     */
@@ -139,8 +139,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildBanAdd) { data in
-       let guild = data[0] as! Guild
-       let user = data[1] as! User
+       let (guild, user) = data as! (Guild, User)
      }
      ```
     */
@@ -152,8 +151,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildBanRemove) { data in
-       let guild = data[0] as! Guild
-       let user = data[1] as! User
+       let (guild, user) = data as! (Guild, User)
      }
      ```
     */
@@ -165,7 +163,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildCreate) { data in
-       let guild = data[0] as! Guild
+       let guild = data as! Guild
      }
      ```
     */
@@ -177,7 +175,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildDelete) { data in
-       let guild = data[0] as! Guild
+       let guild = data as! Guild
      }
      ```
     */
@@ -189,8 +187,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildEmojisUpdate) { data in
-       let guild = data[0] as! Guild
-       let emojis = data[1] as! [Emoji]
+       let (guild, emojis) = data as! (Guild, [Emoji])
      }
      ```
     */
@@ -202,7 +199,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildIntegrationsUpdate) { data in
-       let guild = data[0] as! Guild
+       let guild = data as! Guild
      }
      ```
     */
@@ -214,8 +211,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildMemberAdd) { data in
-       let guild = data[0] as! Guild
-       let member = data[1] as! Member
+       let (guild, member) = data as! (Guild, Member)
      }
      ```
     */
@@ -227,8 +223,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildMemberRemove) { data in
-       let guild = data[0] as! Guild
-       let user = data[1] as! User
+       let (guild, user) = data as! (Guild, User)
      }
      ```
     */
@@ -240,7 +235,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildMemberUpdate) { data in
-       let member = data[0] as! Member
+       let member = data as! Member
      }
      ```
     */
@@ -255,8 +250,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildRoleCreate) { data in
-       let guild = data[0] as! Guild
-       let role = data[1] as! Role
+       let (guild, role) = data as! (Guild, Role)
      }
      ```
     */
@@ -268,8 +262,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildRoleDelete) { data in
-       let guild = data[0] as! Guild
-       let roleId = data[1] as! String
+       let (guild, roleID) = data as! (Guild, String)
      }
      ```
     */
@@ -281,8 +274,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildRoleUpdate) { data in
-       let guild = data[0] as! Guild
-       let role = data[1] as! Role
+       let (guild, role) = data as! (Guild, Role)
      }
      ```
     */
@@ -294,7 +286,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildUnavailable) { data in
-       let guild = data[0] as! UnavailableGuild
+       let guild = data as! UnavailableGuild
      }
      ```
     */
@@ -306,7 +298,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildUpdate) { data in
-       let guild = data[0] as! Guild
+       let guild = data as! Guild
      }
      ```
     */
@@ -318,7 +310,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.messageCreate) { data in
-       let msg = data[0] as! Message
+       let msg = data as! Message
      }
      ```
     */
@@ -330,11 +322,11 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.messageDelete) { data in
-      guard let msg = data[0] as? Message else {
-        //data has returned a string
+      guard let (msg, channel) = data as? (Message, Channel) else {
+        // data has returned an ID (string)
+        let (messageID, channel) = data as! (String, Channel)
         return
       }
-      let channel = data[1] as! Channel
      }
      ```
     */
@@ -346,8 +338,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.messageDeleteBulk) { data in
-       let messageIds = data[0] as! [String]
-       let channel = data[1] as! Channel
+       let (messageIDs, channel) = data as! ([String], Channel)
      }
      ```
     */
@@ -359,8 +350,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.messageUpdate) { data in
-       let msgId = data[0] as! String
-       let channelId = data[1] as! String
+       let (messageID, channelID) = data as! (String, String)
      }
      ```
     */
@@ -372,7 +362,7 @@ public enum Event: String {
    ### Usage ###
    ```swift
    bot.on(.payload) { data, in
-     let message = data[0] as! String
+     let message = data as! String
    }
    ```
   */
@@ -384,8 +374,7 @@ public enum Event: String {
    ### Usage ###
    ```swift
    bot.on(.presenceUpdate) { data in
-     let userId = data[0] as! String
-     let presence = data[1] as! Presence
+     let (userID, presence) = data as! (String, Presence)
    }
    ```
   */
@@ -397,7 +386,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.ready) { data in
-       let user = data[0] as! User
+       let user = data as! User
      }
      ```
     */
@@ -412,7 +401,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.shardReady) { data in
-       let shardId = data[0] as! Int
+       let shardID = data as! Int
      }
      ```
     */
@@ -424,9 +413,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.typingStart) { data in
-       let channel = data[0] as! Channel
-       let userId = data[1] as! String
-       let timestamp = data[2] as! Date
+       let (channel, userID, timestamp) = data as! (Channel, String, Date)
      }
      ```
     */
@@ -438,7 +425,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.userUpdate) { data in
-       let user = data[0] as! User
+       let user = data as! User
      }
      ```
     */
@@ -450,8 +437,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.voiceChannelJoin) { data in
-       let userId = data[0] as! String
-       let voiceState = data[1] as! VoiceState
+       let (userID, voiceState) = data as! (String, VoiceState)
      }
      ```
     */
@@ -463,7 +449,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.voiceChannelLeave) { data in
-       let userId = data[0] as! String
+       let userID = data as! String
      }
      ```
     */
@@ -475,7 +461,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.voiceStateUpdate) { data in
-       let userId = data[0] as! String
+       let userID = data as! String
      }
      ```
     */

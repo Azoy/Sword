@@ -10,18 +10,18 @@
 public protocol Eventable: class {
 
   /// Event Listeners
-  var listeners: [Event: [([Any]) -> ()]] { get set }
+  var listeners: [Event: [(Any) -> ()]] { get set }
 
   /**
    - parameter event: Event to listen for
    */
-  func on(_ event: Event, do function: @escaping ([Any]) -> ())
+  func on(_ event: Event, do function: @escaping (Any) -> ())
 
   /**
    - parameter event: Event to emit
    - parameter data: Array of stuff to emit listener with
    */
-  func emit(_ event: Event, with data: Any...)
+  func emit(_ event: Event, with data: Any)
 
 }
 
@@ -32,7 +32,7 @@ extension Eventable {
 
    - parameter event: Event to listen for
    */
-  public func on(_ event: Event, do function: @escaping ([Any]) -> ()) {
+  public func on(_ event: Event, do function: @escaping (Any) -> ()) {
     guard self.listeners[event] != nil else {
       self.listeners[event] = [function]
       return
@@ -47,7 +47,7 @@ extension Eventable {
    - parameter event: Event to emit
    - parameter data: Array of stuff to emit listener with
    */
-  public func emit(_ event: Event, with data: Any...) {
+  public func emit(_ event: Event, with data: Any = ()) {
     guard let functions = self.listeners[event] else { return }
 
     for function in functions {
