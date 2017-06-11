@@ -547,17 +547,47 @@ public struct Emoji {
 
 /// Either a discord custom emoji or a Unicode emoji
 public enum AnyEmoji {
-  case custom(Emoji), unicode(String)
+  case custom(id: Snowflake, name: String), unicode(String), customStruct(Emoji)
   init(_ string: String) {
     self = .unicode(string)
   }
   init(_ emoji: Emoji) {
-    self = .custom(emoji)
+    self = .customStruct(emoji)
+  }
+  init(id: Snowflake?, name: String) {
+    if let id = id {
+      self = .custom(id: id, name: name)
+    }
+    else {
+      self = .unicode(name)
+    }
+  }
+  var id: Snowflake? {
+    switch self {
+    case let .customStruct(emoji):
+      return emoji.id
+    case let .custom(id, _):
+      return id
+    case .unicode(_):
+      return nil
+    }
+  }
+  var name: String {
+    switch self {
+    case let .customStruct(emoji):
+      return emoji.name
+    case let .custom(_, name):
+      return name
+    case let .unicode(name):
+      return name
+    }
   }
   var urlFriendlyString: String {
     switch self {
-    case let .custom(emoji):
+    case let .customStruct(emoji):
       return "\(emoji.name):\(emoji.id)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+    case let .custom(id, name):
+      return "\(name):\(id)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
     case let .unicode(string):
       return string.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
     }

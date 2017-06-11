@@ -59,7 +59,7 @@ class Shard {
   let shardCount: Int
 
   /// Parent class
-  let sword: Sword
+  unowned let sword: Sword
 
   // MARK: Initializer
 

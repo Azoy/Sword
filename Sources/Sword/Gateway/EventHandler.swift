@@ -130,12 +130,8 @@ extension Shard {
 
       /// GUILD_EMOJIS_UPDATE
       case .guildEmojisUpdate:
-        var emitEmojis: [Emoji] = []
-        let emojis = data["emojis"] as! [[String: Any]]
-        for emoji in emojis {
-          emitEmojis.append(Emoji(emoji))
-        }
-        self.sword.emit(.guildEmojisUpdate, with: (self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!, emitEmojis))
+        let emojis = (data["emojis"] as! [[String: Any]]).map(Emoji.init)
+        self.sword.emit(.guildEmojisUpdate, with: (self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!, emojis))
 
       /// GUILD_INTEGRATIONS_UPDATE
       case .guildIntegrationsUpdate:
@@ -254,7 +250,18 @@ extension Shard {
           }
           self.sword.emit(.messageDeleteBulk, with: (messages, dm))
         }
-
+      
+      /// MESSAGE_REACTION_ADD, MESSAGE_REACTION_REMOVE
+      case .messageReactionAdded, .messageReactionRemoved:
+        let channelID = Snowflake(data["channel_id"] as! String)!
+        let userID = Snowflake(data["user_id"] as! String)!
+        let messageID = Snowflake(data["message_id"] as! String)!
+        let emojiDict = data["emoji"] as! [String: Any]
+        let emojiID = Snowflake(emojiDict["id"] as? String)
+        let emojiName = emojiDict["name"] as! String
+        let emoji = AnyEmoji(id: emojiID, name: emojiName)
+        self.sword.emit(event, with: (channelID, userID, messageID, emoji))
+      
       /// MESSAGE_UPDATE
       case .messageUpdate:
         self.sword.emit(.messageUpdate, with: data)
@@ -320,10 +327,10 @@ extension Shard {
       case .voiceStateUpdate:
         let guildId = Snowflake(data["guild_id"] as! String)!
         let channelId = Snowflake(data["channel_id"] as? String)
-        let sessionId = Snowflake(data["session_id"] as! String)!
+        let sessionId = data["session_id"] as! String
         let userId = Snowflake(data["user_id"] as! String)!
 
-		let guild = self.sword.guilds[guildId]!
+        let guild = self.sword.guilds[guildId]!
 		
         if channelId != nil {
           let voiceState = VoiceState(data)
@@ -344,7 +351,7 @@ extension Shard {
         guard userId == self.sword.user!.id else { return }
 
         if let channelId = channelId {
-          self.sword.voiceManager.guilds[guildId] = ["channelId": channelId, "sessionId": sessionId, "userId": userId]
+          self.sword.voiceManager.guilds[guildId] = VoiceChannelConnection(channelID: channelId, userID: userId, sessionID: sessionId)
         }else {
           self.sword.voiceManager.leave(guildId)
         }
@@ -362,14 +369,34 @@ extension Shard {
           data: [
             "server_id": guildId.description,
             "user_id": self.sword.user!.id.description,
-            "session_id": guild["sessionId"]!.description,
+            "session_id": guild.sessionID,
             "token": token
           ]
         ).encode()
 
         self.sword.voiceManager.join(guildId, endpoint, payload)
-
-      default:
+      
+      
+      // Ignored
+      case .resume:
+        break
+      
+      // Won't happen here
+      case .audioData:
+        break
+      case .connectionClose:
+        break
+      case .guildAvailable:
+        break
+      case .guildUnavailable:
+        break
+      case .payload:
+        break
+      case .shardReady:
+        break
+      case .voiceChannelJoin:
+        break
+      case .voiceChannelLeave:
         break
     }
   }

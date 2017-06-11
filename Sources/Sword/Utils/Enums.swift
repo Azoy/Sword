@@ -343,7 +343,31 @@ public enum Event: String {
      ```
     */
   case messageDeleteBulk = "MESSAGE_DELETE_BULK"
-
+  
+    /**
+     Fired when a reaction is added to a message
+      
+     ### Usage ###
+     ```swift
+     bot.on(.messageReactionAdded) { data in
+       let (channelID, userID, messageID, emoji) = data as! (Snowflake, Snowflake, Snowflake, AnyEmoji)
+     }
+     ```
+    */
+  case messageReactionAdded = "MESSAGE_REACTION_ADD"
+  
+    /**
+     Fired when a reaction is removed from a message
+   
+     ### Usage ###
+     ```swift
+     bot.on(.messageReactionAdded) { data in
+       let (channelID, userID, messageID, emoji) = data as! (Snowflake, Snowflake, Snowflake, AnyEmoji)
+     }
+     ```
+    */
+  case messageReactionRemoved = "MESSAGE_REACTION_REMOVE"
+  
     /**
      Fired when a message is updated
 

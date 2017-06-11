@@ -99,6 +99,10 @@ extension Sword {
         sema.signal()
         return
       }
+      
+      if rateLimited {
+        self.handleRateLimitHeaders(headers["x-ratelimit-limit"], headers["x-ratelimit-remaining"], headers["x-ratelimit-reset"], (headers["Date"] as! String).httpDate.timeIntervalSince1970, route)
+      }
 
       if response.statusCode == 204 {
         completion(nil, nil)
@@ -141,10 +145,6 @@ extension Sword {
         completion(nil, response.status)
         sema.signal()
         return
-      }
-
-      if rateLimited {
-        self.handleRateLimitHeaders(headers["x-ratelimit-limit"], headers["x-ratelimit-remaining"], headers["x-ratelimit-reset"], (headers["Date"] as! String).httpDate.timeIntervalSince1970, route)
       }
 
       do {
