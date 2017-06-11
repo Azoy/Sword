@@ -15,16 +15,16 @@ public struct DMChannel: Channel {
   public internal(set) weak var sword: Sword?
 
   /// ID of DM
-  public let id: String
+  public let id: Snowflake
 
   /// The recipient of this DM
   public internal(set) var recipient: User
 
   /// The last message's ID
-  public let lastMessageId: String?
+  public let lastMessageId: Snowflake?
 
   /// Collection of messages mapped by message id
-  public internal(set) var messages = [String: Message]() {
+  public internal(set) var messages = [Snowflake: Message]() {
     didSet {
       if messages.count > self.sword!.options.messageLimit {
         let firstPair = messages.first!
@@ -44,12 +44,12 @@ public struct DMChannel: Channel {
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 
-    self.id = json["id"] as! String
+    self.id = Snowflake(json["id"] as! String)!
 
     let recipients = json["recipients"] as! [[String: Any]]
     self.recipient = User(sword, recipients[0])
 
-    self.lastMessageId = json["last_message_id"] as? String
+    self.lastMessageId = Snowflake(json["last_message_id"] as? String)
   }
 
 }

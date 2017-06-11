@@ -88,6 +88,6 @@ public struct CommandRequirements {
   public var permissions = [Permission]()
 
   /// Array of users that can use this command
-  public var users = [String]()
+  public var users = [Snowflake]()
 
 }

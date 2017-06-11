@@ -35,7 +35,7 @@ public struct Member {
   public internal(set) var presence: Presence?
 
   /// Array of role ids this member has
-  public internal(set) var roles = [String]()
+  public internal(set) var roles = [Snowflake]()
 
   /// User struct for this member
   public let user: User
@@ -61,7 +61,7 @@ public struct Member {
     self.isMuted = json["mute"] as? Bool
     self.nick = json["nick"] as? String
 
-    let roles = json["roles"] as! [String]
+    let roles = (json["roles"] as! [String]).map({ Snowflake($0)! })
     for role in roles {
       self.roles.append(role)
 

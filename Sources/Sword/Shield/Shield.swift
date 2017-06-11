@@ -75,40 +75,41 @@ open class Shield: Sword {
       let content = msg.content.replacingOccurrences(of: prefix, with: "")
       var arguments = content.components(separatedBy: " ")
 
-      var command = arguments.remove(at: 0)
+      var commandString = arguments.remove(at: 0)
 
-      let originalCommand = command
-      command = command.lowercased()
-
-      guard self.commands[command] != nil || self.commandAliases[command] != nil else { return }
-
-      if self.commandAliases[command] != nil {
-        command = self.commandAliases[command]!
-      }
-
-      if self.commands[command]!.options.isCaseSensitive != nil {
-        if self.commands[command]!.options.isCaseSensitive! {
-          guard self.commands[command]!.name == originalCommand else { return }
-        }
-      }else {
-        if self.shieldOptions.willBeCaseSensitive {
-          guard self.commands[command]!.name == originalCommand else { return }
+      let originalCommand = commandString
+      commandString = commandString.lowercased()
+      
+      // Replace an alias with the string for the base command if it exists
+      if (self.commands[commandString] == nil) {
+        if let alias = self.commandAliases[commandString] {
+          commandString = alias
         }
       }
+      
+      guard let command = self.commands[commandString] else { return }
 
-      if !self.commands[command]!.options.requirements.permissions.isEmpty {
-        let permission = self.commands[command]!.options.requirements.permissions.map {
+      if let isCaseSensitive = command.options.isCaseSensitive {
+        if isCaseSensitive {
+          guard command.name == originalCommand else { return }
+        }
+      }else if self.shieldOptions.willBeCaseSensitive {
+        guard command.name == originalCommand else { return }
+      }
+
+      if !command.options.requirements.permissions.isEmpty {
+        let requiredPermission = command.options.requirements.permissions.lazy.map {
           $0.rawValue
         }.reduce(0, |)
 
-        guard let permissions = msg.member?.permissions, permissions & permission > 0  else { return }
+        guard let permissions = msg.member?.permissions, permissions & requiredPermission > 0  else { return }
       }
 
-      if !self.commands[command]!.options.requirements.users.isEmpty {
-        guard let author = msg.author, self.commands[command]!.options.requirements.users.contains(author.id) else { return }
+      if !command.options.requirements.users.isEmpty {
+        guard let author = msg.author, command.options.requirements.users.contains(author.id) else { return }
       }
 
-      self.commands[command]!.function(msg, arguments)
+      command.function(msg, arguments)
     }
   }
 

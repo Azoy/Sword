@@ -41,8 +41,8 @@ extension Shard {
         guard !self.isReconnecting else {
           self.isReconnecting = false
           var data: [String: Any] = ["token": self.sword.token, "session_id": self.sessionId!, "seq": NSNull()]
-          if self.lastSeq != nil {
-            data.updateValue(self.lastSeq!, forKey: "seq")
+          if let lastSeq = self.lastSeq {
+            data.updateValue(lastSeq, forKey: "seq")
           }
           let payload = Payload(
             op: .resume,

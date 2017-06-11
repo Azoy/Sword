@@ -63,7 +63,7 @@ extension Sword {
    - parameter headers: The received headers from the request
   */
   func handleRateLimitHeaders(_ limitHeader: Any?, _ remainingHeader: Any?, _ intervalHeader: Any?, _ date: Double, _ route: String) {
-    guard limitHeader != nil, remainingHeader != nil, intervalHeader != nil else {
+    guard let limitHeader = limitHeader, let remainingHeader = remainingHeader, let intervalHeader = intervalHeader else {
       return
     }
 

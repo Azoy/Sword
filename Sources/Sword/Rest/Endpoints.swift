@@ -10,146 +10,146 @@ enum Endpoint {
 
   case gateway
 
-  case addPinnedChannelMessage(String, String)
+  case addPinnedChannelMessage(channel: Snowflake, message: Snowflake)
 
-  case beginGuildPrune(String)
+  case beginGuildPrune(Snowflake)
 
-  case bulkDeleteMessages(String)
+  case bulkDeleteMessages(Snowflake)
 
-  case createChannelInvite(String)
+  case createChannelInvite(Snowflake)
 
   case createDM
 
   case createGuild
 
-  case createGuildBan(String, String)
+  case createGuildBan(guild: Snowflake, user: Snowflake)
 
-  case createGuildChannel(String)
+  case createGuildChannel(Snowflake)
 
-  case createGuildIntegration(String)
+  case createGuildIntegration(Snowflake)
 
-  case createGuildRole(String)
+  case createGuildRole(Snowflake)
 
-  case createMessage(String)
+  case createMessage(Snowflake)
 
-  case createReaction(String, String, String)
+  case createReaction(channel: Snowflake, message: Snowflake, emoji: AnyEmoji)
 
-  case createWebhook(String)
+  case createWebhook(Snowflake)
 
-  case deleteAllReactions(String, String)
+  case deleteAllReactions(channel: Snowflake, message: Snowflake)
 
-  case deleteChannel(String)
+  case deleteChannel(Snowflake)
 
-  case deleteChannelPermission(String, String)
+  case deleteChannelPermission(channel: Snowflake, overwrite: Snowflake)
 
-  case deleteGuild(String)
+  case deleteGuild(Snowflake)
 
-  case deleteGuildIntegration(String, String)
+  case deleteGuildIntegration(guild: Snowflake, integration: Snowflake)
 
-  case deleteGuildRole(String, String)
+  case deleteGuildRole(guild: Snowflake, role: Snowflake)
 
-  case deleteInvite(String)
+  case deleteInvite(Snowflake)
 
-  case deleteMessage(String, String)
+  case deleteMessage(channel: Snowflake, message: Snowflake)
 
-  case deleteOwnReaction(String, String, String)
+  case deleteOwnReaction(channel: Snowflake, message: Snowflake, emoji: AnyEmoji)
 
-  case deletePinnedChannelMessage(String, String)
+  case deletePinnedChannelMessage(channel: Snowflake, message: Snowflake)
 
-  case deleteUserReaction(String, String, String, String)
+  case deleteUserReaction(channel: Snowflake, message: Snowflake, emoji: AnyEmoji, user: Snowflake)
 
-  case deleteWebhook(String, String?)
+  case deleteWebhook(webhook: Snowflake, token: String?)
 
-  case editChannelPermissions(String, String)
+  case editChannelPermissions(channel: Snowflake, overwrite: Snowflake)
 
-  case editMessage(String, String)
+  case editMessage(channel: Snowflake, message: Snowflake)
 
-  case executeSlackWebhook(String, String)
+  case executeSlackWebhook(webhook: Snowflake, token: String)
 
-  case executeWebhook(String, String)
+  case executeWebhook(webhook: Snowflake, token: String)
 
-  case getChannel(String)
+  case getChannel(Snowflake)
 
-  case getChannelInvites(String)
+  case getChannelInvites(Snowflake)
 
-  case getChannelMessage(String, String)
+  case getChannelMessage(channel: Snowflake, message: Snowflake)
 
-  case getChannelMessages(String)
+  case getChannelMessages(Snowflake)
 
-  case getChannelWebhooks(String)
+  case getChannelWebhooks(Snowflake)
 
   case getCurrentUser
 
   case getCurrentUserGuilds
 
-  case getGuild(String)
+  case getGuild(Snowflake)
 
-  case getGuildBans(String)
+  case getGuildBans(Snowflake)
 
-  case getGuildChannels(String)
+  case getGuildChannels(Snowflake)
 
-  case getGuildEmbed(String)
+  case getGuildEmbed(Snowflake)
 
-  case getGuildIntegrations(String)
+  case getGuildIntegrations(Snowflake)
 
-  case getGuildInvites(String)
+  case getGuildInvites(Snowflake)
 
-  case getGuildMember(String, String)
+  case getGuildMember(guild: Snowflake, user: Snowflake)
 
-  case getGuildPruneCount(String)
+  case getGuildPruneCount(Snowflake)
 
-  case getGuildRoles(String)
+  case getGuildRoles(Snowflake)
 
-  case getGuildVoiceRegions(String)
+  case getGuildVoiceRegions(Snowflake)
 
-  case getGuildWebhooks(String)
+  case getGuildWebhooks(Snowflake)
 
-  case getInvite(String)
+  case getInvite(Snowflake)
 
-  case getPinnedMessages(String)
+  case getPinnedMessages(Snowflake)
 
-  case getReactions(String, String, String)
+  case getReactions(channel: Snowflake, message: Snowflake, emoji: AnyEmoji)
 
-  case getUser(String)
+  case getUser(Snowflake)
 
   case getUserConnections
 
   case getUserDM
 
-  case getWebhook(String, String?)
+  case getWebhook(webhook: Snowflake, token: String?)
 
-  case groupDMRemoveRecipient(String, String)
+  case groupDMRemoveRecipient(channel: Snowflake, user: Snowflake) // Currently unused
 
-  case leaveGuild(String)
+  case leaveGuild(Snowflake)
 
-  case listGuildMembers(String)
+  case listGuildMembers(Snowflake)
 
-  case modifyChannel(String)
+  case modifyChannel(Snowflake)
 
   case modifyCurrentUser
 
-  case modifyGuild(String)
+  case modifyGuild(Snowflake)
 
-  case modifyGuildChannelPositions(String)
+  case modifyGuildChannelPositions(Snowflake)
 
-  case modifyGuildEmbed(String)
+  case modifyGuildEmbed(Snowflake) // Currently unused
 
-  case modifyGuildIntegration(String, String)
+  case modifyGuildIntegration(guild: Snowflake, integration: Snowflake)
 
-  case modifyGuildMember(String, String)
+  case modifyGuildMember(guild: Snowflake, user: Snowflake)
 
-  case modifyGuildRole(String, String)
+  case modifyGuildRole(guild: Snowflake, role: Snowflake)
 
-  case modifyGuildRolePositions(String)
+  case modifyGuildRolePositions(Snowflake)
 
-  case modifyWebhook(String, String?)
+  case modifyWebhook(webhook: Snowflake, token: String?)
 
-  case removeGuildBan(String, String)
+  case removeGuildBan(guild: Snowflake, user: Snowflake)
 
-  case removeGuildMember(String, String)
+  case removeGuildMember(guild: Snowflake, user: Snowflake)
 
-  case syncGuildIntegration(String, String)
+  case syncGuildIntegration(guild: Snowflake, integration: Snowflake)
 
-  case triggerTypingIndicator(String)
+  case triggerTypingIndicator(Snowflake)
 
 }

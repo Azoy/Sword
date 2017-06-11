@@ -12,7 +12,7 @@ public struct VoiceState {
   // MARK: Properties
 
   /// The ID of the voice channel
-  public let channelId: String
+  public let channelId: Snowflake
 
   /// Whether or not the user is server deafend
   public let isDeafend: Bool
@@ -40,7 +40,7 @@ public struct VoiceState {
    - parameter json: The json data
   */
   init(_ json: [String: Any]) {
-    self.channelId = json["channel_id"] as! String
+    self.channelId = Snowflake(json["channel_id"] as! String)!
     self.isDeafend = json["deaf"] as! Bool
     self.isMuted = json["mute"] as! Bool
     self.isSelfDeafend = json["self_deaf"] as! Bool

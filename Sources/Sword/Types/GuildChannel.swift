@@ -21,18 +21,18 @@ public struct GuildChannel: Channel {
 
   /// Guild object for this channel
   public var guild: Guild? {
-    if self.guildId != nil {
-      return self.sword!.guilds[self.guildId!]
+    if let guildId = self.guildId {
+      return self.sword!.guilds[guildId]
     }else {
       return nil
     }
   }
 
   /// Guild ID that this channel belongs to
-  private let guildId: String?
+  private let guildId: Snowflake?
 
   /// ID of the channel
-  public let id: String
+  public let id: Snowflake
 
   /// Whether or not this channel is NSFW
   public let isNsfw: Bool?
@@ -41,13 +41,13 @@ public struct GuildChannel: Channel {
   public let isPrivate: Bool?
 
   /// (Text) Last message sent's ID
-  public let lastMessageId: String?
+  public let lastMessageId: Snowflake?
 
   /// Last Pin's timestamp
   public let lastPinTimestamp: Date?
 
   /// Collection of messages mapped by message id
-  public internal(set) var messages = [String: Message]() {
+  public internal(set) var messages = [Snowflake: Message]() {
     didSet {
       if messages.count > self.sword!.options.messageLimit {
         let firstPair = messages.first!
@@ -60,7 +60,7 @@ public struct GuildChannel: Channel {
   public let name: String?
 
   /// Array of Overwrite strcuts for channel
-  public private(set) var permissionOverwrites = [String: Overwrite]()
+  public private(set) var permissionOverwrites = [Snowflake: Overwrite]()
 
   /// Position of channel
   public let position: Int?
@@ -86,10 +86,10 @@ public struct GuildChannel: Channel {
     self.sword = sword
 
     self.bitrate = json["bitrate"] as? Int
-    self.guildId = json["guild_id"] as? String
-    self.id = json["id"] as! String
+    self.guildId = Snowflake(json["guild_id"] as? String)
+    self.id = Snowflake(json["id"] as! String)!
     self.isPrivate = json["is_private"] as? Bool
-    self.lastMessageId = json["last_message_id"] as? String
+    self.lastMessageId = Snowflake(json["last_message_id"] as? String)
 
     if let lastPinTimestamp = json["last_pin_timestamp"] as? String {
       self.lastPinTimestamp = lastPinTimestamp.date
@@ -100,8 +100,8 @@ public struct GuildChannel: Channel {
     let name = json["name"] as? String
     self.name = name
 
-    if name != nil {
-      self.isNsfw = name! == "nsfw" || name!.hasPrefix("nsfw-")
+    if let name = name {
+      self.isNsfw = name == "nsfw" || name.hasPrefix("nsfw-")
     }else {
       self.isNsfw = nil
     }
@@ -140,7 +140,7 @@ public struct GuildChannel: Channel {
 
    - parameter messageId: Message to delete all reactions from
   */
-  public func deleteReactions(from messageId: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func deleteReactions(from messageId: Snowflake, then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword?.deleteReactions(from: messageId, in: self.id, then: completion)
   }
 
@@ -163,7 +163,7 @@ public struct Overwrite {
   public let deny: Int
 
   /// ID of overwrite
-  public let id: String
+  public let id: Snowflake
 
   /// Either "role" or "member"
   public let type: String
@@ -178,7 +178,7 @@ public struct Overwrite {
   init(_ json: [String: Any]) {
     self.allow = json["allow"] as! Int
     self.deny = json["deny"] as! Int
-    self.id = json["id"] as! String
+    self.id = Snowflake(json["id"] as! String)!
     self.type = json["type"] as! String
   }
 

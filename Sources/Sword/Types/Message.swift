@@ -32,7 +32,7 @@ public struct Message {
   public internal(set) var embeds = [Embed]()
 
   /// Message ID
-  public let id: String
+  public let id: Snowflake
 
   /// Whether or not this message mentioned everyone
   public let isEveryoneMentioned: Bool
@@ -59,7 +59,7 @@ public struct Message {
   public let timestamp: Date
 
   /// If message was sent by webhook, this is that webhook's ID
-  public let webhookId: String?
+  public let webhookId: Snowflake?
 
   // MARK: Initializer
 
@@ -83,15 +83,17 @@ public struct Message {
 
     self.content = json["content"] as! String
 
-    let guild = sword.getGuild(for: json["channel_id"] as! String)
-    if guild != nil {
-      self.channel = guild!.channels[json["channel_id"] as! String]!
+    let channelID = Snowflake(json["channel_id"] as! String)!
+    
+    let guild = sword.getGuild(for: channelID)
+    if let guild = guild {
+      self.channel = guild.channels[channelID]!
     }else {
-      let dm = sword.getDM(for: json["channel_id"] as! String)
-      if dm != nil {
-        self.channel = dm!
+      let dm = sword.getDM(for: channelID)
+      if let dm = dm {
+        self.channel = dm
       }else {
-        self.channel = sword.groups[json["channel_id"] as! String]!
+        self.channel = sword.groups[channelID]!
       }
     }
 
@@ -106,7 +108,7 @@ public struct Message {
       self.embeds.append(Embed(embed))
     }
 
-    self.id = json["id"] as! String
+    self.id = Snowflake(json["id"] as! String)!
 
     if json["webhook_id"] == nil {
       for (_, guild) in sword.guilds {
@@ -126,7 +128,7 @@ public struct Message {
       self.mentions.append(User(sword, mention))
     }
 
-    let mentionedRoles = json["mention_roles"] as! [String]
+    let mentionedRoles = (json["mention_roles"] as! [String]).map { Snowflake($0)! }
     for mentionedRole in mentionedRoles {
       self.mentionedRoles.append((self.channel as! GuildChannel).guild!.roles[mentionedRole]!)
     }
@@ -137,7 +139,7 @@ public struct Message {
     self.isPinned = json["pinned"] as! Bool
     self.timestamp = (json["timestamp"] as! String).date
     self.isTts = json["tts"] as! Bool
-    self.webhookId = json["webhook_id"] as? String
+    self.webhookId = Snowflake(json["webhook_id"] as? String)
   }
 
   // MARK: Functions
@@ -147,7 +149,7 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji to add to this message
   */
-  public func add(reaction: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func add(reaction: AnyEmoji, then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.channel.addReaction(reaction, to: self.id, then: completion)
   }
 
@@ -162,7 +164,7 @@ public struct Message {
    - parameter reaction: Either unicode or custom emoji reaction to remove
    - parameter userId: If nil, delete from self else delete from userId
   */
-  public func delete(reaction: String, from userId: String? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func delete(reaction: AnyEmoji, from userId: Snowflake? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.channel.deleteReaction(reaction, from: self.id, by: userId ?? nil, then: completion)
   }
 
@@ -190,7 +192,7 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji reaction to get users from
   */
-  public func get(reaction: String, then completion: @escaping ([User]?, RequestError?) -> ()) {
+  public func get(reaction: AnyEmoji, then completion: @escaping ([User]?, RequestError?) -> ()) {
     self.channel.getReaction(reaction, from: self.id, then: completion)
   }
 
@@ -222,7 +224,7 @@ public struct Attachment {
   public let height: Int?
 
   /// ID of attachment
-  public let id: String
+  public let id: Snowflake
 
   /// The proxied URL for this attachment
   public let proxyUrl: String
@@ -246,7 +248,7 @@ public struct Attachment {
   init(_ json: [String: Any]) {
     self.filename = json["filename"] as! String
     self.height = json["height"] as? Int
-    self.id = json["id"] as! String
+    self.id = Snowflake(json["id"] as! String)!
     self.proxyUrl = json["proxy_url"] as! String
     self.size = json["size"] as! Int
     self.url = json["url"] as! String

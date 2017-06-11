@@ -30,7 +30,7 @@ public struct User {
   public let email: String?
 
   /// ID of user
-  public let id: String
+  public let id: Snowflake
 
   /// Whether of not user has mfa enabled (will probably be empty forever)
   public let isMfaEnabled: Bool?
@@ -52,7 +52,7 @@ public struct User {
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 
-    self.id = json["id"] as! String
+    self.id = Snowflake(json["id"] as! String)!
     self.avatar = json["avatar"] as? String
     self.isBot = json["bot"] as? Bool
     self.discriminator = json["discriminator"] as? String
@@ -61,12 +61,12 @@ public struct User {
     self.username = json["username"] as? String
     self.isVerified = json["verified"] as? Bool
 
-    guard self.avatar != nil else {
+    guard let avatar = self.avatar else {
       self.avatarUrl = nil
       return
     }
 
-    self.avatarUrl = "https://cdn.discordapp.com/avatars/\(self.id)/\(self.avatar!).png"
+    self.avatarUrl = "https://cdn.discordapp.com/avatars/\(self.id)/\(avatar).png"
   }
 
   // MARK: Functions

@@ -26,9 +26,9 @@ extension Sword {
 
     body.append("--\(boundary)\r\n")
 
-    if payloadJson != nil {
+    if let payloadJson = payloadJson {
       body.append("Content-Disposition: form-data; name=\"payload_json\"\r\nContent-Type: application/json\r\n\r\n")
-      body.append("\(payloadJson!)\r\n")
+      body.append("\(payloadJson)\r\n")
     }
 
     let url = URL(string: fileUrl)!

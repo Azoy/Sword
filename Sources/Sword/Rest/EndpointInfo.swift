@@ -50,7 +50,7 @@ extension Endpoint {
         return ("/channels/\(channel)/messages", .post)
 
       case let .createReaction(channel, message, reaction):
-        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction)/@me", .put)
+        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction.urlFriendlyString)/@me", .put)
 
       case let .createWebhook(channel):
         return ("/channels/\(channel)/webhooks", .post)
@@ -80,17 +80,17 @@ extension Endpoint {
         return ("/channels/\(channel)/messages/\(message)", .delete)
 
       case let .deleteOwnReaction(channel, message, reaction):
-        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction)/@me", .delete)
+        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction.urlFriendlyString)/@me", .delete)
 
       case let .deletePinnedChannelMessage(channel, message):
         return ("/channels/\(channel)/messages/\(message)", .delete)
 
       case let .deleteUserReaction(channel, message, reaction, user):
-        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction)/\(user)", .delete)
+        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction.urlFriendlyString)/\(user)", .delete)
 
       case let .deleteWebhook(webhook, token):
-        if token != nil {
-          return ("/webhooks/\(webhook)/\(token!)", .delete)
+        if let token = token {
+          return ("/webhooks/\(webhook)/\(token)", .delete)
         }
 
         return ("/webhooks/\(webhook)", .delete)
@@ -168,7 +168,7 @@ extension Endpoint {
         return ("/channels/\(channel)/pins", .get)
 
       case let .getReactions(channel, message, reaction):
-        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction)", .get)
+        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction.urlFriendlyString)", .get)
 
       case let .getUser(user):
         return ("/users/\(user)", .get)
@@ -180,8 +180,8 @@ extension Endpoint {
         return ("/users/@me/channels", .get)
 
       case let .getWebhook(webhook, token):
-        if token != nil {
-          return ("/webhooks/\(webhook)/\(token!)", .get)
+        if let token = token {
+          return ("/webhooks/\(webhook)/\(token)", .get)
         }
 
         return ("/webhooks/\(webhook)", .get)
@@ -223,8 +223,8 @@ extension Endpoint {
         return ("/guilds/\(guild)/roles", .patch)
 
       case let .modifyWebhook(webhook, token):
-        if token != nil {
-          return ("/webhooks/\(webhook)/\(token!)", .patch)
+        if let token = token {
+          return ("/webhooks/\(webhook)/\(token)", .patch)
         }
 
         return ("/webhooks/\(webhook)", .patch)

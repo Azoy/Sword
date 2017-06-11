@@ -262,7 +262,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildRoleDelete) { data in
-       let (guild, roleID) = data as! (Guild, String)
+       let (guild, roleID) = data as! (Guild, Snowflake)
      }
      ```
     */
@@ -323,8 +323,8 @@ public enum Event: String {
      ```swift
      bot.on(.messageDelete) { data in
       guard let (msg, channel) = data as? (Message, Channel) else {
-        // data has returned an ID (string)
-        let (messageID, channel) = data as! (String, Channel)
+        // data has returned an ID (Snowflake)
+        let (messageID, channel) = data as! (Snowflake, Channel)
         return
       }
      }
@@ -338,7 +338,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.messageDeleteBulk) { data in
-       let (messageIDs, channel) = data as! ([String], Channel)
+       let (messageIDs, channel) = data as! ([Snowflake], Channel)
      }
      ```
     */
@@ -350,7 +350,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.messageUpdate) { data in
-       let (messageID, channelID) = data as! (String, String)
+       let (messageID, channelID) = data as! (Snowflake, Snowflake)
      }
      ```
     */
@@ -374,7 +374,7 @@ public enum Event: String {
    ### Usage ###
    ```swift
    bot.on(.presenceUpdate) { data in
-     let (userID, presence) = data as! (String, Presence)
+     let (userID, presence) = data as! (Snowflake, Presence)
    }
    ```
   */
@@ -413,7 +413,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.typingStart) { data in
-       let (channel, userID, timestamp) = data as! (Channel, String, Date)
+       let (channel, userID, timestamp) = data as! (Channel, Snowflake, Date)
      }
      ```
     */
@@ -437,7 +437,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.voiceChannelJoin) { data in
-       let (userID, voiceState) = data as! (String, VoiceState)
+       let (userID, voiceState) = data as! (Snowflake, VoiceState)
      }
      ```
     */
@@ -449,7 +449,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.voiceChannelLeave) { data in
-       let userID = data as! String
+       let userID = data as! Snowflake
      }
      ```
     */
@@ -461,7 +461,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.voiceStateUpdate) { data in
-       let userID = data as! String
+       let userID = data as! Snowflake
      }
      ```
     */

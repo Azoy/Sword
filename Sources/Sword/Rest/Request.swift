@@ -36,20 +36,20 @@ extension Sword {
     if route.hasSuffix("/messages/:id") && endpointInfo.method == .delete {
       route += ".delete"
     }
-
+    
     var url = "https://discordapp.com/api/v7\(endpointInfo.url)"
 
-    if params != nil {
+    if let params = params {
       url += "?"
-
-      for (key, value) in params! {
-        url += "\(key)=\(value)&"
-      }
-
-      url.remove(at: url.index(before: url.endIndex))
+      url += params.lazy.map({ key, value in "\(key)=\(value)" }).joined(separator: "&")
     }
-
-    var request = URLRequest(url: URL(string: url)!)
+    
+    guard let urlToRequest = URL(string: url) else {
+      error("[Sword] tried to use invalid URL \"\(url)\".  Please bug report this.")
+      return
+    }
+    var request = URLRequest(url: urlToRequest)
+    
     request.httpMethod = endpointInfo.method.rawValue.uppercased()
 
     if authorization {
@@ -60,32 +60,32 @@ extension Sword {
       }
     }
 
-    if reason != nil {
-      request.addValue(reason!, forHTTPHeaderField: "X-Audit-Log-Reason")
+    if let reason = reason {
+      request.addValue(reason, forHTTPHeaderField: "X-Audit-Log-Reason")
     }
 
     request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.5.3)", forHTTPHeaderField: "User-Agent")
 
-    if body != nil {
-      request.httpBody = body!.createBody()
+    if let body = body {
+      request.httpBody = body.createBody()
 
-      if body!["array"] != nil {
-        request.httpBody = (body!["array"] as! [Any]).createBody()
+      if let array = body["array"] as? [Any] {
+        request.httpBody = array.createBody()
       }
 
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     }
 
     #if os(macOS)
-    if file != nil {
+    if let file = file {
       let boundary = createBoundary()
       var payloadJson = body?.encode()
 
-      if body?["array"] != nil {
-        payloadJson = (body?["array"] as? [Any])?.encode()
+      if let array = body?["array"] as? [Any] {
+        payloadJson = array.encode()
       }
-
-      request.httpBody = try? self.createMultipartBody(with: payloadJson, fileUrl: file!, boundary: boundary)
+      
+      request.httpBody = try? self.createMultipartBody(with: payloadJson, fileUrl: file, boundary: boundary)
       request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
     }
     #endif
@@ -153,7 +153,6 @@ extension Sword {
       }catch {
         completion(nil, .unknown)
       }
-
       sema.signal()
     }
 
