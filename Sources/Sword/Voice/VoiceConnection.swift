@@ -543,24 +543,30 @@ public class VoiceConnection: Eventable {
    - parameter identify: Identify to send to give details about our connection
   */
   func startWS(_ identify: String) {
-    let gatewayUri = try! URI("wss://\(self.endpoint)")
-    let tcp = try! TCPInternetSocket(scheme: "https", hostname: gatewayUri.hostname, port: gatewayUri.port ?? 443)
-    let stream = try! TLS.InternetSocket(tcp, TLS.Context(.client))
-    try? WebSocket.background(to: "wss://\(self.endpoint)", using: stream) { [unowned self] ws in
-      self.session = ws
-      self.isConnected = true
+    do {
+      let gatewayUri = try URI("wss://\(self.endpoint)")
+      let tcp = try TCPInternetSocket(scheme: "https", hostname: gatewayUri.hostname, port: gatewayUri.port ?? 443)
+      let stream = try TLS.InternetSocket(tcp, TLS.Context(.client))
+      try WebSocket.background(to: "wss://\(self.endpoint)", using: stream) { [unowned self] ws in
+        self.session = ws
+        self.isConnected = true
 
-      try? ws.send(identify)
+        try ws.send(identify)
 
-      ws.onText = { ws, text in
-        self.handleWSPayload(Payload(with: text))
+        ws.onText = { ws, text in
+          self.handleWSPayload(Payload(with: text))
+        }
+
+        ws.onClose = { ws, code, _, _ in
+          self.session = nil
+          self.heartbeat = nil
+          self.isConnected = false
+        }
       }
-
-      ws.onClose = { ws, code, _, _ in
-        self.session = nil
-        self.heartbeat = nil
-        self.isConnected = false
-      }
+    }catch {
+      print("[Sword] " + error.localizedDescription)
+      print("[Sword] Aborting Voice Connection")
+      self.close()
     }
   }
 

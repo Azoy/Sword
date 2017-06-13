@@ -275,35 +275,40 @@ class Shard {
 
     self.session?.connect()
     #else
-    let gatewayUri = try! URI(gatewayUrl)
-    let tcp = try! TCPInternetSocket(scheme: "https", hostname: gatewayUri.hostname, port: gatewayUri.port ?? 443)
-    let stream = try! TLS.InternetSocket(tcp, TLS.Context(.client))
-    try? WebSocket.connect(to: gatewayUrl, using: stream) { [unowned self] ws in
-      self.session = ws
-      self.isConnected = true
+    do {
+      let gatewayUri = try URI(gatewayUrl)
+      let tcp = try TCPInternetSocket(scheme: "https", hostname: gatewayUri.hostname, port: gatewayUri.port ?? 443)
+      let stream = try TLS.InternetSocket(tcp, TLS.Context(.client))
+      try WebSocket.connect(to: gatewayUrl, using: stream) { [unowned self] ws in
+        self.session = ws
+        self.isConnected = true
 
-      ws.onText = { _, text in
-        self.sword.emit(.payload, with: text)
-        self.event(Payload(with: text))
-      }
+        ws.onText = { _, text in
+          self.sword.emit(.payload, with: text)
+          self.event(Payload(with: text))
+        }
 
-      ws.onClose = { _, code, _, _ in
-        self.heartbeat = nil
-        self.isConnected = false
-        switch CloseOP(rawValue: Int(code!))! {
-          case .authenticationFailed:
-            print("[Sword] Invalid Bot Token")
+        ws.onClose = { _, code, _, _ in
+          self.heartbeat = nil
+          self.isConnected = false
+          switch CloseOP(rawValue: Int(code!))! {
+            case .authenticationFailed:
+              print("[Sword] Invalid Bot Token")
 
-          case .invalidShard:
-            print("[Sword] Invalid Shard (We messed up here. Try again.)")
+            case .invalidShard:
+              print("[Sword] Invalid Shard (We messed up here. Try again.)")
 
-          case .shardingRequired:
-            print("[Sword] Sharding is required for this bot to run correctly.")
+            case .shardingRequired:
+              print("[Sword] Sharding is required for this bot to run correctly.")
 
-          default:
-            if self.isReconnecting { self.reconnect() }
+            default:
+              if self.isReconnecting { self.reconnect() }
+          }
         }
       }
+    }catch {
+      self.sword.error(error.localizedDescription)
+      self.reconnect()
     }
     #endif
   }

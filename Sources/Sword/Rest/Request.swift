@@ -36,20 +36,20 @@ extension Sword {
     if route.hasSuffix("/messages/:id") && endpointInfo.method == .delete {
       route += ".delete"
     }
-    
+
     var url = "https://discordapp.com/api/v7\(endpointInfo.url)"
 
     if let params = params {
       url += "?"
       url += params.lazy.map({ key, value in "\(key)=\(value)" }).joined(separator: "&")
     }
-    
+
     guard let urlToRequest = URL(string: url) else {
       error("[Sword] tried to use invalid URL \"\(url)\".  Please bug report this.")
       return
     }
     var request = URLRequest(url: urlToRequest)
-    
+
     request.httpMethod = endpointInfo.method.rawValue.uppercased()
 
     if authorization {
@@ -64,7 +64,7 @@ extension Sword {
       request.addValue(reason, forHTTPHeaderField: "X-Audit-Log-Reason")
     }
 
-    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.5.5)", forHTTPHeaderField: "User-Agent")
+    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.6.0)", forHTTPHeaderField: "User-Agent")
 
     if let body = body {
       request.httpBody = body.createBody()
@@ -84,7 +84,7 @@ extension Sword {
       if let array = body?["array"] as? [Any] {
         payloadJson = array.encode()
       }
-      
+
       request.httpBody = try? self.createMultipartBody(with: payloadJson, fileUrl: file, boundary: boundary)
       request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
     }
@@ -99,7 +99,7 @@ extension Sword {
         sema.signal()
         return
       }
-      
+
       if rateLimited {
         self.handleRateLimitHeaders(headers["x-ratelimit-limit"], headers["x-ratelimit-remaining"], headers["x-ratelimit-reset"], (headers["Date"] as! String).httpDate.timeIntervalSince1970, route)
       }
