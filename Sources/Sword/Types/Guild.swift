@@ -555,7 +555,7 @@ public struct Emoji {
    - parameter json: JSON representable as a dictionary
   */
   init(_ json: [String: Any]) {
-    self.id = Snowflake(json["id"] as! String)
+    self.id = Snowflake(json["id"] as? String)
     self.managed = json["managed"] as? Bool
     self.name = json["name"] as! String
     self.requireColons = json["require_colons"] as? Bool

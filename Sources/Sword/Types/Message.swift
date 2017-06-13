@@ -50,7 +50,7 @@ public struct Message {
   public internal(set) var mentions = [User]()
 
   /// Array of Roles that were mentioned
-  public internal(set) var mentionedRoles = [Role]()
+  public internal(set) var mentionedRoles = [Snowflake]()
 
   /// Array of reactions with message
   public internal(set) var reactions = [[String: Any]]()
@@ -128,10 +128,7 @@ public struct Message {
       self.mentions.append(User(sword, mention))
     }
 
-    let mentionedRoles = (json["mention_roles"] as! [String]).map { Snowflake($0)! }
-    for mentionedRole in mentionedRoles {
-      self.mentionedRoles.append((self.channel as! GuildChannel).guild!.roles[mentionedRole]!)
-    }
+    self.mentionedRoles = (json["mention_roles"] as! [String]).map { Snowflake($0)! }
 
     if let reactions = json["reactions"] as? [[String: Any]] {
       self.reactions = reactions
