@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -21,6 +24,12 @@
           Sword Docs
         </a>
          (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -154,6 +163,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -186,9 +203,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword12SwordOptions5isBotSb"></a>
+                    <a name="/s:5Sword0A7OptionsV5isBotSbv"></a>
                     <a name="//apple_ref/swift/Property/isBot" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword12SwordOptions5isBotSb">isBot</a>
+                    <a class="token" href="#/s:5Sword0A7OptionsV5isBotSbv">isBot</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -213,9 +230,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword12SwordOptions14disabledEventsGSaOS_5Event_"></a>
+                    <a name="/s:5Sword0A7OptionsV14disabledEventsSayAA5EventOGv"></a>
                     <a name="//apple_ref/swift/Property/disabledEvents" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword12SwordOptions14disabledEventsGSaOS_5Event_">disabledEvents</a>
+                    <a class="token" href="#/s:5Sword0A7OptionsV14disabledEventsSayAA5EventOGv">disabledEvents</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -240,9 +257,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword12SwordOptions19willCacheAllMembersSb"></a>
+                    <a name="/s:5Sword0A7OptionsV19willCacheAllMembersSbv"></a>
                     <a name="//apple_ref/swift/Property/willCacheAllMembers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword12SwordOptions19willCacheAllMembersSb">willCacheAllMembers</a>
+                    <a class="token" href="#/s:5Sword0A7OptionsV19willCacheAllMembersSbv">willCacheAllMembers</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -267,9 +284,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword12SwordOptions7willLogSb"></a>
+                    <a name="/s:5Sword0A7OptionsV7willLogSbv"></a>
                     <a name="//apple_ref/swift/Property/willLog" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword12SwordOptions7willLogSb">willLog</a>
+                    <a class="token" href="#/s:5Sword0A7OptionsV7willLogSbv">willLog</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -294,9 +311,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword12SwordOptions9willShardSb"></a>
+                    <a name="/s:5Sword0A7OptionsV9willShardSbv"></a>
                     <a name="//apple_ref/swift/Property/willShard" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword12SwordOptions9willShardSb">willShard</a>
+                    <a class="token" href="#/s:5Sword0A7OptionsV9willShardSbv">willShard</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -321,9 +338,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword12SwordOptions12messageLimitSi"></a>
+                    <a name="/s:5Sword0A7OptionsV12messageLimitSiv"></a>
                     <a name="//apple_ref/swift/Property/messageLimit" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword12SwordOptions12messageLimitSi">messageLimit</a>
+                    <a class="token" href="#/s:5Sword0A7OptionsV12messageLimitSiv">messageLimit</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -348,9 +365,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword12SwordOptionscFT_S0_"></a>
+                    <a name="/s:5Sword0A7OptionsVACycfc"></a>
                     <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword12SwordOptionscFT_S0_">init()</a>
+                    <a class="token" href="#/s:5Sword0A7OptionsVACycfc">init()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -381,8 +398,8 @@ Creates a default SwordOptions</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-05-30)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-06-13)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

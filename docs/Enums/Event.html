@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -21,6 +24,12 @@
           Sword Docs
         </a>
          (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -154,6 +163,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -179,9 +196,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event9audioDataFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO9audioDataA2CmF"></a>
                     <a name="//apple_ref/swift/Element/audioData" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event9audioDataFMS0_S0_">audioData</a>
+                    <a class="token" href="#/s:5Sword5EventO9audioDataA2CmF">audioData</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -190,12 +207,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when audio data is received from voice connection</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">connection</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">audioData</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">audioData</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Data</span>
+  <span class="k">let</span> <span class="nv">audioData</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Data</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -216,9 +232,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event13channelCreateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO13channelCreateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/channelCreate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event13channelCreateFMS0_S0_">channelCreate</a>
+                    <a class="token" href="#/s:5Sword5EventO13channelCreateA2CmF">channelCreate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -227,12 +243,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a channel is created</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">channelCreate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
+  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Channel</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -253,9 +268,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event13channelDeleteFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO13channelDeleteA2CmF"></a>
                     <a name="//apple_ref/swift/Element/channelDelete" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event13channelDeleteFMS0_S0_">channelDelete</a>
+                    <a class="token" href="#/s:5Sword5EventO13channelDeleteA2CmF">channelDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -264,12 +279,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a channel is deleted</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">channelDelete</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
+  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Channel</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -290,9 +304,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event13channelUpdateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO13channelUpdateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/channelUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event13channelUpdateFMS0_S0_">channelUpdate</a>
+                    <a class="token" href="#/s:5Sword5EventO13channelUpdateA2CmF">channelUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -301,12 +315,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a channel is updated</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">channelUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
+  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Channel</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -327,9 +340,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event15connectionCloseFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO15connectionCloseA2CmF"></a>
                     <a name="//apple_ref/swift/Element/connectionClose" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event15connectionCloseFMS0_S0_">connectionClose</a>
+                    <a class="token" href="#/s:5Sword5EventO15connectionCloseA2CmF">connectionClose</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -338,12 +351,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when voice connection dies (self emitted)</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">connection</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">connectionClose</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
   <span class="nf">kill</span><span class="p">(</span><span class="n">process</span><span class="o">.</span><span class="n">processIdentifier</span><span class="p">,</span> <span class="kt">SIGKILL</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -364,9 +376,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event14guildAvailableFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO14guildAvailableA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildAvailable" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event14guildAvailableFMS0_S0_">guildAvailable</a>
+                    <a class="token" href="#/s:5Sword5EventO14guildAvailableA2CmF">guildAvailable</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -375,12 +387,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a guild is available (This is not guildCreate)</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildAvailable</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Guild</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -401,9 +412,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event11guildBanAddFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO11guildBanAddA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildBanAdd" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event11guildBanAddFMS0_S0_">guildBanAdd</a>
+                    <a class="token" href="#/s:5Sword5EventO11guildBanAddA2CmF">guildBanAdd</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -412,13 +423,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a member of a guild is banned</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildBanAdd</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
-  <span class="k">let</span> <span class="nv">user</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">User</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">guild</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">,</span> <span class="kt">User</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -439,9 +448,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event14guildBanRemoveFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO14guildBanRemoveA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildBanRemove" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event14guildBanRemoveFMS0_S0_">guildBanRemove</a>
+                    <a class="token" href="#/s:5Sword5EventO14guildBanRemoveA2CmF">guildBanRemove</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -450,13 +459,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a member of a guild is unbanned</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildBanRemove</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
-  <span class="k">let</span> <span class="nv">user</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">User</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">guild</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">,</span> <span class="kt">User</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -477,9 +484,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event11guildCreateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO11guildCreateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildCreate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event11guildCreateFMS0_S0_">guildCreate</a>
+                    <a class="token" href="#/s:5Sword5EventO11guildCreateA2CmF">guildCreate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -488,12 +495,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a guild is created</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildCreate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Guild</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -514,9 +520,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event11guildDeleteFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO11guildDeleteA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildDelete" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event11guildDeleteFMS0_S0_">guildDelete</a>
+                    <a class="token" href="#/s:5Sword5EventO11guildDeleteA2CmF">guildDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -525,12 +531,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a guild is deleted</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildDelete</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Guild</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -551,9 +556,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event17guildEmojisUpdateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO17guildEmojisUpdateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildEmojisUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event17guildEmojisUpdateFMS0_S0_">guildEmojisUpdate</a>
+                    <a class="token" href="#/s:5Sword5EventO17guildEmojisUpdateA2CmF">guildEmojisUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -562,13 +567,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a guild&rsquo;s custom emojis are created/deleted/updated</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildEmojisUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
-  <span class="k">let</span> <span class="nv">emojis</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="p">[</span><span class="kt">Emoji</span><span class="p">]</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">guild</span><span class="p">,</span> <span class="n">emojis</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">,</span> <span class="p">[</span><span class="kt">Emoji</span><span class="p">])</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -589,9 +592,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event23guildIntegrationsUpdateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO23guildIntegrationsUpdateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildIntegrationsUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event23guildIntegrationsUpdateFMS0_S0_">guildIntegrationsUpdate</a>
+                    <a class="token" href="#/s:5Sword5EventO23guildIntegrationsUpdateA2CmF">guildIntegrationsUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -600,12 +603,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a guild updates it&rsquo;s integrations</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildIntegrationsUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Guild</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -626,9 +628,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event14guildMemberAddFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO14guildMemberAddA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildMemberAdd" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event14guildMemberAddFMS0_S0_">guildMemberAdd</a>
+                    <a class="token" href="#/s:5Sword5EventO14guildMemberAddA2CmF">guildMemberAdd</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -637,13 +639,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a user joins a guild</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildMemberAdd</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
-  <span class="k">let</span> <span class="nv">member</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Member</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">guild</span><span class="p">,</span> <span class="n">member</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">,</span> <span class="kt">Member</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -664,9 +664,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event17guildMemberRemoveFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO17guildMemberRemoveA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildMemberRemove" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event17guildMemberRemoveFMS0_S0_">guildMemberRemove</a>
+                    <a class="token" href="#/s:5Sword5EventO17guildMemberRemoveA2CmF">guildMemberRemove</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -675,13 +675,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a member leaves a guild</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildMemberRemove</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
-  <span class="k">let</span> <span class="nv">user</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">User</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">guild</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">,</span> <span class="kt">User</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -702,9 +700,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event17guildMemberUpdateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO17guildMemberUpdateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildMemberUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event17guildMemberUpdateFMS0_S0_">guildMemberUpdate</a>
+                    <a class="token" href="#/s:5Sword5EventO17guildMemberUpdateA2CmF">guildMemberUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -713,12 +711,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a member of a guild is updated</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildMemberUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">member</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Member</span>
+  <span class="k">let</span> <span class="nv">member</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Member</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -739,9 +736,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event15guildRoleCreateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO15guildRoleCreateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildRoleCreate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event15guildRoleCreateFMS0_S0_">guildRoleCreate</a>
+                    <a class="token" href="#/s:5Sword5EventO15guildRoleCreateA2CmF">guildRoleCreate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -750,13 +747,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a role is created in a guild</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildRoleCreate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
-  <span class="k">let</span> <span class="nv">role</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Role</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">guild</span><span class="p">,</span> <span class="n">role</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">,</span> <span class="kt">Role</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -777,9 +772,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event15guildRoleDeleteFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO15guildRoleDeleteA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildRoleDelete" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event15guildRoleDeleteFMS0_S0_">guildRoleDelete</a>
+                    <a class="token" href="#/s:5Sword5EventO15guildRoleDeleteA2CmF">guildRoleDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -788,13 +783,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a role is deleted in a guild</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildRoleDelete</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
-  <span class="k">let</span> <span class="nv">roleId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">guild</span><span class="p">,</span> <span class="n">roleID</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">,</span> <span class="kt">Snowflake</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -815,9 +808,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event15guildRoleUpdateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO15guildRoleUpdateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildRoleUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event15guildRoleUpdateFMS0_S0_">guildRoleUpdate</a>
+                    <a class="token" href="#/s:5Sword5EventO15guildRoleUpdateA2CmF">guildRoleUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -826,13 +819,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a role is updated in a guild</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildRoleUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
-  <span class="k">let</span> <span class="nv">role</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Role</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">guild</span><span class="p">,</span> <span class="n">role</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">,</span> <span class="kt">Role</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -853,9 +844,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event16guildUnavailableFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO16guildUnavailableA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildUnavailable" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event16guildUnavailableFMS0_S0_">guildUnavailable</a>
+                    <a class="token" href="#/s:5Sword5EventO16guildUnavailableA2CmF">guildUnavailable</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -864,12 +855,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a guild becomes unavailable</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildUnavailable</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">UnavailableGuild</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">UnavailableGuild</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -890,9 +880,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event11guildUpdateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO11guildUpdateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/guildUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event11guildUpdateFMS0_S0_">guildUpdate</a>
+                    <a class="token" href="#/s:5Sword5EventO11guildUpdateA2CmF">guildUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -901,12 +891,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a guild is updated</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Guild</span>
+  <span class="k">let</span> <span class="nv">guild</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Guild</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -927,9 +916,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event13messageCreateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO13messageCreateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/messageCreate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event13messageCreateFMS0_S0_">messageCreate</a>
+                    <a class="token" href="#/s:5Sword5EventO13messageCreateA2CmF">messageCreate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -938,12 +927,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a message is created</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageCreate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">msg</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Message</span>
+  <span class="k">let</span> <span class="nv">msg</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Message</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -964,9 +952,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event13messageDeleteFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO13messageDeleteA2CmF"></a>
                     <a name="//apple_ref/swift/Element/messageDelete" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event13messageDeleteFMS0_S0_">messageDelete</a>
+                    <a class="token" href="#/s:5Sword5EventO13messageDeleteA2CmF">messageDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -975,16 +963,15 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a message is deleted</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageDelete</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
- <span class="k">guard</span> <span class="k">let</span> <span class="nv">msg</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">Message</span> <span class="k">else</span> <span class="p">{</span>
-   <span class="c1">//data has returned a string</span>
+ <span class="k">guard</span> <span class="nf">let</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="p">?</span> <span class="p">(</span><span class="kt">Message</span><span class="p">,</span> <span class="kt">Channel</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+   <span class="c1">// data has returned an ID (Snowflake)</span>
+   <span class="nf">let</span> <span class="p">(</span><span class="n">messageID</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">Channel</span><span class="p">)</span>
    <span class="k">return</span>
  <span class="p">}</span>
- <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1005,9 +992,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event17messageDeleteBulkFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO17messageDeleteBulkA2CmF"></a>
                     <a name="//apple_ref/swift/Element/messageDeleteBulk" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event17messageDeleteBulkFMS0_S0_">messageDeleteBulk</a>
+                    <a class="token" href="#/s:5Sword5EventO17messageDeleteBulkA2CmF">messageDeleteBulk</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1016,13 +1003,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a large chunk of messages are deleted</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageDeleteBulk</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">messageIds</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span>
-  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">messageIDs</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">([</span><span class="kt">Snowflake</span><span class="p">],</span> <span class="kt">Channel</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1043,9 +1028,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event13messageUpdateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO13messageUpdateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/messageUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event13messageUpdateFMS0_S0_">messageUpdate</a>
+                    <a class="token" href="#/s:5Sword5EventO13messageUpdateA2CmF">messageUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1054,13 +1039,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a message is updated</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">msgId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
-  <span class="k">let</span> <span class="nv">channelId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">messageID</span><span class="p">,</span> <span class="n">channelID</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">Snowflake</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1081,9 +1064,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event7payloadFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO7payloadA2CmF"></a>
                     <a name="//apple_ref/swift/Element/payload" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event7payloadFMS0_S0_">payload</a>
+                    <a class="token" href="#/s:5Sword5EventO7payloadA2CmF">payload</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1092,12 +1075,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a payload is received through the gateway</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span><span class="p">,</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">message</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">message</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">String</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1118,9 +1100,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event14presenceUpdateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO14presenceUpdateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/presenceUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event14presenceUpdateFMS0_S0_">presenceUpdate</a>
+                    <a class="token" href="#/s:5Sword5EventO14presenceUpdateA2CmF">presenceUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1129,13 +1111,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a user&rsquo;s presences is updated</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">presenceUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">userId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
-  <span class="k">let</span> <span class="nv">presence</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Presence</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">userID</span><span class="p">,</span> <span class="n">presence</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">Presence</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1156,9 +1136,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event5readyFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO5readyA2CmF"></a>
                     <a name="//apple_ref/swift/Element/ready" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event5readyFMS0_S0_">ready</a>
+                    <a class="token" href="#/s:5Sword5EventO5readyA2CmF">ready</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1167,12 +1147,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when the bot is ready to receive events</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">ready</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">user</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">User</span>
+  <span class="k">let</span> <span class="nv">user</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">User</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1193,9 +1172,81 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event10shardReadyFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO11reactionAddA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/reactionAdd" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5EventO11reactionAddA2CmF">reactionAdd</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Fired when a reaction is added to a message</p>
+<h3 id='usage' class='heading'>Usage</h3>
+<pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">reactionAdd</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">channelID</span><span class="p">,</span> <span class="n">userID</span><span class="p">,</span> <span class="n">messageID</span><span class="p">,</span> <span class="n">emoji</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">Emoji</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">reactionAdd</span> <span class="o">=</span> <span class="s">"MESSAGE_REACTION_ADD"</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword5EventO14reactionRemoveA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/reactionRemove" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5EventO14reactionRemoveA2CmF">reactionRemove</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Fired when a reaction is removed from a message</p>
+<h3 id='usage' class='heading'>Usage</h3>
+<pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">reactionRemove</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">channelID</span><span class="p">,</span> <span class="n">userID</span><span class="p">,</span> <span class="n">messageID</span><span class="p">,</span> <span class="n">emoji</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">Emoji</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">reactionRemove</span> <span class="o">=</span> <span class="s">"MESSAGE_REACTION_REMOVE"</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword5EventO10shardReadyA2CmF"></a>
                     <a name="//apple_ref/swift/Element/shardReady" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event10shardReadyFMS0_S0_">shardReady</a>
+                    <a class="token" href="#/s:5Sword5EventO10shardReadyA2CmF">shardReady</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1204,12 +1255,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a shard becomes ready</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">shardReady</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">shardId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Int</span>
+  <span class="k">let</span> <span class="nv">shardID</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Int</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1230,9 +1280,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event11typingStartFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO11typingStartA2CmF"></a>
                     <a name="//apple_ref/swift/Element/typingStart" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event11typingStartFMS0_S0_">typingStart</a>
+                    <a class="token" href="#/s:5Sword5EventO11typingStartA2CmF">typingStart</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1241,14 +1291,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when someone starts typing a message</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">typingStart</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">channel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Channel</span>
-  <span class="k">let</span> <span class="nv">userId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
-  <span class="k">let</span> <span class="nv">timestamp</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">Date</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">userID</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Channel</span><span class="p">,</span> <span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">Date</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1269,9 +1316,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event10userUpdateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO10userUpdateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/userUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event10userUpdateFMS0_S0_">userUpdate</a>
+                    <a class="token" href="#/s:5Sword5EventO10userUpdateA2CmF">userUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1280,12 +1327,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when a user updates their info</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">userUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">user</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">User</span>
+  <span class="k">let</span> <span class="nv">user</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">User</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1306,9 +1352,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event16voiceChannelJoinFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO16voiceChannelJoinA2CmF"></a>
                     <a name="//apple_ref/swift/Element/voiceChannelJoin" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event16voiceChannelJoinFMS0_S0_">voiceChannelJoin</a>
+                    <a class="token" href="#/s:5Sword5EventO16voiceChannelJoinA2CmF">voiceChannelJoin</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1317,13 +1363,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when someone joins a voice channel</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">voiceChannelJoin</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">userId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
-  <span class="k">let</span> <span class="nv">voiceState</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">VoiceState</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">userID</span><span class="p">,</span> <span class="n">voiceState</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Snowflake</span><span class="p">,</span> <span class="kt">VoiceState</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1344,9 +1388,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event17voiceChannelLeaveFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO17voiceChannelLeaveA2CmF"></a>
                     <a name="//apple_ref/swift/Element/voiceChannelLeave" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event17voiceChannelLeaveFMS0_S0_">voiceChannelLeave</a>
+                    <a class="token" href="#/s:5Sword5EventO17voiceChannelLeaveA2CmF">voiceChannelLeave</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1355,12 +1399,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when someone leaves a voice channel</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">voiceChannelLeave</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">userId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">userID</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Snowflake</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1381,9 +1424,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO5Sword5Event16voiceStateUpdateFMS0_S0_"></a>
+                    <a name="/s:5Sword5EventO16voiceStateUpdateA2CmF"></a>
                     <a name="//apple_ref/swift/Element/voiceStateUpdate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO5Sword5Event16voiceStateUpdateFMS0_S0_">voiceStateUpdate</a>
+                    <a class="token" href="#/s:5Sword5EventO16voiceStateUpdateA2CmF">voiceStateUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1392,12 +1435,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fired when someone joins/leaves/moves a voice channel</p>
-
-<p><a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='usage'>Usage</h3>
+<h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">voiceStateUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">userId</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">userID</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Snowflake</span>
 <span class="p">}</span>
-</code></pre></p>
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1419,8 +1461,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-05-30)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-06-13)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

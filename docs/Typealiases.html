@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Sword  Reference</title>
+    <title>Typealiases  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -15,7 +15,7 @@
   <body>
 
 
-    <a title="Sword  Reference"></a>
+    <a title="Typealiases  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -43,7 +43,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">Sword Reference</a>
       <img class="carat" src="img/carat.png" />
-      Sword  Reference
+      Typealiases  Reference
     </p>
 
     <div class="content-wrapper">
@@ -176,72 +176,47 @@
 
         <section class="section">
           <div class="section-content">
-            
-            <h1 id='sword-a-discord-library-for-swift' class='heading'>Sword - A Discord Library for Swift</h1>
-
-<p><a href="https://swift.org"><img src="https://img.shields.io/badge/Swift-3.1-orange.svg?style=flat-square" alt="Swift Version"></a> <a href="https://travis-ci.org/Azoy/Sword"><img src="https://img.shields.io/travis/Azoy/Sword/master.svg?style=flat-square" alt="Build Status"></a> <a href="https://github.com/Azoy/Sword/releases"><img src="https://img.shields.io/github/tag/Azoy/Sword.svg?style=flat-square&label=release&colorB=" alt="Tag"></a></p>
-<h1 id='requirements' class='heading'>Requirements</h1>
-
-<ol>
-<li>macOS, Linux, or iOS (no voice for iOS)</li>
-<li>Swift 3.0</li>
-<li>libsodium (brew update &amp;&amp; brew install libsodium)</li>
-<li>For macOS, you&rsquo;ll need to install another dependency (brew tap vapor/tap &amp;&amp; brew install ctls)</li>
-</ol>
-<h1 id='adding-sword' class='heading'>Adding Sword</h1>
-
-<p>In order to add Sword as a dependency, you must first create a Swift executable in a designated folder, like so <code>swift package init --type executable</code>. Then in the newly created Package.swift, open it and add Sword as a dependency</p>
-<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">PackageDescription</span>
-
-<span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
-    <span class="nv">name</span><span class="p">:</span> <span class="s">"yourswiftexecutablehere"</span><span class="p">,</span>
-    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-        <span class="o">.</span><span class="kt">Package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/Azoy/Sword"</span><span class="p">,</span> <span class="nv">majorVersion</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">minor</span><span class="p">:</span> <span class="mi">5</span><span class="p">)</span>
-    <span class="p">]</span>
-<span class="p">)</span>
-</code></pre>
-
-<p>After that, open Sources/main.swift and remove everything and replace it with the example below.</p>
-<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">Sword</span>
-
-<span class="k">let</span> <span class="nv">bot</span> <span class="o">=</span> <span class="kt">Sword</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="s">"Your bot token here"</span><span class="p">)</span>
-
-<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">ready</span><span class="p">)</span> <span class="p">{</span> <span class="p">[</span><span class="k">unowned</span> <span class="n">bot</span><span class="p">]</span> <span class="n">_</span> <span class="k">in</span>
-  <span class="n">bot</span><span class="o">.</span><span class="nf">editStatus</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="s">"online"</span><span class="p">,</span> <span class="nv">playing</span><span class="p">:</span> <span class="s">"with Sword!"</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageCreate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="nv">msg</span> <span class="o">=</span> <span class="n">data</span> <span class="k">as!</span> <span class="kt">Message</span>
-  <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="s">"!ping"</span> <span class="p">{</span>
-    <span class="n">msg</span><span class="o">.</span><span class="nf">reply</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"Pong!"</span><span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">bot</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span>
-</code></pre>
-<h1 id='running-the-bot' class='heading'>Running the bot</h1>
-
-<p>Build the libraries with <code>swift build</code>, then type <code>.build/debug/yourswiftexecutablehere</code></p>
-<h1 id='running-the-bot-in-xcode' class='heading'>Running the bot in Xcode</h1>
-
-<p>To run the bot in Xcode, you first have to compile the libraries with <code>swift build</code>. Then to build the xcode project, type <code>swift package generate-xcodeproj</code>. Finally, type <code>open yourswiftexecutablehere.xcodeproj</code>, look at the top and follow the steps below</p>
-
-<p><img src="images/step1.png" alt="Step 1"></p>
-
-<p><img src="images/step2.png" alt="Step 2"></p>
-
-<p><img src="images/step3.png" alt="Step 3"></p>
-
-<p>Then click the play button!</p>
-<h1 id='links' class='heading'>Links</h1>
-
-<p><a href="http://sword.azoy.gg">Documentation</a> - (created with <a href="https://github.com/Realm/Jazzy">Jazzy</a>)</p>
-
-<p>Join the <a href="https://discord.gg/q7Zyd2r">API Channel</a> to ask questions!</p>
+            <h1>Typealiases</h1>
+            <p>The following typealiases are available globally.</p>
 
           </div>
         </section>
 
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword9Snowflakea"></a>
+                    <a name="//apple_ref/swift/Alias/Snowflake" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9Snowflakea">Snowflake</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The stored type of a Discord Snowflake ID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Snowflake</span> <span class="o">=</span> <span class="kt">UInt64</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
       </article>
     </div>

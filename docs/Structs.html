@@ -8,6 +8,9 @@
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -20,6 +23,12 @@
           Sword Docs
         </a>
          (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -153,6 +162,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -172,9 +189,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V5Sword7Command"></a>
+                    <a name="/s:5Sword7CommandV"></a>
                     <a name="//apple_ref/swift/Struct/Command" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword7Command">Command</a>
+                    <a class="token" href="#/s:5Sword7CommandV">Command</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -204,341 +221,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V5Sword9DMChannel"></a>
-                    <a name="//apple_ref/swift/Struct/DMChannel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword9DMChannel">DMChannel</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>DMChannel Type</p>
-
-                        <a href="Structs/DMChannel.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">DMChannel</span><span class="p">:</span> <span class="kt"><a href="Protocols/Channel.html">Channel</a></span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword12GroupChannel"></a>
-                    <a name="//apple_ref/swift/Struct/GroupChannel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword12GroupChannel">GroupChannel</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>DMChannel Type</p>
-
-                        <a href="Structs/GroupChannel.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GroupChannel</span><span class="p">:</span> <span class="kt"><a href="Protocols/Channel.html">Channel</a></span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword16UnavailableGuild"></a>
-                    <a name="//apple_ref/swift/Struct/UnavailableGuild" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword16UnavailableGuild">UnavailableGuild</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>UnavailableGuild Type</p>
-
-                        <a href="Structs/UnavailableGuild.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">UnavailableGuild</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword5Emoji"></a>
-                    <a name="//apple_ref/swift/Struct/Emoji" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword5Emoji">Emoji</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Emoji Type</p>
-
-                        <a href="Structs/Emoji.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Emoji</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword12GuildChannel"></a>
-                    <a name="//apple_ref/swift/Struct/GuildChannel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword12GuildChannel">GuildChannel</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>GuildChannel Type</p>
-
-                        <a href="Structs/GuildChannel.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GuildChannel</span><span class="p">:</span> <span class="kt"><a href="Protocols/Channel.html">Channel</a></span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword9Overwrite"></a>
-                    <a name="//apple_ref/swift/Struct/Overwrite" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword9Overwrite">Overwrite</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Permission Overwrite Type</p>
-
-                        <a href="Structs/Overwrite.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Overwrite</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword6Member"></a>
-                    <a name="//apple_ref/swift/Struct/Member" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword6Member">Member</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Member Type</p>
-
-                        <a href="Structs/Member.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Member</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword8Presence"></a>
-                    <a name="//apple_ref/swift/Struct/Presence" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword8Presence">Presence</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Structure for presences</p>
-
-                        <a href="Structs/Presence.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Presence</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword7Message"></a>
-                    <a name="//apple_ref/swift/Struct/Message" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword7Message">Message</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Message Type</p>
-
-                        <a href="Structs/Message.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Message</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword10Attachment"></a>
-                    <a name="//apple_ref/swift/Struct/Attachment" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword10Attachment">Attachment</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Attachment Type</p>
-
-                        <a href="Structs/Attachment.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Attachment</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword5Embed"></a>
-                    <a name="//apple_ref/swift/Struct/Embed" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword5Embed">Embed</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Embed Type</p>
-
-                        <a href="Structs/Embed.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Embed</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword4Role"></a>
+                    <a name="/s:5Sword4RoleV"></a>
                     <a name="//apple_ref/swift/Struct/Role" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword4Role">Role</a>
+                    <a class="token" href="#/s:5Sword4RoleV">Role</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -568,73 +253,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V5Sword4User"></a>
-                    <a name="//apple_ref/swift/Struct/User" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword4User">User</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>User Type</p>
-
-                        <a href="Structs/User.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">User</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword10VoiceState"></a>
-                    <a name="//apple_ref/swift/Struct/VoiceState" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword10VoiceState">VoiceState</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Structure with user&rsquo;s voice state info</p>
-
-                        <a href="Structs/VoiceState.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">VoiceState</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V5Sword7Webhook"></a>
+                    <a name="/s:5Sword7WebhookV"></a>
                     <a name="//apple_ref/swift/Struct/Webhook" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword7Webhook">Webhook</a>
+                    <a class="token" href="#/s:5Sword7WebhookV">Webhook</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -664,9 +285,405 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V5Sword12SwordOptions"></a>
+                    <a name="/s:5Sword16UnavailableGuildV"></a>
+                    <a name="//apple_ref/swift/Struct/UnavailableGuild" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword16UnavailableGuildV">UnavailableGuild</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>UnavailableGuild Type</p>
+
+                        <a href="Structs/UnavailableGuild.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">UnavailableGuild</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword5EmojiV"></a>
+                    <a name="//apple_ref/swift/Struct/Emoji" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5EmojiV">Emoji</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Emoji Type</p>
+
+                        <a href="Structs/Emoji.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Emoji</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword7MessageV"></a>
+                    <a name="//apple_ref/swift/Struct/Message" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword7MessageV">Message</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Message Type</p>
+
+                        <a href="Structs/Message.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Message</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword10AttachmentV"></a>
+                    <a name="//apple_ref/swift/Struct/Attachment" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10AttachmentV">Attachment</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Attachment Type</p>
+
+                        <a href="Structs/Attachment.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Attachment</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword5EmbedV"></a>
+                    <a name="//apple_ref/swift/Struct/Embed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5EmbedV">Embed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Embed Type</p>
+
+                        <a href="Structs/Embed.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Embed</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword12GuildChannelV"></a>
+                    <a name="//apple_ref/swift/Struct/GuildChannel" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword12GuildChannelV">GuildChannel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>GuildChannel Type</p>
+
+                        <a href="Structs/GuildChannel.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GuildChannel</span><span class="p">:</span> <span class="kt"><a href="Protocols/Channel.html">Channel</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword9OverwriteV"></a>
+                    <a name="//apple_ref/swift/Struct/Overwrite" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9OverwriteV">Overwrite</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Permission Overwrite Type</p>
+
+                        <a href="Structs/Overwrite.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Overwrite</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword4UserV"></a>
+                    <a name="//apple_ref/swift/Struct/User" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword4UserV">User</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>User Type</p>
+
+                        <a href="Structs/User.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">User</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword9DMChannelV"></a>
+                    <a name="//apple_ref/swift/Struct/DMChannel" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9DMChannelV">DMChannel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>DMChannel Type</p>
+
+                        <a href="Structs/DMChannel.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">DMChannel</span><span class="p">:</span> <span class="kt"><a href="Protocols/Channel.html">Channel</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword6MemberV"></a>
+                    <a name="//apple_ref/swift/Struct/Member" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword6MemberV">Member</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Member Type</p>
+
+                        <a href="Structs/Member.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Member</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword8PresenceV"></a>
+                    <a name="//apple_ref/swift/Struct/Presence" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword8PresenceV">Presence</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Structure for presences</p>
+
+                        <a href="Structs/Presence.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Presence</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword12GroupChannelV"></a>
+                    <a name="//apple_ref/swift/Struct/GroupChannel" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword12GroupChannelV">GroupChannel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>DMChannel Type</p>
+
+                        <a href="Structs/GroupChannel.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GroupChannel</span><span class="p">:</span> <span class="kt"><a href="Protocols/Channel.html">Channel</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword10VoiceStateV"></a>
+                    <a name="//apple_ref/swift/Struct/VoiceState" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10VoiceStateV">VoiceState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Structure with user&rsquo;s voice state info</p>
+
+                        <a href="Structs/VoiceState.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">VoiceState</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword0A7OptionsV"></a>
                     <a name="//apple_ref/swift/Struct/SwordOptions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword12SwordOptions">SwordOptions</a>
+                    <a class="token" href="#/s:5Sword0A7OptionsV">SwordOptions</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -692,9 +709,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V5Sword13ShieldOptions"></a>
+                    <a name="/s:5Sword13ShieldOptionsV"></a>
                     <a name="//apple_ref/swift/Struct/ShieldOptions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword13ShieldOptions">ShieldOptions</a>
+                    <a class="token" href="#/s:5Sword13ShieldOptionsV">ShieldOptions</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -720,9 +737,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V5Sword14CommandOptions"></a>
+                    <a name="/s:5Sword14CommandOptionsV"></a>
                     <a name="//apple_ref/swift/Struct/CommandOptions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword14CommandOptions">CommandOptions</a>
+                    <a class="token" href="#/s:5Sword14CommandOptionsV">CommandOptions</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -748,9 +765,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V5Sword19CommandRequirements"></a>
+                    <a name="/s:5Sword19CommandRequirementsV"></a>
                     <a name="//apple_ref/swift/Struct/CommandRequirements" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword19CommandRequirements">CommandRequirements</a>
+                    <a class="token" href="#/s:5Sword19CommandRequirementsV">CommandRequirements</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -780,9 +797,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V5Sword7Youtube"></a>
+                    <a name="/s:5Sword7YoutubeV"></a>
                     <a name="//apple_ref/swift/Struct/Youtube" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V5Sword7Youtube">Youtube</a>
+                    <a class="token" href="#/s:5Sword7YoutubeV">Youtube</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -813,8 +830,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-05-30)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-06-13)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

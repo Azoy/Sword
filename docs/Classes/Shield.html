@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -21,6 +24,12 @@
           Sword Docs
         </a>
          (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -154,6 +163,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -186,9 +203,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword6Shield14commandAliasesGVs10DictionarySSSS_"></a>
+                    <a name="/s:5Sword6ShieldC14commandAliasess10DictionaryVyS2SGv"></a>
                     <a name="//apple_ref/swift/Property/commandAliases" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword6Shield14commandAliasesGVs10DictionarySSSS_">commandAliases</a>
+                    <a class="token" href="#/s:5Sword6ShieldC14commandAliasess10DictionaryVyS2SGv">commandAliases</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -213,9 +230,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword6Shield8commandsGVs10DictionarySSVS_7Command_"></a>
+                    <a name="/s:5Sword6ShieldC8commandss10DictionaryVySSAA7CommandVGv"></a>
                     <a name="//apple_ref/swift/Property/commands" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword6Shield8commandsGVs10DictionarySSVS_7Command_">commands</a>
+                    <a class="token" href="#/s:5Sword6ShieldC8commandss10DictionaryVySSAA7CommandVGv">commands</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -240,9 +257,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword6Shield13shieldOptionsVS_13ShieldOptions"></a>
+                    <a name="/s:5Sword6ShieldC13shieldOptionsAA0bD0Vv"></a>
                     <a name="//apple_ref/swift/Property/shieldOptions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword6Shield13shieldOptionsVS_13ShieldOptions">shieldOptions</a>
+                    <a class="token" href="#/s:5Sword6ShieldC13shieldOptionsAA0bD0Vv">shieldOptions</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -278,9 +295,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword6ShieldcFT5tokenSS4withVS_12SwordOptions3andVS_13ShieldOptions_S0_"></a>
+                    <a name="/s:5Sword6ShieldCACSS5token_AA0A7OptionsV4withAA0bD0V3andtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(token:with:and:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword6ShieldcFT5tokenSS4withVS_12SwordOptions3andVS_13ShieldOptions_S0_">init(token:with:and:)</a>
+                    <a class="token" href="#/s:5Sword6ShieldCACSS5token_AA0A7OptionsV4withAA0bD0V3andtcfc">init(token:with:and:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -288,10 +305,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Creates a Shield class to use commands with
-- parameter token: The bot&rsquo;s token
-- parameter swordOptions: SwordOptions structure to apply to bot
-- parameter shieldOptions: ShieldOptions structure to apply to command client</p>
+                        <p>Creates a Shield class to use commands with</p>
 
                       </div>
                       <div class="declaration">
@@ -301,52 +315,6 @@
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">with</span> <span class="nv">swordOptions</span><span class="p">:</span> <span class="kt"><a href="../Structs/SwordOptions.html">SwordOptions</a></span> <span class="o">=</span> <span class="kt"><a href="../Structs/SwordOptions.html">SwordOptions</a></span><span class="p">(),</span> <span class="n">and</span> <span class="nv">shieldOptions</span><span class="p">:</span> <span class="kt"><a href="../Structs/ShieldOptions.html">ShieldOptions</a></span> <span class="o">=</span> <span class="kt"><a href="../Structs/ShieldOptions.html">ShieldOptions</a></span><span class="p">())</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>token</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The bot’s token</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>swordOptions</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>SwordOptions structure to apply to bot</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>shieldOptions</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>ShieldOptions structure to apply to command client</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -365,9 +333,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword6Shield8registerFTSS4withVS_14CommandOptionsFTVS_7MessageGSaSS__T__T_"></a>
+                    <a name="/s:5Sword6ShieldC8registerySS_AA14CommandOptionsV4withyAA7MessageV_SaySSGtctF"></a>
                     <a name="//apple_ref/swift/Method/register(_:with:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword6Shield8registerFTSS4withVS_14CommandOptionsFTVS_7MessageGSaSS__T__T_">register(_:with:_:)</a>
+                    <a class="token" href="#/s:5Sword6ShieldC8registerySS_AA14CommandOptionsV4withyAA7MessageV_SaySSGtctF">register(_:with:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -375,10 +343,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Registers a command
-- parameter commandName: Name to give command
-- parameter options: Options to give command
-- parameter function: Function to execute once command is sent</p>
+                        <p>Registers a command</p>
 
                       </div>
                       <div class="declaration">
@@ -389,61 +354,15 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>commandName</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Name to give command</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Options to give command</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>function</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Function to execute once command is sent</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword6Shield8registerFTSS4withVS_14CommandOptions7messageSS_T_"></a>
+                    <a name="/s:5Sword6ShieldC8registerySS_AA14CommandOptionsV4withSS7messagetF"></a>
                     <a name="//apple_ref/swift/Method/register(_:with:message:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword6Shield8registerFTSS4withVS_14CommandOptions7messageSS_T_">register(_:with:message:)</a>
+                    <a class="token" href="#/s:5Sword6ShieldC8registerySS_AA14CommandOptionsV4withSS7messagetF">register(_:with:message:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -451,10 +370,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Registers a command
-- parameter commandName: Name to give command
-- parameter options: Options to give command
-- parameter message: String to send on command</p>
+                        <p>Registers a command</p>
 
                       </div>
                       <div class="declaration">
@@ -465,61 +381,15 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>commandName</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Name to give command</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Options to give command</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>message</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>String to send on command</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword6Shield10unregisterFSST_"></a>
+                    <a name="/s:5Sword6ShieldC10unregisterySSF"></a>
                     <a name="//apple_ref/swift/Method/unregister(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword6Shield10unregisterFSST_">unregister(_:)</a>
+                    <a class="token" href="#/s:5Sword6ShieldC10unregisterySSF">unregister(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -527,8 +397,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Unregisters a command
-- parameter commandName: Command to get rid of</p>
+                        <p>Unregisters a command</p>
 
                       </div>
                       <div class="declaration">
@@ -538,26 +407,6 @@
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">unregister</span><span class="p">(</span><span class="n">_</span> <span class="nv">commandName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>commandName</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Command to get rid of</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -570,8 +419,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-05-30)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-06-13)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

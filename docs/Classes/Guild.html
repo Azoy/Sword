@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -21,6 +24,12 @@
           Sword Docs
         </a>
          (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -154,6 +163,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -186,9 +203,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild5swordXwGSqCS_5Sword_"></a>
+                    <a name="/s:5Sword5GuildC5swordA2ACSgXwv"></a>
                     <a name="//apple_ref/swift/Property/sword" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild5swordXwGSqCS_5Sword_">sword</a>
+                    <a class="token" href="#/s:5Sword5GuildC5swordA2ACSgXwv">sword</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -213,9 +230,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild12afkChannelIdGSqSS_"></a>
+                    <a name="/s:5Sword5GuildC12afkChannelIds6UInt64VSgv"></a>
                     <a name="//apple_ref/swift/Property/afkChannelId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild12afkChannelIdGSqSS_">afkChannelId</a>
+                    <a class="token" href="#/s:5Sword5GuildC12afkChannelIds6UInt64VSgv">afkChannelId</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -230,7 +247,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">afkChannelId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">afkChannelId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -240,9 +257,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild10afkTimeoutGSqSi_"></a>
+                    <a name="/s:5Sword5GuildC10afkTimeoutSiSgv"></a>
                     <a name="//apple_ref/swift/Property/afkTimeout" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild10afkTimeoutGSqSi_">afkTimeout</a>
+                    <a class="token" href="#/s:5Sword5GuildC10afkTimeoutSiSgv">afkTimeout</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -267,9 +284,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild8channelsGVs10DictionarySSVS_12GuildChannel_"></a>
+                    <a name="/s:5Sword5GuildC8channelss10DictionaryVys6UInt64VAA0B7ChannelVGv"></a>
                     <a name="//apple_ref/swift/Property/channels" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild8channelsGVs10DictionarySSVS_12GuildChannel_">channels</a>
+                    <a class="token" href="#/s:5Sword5GuildC8channelss10DictionaryVys6UInt64VAA0B7ChannelVGv">channels</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -284,7 +301,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">channels</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt"><a href="../Structs/GuildChannel.html">GuildChannel</a></span><span class="p">]()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">channels</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">:</span> <span class="kt"><a href="../Structs/GuildChannel.html">GuildChannel</a></span><span class="p">]()</span></code></pre>
 
                         </div>
                       </div>
@@ -294,9 +311,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild27defaultMessageNotificationsSi"></a>
+                    <a name="/s:5Sword5GuildC27defaultMessageNotificationsSiv"></a>
                     <a name="//apple_ref/swift/Property/defaultMessageNotifications" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild27defaultMessageNotificationsSi">defaultMessageNotifications</a>
+                    <a class="token" href="#/s:5Sword5GuildC27defaultMessageNotificationsSiv">defaultMessageNotifications</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -321,9 +338,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild14embedChannelIdGSqSi_"></a>
+                    <a name="/s:5Sword5GuildC14embedChannelIdSiSgv"></a>
                     <a name="//apple_ref/swift/Property/embedChannelId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild14embedChannelIdGSqSi_">embedChannelId</a>
+                    <a class="token" href="#/s:5Sword5GuildC14embedChannelIdSiSgv">embedChannelId</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -348,9 +365,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild6emojisGSaVS_5Emoji_"></a>
+                    <a name="/s:5Sword5GuildC6emojisSayAA5EmojiVGv"></a>
                     <a name="//apple_ref/swift/Property/emojis" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild6emojisGSaVS_5Emoji_">emojis</a>
+                    <a class="token" href="#/s:5Sword5GuildC6emojisSayAA5EmojiVGv">emojis</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -375,9 +392,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild8featuresGSaSS_"></a>
+                    <a name="/s:5Sword5GuildC8featuresSaySSGv"></a>
                     <a name="//apple_ref/swift/Property/features" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild8featuresGSaSS_">features</a>
+                    <a class="token" href="#/s:5Sword5GuildC8featuresSaySSGv">features</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -402,9 +419,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild4iconGSqSS_"></a>
+                    <a name="/s:5Sword5GuildC4iconSSSgv"></a>
                     <a name="//apple_ref/swift/Property/icon" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild4iconGSqSS_">icon</a>
+                    <a class="token" href="#/s:5Sword5GuildC4iconSSSgv">icon</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -429,9 +446,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild2idSS"></a>
+                    <a name="/s:5Sword5GuildC2ids6UInt64Vv"></a>
                     <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild2idSS">id</a>
+                    <a class="token" href="#/s:5Sword5GuildC2ids6UInt64Vv">id</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -446,7 +463,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span></code></pre>
 
                         </div>
                       </div>
@@ -456,9 +473,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild14isEmbedEnabledGSqSb_"></a>
+                    <a name="/s:5Sword5GuildC14isEmbedEnabledSbSgv"></a>
                     <a name="//apple_ref/swift/Property/isEmbedEnabled" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild14isEmbedEnabledGSqSb_">isEmbedEnabled</a>
+                    <a class="token" href="#/s:5Sword5GuildC14isEmbedEnabledSbSgv">isEmbedEnabled</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -483,9 +500,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild7isLargeGSqSb_"></a>
+                    <a name="/s:5Sword5GuildC7isLargeSbSgv"></a>
                     <a name="//apple_ref/swift/Property/isLarge" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild7isLargeGSqSb_">isLarge</a>
+                    <a class="token" href="#/s:5Sword5GuildC7isLargeSbSgv">isLarge</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -510,9 +527,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild8joinedAtGSqV10Foundation4Date_"></a>
+                    <a name="/s:5Sword5GuildC8joinedAt10Foundation4DateVSgv"></a>
                     <a name="//apple_ref/swift/Property/joinedAt" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild8joinedAtGSqV10Foundation4Date_">joinedAt</a>
+                    <a class="token" href="#/s:5Sword5GuildC8joinedAt10Foundation4DateVSgv">joinedAt</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -537,9 +554,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild11memberCountGSqSi_"></a>
+                    <a name="/s:5Sword5GuildC11memberCountSiSgv"></a>
                     <a name="//apple_ref/swift/Property/memberCount" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild11memberCountGSqSi_">memberCount</a>
+                    <a class="token" href="#/s:5Sword5GuildC11memberCountSiSgv">memberCount</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -564,9 +581,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild7membersGVs10DictionarySSVS_6Member_"></a>
+                    <a name="/s:5Sword5GuildC7memberss10DictionaryVys6UInt64VAA6MemberVGv"></a>
                     <a name="//apple_ref/swift/Property/members" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild7membersGVs10DictionarySSVS_6Member_">members</a>
+                    <a class="token" href="#/s:5Sword5GuildC7memberss10DictionaryVys6UInt64VAA6MemberVGv">members</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -581,7 +598,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">members</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt"><a href="../Structs/Member.html">Member</a></span><span class="p">]()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">members</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">:</span> <span class="kt"><a href="../Structs/Member.html">Member</a></span><span class="p">]()</span></code></pre>
 
                         </div>
                       </div>
@@ -591,9 +608,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild8mfaLevelSi"></a>
+                    <a name="/s:5Sword5GuildC8mfaLevelSiv"></a>
                     <a name="//apple_ref/swift/Property/mfaLevel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild8mfaLevelSi">mfaLevel</a>
+                    <a class="token" href="#/s:5Sword5GuildC8mfaLevelSiv">mfaLevel</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -618,9 +635,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild4nameSS"></a>
+                    <a name="/s:5Sword5GuildC4nameSSv"></a>
                     <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild4nameSS">name</a>
+                    <a class="token" href="#/s:5Sword5GuildC4nameSSv">name</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -645,9 +662,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild7ownerIdSS"></a>
+                    <a name="/s:5Sword5GuildC7ownerIds6UInt64Vv"></a>
                     <a name="//apple_ref/swift/Property/ownerId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild7ownerIdSS">ownerId</a>
+                    <a class="token" href="#/s:5Sword5GuildC7ownerIds6UInt64Vv">ownerId</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -662,7 +679,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">ownerId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">ownerId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span></code></pre>
 
                         </div>
                       </div>
@@ -672,9 +689,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild6regionSS"></a>
+                    <a name="/s:5Sword5GuildC6regionSSv"></a>
                     <a name="//apple_ref/swift/Property/region" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild6regionSS">region</a>
+                    <a class="token" href="#/s:5Sword5GuildC6regionSSv">region</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -699,9 +716,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild5rolesGVs10DictionarySSVS_4Role_"></a>
+                    <a name="/s:5Sword5GuildC5roless10DictionaryVys6UInt64VAA4RoleVGv"></a>
                     <a name="//apple_ref/swift/Property/roles" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild5rolesGVs10DictionarySSVS_4Role_">roles</a>
+                    <a class="token" href="#/s:5Sword5GuildC5roless10DictionaryVys6UInt64VAA4RoleVGv">roles</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -716,7 +733,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">roles</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt"><a href="../Structs/Role.html">Role</a></span><span class="p">]()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">roles</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">:</span> <span class="kt"><a href="../Structs/Role.html">Role</a></span><span class="p">]()</span></code></pre>
 
                         </div>
                       </div>
@@ -726,9 +743,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild5shardGSqSi_"></a>
+                    <a name="/s:5Sword5GuildC5shardSiSgv"></a>
                     <a name="//apple_ref/swift/Property/shard" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild5shardGSqSi_">shard</a>
+                    <a class="token" href="#/s:5Sword5GuildC5shardSiSgv">shard</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -753,9 +770,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild6splashGSqSS_"></a>
+                    <a name="/s:5Sword5GuildC6splashSSSgv"></a>
                     <a name="//apple_ref/swift/Property/splash" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild6splashGSqSS_">splash</a>
+                    <a class="token" href="#/s:5Sword5GuildC6splashSSSgv">splash</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -780,9 +797,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild17verificationLevelSi"></a>
+                    <a name="/s:5Sword5GuildC17verificationLevelSiv"></a>
                     <a name="//apple_ref/swift/Property/verificationLevel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild17verificationLevelSi">verificationLevel</a>
+                    <a class="token" href="#/s:5Sword5GuildC17verificationLevelSiv">verificationLevel</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -807,9 +824,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC5Sword5Guild11voiceStatesGVs10DictionarySSVS_10VoiceState_"></a>
+                    <a name="/s:5Sword5GuildC11voiceStatess10DictionaryVys6UInt64VAA10VoiceStateVGv"></a>
                     <a name="//apple_ref/swift/Property/voiceStates" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC5Sword5Guild11voiceStatesGVs10DictionarySSVS_10VoiceState_">voiceStates</a>
+                    <a class="token" href="#/s:5Sword5GuildC11voiceStatess10DictionaryVys6UInt64VAA10VoiceStateVGv">voiceStates</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -824,7 +841,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">voiceStates</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt"><a href="../Structs/VoiceState.html">VoiceState</a></span><span class="p">]()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">voiceStates</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">:</span> <span class="kt"><a href="../Structs/VoiceState.html">VoiceState</a></span><span class="p">]()</span></code></pre>
 
                         </div>
                       </div>
@@ -845,9 +862,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild3banFTSS3forGSqSS_4withGVs10DictionarySSSi_4thenFGSqOS_12RequestError_T__T_"></a>
+                    <a name="/s:5Sword5GuildC3banys6UInt64V_SSSg3fors10DictionaryVySSSiG4withyAA12RequestErrorOSgc4thentF"></a>
                     <a name="//apple_ref/swift/Method/ban(_:for:with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild3banFTSS3forGSqSS_4withGVs10DictionarySSSi_4thenFGSqOS_12RequestError_T__T_">ban(_:for:with:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC3banys6UInt64V_SSSg3fors10DictionaryVySSSiG4withyAA12RequestErrorOSgc4thentF">ban(_:for:with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -856,8 +873,7 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Bans a member from this guild</p>
-
-<p><a href='#option-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='option-params'>Option Params</h4></p>
+<h4 id='option-params' class='heading'>Option Params</h4>
 
 <ul>
 <li><p><strong>delete-message-days</strong>: Number of days to delete messages for (0-7)</p></li>
@@ -868,55 +884,9 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">ban</span><span class="p">(</span><span class="n">_</span> <span class="nv">member</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="k">for</span> <span class="nv">reason</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">ban</span><span class="p">(</span><span class="n">_</span> <span class="nv">member</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="k">for</span> <span class="nv">reason</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>userId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Member to ban</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>reason</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Reason why member was banned from guild (attached to audit log)</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Deletes messages from this user by amount of days</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -924,9 +894,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild13createChannelFT4withGVs10DictionarySSP__4thenFTGSqVS_12GuildChannel_GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC13createChannelys10DictionaryVySSypG4with_yAA0bD0VSg_AA12RequestErrorOSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/createChannel(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild13createChannelFT4withGVs10DictionarySSP__4thenFTGSqVS_12GuildChannel_GSqOS_12RequestError__T__T_">createChannel(with:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC13createChannelys10DictionaryVySSypG4with_yAA0bD0VSg_AA12RequestErrorOSgtc4thentF">createChannel(with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -935,8 +905,7 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Creates a channel in this guild</p>
-
-<p><a href='#option-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='option-params'>Option Params</h4></p>
+<h4 id='option-params' class='heading'>Option Params</h4>
 
 <ul>
 <li><strong>name</strong>: The name to give this channel</li>
@@ -955,35 +924,15 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Preconfigured options to give the channel on create</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild17createIntegrationFT4withGVs10DictionarySSSS_4thenFGSqOS_12RequestError_T__T_"></a>
+                    <a name="/s:5Sword5GuildC17createIntegrationys10DictionaryVyS2SG4with_yAA12RequestErrorOSgc4thentF"></a>
                     <a name="//apple_ref/swift/Method/createIntegration(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild17createIntegrationFT4withGVs10DictionarySSSS_4thenFGSqOS_12RequestError_T__T_">createIntegration(with:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC17createIntegrationys10DictionaryVyS2SG4with_yAA12RequestErrorOSgc4thentF">createIntegration(with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -992,8 +941,7 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Creates an integration for this guild</p>
-
-<p><a href='#option-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='option-params'>Option Params</h4></p>
+<h4 id='option-params' class='heading'>Option Params</h4>
 
 <ul>
 <li><strong>type</strong>: The type of integration to create</li>
@@ -1009,35 +957,15 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Preconfigured options for this integration</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild10createRoleFT4withGVs10DictionarySSP__4thenFTGSqVS_4Role_GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC10createRoleys10DictionaryVySSypG4with_yAA0D0VSg_AA12RequestErrorOSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/createRole(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild10createRoleFT4withGVs10DictionarySSP__4thenFTGSqVS_4Role_GSqOS_12RequestError__T__T_">createRole(with:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC10createRoleys10DictionaryVySSypG4with_yAA0D0VSg_AA12RequestErrorOSgtc4thentF">createRole(with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1046,8 +974,7 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Creates a guild role</p>
-
-<p><a href='#option-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='option-params'>Option Params</h4></p>
+<h4 id='option-params' class='heading'>Option Params</h4>
 
 <ul>
 <li><strong>name</strong>: The name of the role</li>
@@ -1066,35 +993,15 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Preset options to configure role with</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild17deleteIntegrationFTSS4thenFGSqOS_12RequestError_T__T_"></a>
+                    <a name="/s:5Sword5GuildC17deleteIntegrationys6UInt64V_yAA12RequestErrorOSgc4thentF"></a>
                     <a name="//apple_ref/swift/Method/deleteIntegration(_:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild17deleteIntegrationFTSS4thenFGSqOS_12RequestError_T__T_">deleteIntegration(_:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC17deleteIntegrationys6UInt64V_yAA12RequestErrorOSgc4thentF">deleteIntegration(_:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1109,29 +1016,9 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteIntegration</span><span class="p">(</span><span class="n">_</span> <span class="nv">integrationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteIntegration</span><span class="p">(</span><span class="n">_</span> <span class="nv">integrationId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>integrationId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Integration to delete</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -1139,9 +1026,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild10deleteRoleFTSS4thenFTGSqVS_4Role_GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC10deleteRoleys6UInt64V_yAA0D0VSg_AA12RequestErrorOSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/deleteRole(_:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild10deleteRoleFTSS4thenFTGSqVS_4Role_GSqOS_12RequestError__T__T_">deleteRole(_:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC10deleteRoleys6UInt64V_yAA0D0VSg_AA12RequestErrorOSgtc4thentF">deleteRole(_:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1156,29 +1043,9 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteRole</span><span class="p">(</span><span class="n">_</span> <span class="nv">roleId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Structs/Role.html">Role</a></span><span class="p">?,</span> <span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteRole</span><span class="p">(</span><span class="n">_</span> <span class="nv">roleId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Structs/Role.html">Role</a></span><span class="p">?,</span> <span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>roleId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Role to delete</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -1186,9 +1053,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild6deleteFT4thenFTGSqS0__GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC6deleteyyACSg_AA12RequestErrorOSgtc4then_tF"></a>
                     <a name="//apple_ref/swift/Method/delete(then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild6deleteFT4thenFTGSqS0__GSqOS_12RequestError__T__T_">delete(then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC6deleteyyACSg_AA12RequestErrorOSgtc4then_tF">delete(then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1213,9 +1080,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild7getBansFT4thenFTGSqGSaVS_4User__GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC7getBansyySayAA4UserVGSg_AA12RequestErrorOSgtc4then_tF"></a>
                     <a name="//apple_ref/swift/Method/getBans(then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild7getBansFT4thenFTGSqGSaVS_4User__GSqOS_12RequestError__T__T_">getBans(then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC7getBansyySayAA4UserVGSg_AA12RequestErrorOSgtc4then_tF">getBans(then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1240,9 +1107,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild8getEmbedFT4thenFTGSqGVs10DictionarySSP___GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC8getEmbedyys10DictionaryVySSypGSg_AA12RequestErrorOSgtc4then_tF"></a>
                     <a name="//apple_ref/swift/Method/getEmbed(then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild8getEmbedFT4thenFTGSqGVs10DictionarySSP___GSqOS_12RequestError__T__T_">getEmbed(then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC8getEmbedyys10DictionaryVySSypGSg_AA12RequestErrorOSgtc4then_tF">getEmbed(then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1267,9 +1134,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild15getIntegrationsFT4thenFTGSqGSaGVs10DictionarySSP____GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC15getIntegrationsyySays10DictionaryVySSypGGSg_AA12RequestErrorOSgtc4then_tF"></a>
                     <a name="//apple_ref/swift/Method/getIntegrations(then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild15getIntegrationsFT4thenFTGSqGSaGVs10DictionarySSP____GSqOS_12RequestError__T__T_">getIntegrations(then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC15getIntegrationsyySays10DictionaryVySSypGGSg_AA12RequestErrorOSgtc4then_tF">getIntegrations(then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1294,9 +1161,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild10getInvitesFT4thenFTGSqGSaGVs10DictionarySSP____GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC10getInvitesyySays10DictionaryVySSypGGSg_AA12RequestErrorOSgtc4then_tF"></a>
                     <a name="//apple_ref/swift/Method/getInvites(then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild10getInvitesFT4thenFTGSqGSaGVs10DictionarySSP____GSqOS_12RequestError__T__T_">getInvites(then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC10getInvitesyySays10DictionaryVySSypGGSg_AA12RequestErrorOSgtc4then_tF">getInvites(then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1321,9 +1188,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild10getMembersFT4withGSqGVs10DictionarySSP___4thenFTGSqGSaVS_6Member__GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC10getMembersys10DictionaryVySSypGSg4with_ySayAA6MemberVGSg_AA12RequestErrorOSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/getMembers(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild10getMembersFT4withGSqGVs10DictionarySSP___4thenFTGSqGSaVS_6Member__GSqOS_12RequestError__T__T_">getMembers(with:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC10getMembersys10DictionaryVySSypGSg4with_ySayAA6MemberVGSg_AA12RequestErrorOSgtc4thentF">getMembers(with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1332,8 +1199,7 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Gets an array of guild members</p>
-
-<p><a href='#option-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='option-params'>Option Params</h4></p>
+<h4 id='option-params' class='heading'>Option Params</h4>
 
 <ul>
 <li><strong>limit</strong>: Amount of members to get (1-1000)</li>
@@ -1349,35 +1215,15 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Dictionary containing optional optiond regarding what members are returned</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild13getPruneCountFT3forSi4thenFTGSqSi_GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC13getPruneCountySi3for_ySiSg_AA12RequestErrorOSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/getPruneCount(for:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild13getPruneCountFT3forSi4thenFTGSqSi_GSqOS_12RequestError__T__T_">getPruneCount(for:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC13getPruneCountySi3for_ySiSg_AA12RequestErrorOSgtc4thentF">getPruneCount(for:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1396,35 +1242,15 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>limit</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Number of days to get prune count for</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild8getRolesFT4thenFTGSqGSaVS_4Role__GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC8getRolesyySayAA4RoleVGSg_AA12RequestErrorOSgtc4then_tF"></a>
                     <a name="//apple_ref/swift/Method/getRoles(then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild8getRolesFT4thenFTGSqGSaVS_4Role__GSqOS_12RequestError__T__T_">getRoles(then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC8getRolesyySayAA4RoleVGSg_AA12RequestErrorOSgtc4then_tF">getRoles(then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1449,9 +1275,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild15getVoiceRegionsFT4thenFTGSqGSaGVs10DictionarySSP____GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC15getVoiceRegionsyySays10DictionaryVySSypGGSg_AA12RequestErrorOSgtc4then_tF"></a>
                     <a name="//apple_ref/swift/Method/getVoiceRegions(then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild15getVoiceRegionsFT4thenFTGSqGSaGVs10DictionarySSP____GSqOS_12RequestError__T__T_">getVoiceRegions(then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC15getVoiceRegionsyySays10DictionaryVySSypGGSg_AA12RequestErrorOSgtc4then_tF">getVoiceRegions(then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1476,9 +1302,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild11getWebhooksFT4thenFTGSqGSaGVs10DictionarySSP____GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC11getWebhooksyySays10DictionaryVySSypGGSg_AA12RequestErrorOSgtc4then_tF"></a>
                     <a name="//apple_ref/swift/Method/getWebhooks(then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild11getWebhooksFT4thenFTGSqGSaGVs10DictionarySSP____GSqOS_12RequestError__T__T_">getWebhooks(then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC11getWebhooksyySays10DictionaryVySSypGGSg_AA12RequestErrorOSgtc4then_tF">getWebhooks(then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1503,9 +1329,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild4kickFTSS3forGSqSS_4thenFGSqOS_12RequestError_T__T_"></a>
+                    <a name="/s:5Sword5GuildC4kickys6UInt64V_SSSg3foryAA12RequestErrorOSgc4thentF"></a>
                     <a name="//apple_ref/swift/Method/kick(_:for:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild4kickFTSS3forGSqSS_4thenFGSqOS_12RequestError_T__T_">kick(_:for:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC4kickys6UInt64V_SSSg3foryAA12RequestErrorOSgc4thentF">kick(_:for:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1520,42 +1346,9 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">kick</span><span class="p">(</span><span class="n">_</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="k">for</span> <span class="nv">reason</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">kick</span><span class="p">(</span><span class="n">_</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="k">for</span> <span class="nv">reason</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>userId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Member to kick from server</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>reason</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Reason why member was kicked from server</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -1563,217 +1356,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild17modifyIntegrationFTSS4withGVs10DictionarySSP__4thenFGSqOS_12RequestError_T__T_"></a>
-                    <a name="//apple_ref/swift/Method/modifyIntegration(_:with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild17modifyIntegrationFTSS4withGVs10DictionarySSP__4thenFGSqOS_12RequestError_T__T_">modifyIntegration(_:with:then:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Modifies an integration from this guild</p>
-
-<p><a href='#option-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='option-params'>Option Params</h4></p>
-
-<ul>
-<li><strong>expire_behavior</strong>: The behavior when an integration subscription lapses (see the <a href="https://discordapp.com/developers/docs/resources/guild#integration-object">integration</a> object documentation)</li>
-<li><strong>expire_grace_period</strong>: Period (in seconds) where the integration will ignore lapsed subscriptions</li>
-<li><p><strong>enable_emoticons</strong>: Whether emoticons should be synced for this integration (twitch only currently), true or false</p></li>
-</ul>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modifyIntegration</span><span class="p">(</span><span class="n">_</span> <span class="nv">integrationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>integrationId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Integration to modify</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Preconfigured options to modify this integration with</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC5Sword5Guild12modifyMemberFTSS4withGVs10DictionarySSP__4thenFGSqOS_12RequestError_T__T_"></a>
-                    <a name="//apple_ref/swift/Method/modifyMember(_:with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild12modifyMemberFTSS4withGVs10DictionarySSP__4thenFGSqOS_12RequestError_T__T_">modifyMember(_:with:then:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Modifies a member from this guild</p>
-
-<p><a href='#options-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='options-params'>Options Params</h4></p>
-
-<ul>
-<li><strong>nick</strong>: The nickname to assign</li>
-<li><strong>roles</strong>: Array of role id&rsquo;s that should be assigned to the member</li>
-<li><strong>mute</strong>: Whether or not to server mute the member</li>
-<li><strong>deaf</strong>: Whether or not to server deafen the member</li>
-<li><p><strong>channel_id</strong>: If the user is connected to a voice channel, assigns them the new voice channel they are to connect.</p></li>
-</ul>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modifyMember</span><span class="p">(</span><span class="n">_</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>userId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Member to modify</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Preconfigured options to modify member with</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC5Sword5Guild10modifyRoleFTSS4withGVs10DictionarySSP__4thenFTGSqVS_4Role_GSqOS_12RequestError__T__T_"></a>
-                    <a name="//apple_ref/swift/Method/modifyRole(_:with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild10modifyRoleFTSS4withGVs10DictionarySSP__4thenFTGSqVS_4Role_GSqOS_12RequestError__T__T_">modifyRole(_:with:then:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Modifies a role from this guild</p>
-
-<p><a href='#options-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='options-params'>Options Params</h4></p>
-
-<ul>
-<li><strong>name</strong>: The name to assign to the role</li>
-<li><strong>permissions</strong>: The bitwise permission integer</li>
-<li><strong>color</strong>: RGB int color value to assign to the role</li>
-<li><strong>hoist</strong>: Whether or not this role should be hoisted on the member list</li>
-<li><p><strong>mentionable</strong>: Whether or not this role should be mentionable by everyone</p></li>
-</ul>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modifyRole</span><span class="p">(</span><span class="n">_</span> <span class="nv">roleId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Structs/Role.html">Role</a></span><span class="p">?,</span> <span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>roleId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Role to modify</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Preconfigured options to modify guild roles with</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC5Sword5Guild6modifyFT4withGVs10DictionarySSP__4thenFTGSqS0__GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC6modifyys10DictionaryVySSypG4with_yACSg_AA12RequestErrorOSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/modify(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild6modifyFT4withGVs10DictionarySSP__4thenFTGSqS0__GSqOS_12RequestError__T__T_">modify(with:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC6modifyys10DictionaryVySSypG4with_yACSg_AA12RequestErrorOSgtc4thentF">modify(with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1782,8 +1367,7 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Modifies current guild</p>
-
-<p><a href='#options-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='options-params'>Options Params</h4></p>
+<h4 id='options-params' class='heading'>Options Params</h4>
 
 <ul>
 <li><strong>name</strong>: The name to assign to the guild</li>
@@ -1806,35 +1390,15 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Preconfigured options to modify guild with</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild22modifyChannelPositionsFT4withGSaGVs10DictionarySSP___4thenFTGSqGSaVS_12GuildChannel__GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC22modifyChannelPositionsySays10DictionaryVySSypGG4with_ySayAA0bD0VGSg_AA12RequestErrorOSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/modifyChannelPositions(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild22modifyChannelPositionsFT4withGSaGVs10DictionarySSP___4thenFTGSqGSaVS_12GuildChannel__GSqOS_12RequestError__T__T_">modifyChannelPositions(with:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC22modifyChannelPositionsySays10DictionaryVySSypGG4with_ySayAA0bD0VGSg_AA12RequestErrorOSgtc4thentF">modifyChannelPositions(with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1843,8 +1407,7 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Modifies channel positions</p>
-
-<p><a href='#options-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='options-params'>Options Params</h4></p>
+<h4 id='options-params' class='heading'>Options Params</h4>
 
 <p>Array of the following:</p>
 
@@ -1862,25 +1425,38 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Preconfigured options to set channel positions to</p>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword5GuildC11modifyEmbedys10DictionaryVySSypG4with_yAGSg_AA12RequestErrorOSgtc4thentF"></a>
+                    <a name="//apple_ref/swift/Method/modifyEmbed(with:then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5GuildC11modifyEmbedys10DictionaryVySSypG4with_yAGSg_AA12RequestErrorOSgtc4thentF">modifyEmbed(with:then:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Modifes this guild&rsquo;s Embed</p>
+<h4 id='options-params' class='heading'>Options Params</h4>
 
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+<ul>
+<li><strong>enabled</strong>: Whether or not embed should be enabled</li>
+<li><p><strong>channel_id</strong>: Snowflake of embed channel</p></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modifyEmbed</span><span class="p">(</span><span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?,</span> <span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -1888,9 +1464,115 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild19modifyRolePositionsFT4withGSaGVs10DictionarySSP___4thenFTGSqGSaVS_4Role__GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC17modifyIntegrationys6UInt64V_s10DictionaryVySSypG4withyAA12RequestErrorOSgc4thentF"></a>
+                    <a name="//apple_ref/swift/Method/modifyIntegration(_:with:then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5GuildC17modifyIntegrationys6UInt64V_s10DictionaryVySSypG4withyAA12RequestErrorOSgc4thentF">modifyIntegration(_:with:then:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Modifies an integration from this guild</p>
+<h4 id='option-params' class='heading'>Option Params</h4>
+
+<ul>
+<li><strong>expire_behavior</strong>: The behavior when an integration subscription lapses (see the <a href="https://discordapp.com/developers/docs/resources/guild#integration-object">integration</a> object documentation)</li>
+<li><strong>expire_grace_period</strong>: Period (in seconds) where the integration will ignore lapsed subscriptions</li>
+<li><p><strong>enable_emoticons</strong>: Whether emoticons should be synced for this integration (twitch only currently), true or false</p></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modifyIntegration</span><span class="p">(</span><span class="n">_</span> <span class="nv">integrationId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword5GuildC12modifyMemberys6UInt64V_s10DictionaryVySSypG4withyAA12RequestErrorOSgc4thentF"></a>
+                    <a name="//apple_ref/swift/Method/modifyMember(_:with:then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5GuildC12modifyMemberys6UInt64V_s10DictionaryVySSypG4withyAA12RequestErrorOSgc4thentF">modifyMember(_:with:then:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Modifies a member from this guild</p>
+<h4 id='options-params' class='heading'>Options Params</h4>
+
+<ul>
+<li><strong>nick</strong>: The nickname to assign</li>
+<li><strong>roles</strong>: Array of role id&rsquo;s that should be assigned to the member</li>
+<li><strong>mute</strong>: Whether or not to server mute the member</li>
+<li><strong>deaf</strong>: Whether or not to server deafen the member</li>
+<li><p><strong>channel_id</strong>: If the user is connected to a voice channel, assigns them the new voice channel they are to connect.</p></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modifyMember</span><span class="p">(</span><span class="n">_</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword5GuildC10modifyRoleys6UInt64V_s10DictionaryVySSypG4withyAA0D0VSg_AA12RequestErrorOSgtc4thentF"></a>
+                    <a name="//apple_ref/swift/Method/modifyRole(_:with:then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5GuildC10modifyRoleys6UInt64V_s10DictionaryVySSypG4withyAA0D0VSg_AA12RequestErrorOSgtc4thentF">modifyRole(_:with:then:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Modifies a role from this guild</p>
+<h4 id='options-params' class='heading'>Options Params</h4>
+
+<ul>
+<li><strong>name</strong>: The name to assign to the role</li>
+<li><strong>permissions</strong>: The bitwise permission integer</li>
+<li><strong>color</strong>: RGB int color value to assign to the role</li>
+<li><strong>hoist</strong>: Whether or not this role should be hoisted on the member list</li>
+<li><p><strong>mentionable</strong>: Whether or not this role should be mentionable by everyone</p></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modifyRole</span><span class="p">(</span><span class="n">_</span> <span class="nv">roleId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Structs/Role.html">Role</a></span><span class="p">?,</span> <span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword5GuildC19modifyRolePositionsySays10DictionaryVySSypGG4with_ySayAA0D0VGSg_AA12RequestErrorOSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/modifyRolePositions(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild19modifyRolePositionsFT4withGSaGVs10DictionarySSP___4thenFTGSqGSaVS_4Role__GSqOS_12RequestError__T__T_">modifyRolePositions(with:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC19modifyRolePositionsySays10DictionaryVySSypGG4with_ySayAA0D0VGSg_AA12RequestErrorOSgtc4thentF">modifyRolePositions(with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1899,8 +1581,7 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Modifies role positions</p>
-
-<p><a href='#options-params' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='options-params'>Options Params</h4></p>
+<h4 id='options-params' class='heading'>Options Params</h4>
 
 <p>Array of the following:</p>
 
@@ -1918,35 +1599,15 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Preconfigured options to set role positions to</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild10moveMemberFTSS2toSS4thenFGSqOS_12RequestError_T__T_"></a>
+                    <a name="/s:5Sword5GuildC10moveMemberys6UInt64V_AF2toyAA12RequestErrorOSgc4thentF"></a>
                     <a name="//apple_ref/swift/Method/moveMember(_:to:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild10moveMemberFTSS2toSS4thenFGSqOS_12RequestError_T__T_">moveMember(_:to:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC10moveMemberys6UInt64V_AF2toyAA12RequestErrorOSgc4thentF">moveMember(_:to:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1961,29 +1622,9 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">moveMember</span><span class="p">(</span><span class="n">_</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">to</span> <span class="nv">channelId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">moveMember</span><span class="p">(</span><span class="n">_</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="n">to</span> <span class="nv">channelId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>channelId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The Id of the channel to send them to</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -1991,9 +1632,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild12pruneMembersFT3forSi4thenFTGSqSi_GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword5GuildC12pruneMembersySi3for_ySiSg_AA12RequestErrorOSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/pruneMembers(for:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild12pruneMembersFT3forSi4thenFTGSqSi_GSqOS_12RequestError__T__T_">pruneMembers(for:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC12pruneMembersySi3for_ySiSg_AA12RequestErrorOSgtc4thentF">pruneMembers(for:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2012,35 +1653,15 @@
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>limit</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Amount of days for prunned users</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild15syncIntegrationFTSS4thenFGSqOS_12RequestError_T__T_"></a>
+                    <a name="/s:5Sword5GuildC15syncIntegrationys6UInt64V_yAA12RequestErrorOSgc4thentF"></a>
                     <a name="//apple_ref/swift/Method/syncIntegration(_:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild15syncIntegrationFTSS4thenFGSqOS_12RequestError_T__T_">syncIntegration(_:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC15syncIntegrationys6UInt64V_yAA12RequestErrorOSgc4thentF">syncIntegration(_:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2055,29 +1676,9 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">syncIntegration</span><span class="p">(</span><span class="n">_</span> <span class="nv">integrationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">syncIntegration</span><span class="p">(</span><span class="n">_</span> <span class="nv">integrationId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>integrationId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Integration to sync</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -2085,9 +1686,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC5Sword5Guild11unbanMemberFTSS4thenFGSqOS_12RequestError_T__T_"></a>
+                    <a name="/s:5Sword5GuildC11unbanMemberys6UInt64V_yAA12RequestErrorOSgc4thentF"></a>
                     <a name="//apple_ref/swift/Method/unbanMember(_:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC5Sword5Guild11unbanMemberFTSS4thenFGSqOS_12RequestError_T__T_">unbanMember(_:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC11unbanMemberys6UInt64V_yAA12RequestErrorOSgc4thentF">unbanMember(_:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2102,29 +1703,9 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">unbanMember</span><span class="p">(</span><span class="n">_</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">unbanMember</span><span class="p">(</span><span class="n">_</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>userId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>User to unban</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -2137,8 +1718,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-05-30)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-06-13)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

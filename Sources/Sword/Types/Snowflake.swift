@@ -15,44 +15,52 @@ extension Snowflake {
   }
 }
 
+/// :nodoc:
 /// Used to check whether a string equals a Snowflake
 public func ==(lhs: Snowflake, rhs: String) -> Bool {
   return lhs == Snowflake(rhs)
 }
 
+/// :nodoc:
 /// Used to check whether a string equals a Snowflake
 public func ==(lhs: Snowflake?, rhs: String) -> Bool {
   guard let lhs = lhs else { return false }
   return lhs == Snowflake(rhs)
 }
 
+/// :nodoc:
 /// Used to check whether a string does not equals a Snowflake
 public func !=(lhs: Snowflake, rhs: String) -> Bool {
   return lhs != Snowflake(rhs)
 }
 
+/// :nodoc:
 /// Used to check whether a string does not equals a Snowflake
 public func !=(lhs: Snowflake?, rhs: String) -> Bool {
   guard let lhs = lhs else { return false }
   return lhs != Snowflake(rhs)
 }
 
+/// :nodoc:
 /// Used to check whether a string equals a Snowflake
 public func ==(lhs: String, rhs: Snowflake) -> Bool {
   return Snowflake(lhs) == rhs
 }
 
+/// :nodoc:
 /// Used to check whether a string equals a Snowflake
 public func ==(lhs: String, rhs: Snowflake?) -> Bool {
   guard let rhs = rhs else { return false }
   return Snowflake(lhs) == rhs
 }
 
+/// :nodoc:
 /// Used to check whether a string does not equals a Snowflake
 public func !=(lhs: String, rhs: Snowflake) -> Bool {
   return Snowflake(lhs) != rhs
 }
 
+/// :nodoc:
 /// Used to check whether a string does not equals a Snowflake
 public func !=(lhs: String, rhs: Snowflake?) -> Bool {
   guard let rhs = rhs else { return false }

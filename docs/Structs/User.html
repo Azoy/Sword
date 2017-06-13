@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -21,6 +24,12 @@
           Sword Docs
         </a>
          (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -154,6 +163,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -186,9 +203,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword4User5swordXwGSqCS_5Sword_"></a>
+                    <a name="/s:5Sword4UserV5swordA2ACSgXwv"></a>
                     <a name="//apple_ref/swift/Property/sword" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword4User5swordXwGSqCS_5Sword_">sword</a>
+                    <a class="token" href="#/s:5Sword4UserV5swordA2ACSgXwv">sword</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -213,9 +230,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword4User6avatarGSqSS_"></a>
+                    <a name="/s:5Sword4UserV6avatarSSSgv"></a>
                     <a name="//apple_ref/swift/Property/avatar" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword4User6avatarGSqSS_">avatar</a>
+                    <a class="token" href="#/s:5Sword4UserV6avatarSSSgv">avatar</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -240,9 +257,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword4User9avatarUrlGSqSS_"></a>
+                    <a name="/s:5Sword4UserV9avatarUrlSSSgv"></a>
                     <a name="//apple_ref/swift/Property/avatarUrl" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword4User9avatarUrlGSqSS_">avatarUrl</a>
+                    <a class="token" href="#/s:5Sword4UserV9avatarUrlSSSgv">avatarUrl</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -267,9 +284,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword4User5isBotGSqSb_"></a>
+                    <a name="/s:5Sword4UserV5isBotSbSgv"></a>
                     <a name="//apple_ref/swift/Property/isBot" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword4User5isBotGSqSb_">isBot</a>
+                    <a class="token" href="#/s:5Sword4UserV5isBotSbSgv">isBot</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -294,9 +311,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword4User13discriminatorGSqSS_"></a>
+                    <a name="/s:5Sword4UserV13discriminatorSSSgv"></a>
                     <a name="//apple_ref/swift/Property/discriminator" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword4User13discriminatorGSqSS_">discriminator</a>
+                    <a class="token" href="#/s:5Sword4UserV13discriminatorSSSgv">discriminator</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -321,9 +338,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword4User5emailGSqSS_"></a>
+                    <a name="/s:5Sword4UserV5emailSSSgv"></a>
                     <a name="//apple_ref/swift/Property/email" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword4User5emailGSqSS_">email</a>
+                    <a class="token" href="#/s:5Sword4UserV5emailSSSgv">email</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -348,9 +365,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword4User2idSS"></a>
+                    <a name="/s:5Sword4UserV2ids6UInt64Vv"></a>
                     <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword4User2idSS">id</a>
+                    <a class="token" href="#/s:5Sword4UserV2ids6UInt64Vv">id</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -365,7 +382,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword9Snowflakea">Snowflake</a></span></code></pre>
 
                         </div>
                       </div>
@@ -375,9 +392,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword4User12isMfaEnabledGSqSb_"></a>
+                    <a name="/s:5Sword4UserV12isMfaEnabledSbSgv"></a>
                     <a name="//apple_ref/swift/Property/isMfaEnabled" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword4User12isMfaEnabledGSqSb_">isMfaEnabled</a>
+                    <a class="token" href="#/s:5Sword4UserV12isMfaEnabledSbSgv">isMfaEnabled</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -402,9 +419,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword4User8usernameGSqSS_"></a>
+                    <a name="/s:5Sword4UserV8usernameSSSgv"></a>
                     <a name="//apple_ref/swift/Property/username" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword4User8usernameGSqSS_">username</a>
+                    <a class="token" href="#/s:5Sword4UserV8usernameSSSgv">username</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -429,9 +446,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV5Sword4User10isVerifiedGSqSb_"></a>
+                    <a name="/s:5Sword4UserV10isVerifiedSbSgv"></a>
                     <a name="//apple_ref/swift/Property/isVerified" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV5Sword4User10isVerifiedGSqSb_">isVerified</a>
+                    <a class="token" href="#/s:5Sword4UserV10isVerifiedSbSgv">isVerified</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -467,9 +484,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV5Sword4User5getDMFT4thenFTGSqVS_9DMChannel_GSqOS_12RequestError__T__T_"></a>
+                    <a name="/s:5Sword4UserV5getDMyyAA9DMChannelVSg_AA12RequestErrorOSgtc4then_tF"></a>
                     <a name="//apple_ref/swift/Method/getDM(then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV5Sword4User5getDMFT4thenFTGSqVS_9DMChannel_GSqOS_12RequestError__T__T_">getDM(then:)</a>
+                    <a class="token" href="#/s:5Sword4UserV5getDMyyAA9DMChannelVSg_AA12RequestErrorOSgtc4then_tF">getDM(then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -499,8 +516,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-05-30)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-06-13)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
