@@ -50,7 +50,7 @@ extension Endpoint {
         return ("/channels/\(channel)/messages", .post)
 
       case let .createReaction(channel, message, reaction):
-        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction.urlFriendlyString)/@me", .put)
+        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction)/@me", .put)
 
       case let .createWebhook(channel):
         return ("/channels/\(channel)/webhooks", .post)
@@ -80,13 +80,13 @@ extension Endpoint {
         return ("/channels/\(channel)/messages/\(message)", .delete)
 
       case let .deleteOwnReaction(channel, message, reaction):
-        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction.urlFriendlyString)/@me", .delete)
+        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction)/@me", .delete)
 
       case let .deletePinnedChannelMessage(channel, message):
         return ("/channels/\(channel)/messages/\(message)", .delete)
 
       case let .deleteUserReaction(channel, message, reaction, user):
-        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction.urlFriendlyString)/\(user)", .delete)
+        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction)/\(user)", .delete)
 
       case let .deleteWebhook(webhook, token):
         if let token = token {
@@ -168,7 +168,7 @@ extension Endpoint {
         return ("/channels/\(channel)/pins", .get)
 
       case let .getReactions(channel, message, reaction):
-        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction.urlFriendlyString)", .get)
+        return ("/channels/\(channel)/messages/\(message)/reactions/\(reaction)", .get)
 
       case let .getUser(user):
         return ("/users/\(user)", .get)

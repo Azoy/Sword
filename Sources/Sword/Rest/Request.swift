@@ -64,7 +64,7 @@ extension Sword {
       request.addValue(reason, forHTTPHeaderField: "X-Audit-Log-Reason")
     }
 
-    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.5.3)", forHTTPHeaderField: "User-Agent")
+    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.5.5)", forHTTPHeaderField: "User-Agent")
 
     if let body = body {
       request.httpBody = body.createBody()

@@ -23,6 +23,7 @@ open class Shield: Sword {
 
   /**
    Creates a Shield class to use commands with
+   
    - parameter token: The bot's token
    - parameter swordOptions: SwordOptions structure to apply to bot
    - parameter shieldOptions: ShieldOptions structure to apply to command client
@@ -48,7 +49,8 @@ open class Shield: Sword {
 
   /**
    Handles MESSAGE_CREATE
-   - parameter data: The [Any] that needs to be casted to Message to handle the message
+
+   - parameter data: The Any that needs to be casted to Message to handle the message
   */
   func handle(message data: Any) {
     let msg = data as! Message

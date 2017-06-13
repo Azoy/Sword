@@ -8,12 +8,12 @@
 
 #if !os(iOS)
 
-struct VoiceChannelConnection {
+struct PotentialConnection {
   let channelID: Snowflake
   let userID: Snowflake
   let sessionID: String
 }
-  
+
 /// Creates VoiceManager
 class VoiceManager {
 
@@ -23,7 +23,7 @@ class VoiceManager {
   var connections = [Snowflake: VoiceConnection]()
 
   /// Used to determine whether or not voiceServerUpdate is us needing to connect
-  var guilds = [Snowflake: VoiceChannelConnection]()
+  var guilds = [Snowflake: PotentialConnection]()
 
   /// Object of completion handlers mapped by guildId
   var handlers = [Snowflake: (VoiceConnection) -> ()]()

@@ -84,7 +84,7 @@ public struct Message {
     self.content = json["content"] as! String
 
     let channelID = Snowflake(json["channel_id"] as! String)!
-    
+
     let guild = sword.getGuild(for: channelID)
     if let guild = guild {
       self.channel = guild.channels[channelID]!
@@ -149,7 +149,7 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji to add to this message
   */
-  public func add(reaction: AnyEmoji, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func add(reaction: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.channel.addReaction(reaction, to: self.id, then: completion)
   }
 
@@ -164,7 +164,7 @@ public struct Message {
    - parameter reaction: Either unicode or custom emoji reaction to remove
    - parameter userId: If nil, delete from self else delete from userId
   */
-  public func delete(reaction: AnyEmoji, from userId: Snowflake? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func delete(reaction: String, from userId: Snowflake? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.channel.deleteReaction(reaction, from: self.id, by: userId ?? nil, then: completion)
   }
 
@@ -192,7 +192,7 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji reaction to get users from
   */
-  public func get(reaction: AnyEmoji, then completion: @escaping ([User]?, RequestError?) -> ()) {
+  public func get(reaction: String, then completion: @escaping ([User]?, RequestError?) -> ()) {
     self.channel.getReaction(reaction, from: self.id, then: completion)
   }
 

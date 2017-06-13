@@ -23,16 +23,6 @@ public struct GroupChannel: Channel {
   /// The last message's ID
   public let lastMessageId: Snowflake?
 
-  /// Collection of messages mapped by message id
-  public internal(set) var messages = [Snowflake: Message]() {
-    didSet {
-      if messages.count > self.sword!.options.messageLimit {
-        let firstPair = messages.first!
-        messages.removeValue(forKey: firstPair.0)
-      }
-    }
-  }
-
   // MARK: Initializer
 
   /**

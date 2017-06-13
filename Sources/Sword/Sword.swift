@@ -169,7 +169,7 @@ open class Sword: Eventable {
    - parameter messageId: Message to add reaction to
    - parameter channelId: Channel to add reaction to message in
   */
-  public func addReaction(_ reaction: AnyEmoji, to messageId: Snowflake, in channelId: Snowflake, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func addReaction(_ reaction: String, to messageId: Snowflake, in channelId: Snowflake, then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.request(.createReaction(channel: channelId, message: messageId, emoji: reaction)) { data, error in
       completion(error)
     }
@@ -422,7 +422,7 @@ open class Sword: Eventable {
    - parameter userId: If nil, deletes bot's reaction from, else delete a reaction from user
    - parameter channelId: Channel to delete reaction from
   */
-  public func deleteReaction(_ reaction: AnyEmoji, from messageId: Snowflake, by userId: Snowflake? = nil, in channelId: Snowflake, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func deleteReaction(_ reaction: String, from messageId: Snowflake, by userId: Snowflake? = nil, in channelId: Snowflake, then completion: @escaping (RequestError?) -> () = {_ in}) {
     var url: Endpoint? = nil
     if let userId = userId {
       url = .deleteUserReaction(channel: channelId, message: messageId, emoji: reaction, user: userId)
@@ -994,7 +994,7 @@ open class Sword: Eventable {
    - parameter messageId: Message to get reaction users from
    - parameter channelId: Channel to get reaction from
   */
-  public func getReaction(_ reaction: AnyEmoji, from messageId: Snowflake, in channelId: Snowflake, then completion: @escaping ([User]?, RequestError?) -> ()) {
+  public func getReaction(_ reaction: String, from messageId: Snowflake, in channelId: Snowflake, then completion: @escaping ([User]?, RequestError?) -> ()) {
     self.request(.getReactions(channel: channelId, message: messageId, emoji: reaction)) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
@@ -1114,7 +1114,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to connect to
   */
   public func joinVoiceChannel(_ channelId: Snowflake, then completion: @escaping (VoiceConnection) -> () = {_ in}) {
-	
+
 	guard let guild = self.getGuild(for: channelId) else { return }
 
     guard let shardID = guild.shard else { return }
@@ -1235,6 +1235,23 @@ open class Sword: Eventable {
 
         completion(returnChannels, nil)
       }
+    }
+  }
+
+  /**
+   Modifes a Guild Embed
+
+   #### Options Params ####
+
+   - **enabled**: Whether or not embed should be enabled
+   - **channel_id**: Snowflake of embed channel
+
+   - parameter guildId: Guild to edit embed in
+   - parameter options: Dictionary of options to give embed
+  */
+  public func modifyEmbed(for guildId: Snowflake, with options: [String: Any], then completion: @escaping ([String: Any]?, RequestError?) -> () = {_ in}) {
+    self.request(.modifyGuildEmbed(guildId), body: options) { data, error in
+      completion(data as? [String: Any], error)
     }
   }
 
@@ -1422,6 +1439,18 @@ open class Sword: Eventable {
 
     self.request(.beginGuildPrune(guildId), params: ["days": limit]) { data, error in
       completion((data as! [String: Int])["pruned"], error)
+    }
+  }
+
+  /**
+   Removes a user from a Group DM
+
+   - parameter userId: User to remove from DM
+   - parameter groupDMId: Snowflake of Group DM you want to remove user from
+  */
+  public func removeUser(_ userId: Snowflake, fromGroupDM groupDMId: Snowflake, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    self.request(.groupDMRemoveRecipient(channel: groupDMId, user: userId)) { _, error in
+      completion(error)
     }
   }
 

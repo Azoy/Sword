@@ -32,7 +32,7 @@ enum Endpoint {
 
   case createMessage(Snowflake)
 
-  case createReaction(channel: Snowflake, message: Snowflake, emoji: AnyEmoji)
+  case createReaction(channel: Snowflake, message: Snowflake, emoji: String)
 
   case createWebhook(Snowflake)
 
@@ -52,11 +52,11 @@ enum Endpoint {
 
   case deleteMessage(channel: Snowflake, message: Snowflake)
 
-  case deleteOwnReaction(channel: Snowflake, message: Snowflake, emoji: AnyEmoji)
+  case deleteOwnReaction(channel: Snowflake, message: Snowflake, emoji: String)
 
   case deletePinnedChannelMessage(channel: Snowflake, message: Snowflake)
 
-  case deleteUserReaction(channel: Snowflake, message: Snowflake, emoji: AnyEmoji, user: Snowflake)
+  case deleteUserReaction(channel: Snowflake, message: Snowflake, emoji: String, user: Snowflake)
 
   case deleteWebhook(webhook: Snowflake, token: String?)
 
@@ -108,7 +108,7 @@ enum Endpoint {
 
   case getPinnedMessages(Snowflake)
 
-  case getReactions(channel: Snowflake, message: Snowflake, emoji: AnyEmoji)
+  case getReactions(channel: Snowflake, message: Snowflake, emoji: String)
 
   case getUser(Snowflake)
 
@@ -118,7 +118,7 @@ enum Endpoint {
 
   case getWebhook(webhook: Snowflake, token: String?)
 
-  case groupDMRemoveRecipient(channel: Snowflake, user: Snowflake) // Currently unused
+  case groupDMRemoveRecipient(channel: Snowflake, user: Snowflake)
 
   case leaveGuild(Snowflake)
 
@@ -132,7 +132,7 @@ enum Endpoint {
 
   case modifyGuildChannelPositions(Snowflake)
 
-  case modifyGuildEmbed(Snowflake) // Currently unused
+  case modifyGuildEmbed(Snowflake)
 
   case modifyGuildIntegration(guild: Snowflake, integration: Snowflake)
 

@@ -336,6 +336,57 @@ public class Guild {
   }
 
   /**
+   Modifies current guild
+
+   #### Options Params ####
+
+   - **name**: The name to assign to the guild
+   - **region**: The region to set this guild to
+   - **verification_level**: The guild verification level integer
+   - **default_message_notifications**: The guild default message notification settings integer
+   - **afk_channel_id**: The channel id to assign afks
+   - **afk_timeout**: The amount of time in seconds to afk a user in voice
+   - **icon**: The icon in base64 string
+   - **owner_id**: The user id to make own of this server
+   - **splash**: If a VIP server, the splash image in base64 to assign
+
+   - parameter options: Preconfigured options to modify guild with
+  */
+  public func modify(with options: [String: Any], then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
+    self.sword?.modifyGuild(self.id, with: options, then: completion)
+  }
+
+  /**
+   Modifies channel positions
+
+   #### Options Params ####
+
+   Array of the following:
+
+   - **id**: The channel id to modify
+   - **position**: The sorting position of the channel
+
+   - parameter options: Preconfigured options to set channel positions to
+  */
+  public func modifyChannelPositions(with options: [[String: Any]], then completion: @escaping ([GuildChannel]?, RequestError?) -> () = {_ in}) {
+    self.sword?.modifyChannelPositions(for: self.id, with: options, then: completion)
+  }
+
+  /**
+   Modifes this guild's Embed
+
+   #### Options Params ####
+
+   - **enabled**: Whether or not embed should be enabled
+   - **channel_id**: Snowflake of embed channel
+
+   - parameter options: Dictionary of options to give embed
+  */
+  public func modifyEmbed(with options: [String: Any], then completion: @escaping ([String: Any]?, RequestError?) -> () = {_ in}) {
+    self.sword?.modifyEmbed(for: self.id, with: options, then: completion)
+  }
+
+  /**
    Modifies an integration from this guild
 
    #### Option Params ####
@@ -385,43 +436,6 @@ public class Guild {
   */
   public func modifyRole(_ roleId: Snowflake, with options: [String: Any], then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
     self.sword?.modifyRole(roleId, for: self.id, with: options, then: completion)
-  }
-
-  /**
-   Modifies current guild
-
-   #### Options Params ####
-
-   - **name**: The name to assign to the guild
-   - **region**: The region to set this guild to
-   - **verification_level**: The guild verification level integer
-   - **default_message_notifications**: The guild default message notification settings integer
-   - **afk_channel_id**: The channel id to assign afks
-   - **afk_timeout**: The amount of time in seconds to afk a user in voice
-   - **icon**: The icon in base64 string
-   - **owner_id**: The user id to make own of this server
-   - **splash**: If a VIP server, the splash image in base64 to assign
-
-   - parameter options: Preconfigured options to modify guild with
-  */
-  public func modify(with options: [String: Any], then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
-    self.sword?.modifyGuild(self.id, with: options, then: completion)
-  }
-
-  /**
-   Modifies channel positions
-
-   #### Options Params ####
-
-   Array of the following:
-
-   - **id**: The channel id to modify
-   - **position**: The sorting position of the channel
-
-   - parameter options: Preconfigured options to set channel positions to
-  */
-  public func modifyChannelPositions(with options: [[String: Any]], then completion: @escaping ([GuildChannel]?, RequestError?) -> () = {_ in}) {
-    self.sword?.modifyChannelPositions(for: self.id, with: options, then: completion)
   }
 
   /**
@@ -510,20 +524,29 @@ public struct Emoji {
   // MARK: Properties
 
   /// ID of custom emoji
-  public let id: Snowflake
+  public let id: Snowflake?
 
   /// Whether or not this emoji is managed
-  public let managed: Bool
+  public let managed: Bool?
 
   /// Name of the emoji
   public let name: String
 
   /// Whether this emoji requires colons to use
-  public let requireColons: Bool
+  public let requireColons: Bool?
 
   /// Array of roles that can use this emoji
-  public var roles = [Role]()
-  
+  public internal(set) var roles = [Role]()
+
+  /// Tag used for rest endpoints
+  public var tag: String {
+    guard let id = id else {
+      return name.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+    }
+
+    return "\(name):\(id)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+  }
+
   // MARK: Initializer
 
   /**
@@ -532,64 +555,15 @@ public struct Emoji {
    - parameter json: JSON representable as a dictionary
   */
   init(_ json: [String: Any]) {
-    self.id = Snowflake(json["id"] as! String)!
-    self.managed = json["managed"] as! Bool
+    self.id = Snowflake(json["id"] as! String)
+    self.managed = json["managed"] as? Bool
     self.name = json["name"] as! String
-    self.requireColons = json["require_colons"] as! Bool
+    self.requireColons = json["require_colons"] as? Bool
 
     if let roles = json["roles"] as? [[String: Any]] {
       for role in roles {
         self.roles.append(Role(role))
       }
-    }
-  }
-}
-
-/// Either a discord custom emoji or a Unicode emoji
-public enum AnyEmoji {
-  case custom(id: Snowflake, name: String), unicode(String), customStruct(Emoji)
-  init(_ string: String) {
-    self = .unicode(string)
-  }
-  init(_ emoji: Emoji) {
-    self = .customStruct(emoji)
-  }
-  init(id: Snowflake?, name: String) {
-    if let id = id {
-      self = .custom(id: id, name: name)
-    }
-    else {
-      self = .unicode(name)
-    }
-  }
-  var id: Snowflake? {
-    switch self {
-    case let .customStruct(emoji):
-      return emoji.id
-    case let .custom(id, _):
-      return id
-    case .unicode(_):
-      return nil
-    }
-  }
-  var name: String {
-    switch self {
-    case let .customStruct(emoji):
-      return emoji.name
-    case let .custom(_, name):
-      return name
-    case let .unicode(name):
-      return name
-    }
-  }
-  var urlFriendlyString: String {
-    switch self {
-    case let .customStruct(emoji):
-      return "\(emoji.name):\(emoji.id)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
-    case let .custom(id, name):
-      return "\(name):\(id)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
-    case let .unicode(string):
-      return string.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
     }
   }
 }
