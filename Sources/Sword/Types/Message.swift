@@ -52,6 +52,9 @@ public struct Message {
   /// Array of Roles that were mentioned
   public internal(set) var mentionedRoles = [Snowflake]()
 
+  /// Used to validate a message was sent
+  public let nonce: Snowflake?
+
   /// Array of reactions with message
   public internal(set) var reactions = [[String: Any]]()
 
@@ -129,6 +132,8 @@ public struct Message {
     }
 
     self.mentionedRoles = (json["mention_roles"] as! [String]).map { Snowflake($0)! }
+
+    self.nonce = Snowflake(json["nonce"] as? String)
 
     if let reactions = json["reactions"] as? [[String: Any]] {
       self.reactions = reactions
