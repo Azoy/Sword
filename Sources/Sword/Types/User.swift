@@ -18,7 +18,12 @@ public struct User {
   public let avatar: String?
 
   /// The link of the user's avatar
-  public let avatarUrl: String?
+  public var avatarUrl: String? {
+    guard let avatar = self.avatar else {
+      return nil
+    }
+    return "https://cdn.discordapp.com/avatars/\(self.id)/\(avatar).png"
+  }
 
   /// Whether or not this user is a bot
   public let isBot: Bool?
@@ -60,13 +65,6 @@ public struct User {
     self.isMfaEnabled = json["mfaEnabled"] as? Bool
     self.username = json["username"] as? String
     self.isVerified = json["verified"] as? Bool
-
-    guard let avatar = self.avatar else {
-      self.avatarUrl = nil
-      return
-    }
-
-    self.avatarUrl = "https://cdn.discordapp.com/avatars/\(self.id)/\(avatar).png"
   }
 
   // MARK: Functions

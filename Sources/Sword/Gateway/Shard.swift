@@ -291,7 +291,17 @@ class Shard {
         ws.onClose = { _, code, _, _ in
           self.heartbeat = nil
           self.isConnected = false
-          switch CloseOP(rawValue: Int(code!))! {
+          guard let code = code else {
+            self.sword.log("Connection unexpectedly closed.  Did you disconnect from the internet?")
+            if self.isReconnecting { self.reconnect() }
+              return
+            }
+          guard let closeCode = CloseOP(rawValue: Int(code)) else {
+            self.sword.log("Connection closed with unrecognized response \(code).")
+            if self.isReconnecting { self.reconnect() }
+            return
+            }
+          switch closeCode {
             case .authenticationFailed:
               print("[Sword] Invalid Bot Token")
 
