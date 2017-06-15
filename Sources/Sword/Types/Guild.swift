@@ -566,4 +566,17 @@ public struct Emoji {
       }
     }
   }
+  
+  /**
+   Creates an Emoji structure for use with reactions
+   
+   - parameter name: Emoji unicode character or name (if custom)
+   - parameter id: Emoji snowflake ID if custom (nil if unicode)
+  */
+  public init(_ name: String, id: Snowflake? = nil) {
+    self.id = id
+    self.name = name
+    self.managed = nil
+    self.requireColons = nil
+  }
 }

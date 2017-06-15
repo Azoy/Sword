@@ -170,7 +170,13 @@ open class Sword: Eventable {
    - parameter channelId: Channel to add reaction to message in
   */
   public func addReaction(_ reaction: String, to messageId: Snowflake, in channelId: Snowflake, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.request(.createReaction(channel: channelId, message: messageId, emoji: reaction)) { data, error in
+    let actualReaction: String
+    if URL(string: reaction) == nil {
+      actualReaction = reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+    }else {
+      actualReaction = reaction
+    }
+    self.request(.createReaction(channel: channelId, message: messageId, emoji: actualReaction)) { data, error in
       completion(error)
     }
   }
@@ -423,14 +429,20 @@ open class Sword: Eventable {
    - parameter channelId: Channel to delete reaction from
   */
   public func deleteReaction(_ reaction: String, from messageId: Snowflake, by userId: Snowflake? = nil, in channelId: Snowflake, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    var url: Endpoint? = nil
-    if let userId = userId {
-      url = .deleteUserReaction(channel: channelId, message: messageId, emoji: reaction, user: userId)
+    let actualReaction: String
+    if URL(string: reaction) == nil {
+      actualReaction = reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
     }else {
-      url = .deleteOwnReaction(channel: channelId, message: messageId, emoji: reaction)
+      actualReaction = reaction
+    }
+    let url: Endpoint
+    if let userId = userId {
+      url = .deleteUserReaction(channel: channelId, message: messageId, emoji: actualReaction, user: userId)
+    }else {
+      url = .deleteOwnReaction(channel: channelId, message: messageId, emoji: actualReaction)
     }
 
-    self.request(url!) { data, error in
+    self.request(url) { data, error in
       completion(error)
     }
   }
@@ -995,7 +1007,13 @@ open class Sword: Eventable {
    - parameter channelId: Channel to get reaction from
   */
   public func getReaction(_ reaction: String, from messageId: Snowflake, in channelId: Snowflake, then completion: @escaping ([User]?, RequestError?) -> ()) {
-    self.request(.getReactions(channel: channelId, message: messageId, emoji: reaction)) { [unowned self] data, error in
+    let actualReaction: String
+    if URL(string: reaction) == nil {
+      actualReaction = reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+    }else {
+      actualReaction = reaction
+    }
+    self.request(.getReactions(channel: channelId, message: messageId, emoji: actualReaction)) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
       }else {
