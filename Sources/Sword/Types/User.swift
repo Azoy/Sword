@@ -35,7 +35,7 @@ public struct User {
   public let email: String?
 
   /// ID of user
-  public let id: Snowflake
+  public let id: UserID
 
   /// Whether of not user has mfa enabled (will probably be empty forever)
   public let isMfaEnabled: Bool?

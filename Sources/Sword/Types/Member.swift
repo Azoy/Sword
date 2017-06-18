@@ -35,7 +35,7 @@ public struct Member {
   public internal(set) var presence: Presence?
 
   /// Array of role ids this member has
-  public internal(set) var roles = [Snowflake]()
+  public internal(set) var roles = [RoleID]()
 
   /// User struct for this member
   public let user: User

@@ -24,7 +24,7 @@ public struct Webhook {
   public let guild: Guild
 
   /// The id of the webhook
-  public let id: Snowflake
+  public let id: WebhookID
 
   /// The display name of the webhook
   public let name: String

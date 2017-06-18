@@ -32,7 +32,7 @@ public struct Message {
   public internal(set) var embeds = [Embed]()
 
   /// Message ID
-  public let id: Snowflake
+  public let id: MessageID
 
   /// Whether or not this message mentioned everyone
   public let isEveryoneMentioned: Bool
@@ -50,7 +50,7 @@ public struct Message {
   public internal(set) var mentions = [User]()
 
   /// Array of Roles that were mentioned
-  public internal(set) var mentionedRoles = [Snowflake]()
+  public internal(set) var mentionedRoles = [RoleID]()
 
   /// Used to validate a message was sent
   public let nonce: Snowflake?
@@ -62,7 +62,7 @@ public struct Message {
   public let timestamp: Date
 
   /// If message was sent by webhook, this is that webhook's ID
-  public let webhookId: Snowflake?
+  public let webhookId: WebhookID?
 
   // MARK: Initializer
 
@@ -166,7 +166,7 @@ public struct Message {
    - parameter reaction: Either unicode or custom emoji reaction to remove
    - parameter userId: If nil, delete from self else delete from userId
   */
-  public func delete(reaction: String, from userId: Snowflake? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func delete(reaction: String, from userId: UserID? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.channel.deleteReaction(reaction, from: self.id, by: userId ?? nil, then: completion)
   }
 
@@ -226,7 +226,7 @@ public struct Attachment {
   public let height: Int?
 
   /// ID of attachment
-  public let id: Snowflake
+  public let id: AttachmentID
 
   /// The proxied URL for this attachment
   public let proxyUrl: String

@@ -12,7 +12,7 @@ public struct VoiceState {
   // MARK: Properties
 
   /// The ID of the voice channel
-  public let channelId: Snowflake
+  public let channelId: ChannelID
 
   /// Whether or not the user is server deafend
   public let isDeafend: Bool

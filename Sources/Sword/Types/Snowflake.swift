@@ -20,12 +20,47 @@ public struct Snowflake {
     self.id = snowflake
   }
   
+  /// Initialize from an optional string (returns nil if the input was nil or if it failed to initialize)
   init?(_ optionalString: String?) {
     guard let string = optionalString else { return nil }
     guard let snowflake = Snowflake(string) else { return nil }
     self = snowflake
   }
 }
+
+// MARK: Snowflake Typealiases
+
+/// A Snowflake ID representing a Guild
+public typealias GuildID = Snowflake
+
+/// A Snowflake ID representing a Channel
+public typealias ChannelID = Snowflake
+
+/// A Snowflake ID representing a User
+public typealias UserID = Snowflake
+
+/// A Snowflake ID representing a Role
+public typealias RoleID = Snowflake
+
+/// A Snowflake ID representing a Message
+public typealias MessageID = Snowflake
+
+/// A Snowflake ID representing a Webhook
+public typealias WebhookID = Snowflake
+
+/// A Snowflake ID representing a Permissions Overwrite
+public typealias OverwriteID = Snowflake
+
+/// A Snowflake ID representing an Emoji
+public typealias EmojiID = Snowflake
+
+/// A Snowflake ID representing an Integration
+public typealias IntegrationID = Snowflake
+
+/// A Snowflake ID representing an Attachment
+public typealias AttachmentID = Snowflake
+
+// MARK: Snowflake Conformances
 
 /// Snowflake conformance to CustomStringConvertible
 extension Snowflake : CustomStringConvertible {
@@ -61,6 +96,8 @@ extension Snowflake : Hashable {
   }
   
 }
+
+// MARK: Snowflake-String Comparison
 
 /// :nodoc:
 /// Used to check whether a string equals a Snowflake

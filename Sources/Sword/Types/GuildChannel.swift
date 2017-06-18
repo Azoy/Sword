@@ -29,10 +29,10 @@ public struct GuildChannel: Channel {
   }
 
   /// Guild ID that this channel belongs to
-  private let guildId: Snowflake?
+  private let guildId: GuildID?
 
   /// ID of the channel
-  public let id: Snowflake
+  public let id: ChannelID
 
   /// Whether or not this channel is NSFW
   public let isNsfw: Bool?
@@ -41,7 +41,7 @@ public struct GuildChannel: Channel {
   public let isPrivate: Bool?
 
   /// (Text) Last message sent's ID
-  public let lastMessageId: Snowflake?
+  public let lastMessageId: MessageID?
 
   /// Last Pin's timestamp
   public let lastPinTimestamp: Date?
@@ -130,7 +130,7 @@ public struct GuildChannel: Channel {
 
    - parameter messageId: Message to delete all reactions from
   */
-  public func deleteReactions(from messageId: Snowflake, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func deleteReactions(from messageId: MessageID, then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.sword?.deleteReactions(from: messageId, in: self.id, then: completion)
   }
 
@@ -153,7 +153,7 @@ public struct Overwrite {
   public let deny: Int
 
   /// ID of overwrite
-  public let id: Snowflake
+  public let id: OverwriteID
 
   /// Either "role" or "member"
   public let type: String

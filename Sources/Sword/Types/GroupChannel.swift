@@ -15,13 +15,13 @@ public struct GroupChannel: Channel {
   public internal(set) weak var sword: Sword?
 
   /// ID of DM
-  public let id: Snowflake
+  public let id: ChannelID
 
   /// The recipient of this DM
   public internal(set) var recipients = [User]()
 
   /// The last message's ID
-  public let lastMessageId: Snowflake?
+  public let lastMessageId: MessageID?
 
   // MARK: Initializer
 

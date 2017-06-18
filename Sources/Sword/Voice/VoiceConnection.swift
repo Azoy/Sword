@@ -45,7 +45,7 @@ public class VoiceConnection: Eventable {
   var endpoint: String
 
   /// Guild that this voice connection is server
-  public let guildId: Snowflake
+  public let guildId: GuildID
 
   /// Completion handler function that calls when voice connection is ready
   var handler: (VoiceConnection) -> ()
@@ -120,7 +120,7 @@ public class VoiceConnection: Eventable {
    - parameter guildId: Guild we're connecting to
    - parameter handler: Completion handler to call after we're ready
   */
-  init(_ endpoint: String, _ guildId: Snowflake, _ handler: @escaping (VoiceConnection) -> ()) {
+  init(_ endpoint: String, _ guildId: GuildID, _ handler: @escaping (VoiceConnection) -> ()) {
     let endpoint = endpoint.components(separatedBy: ":")
     self.endpoint = endpoint[0]
     self.guildId = guildId

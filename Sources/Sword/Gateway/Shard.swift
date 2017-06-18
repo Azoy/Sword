@@ -147,7 +147,7 @@ class Shard {
    - parameter channelId: Channel to join
    - parameter guildId: Guild that the channel belongs to
   */
-  func joinVoiceChannel(_ channelId: Snowflake, in guildId: Snowflake) {
+  func joinVoiceChannel(_ channelId: ChannelID, in guildId: GuildID) {
     let payload = Payload(
       op: .voiceStateUpdate,
       data: [
@@ -166,7 +166,7 @@ class Shard {
 
    - parameter guildId: Guild we want to remove bot from
   */
-  func leaveVoiceChannel(in guildId: Snowflake) {
+  func leaveVoiceChannel(in guildId: GuildID) {
     let payload = Payload(
       op: .voiceStateUpdate,
       data: [
@@ -203,7 +203,7 @@ class Shard {
   }
 
   /// Function to send packet to server to request for offline members for requested guild
-  func requestOfflineMembers(for guildId: Snowflake) {
+  func requestOfflineMembers(for guildId: GuildID) {
     let payload = Payload(
       op: .requestGuildMember,
       data: [

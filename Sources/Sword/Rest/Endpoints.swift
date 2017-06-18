@@ -10,146 +10,146 @@ enum Endpoint {
 
   case gateway
 
-  case addPinnedChannelMessage(channel: Snowflake, message: Snowflake)
+  case addPinnedChannelMessage(channel: ChannelID, message: MessageID)
 
-  case beginGuildPrune(Snowflake)
+  case beginGuildPrune(GuildID)
 
-  case bulkDeleteMessages(Snowflake)
+  case bulkDeleteMessages(ChannelID)
 
-  case createChannelInvite(Snowflake)
+  case createChannelInvite(ChannelID)
 
   case createDM
 
   case createGuild
 
-  case createGuildBan(guild: Snowflake, user: Snowflake)
+  case createGuildBan(GuildID, UserID)
 
-  case createGuildChannel(Snowflake)
+  case createGuildChannel(GuildID)
 
-  case createGuildIntegration(Snowflake)
+  case createGuildIntegration(GuildID)
 
-  case createGuildRole(Snowflake)
+  case createGuildRole(GuildID)
 
-  case createMessage(Snowflake)
+  case createMessage(ChannelID)
 
-  case createReaction(channel: Snowflake, message: Snowflake, emoji: String)
+  case createReaction(ChannelID, MessageID, reaction: String)
 
-  case createWebhook(Snowflake)
+  case createWebhook(ChannelID)
 
-  case deleteAllReactions(channel: Snowflake, message: Snowflake)
+  case deleteAllReactions(ChannelID, MessageID)
 
-  case deleteChannel(Snowflake)
+  case deleteChannel(ChannelID)
 
-  case deleteChannelPermission(channel: Snowflake, overwrite: Snowflake)
+  case deleteChannelPermission(ChannelID, OverwriteID)
 
-  case deleteGuild(Snowflake)
+  case deleteGuild(GuildID)
 
-  case deleteGuildIntegration(guild: Snowflake, integration: Snowflake)
+  case deleteGuildIntegration(GuildID, IntegrationID)
 
-  case deleteGuildRole(guild: Snowflake, role: Snowflake)
+  case deleteGuildRole(GuildID, RoleID)
 
-  case deleteInvite(Snowflake)
+  case deleteInvite(invite: String)
 
-  case deleteMessage(channel: Snowflake, message: Snowflake)
+  case deleteMessage(ChannelID, MessageID)
 
-  case deleteOwnReaction(channel: Snowflake, message: Snowflake, emoji: String)
+  case deleteOwnReaction(ChannelID, MessageID, reaction: String)
 
-  case deletePinnedChannelMessage(channel: Snowflake, message: Snowflake)
+  case deletePinnedChannelMessage(ChannelID, MessageID)
 
-  case deleteUserReaction(channel: Snowflake, message: Snowflake, emoji: String, user: Snowflake)
+  case deleteUserReaction(ChannelID, MessageID, reaction: String, UserID)
 
-  case deleteWebhook(webhook: Snowflake, token: String?)
+  case deleteWebhook(WebhookID, token: String?)
 
-  case editChannelPermissions(channel: Snowflake, overwrite: Snowflake)
+  case editChannelPermissions(ChannelID, OverwriteID)
 
-  case editMessage(channel: Snowflake, message: Snowflake)
+  case editMessage(ChannelID, MessageID)
 
-  case executeSlackWebhook(webhook: Snowflake, token: String)
+  case executeSlackWebhook(WebhookID, token: String)
 
-  case executeWebhook(webhook: Snowflake, token: String)
+  case executeWebhook(WebhookID, token: String)
 
-  case getChannel(Snowflake)
+  case getChannel(ChannelID)
 
-  case getChannelInvites(Snowflake)
+  case getChannelInvites(ChannelID)
 
-  case getChannelMessage(channel: Snowflake, message: Snowflake)
+  case getChannelMessage(ChannelID, MessageID)
 
-  case getChannelMessages(Snowflake)
+  case getChannelMessages(ChannelID)
 
-  case getChannelWebhooks(Snowflake)
+  case getChannelWebhooks(ChannelID)
 
   case getCurrentUser
 
   case getCurrentUserGuilds
 
-  case getGuild(Snowflake)
+  case getGuild(GuildID)
 
-  case getGuildBans(Snowflake)
+  case getGuildBans(GuildID)
 
-  case getGuildChannels(Snowflake)
+  case getGuildChannels(GuildID)
 
-  case getGuildEmbed(Snowflake)
+  case getGuildEmbed(GuildID)
 
-  case getGuildIntegrations(Snowflake)
+  case getGuildIntegrations(GuildID)
 
-  case getGuildInvites(Snowflake)
+  case getGuildInvites(GuildID)
 
-  case getGuildMember(guild: Snowflake, user: Snowflake)
+  case getGuildMember(GuildID, UserID)
 
-  case getGuildPruneCount(Snowflake)
+  case getGuildPruneCount(GuildID)
 
-  case getGuildRoles(Snowflake)
+  case getGuildRoles(GuildID)
 
-  case getGuildVoiceRegions(Snowflake)
+  case getGuildVoiceRegions(GuildID)
 
-  case getGuildWebhooks(Snowflake)
+  case getGuildWebhooks(GuildID)
 
-  case getInvite(Snowflake)
+  case getInvite(invite: String)
 
-  case getPinnedMessages(Snowflake)
+  case getPinnedMessages(ChannelID)
 
-  case getReactions(channel: Snowflake, message: Snowflake, emoji: String)
+  case getReactions(ChannelID, MessageID, reaction: String)
 
-  case getUser(Snowflake)
+  case getUser(UserID)
 
   case getUserConnections
 
   case getUserDM
 
-  case getWebhook(webhook: Snowflake, token: String?)
+  case getWebhook(WebhookID, token: String?)
 
-  case groupDMRemoveRecipient(channel: Snowflake, user: Snowflake)
+  case groupDMRemoveRecipient(ChannelID, UserID)
 
-  case leaveGuild(Snowflake)
+  case leaveGuild(GuildID)
 
-  case listGuildMembers(Snowflake)
+  case listGuildMembers(GuildID)
 
-  case modifyChannel(Snowflake)
+  case modifyChannel(ChannelID)
 
   case modifyCurrentUser
 
-  case modifyGuild(Snowflake)
+  case modifyGuild(GuildID)
 
-  case modifyGuildChannelPositions(Snowflake)
+  case modifyGuildChannelPositions(GuildID)
 
-  case modifyGuildEmbed(Snowflake)
+  case modifyGuildEmbed(GuildID)
 
-  case modifyGuildIntegration(guild: Snowflake, integration: Snowflake)
+  case modifyGuildIntegration(GuildID, IntegrationID)
 
-  case modifyGuildMember(guild: Snowflake, user: Snowflake)
+  case modifyGuildMember(GuildID, UserID)
 
-  case modifyGuildRole(guild: Snowflake, role: Snowflake)
+  case modifyGuildRole(GuildID, RoleID)
 
-  case modifyGuildRolePositions(Snowflake)
+  case modifyGuildRolePositions(GuildID)
 
-  case modifyWebhook(webhook: Snowflake, token: String?)
+  case modifyWebhook(WebhookID, token: String?)
 
-  case removeGuildBan(guild: Snowflake, user: Snowflake)
+  case removeGuildBan(GuildID, UserID)
 
-  case removeGuildMember(guild: Snowflake, user: Snowflake)
+  case removeGuildMember(GuildID, UserID)
 
-  case syncGuildIntegration(guild: Snowflake, integration: Snowflake)
+  case syncGuildIntegration(GuildID, IntegrationID)
 
-  case triggerTypingIndicator(Snowflake)
+  case triggerTypingIndicator(ChannelID)
 
 }

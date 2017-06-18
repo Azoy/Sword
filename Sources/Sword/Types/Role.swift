@@ -15,7 +15,7 @@ public struct Role {
   public let color: Int
 
   /// ID of the role
-  public let id: Snowflake
+  public let id: RoleID
 
   /// Whether or not this role is hoisted
   public let isHoisted: Bool
