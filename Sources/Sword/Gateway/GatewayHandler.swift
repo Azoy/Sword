@@ -17,8 +17,13 @@ extension Shard {
    - parameter payload: Payload sent with event
    */
   func handleGateway(_ payload: Payload) {
-
-    switch OP(rawValue: payload.op)! {
+    
+    guard let op = OP(rawValue: payload.op) else {
+      self.sword.log("Received unknown gateway\nOP: \(payload.op)\nData: \(payload.d)")
+      return
+    }
+    
+    switch op {
 
       /// OP: 1
       case .heartbeat:
@@ -41,9 +46,11 @@ extension Shard {
         guard !self.isReconnecting else {
           self.isReconnecting = false
           var data: [String: Any] = ["token": self.sword.token, "session_id": self.sessionId!, "seq": NSNull()]
+          
           if let lastSeq = self.lastSeq {
-            data.updateValue(lastSeq, forKey: "seq")
+            data["seq"] = lastSeq
           }
+          
           let payload = Payload(
             op: .resume,
             data: data
@@ -57,9 +64,8 @@ extension Shard {
 
       /// OP: 9
       case .invalidSession:
-        self.stop()
-        sleep(2)
-        self.startWS(self.gatewayUrl)
+        self.isReconnecting = false
+        self.reconnect()
 
       /// OP: 7
       case .reconnect:

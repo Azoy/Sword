@@ -68,7 +68,13 @@ struct Payload {
 
   /// Returns self as a String
   func encode() -> String {
-    let payload = ["op": self.op, "d": self.d]
+    var payload = ["op": self.op, "d": self.d]
+    
+    if self.t != nil {
+      payload["s"] = self.s!
+      payload["t"] = self.t!
+    }
+    
     return payload.encode()
   }
 

@@ -17,9 +17,6 @@ open class Sword: Eventable {
   /// Collection of DMChannels mapped by user id
   public internal(set) var dms = [UserID: DMChannel]()
 
-  /// The gateway url to connect to
-  var gatewayUrl: String?
-
   /// Whether or not the global queue is locked
   var isGloballyLocked = false
 
@@ -53,8 +50,8 @@ open class Sword: Eventable {
   /// Amount of shards to initialize
   public internal(set) var shardCount = 1
 
-  /// Array of Shard class
-  var shards = [Shard]()
+  /// Shard Handler
+  let shardManager = ShardManager()
 
   /// How many shards are ready
   var shardsReady = 0
@@ -63,7 +60,7 @@ open class Sword: Eventable {
   let token: String
 
   /// Array of unavailable guilds the bot is currently connected to
-  public internal(set)var unavailableGuilds = [GuildID: UnavailableGuild]()
+  public internal(set) var unavailableGuilds = [GuildID: UnavailableGuild]()
 
   /// Int in seconds of how long the bot has been online
   public var uptime: Int? {
@@ -103,6 +100,8 @@ open class Sword: Eventable {
   public init(token: String, with options: SwordOptions = SwordOptions()) {
     self.options = options
     self.token = token
+
+    self.shardManager.sword = self
   }
 
   // MARK: Functions
@@ -127,7 +126,7 @@ open class Sword: Eventable {
   /// Starts the bot
   public func connect() {
     self.getGateway() { [unowned self] data, error in
-      if let error = error {
+      guard let data = data else {
         guard error == .unauthorized else {
           sleep(3)
           self.connect()
@@ -135,31 +134,24 @@ open class Sword: Eventable {
         }
 
         print("[Sword] Bot token invalid.")
-      }else {
-        self.gatewayUrl = "\(data!["url"]!)/?encoding=json&v=6"
-
-        if self.options.willShard {
-          self.shardCount = data!["shards"] as! Int
-        }else {
-          self.shardCount = 1
-        }
-
-        for id in 0 ..< self.shardCount {
-          let shard = Shard(self, id, self.shardCount)
-          self.shards.append(shard)
-          shard.startWS(self.gatewayUrl!)
-        }
+        return
       }
+
+      self.shardManager.gatewayUrl = "\(data["url"]!)/?encoding=json&v=6"
+
+      if self.options.willShard {
+        self.shardCount = data["shards"] as! Int
+      }else {
+        self.shardCount = 1
+      }
+
+      self.shardManager.create(self.shardCount)
     }
   }
 
   /// Disconnects the bot from the gateway
   public func disconnect() {
-    guard self.shards.count > 0 else { return }
-
-    for shard in self.shards {
-      shard.stop()
-    }
+    self.shardManager.disconnect()
   }
 
   /**
@@ -539,11 +531,11 @@ open class Sword: Eventable {
       }
     }
 
-    guard self.shards.count > 0 else { return }
+    guard self.shardManager.shards.count > 0 else { return }
 
     let payload = Payload(op: .statusUpdate, data: data).encode()
 
-    for shard in self.shards {
+    for shard in self.shardManager.shards {
       shard.send(payload, presence: true)
     }
   }
@@ -1135,13 +1127,13 @@ open class Sword: Eventable {
 
 	guard let guild = self.getGuild(for: channelId) else { return }
 
-    guard let shardID = guild.shard else { return }
+    guard let shardId = guild.shard else { return }
 
 	guard let channel = guild.channels[channelId] else { return }
     guard channel.type == 2 else { return }
 
-    let shard = self.shards.filter {
-      $0.id == shardID
+    let shard = self.shardManager.shards.filter {
+      $0.id == shardId
     }[0]
 
     self.voiceManager.handlers[guild.id] = completion
@@ -1163,7 +1155,16 @@ open class Sword: Eventable {
       completion(error)
     }
   }
-
+  
+  /**
+   Kills a shard
+   
+   - parameter id: Id of shard to kill
+  */
+  public func kill(_ id: Int) {
+    self.shardManager.kill(id)
+  }
+  
   /**
    Leaves a guild
 
@@ -1188,14 +1189,14 @@ open class Sword: Eventable {
 
     guard self.voiceManager.guilds[guild.id] != nil else { return }
 
-    guard let shardID = guild.shard else { return }
+    guard let shardId = guild.shard else { return }
 
 	guard let channel = guild.channels[channelId] else { return }
 
     guard channel.type == 2 else { return }
 
-    let shard = self.shards.filter {
-      $0.id == shardID
+    let shard = self.shardManager.shards.filter {
+      $0.id == shardId
     }[0]
 
     shard.leaveVoiceChannel(in: guild.id)
@@ -1542,7 +1543,16 @@ open class Sword: Eventable {
       }
     }
   }
-
+  
+  /**
+   Used to spawn a shard
+   
+   - parameter id: Id of shard to spawn
+  */
+  public func spawn(_ id: Int) {
+    self.shardManager.spawn(id)
+  }
+  
   /**
    Syncs an integration for a guild
 

@@ -59,7 +59,7 @@ class Encoder {
       "pipe:1"
     ]
 
-    self.process.terminationHandler = {[weak self] _ in
+    self.process.terminationHandler = { [weak self] _ in
       self?.writer.fileHandleForWriting.closeFile()
       self?.writer.fileHandleForReading.closeFile()
       self?.reader.fileHandleForWriting.closeFile()

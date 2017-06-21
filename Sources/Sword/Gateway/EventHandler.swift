@@ -17,10 +17,14 @@ extension Shard {
    - parameter data: Data sent with dispatch
    - parameter eventName: Event name sent with dispatch
    */
-  func handleEvents(_ data: [String: Any], _ eventName: String) {
+  func handleEvent(_ data: [String: Any], _ eventName: String) {
 
-    guard let event = Event(rawValue: eventName), !self.sword.options.disabledEvents.contains(event) else {
+    guard let event = Event(rawValue: eventName) else {
       self.sword.log("Received unknown event: \(eventName)")
+      return
+    }
+
+    guard !self.sword.options.disabledEvents.contains(event) else {
       return
     }
 
@@ -218,7 +222,7 @@ extension Shard {
         let userId = Snowflake((data["user"] as! [String: Any])["id"] as! String)!
         let presence = Presence(data)
         let guildID = Snowflake(data["guild_id"] as! String)!
-        self.sword.guilds[guildID]!.members[userId]?.presence = presence
+        self.sword.guilds[guildID]?.members[userId]?.presence = presence
         self.sword.emit(.presenceUpdate, with: (userId, presence))
 
       /// READY

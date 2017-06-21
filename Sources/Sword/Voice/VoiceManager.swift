@@ -8,12 +8,6 @@
 
 #if !os(iOS)
 
-struct PotentialConnection {
-  let channelID: ChannelID
-  let userID: UserID
-  let sessionID: String
-}
-
 /// Creates VoiceManager
 class VoiceManager {
 
@@ -37,16 +31,17 @@ class VoiceManager {
    - parameter endpoint: URL for voice server
    - parameter identify: Identify payload to send once we're ready
   */
-  func join(_ guildId: GuildID, _ endpoint: String, _ identify: String) {
+  func join(_ guildId: GuildID, _ gatewayUrl: String, _ identify: String) {
     guard self.connections[guildId] == nil else {
-      self.connections[guildId]!.moveChannels(endpoint, identify, self.handlers[guildId]!)
+      self.connections[guildId]!.moveChannels(gatewayUrl, identify, self.handlers[guildId]!)
       self.handlers.removeValue(forKey: guildId)
       return
     }
 
-    let voiceConnection = VoiceConnection(endpoint, guildId, self.handlers[guildId]!)
+    let voiceConnection = VoiceConnection(gatewayUrl, guildId, self.handlers[guildId]!)
+    voiceConnection.identify = identify
     self.connections[guildId] = voiceConnection
-    voiceConnection.startWS(identify)
+    voiceConnection.start()
     self.handlers.removeValue(forKey: guildId)
   }
 
@@ -60,7 +55,7 @@ class VoiceManager {
       return
     }
 
-    connection.close()
+    connection.stop()
     self.connections.removeValue(forKey: guildId)
     self.guilds.removeValue(forKey: guildId)
   }

@@ -23,12 +23,9 @@ import SodiumLinux
 #endif
 
 /// Voice Connection class that handles connection to voice server
-public class VoiceConnection: Eventable {
+  public class VoiceConnection: Gateway, Eventable {
 
   // MARK: Properties
-
-  /// Whether or not the voice connection is closed
-  var isClosed = false
 
   /// Gets current time in milliseconds
   var currentTime: Int {
@@ -42,7 +39,7 @@ public class VoiceConnection: Eventable {
   let encoderSema = DispatchSemaphore(value: 1)
 
   /// URL to connect to WS
-  var endpoint: String
+  var gatewayUrl: String
 
   /// Guild that this voice connection is server
   public let guildId: GuildID
@@ -52,7 +49,10 @@ public class VoiceConnection: Eventable {
 
   /// The Heartbeat to send through WS
   var heartbeat: Heartbeat?
-
+  
+  /// Payload to send over gateway to initialize a voice connection
+  var identify: String?
+  
   /// Whether or not the WS is connected
   var isConnected = false
 
@@ -120,9 +120,9 @@ public class VoiceConnection: Eventable {
    - parameter guildId: Guild we're connecting to
    - parameter handler: Completion handler to call after we're ready
   */
-  init(_ endpoint: String, _ guildId: GuildID, _ handler: @escaping (VoiceConnection) -> ()) {
-    let endpoint = endpoint.components(separatedBy: ":")
-    self.endpoint = endpoint[0]
+  init(_ gatewayUrl: String, _ guildId: GuildID, _ handler: @escaping (VoiceConnection) -> ()) {
+    let endpoint = gatewayUrl.components(separatedBy: ":")
+    self.gatewayUrl = "wss://\(endpoint[0])"
     self.guildId = guildId
     self.port = Int(endpoint[1])!
     self.handler = handler
@@ -137,7 +137,7 @@ public class VoiceConnection: Eventable {
 
   /// Called when VoiceConnection needs to free up space
   deinit {
-    self.close()
+    self.stop()
   }
 
   // MARK: Functions
@@ -154,20 +154,6 @@ public class VoiceConnection: Eventable {
     guard waitTime > 0 else { return }
 
     Thread.sleep(forTimeInterval: waitTime)
-  }
-
-  /// Closes WS, UDP, and Encoder
-  func close() {
-    if !self.isClosed {
-      self.emit(.connectionClose)
-    }
-
-    self.isClosed = true
-
-    try? self.session?.close()
-
-    try? self.udpClient?.close()
-    self.encoder = nil
   }
 
   /// Creates a VoiceEncoder
@@ -245,6 +231,7 @@ public class VoiceConnection: Eventable {
     let audioSize = audioData.count - 16
     #endif
     let unencryptedAudioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
+
     defer {
       free(unencryptedAudioData)
     }
@@ -275,13 +262,35 @@ public class VoiceConnection: Eventable {
   public func finish() {
     self.encoder?.finish()
   }
-
+    
+  /// Handles what to do on connect to gateway
+  func handleConnect() {
+    guard self.identify != nil else { return }
+    
+    try? self.session?.send(self.identify!)
+  }
+    
+  /**
+   Handles what to do on disconnect from gateway
+     
+   - parameter code: Error code received from gateway
+  */
+  func handleDisconnect(for code: Int) {
+    guard CloseOP(rawValue: code) != nil else {
+      print("[Sword] Voice connection closed with unrecognized response\nCode: \(code)")
+      
+      self.reconnect()
+      
+      return
+    }
+  }
+  
   /**
    Handles all WS events
 
    - parameter payload: Payload that was sent through WS
   */
-  func handleWSPayload(_ payload: Payload) {
+  func handlePayload(_ payload: Payload) {
     guard payload.t != nil else {
 
       guard let voiceOP = VoiceOP(rawValue: payload.op) else { return }
@@ -320,18 +329,18 @@ public class VoiceConnection: Eventable {
    - parameter identify: New identify to send to WS
    - parameter handler: New completion handler to call once voice connection is ready
   */
-  func moveChannels(_ endpoint: String, _ identify: String, _ handler: @escaping (VoiceConnection) -> ()) {
-    self.endpoint = endpoint
+  func moveChannels(_ gatewayUrl: String, _ identify: String, _ handler: @escaping (VoiceConnection) -> ()) {
+    self.gatewayUrl = gatewayUrl
+    self.identify = identify
     self.handler = handler
     self.udpReadQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpRead.\(guildId)")
     self.udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite.\(guildId)")
-    self.isClosed = true
 
     try? self.session?.close()
 
     try? self.udpClient?.close()
 
-    self.startWS(identify)
+    self.start()
   }
 
   /**
@@ -444,7 +453,7 @@ public class VoiceConnection: Eventable {
         guard let isConnected = self?.isConnected, !isConnected else { return }
 
         print("[Sword] Error reading voice connection for audio data.")
-        self?.close()
+        self?.stop()
 
         return
       }
@@ -452,7 +461,14 @@ public class VoiceConnection: Eventable {
       self?.receiveAudio()
     }
   }
-
+    
+  /// Used to reconnect to the voice gateway
+  func reconnect() {
+    (self as Gateway).reconnect()
+    
+    
+  }
+    
   /**
    Sends a WS event that contains the protocol of audio we're sending, and user IP and Port
 
@@ -487,8 +503,8 @@ public class VoiceConnection: Eventable {
       do {
         try self.udpClient?.sendto(data: self.createPacket(with: data))
       }catch {
-        guard self.isClosed else {
-          self.close()
+        guard let isClosed = self.udpClient?.isClosed, isClosed else {
+          self.stop()
           return
         }
 
@@ -517,10 +533,10 @@ public class VoiceConnection: Eventable {
    - parameter port: Port to use to connect to client
   */
   func startUDPSocket(_ port: Int) {
-    let address = InternetAddress(hostname: self.endpoint, port: Port(port))
+    let address = InternetAddress(hostname: self.gatewayUrl, port: Port(port))
 
     guard let client = try? UDPInternetSocket(address: address) else {
-      self.close()
+      self.stop()
 
       return
     }
@@ -533,41 +549,20 @@ public class VoiceConnection: Eventable {
 
       self.selectProtocol(data)
     } catch {
-      self.close()
+      self.stop()
     }
   }
 
-  /**
-   Starts WS used to connect to voice channel
+  /// Stops WS, UDP, and Encoder
+  func stop() {
+    (self as Gateway).stop()
 
-   - parameter identify: Identify to send to give details about our connection
-  */
-  func startWS(_ identify: String) {
-    do {
-      let gatewayUri = try URI("wss://\(self.endpoint)")
-      let tcp = try TCPInternetSocket(scheme: "https", hostname: gatewayUri.hostname, port: gatewayUri.port ?? 443)
-      let stream = try TLS.InternetSocket(tcp, TLS.Context(.client))
-      try WebSocket.background(to: "wss://\(self.endpoint)", using: stream) { [unowned self] ws in
-        self.session = ws
-        self.isConnected = true
-
-        try ws.send(identify)
-
-        ws.onText = { ws, text in
-          self.handleWSPayload(Payload(with: text))
-        }
-
-        ws.onClose = { ws, code, _, _ in
-          self.session = nil
-          self.heartbeat = nil
-          self.isConnected = false
-        }
-      }
-    }catch {
-      print("[Sword] " + error.localizedDescription)
-      print("[Sword] Aborting Voice Connection")
-      self.close()
+    if self.isConnected {
+      self.emit(.connectionClose)
     }
+
+    try? self.udpClient?.close()
+    self.encoder = nil
   }
 
 }
