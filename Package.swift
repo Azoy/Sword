@@ -12,7 +12,7 @@ let dependencies: [Package.Dependency] = [
 #else
 var dependencies: [Package.Dependency] = [
   .Package(
-    url: "https://github.com/vapor/engine",
+    url: "https://github.com/vapor/engine.git",
     majorVersion: 2
   )
 ]
