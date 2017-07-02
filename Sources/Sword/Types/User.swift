@@ -17,14 +17,6 @@ public struct User {
   /// Avatar hash
   public let avatar: String?
 
-  /// The link of the user's avatar
-  public var avatarUrl: String? {
-    guard let avatar = self.avatar else {
-      return nil
-    }
-    return "https://cdn.discordapp.com/avatars/\(self.id)/\(avatar).png"
-  }
-
   /// Whether or not this user is a bot
   public let isBot: Bool?
 
@@ -57,7 +49,7 @@ public struct User {
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 
-    self.id = Snowflake(json["id"] as! String)!
+    self.id = UserID(json["id"] as! String)!
     self.avatar = json["avatar"] as? String
     self.isBot = json["bot"] as? Bool
     self.discriminator = json["discriminator"] as? String
@@ -68,7 +60,20 @@ public struct User {
   }
 
   // MARK: Functions
-
+  
+  /**
+   Gets the link of the user's avatar
+   
+   - parameter format: File extension of the avatar (default png)
+  */
+  public func avatarUrl(format: FileExtension = .png) -> String? {
+    guard let avatar = self.avatar else {
+      return nil
+    }
+    
+    return "https://cdn.discordapp.com/avatars/\(self.id)/\(avatar).\(format.rawValue)"
+  }
+  
   /// Gets DM for user
   public func getDM(then completion: @escaping (DMChannel?, RequestError?) -> ()) {
     self.sword?.getDM(for: self.id, then: completion)

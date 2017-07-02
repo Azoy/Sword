@@ -6,7 +6,9 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-#if os(iOS)
+import Foundation
+
+#if !os(Linux)
 import Starscream
 #else
 import Sockets
@@ -33,8 +35,6 @@ protocol Gateway: class {
   
   func handlePayload(_ payload: Payload)
   
-  func reconnect()
-  
   func start()
 
   func stop()
@@ -48,23 +48,9 @@ extension Gateway {
   func handleConnect() {}
   #endif
   
-  /// Used to reconnect to gateway
-  func reconnect() {
-    #if os(iOS)
-    self.session?.disconnect()
-    #else
-    try? self.session?.close()
-    #endif
-    
-    self.isConnected = false
-    self.heartbeat = nil
-    
-    self.start()
-  }
-  
   /// Starts the gateway connection
   func start() {
-    #if os(iOS)
+    #if !os(Linux)
     self.session = WebSocket(url: URL(string: self.gatewayUrl)!)
 
     self.session?.onConnect = { [unowned self] in
@@ -114,17 +100,6 @@ extension Gateway {
       self.reconnect()
     }
     #endif
-  }
-
-  func stop() {
-    #if os(iOS)
-    self.session?.disconnect()
-    #else
-    try? self.session?.close()
-    #endif
-
-    self.heartbeat = nil
-    self.isConnected = false
   }
 
 }

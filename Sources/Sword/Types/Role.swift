@@ -45,7 +45,7 @@ public struct Role {
   init(_ json: [String: Any]) {
     self.color = json["color"] as! Int
     self.isHoisted = json["hoist"] as! Bool
-    self.id = Snowflake(json["id"] as! String)!
+    self.id = RoleID(json["id"] as! String)!
     self.isManaged = json["managed"] as! Bool
     self.isMentionable = json["mentionable"] as! Bool
     self.name = json["name"] as! String

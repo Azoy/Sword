@@ -59,6 +59,20 @@ enum HTTPMethod: String {
   case get, post, put, patch, delete
 }
 
+/// Used to determine avatar url format
+public enum FileExtension: String {
+  
+  /// .jpg format
+  case jpg
+  
+  /// .png format
+  case png
+  
+  /// .gif format
+  case gif
+  
+}
+
 /// Organize all ws dispatch events
 public enum Event: String {
 

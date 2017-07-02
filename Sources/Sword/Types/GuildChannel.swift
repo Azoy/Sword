@@ -20,16 +20,7 @@ public struct GuildChannel: Channel {
   public let bitrate: Int?
 
   /// Guild object for this channel
-  public var guild: Guild? {
-    if let guildId = self.guildId {
-      return self.sword!.guilds[guildId]
-    }else {
-      return nil
-    }
-  }
-
-  /// Guild ID that this channel belongs to
-  private let guildId: GuildID?
+  public internal(set) weak var guild: Guild?
 
   /// ID of the channel
   public let id: ChannelID
@@ -50,7 +41,7 @@ public struct GuildChannel: Channel {
   public let name: String?
 
   /// Array of Overwrite strcuts for channel
-  public private(set) var permissionOverwrites = [Snowflake: Overwrite]()
+  public internal(set) var permissionOverwrites = [Snowflake: Overwrite]()
 
   /// Position of channel
   public let position: Int?
@@ -76,10 +67,12 @@ public struct GuildChannel: Channel {
     self.sword = sword
 
     self.bitrate = json["bitrate"] as? Int
-    self.guildId = Snowflake(json["guild_id"] as? String)
-    self.id = Snowflake(json["id"] as! String)!
+    self.id = ChannelID(json["id"] as! String)!
+    
+    self.guild = sword.getGuild(for: self.id)
+    
     self.isPrivate = json["is_private"] as? Bool
-    self.lastMessageId = Snowflake(json["last_message_id"] as? String)
+    self.lastMessageId = MessageID(json["last_message_id"] as? String)
 
     if let lastPinTimestamp = json["last_pin_timestamp"] as? String {
       self.lastPinTimestamp = lastPinTimestamp.date
@@ -168,7 +161,7 @@ public struct Overwrite {
   init(_ json: [String: Any]) {
     self.allow = json["allow"] as! Int
     self.deny = json["deny"] as! Int
-    self.id = Snowflake(json["id"] as! String)!
+    self.id = OverwriteID(json["id"] as! String)!
     self.type = json["type"] as! String
   }
 

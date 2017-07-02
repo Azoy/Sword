@@ -10,7 +10,7 @@ enum Endpoint {
 
   case gateway
 
-  case addPinnedChannelMessage(channel: ChannelID, message: MessageID)
+  case addPinnedChannelMessage(ChannelID, MessageID)
 
   case beginGuildPrune(GuildID)
 
@@ -32,7 +32,7 @@ enum Endpoint {
 
   case createMessage(ChannelID)
 
-  case createReaction(ChannelID, MessageID, reaction: String)
+  case createReaction(ChannelID, MessageID, String)
 
   case createWebhook(ChannelID)
 
@@ -52,21 +52,21 @@ enum Endpoint {
 
   case deleteMessage(ChannelID, MessageID)
 
-  case deleteOwnReaction(ChannelID, MessageID, reaction: String)
+  case deleteOwnReaction(ChannelID, MessageID, String)
 
   case deletePinnedChannelMessage(ChannelID, MessageID)
 
-  case deleteUserReaction(ChannelID, MessageID, reaction: String, UserID)
+  case deleteUserReaction(ChannelID, MessageID, String, UserID)
 
-  case deleteWebhook(WebhookID, token: String?)
+  case deleteWebhook(WebhookID, String?)
 
   case editChannelPermissions(ChannelID, OverwriteID)
 
   case editMessage(ChannelID, MessageID)
 
-  case executeSlackWebhook(WebhookID, token: String)
+  case executeSlackWebhook(WebhookID, String)
 
-  case executeWebhook(WebhookID, token: String)
+  case executeWebhook(WebhookID, String)
 
   case getChannel(ChannelID)
 
@@ -108,7 +108,7 @@ enum Endpoint {
 
   case getPinnedMessages(ChannelID)
 
-  case getReactions(ChannelID, MessageID, reaction: String)
+  case getReactions(ChannelID, MessageID, String)
 
   case getUser(UserID)
 
@@ -116,7 +116,7 @@ enum Endpoint {
 
   case getUserDM
 
-  case getWebhook(WebhookID, token: String?)
+  case getWebhook(WebhookID, String?)
 
   case groupDMRemoveRecipient(ChannelID, UserID)
 
@@ -142,7 +142,7 @@ enum Endpoint {
 
   case modifyGuildRolePositions(GuildID)
 
-  case modifyWebhook(WebhookID, token: String?)
+  case modifyWebhook(WebhookID, String?)
 
   case removeGuildBan(GuildID, UserID)
 

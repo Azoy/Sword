@@ -34,14 +34,14 @@ public struct GroupChannel: Channel {
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 
-    self.id = Snowflake(json["id"] as! String)!
+    self.id = ChannelID(json["id"] as? String)!
 
     let recipients = json["recipients"] as! [[String: Any]]
     for recipient in recipients {
       self.recipients.append(User(sword, recipient))
     }
 
-    self.lastMessageId = Snowflake(json["last_message_id"] as? String)
+    self.lastMessageId = MessageID(json["last_message_id"] as? String)
   }
 
 }

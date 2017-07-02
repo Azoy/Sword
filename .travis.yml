@@ -13,9 +13,7 @@ matrix:
     - os: osx
       osx_image: xcode8.3
       before_install:
-        - brew tap vapor/tap
         - brew update
-        - brew install ctls
         - brew install libsodium
 
 script:

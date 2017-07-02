@@ -35,7 +35,7 @@ public struct Member {
   public internal(set) var presence: Presence?
 
   /// Array of role ids this member has
-  public internal(set) var roles = [RoleID]()
+  public internal(set) var roles = [Role]()
 
   /// User struct for this member
   public let user: User
@@ -61,11 +61,11 @@ public struct Member {
     self.isMuted = json["mute"] as? Bool
     self.nick = json["nick"] as? String
 
-    let roles = (json["roles"] as! [String]).map({ Snowflake($0)! })
+    let roles = (json["roles"] as! [String]).map({ RoleID($0)! })
     for role in roles {
-      self.roles.append(role)
+      self.roles.append(guild.roles[role]!)
 
-      self.permissions |= self.guild!.roles[role]!.permissions
+      self.permissions |= guild.roles[role]!.permissions
     }
 
     self.user = User(sword, json["user"] as! [String: Any])
@@ -132,6 +132,7 @@ public struct Presence {
     }else {
       self.game = nil
     }
+    
     self.status = Status(rawValue: json["status"] as! String)!
   }
 

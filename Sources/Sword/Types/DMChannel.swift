@@ -34,12 +34,12 @@ public struct DMChannel: Channel {
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 
-    self.id = Snowflake(json["id"] as! String)!
+    self.id = ChannelID(json["id"] as! String)!
 
     let recipients = json["recipients"] as! [[String: Any]]
     self.recipient = User(sword, recipients[0])
 
-    self.lastMessageId = Snowflake(json["last_message_id"] as? String)
+    self.lastMessageId = MessageID(json["last_message_id"] as? String)
   }
 
 }

@@ -8,72 +8,75 @@
 
 import Foundation
 
-/// Organize all possible status responses from api
-public enum RequestError {
-
-  /// 304 - Entity was not modifed
-  case notModified
-
-  /// 400 - Improper formatting, or server couldn't figure it out
-  case badRequest
-
-  /// 401 - Auth header missing or invalid
-  case unauthorized
-
-  /// 403 - Auth token does not have permission for resource
-  case forbidden
-
-  /// 404 - Resource was not found at location
-  case notFound
-
-  /// 405 - HTTP method used is not valid for location
-  case methodNotAllowed
-
-  /// 429 - RATE LIMITEDDD (most likely global, but maybe have made a hiccup)
-  case tooManyRequests
-
-  /// 502 - Gateway did not process request. Try again.
-  case gatewayUnavailable
-
-  /// 5xx - Server errors
-  case serverError
-
-  /// Most likely a json error if any
-  case unknown
-
-}
-
-
-extension HTTPURLResponse {
-
-  /// Create computed variable to get Error enum from statusCode
-  var status: RequestError {
-
-    switch self.statusCode {
-      case 304:
-        return .notModified
-      case 400:
-        return .badRequest
-      case 401:
-        return .unauthorized
-      case 403:
-        return .forbidden
-      case 404:
-        return .notFound
-      case 405:
-        return .methodNotAllowed
-      case 429:
-        return .tooManyRequests
-      case 502:
-        return .gatewayUnavailable
-      case 500 ... 599:
-        return .serverError
-      default:
-        return .unknown
-    }
-
+public struct RequestError: Error {
+  
+  public let code: Int
+  
+  public let error: [String: String]
+  
+  public let message: String
+  
+  public let statusCode: Int
+  
+  init(_ message: String) {
+    self.code = 0
+    self.error = [:]
+    self.message = message
+    self.statusCode = 0
   }
-
+  
+  init(_ statusCode: Int, _ response: Any) {
+    self.statusCode = statusCode
+    
+    if let response = response as? [String: Any] {
+      self.code = response["code"] as! Int
+      self.message = response["message"] as! String
+      
+      if let error = response["errors"] as? [String: Any] {
+        self.error = RequestError.getSpecificError(for: error)
+      }else {
+        self.error = [:]
+      }
+    }else {
+      self.code = 0
+      self.error = [:]
+      self.message = response as! String
+    }
+  }
+  
+  init(_ error: NSError) {
+    self.code = error.code
+    self.error = [:]
+    self.message = error.localizedDescription
+    self.statusCode = 0
+  }
+  
+  static func getSpecificError(for error: [String: Any], _ key: String = "") -> [String: String] {
+    var items = [String: String]()
+    
+    for (k, v) in error {
+      let newKey = key.isEmpty ? k : key + "." + k
+      
+      if let value = v as? [String: Any] {
+        if let _errors = value["_errors"] as? [[String: String]] {
+          for _error in _errors {
+            if let errorMessage = _error["message"] {
+              items[newKey] = errorMessage
+            }else {
+              items[newKey] = ""
+            }
+          }
+        }else {
+          items = RequestError.getSpecificError(for: value, newKey)
+        }
+      }else {
+        items[newKey] = v as? String
+      }
+    }
+    
+    return items
+  }
+  
 }
 
 enum VoiceError: Error {

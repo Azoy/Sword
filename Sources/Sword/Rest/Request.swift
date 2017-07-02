@@ -37,18 +37,19 @@ extension Sword {
       route += ".delete"
     }
 
-    var url = "https://discordapp.com/api/v7\(endpointInfo.url)"
+    var urlString = "https://discordapp.com/api/v7\(endpointInfo.url)"
 
     if let params = params {
-      url += "?"
-      url += params.lazy.map({ key, value in "\(key)=\(value)" }).joined(separator: "&")
+      urlString += "?"
+      urlString += params.lazy.map({ key, value in "\(key)=\(value)" }).joined(separator: "&")
     }
 
-    guard let urlToRequest = URL(string: url) else {
-      error("[Sword] tried to use invalid URL \"\(url)\".  Please bug report this.")
+    guard let url = URL(string: urlString) else {
+      self.error("[Sword] Used an invalid URL: \"\(urlString)\". Please report this.")
       return
     }
-    var request = URLRequest(url: urlToRequest)
+    
+    var request = URLRequest(url: url)
 
     request.httpMethod = endpointInfo.method.rawValue.uppercased()
 
@@ -64,7 +65,7 @@ extension Sword {
       request.addValue(reason, forHTTPHeaderField: "X-Audit-Log-Reason")
     }
 
-    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.6.0)", forHTTPHeaderField: "User-Agent")
+    request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.7.0)", forHTTPHeaderField: "User-Agent")
 
     if let body = body {
       request.httpBody = body.createBody()
@@ -90,12 +91,12 @@ extension Sword {
     }
     #endif
 
-    let task = self.session.dataTask(with: request) { [unowned self, sema] data, response, error in
+    let task = self.session.dataTask(with: request) { [unowned self, unowned sema] data, response, error in
       let response = response as! HTTPURLResponse
       let headers = response.allHeaderFields
 
       if error != nil {
-        completion(nil, .unknown)
+        completion(nil, RequestError(error! as NSError))
         sema.signal()
         return
       }
@@ -109,7 +110,9 @@ extension Sword {
         sema.signal()
         return
       }
-
+      
+      let returnedData = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+      
       if response.statusCode != 200 && response.statusCode != 201 {
 
         if response.statusCode == 429 {
@@ -128,13 +131,13 @@ extension Sword {
             return
           }
 
-          self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(retryAfter)) {
+          self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(retryAfter)) { [unowned self] in
             self.request(endpoint, body: body, file: file, authorization: authorization, rateLimited: rateLimited, then: completion)
           }
         }
 
         if response.statusCode >= 500 {
-          self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) {
+          self.globalQueue.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) { [unowned self] in
             self.request(endpoint, body: body, file: file, authorization: authorization, rateLimited: rateLimited, then: completion)
           }
 
@@ -142,21 +145,17 @@ extension Sword {
           return
         }
 
-        completion(nil, response.status)
+        completion(nil, RequestError(response.statusCode, returnedData!))
         sema.signal()
         return
       }
 
-      do {
-        let returnedData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-        completion(returnedData, nil)
-      }catch {
-        completion(nil, .unknown)
-      }
+      completion(returnedData, nil)
+      
       sema.signal()
     }
 
-    let apiCall = { [unowned self, sema] in
+    let apiCall = { [unowned self, unowned sema, unowned task] in
       guard rateLimited, self.rateLimits[route] != nil else {
         task.resume()
 

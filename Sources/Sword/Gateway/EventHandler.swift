@@ -24,7 +24,7 @@ extension Shard {
       return
     }
 
-    guard !self.sword.options.disabledEvents.contains(event) else {
+    guard !self.sword.options.disabledEvents.contains(event), self.sword.listeners[event] != nil else {
       return
     }
 
@@ -56,16 +56,16 @@ extension Shard {
       case .channelDelete:
         switch data["type"] as! Int {
           case 0, 2:
-            let channel = self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!.channels.removeValue(forKey: Snowflake(data["id"] as! String)!)
+            let channel = self.sword.guilds[GuildID(data["guild_id"] as! String)!]!.channels.removeValue(forKey: ChannelID(data["id"] as! String)!)
             self.sword.emit(.channelDelete, with: channel!)
 
           case 1:
             let recipient = (data["recipients"] as! [[String: Any]])[0]
-            let dm = self.sword.dms.removeValue(forKey: Snowflake(recipient["id"] as! String)!)
+            let dm = self.sword.dms.removeValue(forKey: UserID(recipient["id"] as! String)!)
             self.sword.emit(.channelDelete, with: dm!)
 
           case 3:
-            let group = self.sword.groups.removeValue(forKey: Snowflake(data["id"] as! String)!)
+            let group = self.sword.groups.removeValue(forKey: ChannelID(data["id"] as! String)!)
             self.sword.emit(.channelDelete, with: group!)
 
           default:
@@ -89,26 +89,19 @@ extension Shard {
             break
         }
 
-      /// GUILD_BAN_ADD
-      case .guildBanAdd:
-        let guildID = Snowflake(data["guild_id"] as! String)!
+      /// GUILD_BAN_ADD & GUILD_BAN_REMOVE
+      case .guildBanAdd, .guildBanRemove:
+        let guildID = GuildID(data["guild_id"] as! String)!
         let user = User(self.sword, data["user"] as! [String: Any])
-        self.sword.emit(.guildBanAdd, with: (self.sword.guilds[guildID]!, user))
-
-      /// GUILD_BAN_REMOVE
-      case .guildBanRemove:
-        let guildID = Snowflake(data["guild_id"] as! String)!
-        let user = User(self.sword, data["user"] as! [String: Any])
-        self.sword.emit(.guildBanRemove, with: (self.sword.guilds[guildID]!, user))
+        self.sword.emit(event, with: (self.sword.guilds[guildID]!, user))
 
       /// GUILD_CREATE
       case .guildCreate:
-        let guildId = Snowflake(data["id"] as! String)!
         let guild = Guild(self.sword, data, self.id)
-        self.sword.guilds[guildId] = guild
+        self.sword.guilds[guild.id] = guild
 
-        if self.sword.unavailableGuilds[guildId] != nil {
-          self.sword.unavailableGuilds.removeValue(forKey: guildId)
+        if self.sword.unavailableGuilds[guild.id] != nil {
+          self.sword.unavailableGuilds.removeValue(forKey: guild.id)
           self.sword.emit(.guildAvailable, with: guild)
         }else {
           self.sword.emit(.guildCreate, with: guild)
@@ -120,7 +113,7 @@ extension Shard {
 
       /// GUILD_DELETE
       case .guildDelete:
-        let guild = self.sword.guilds[Snowflake(data["id"] as! String)!]!
+        let guild = self.sword.guilds.removeValue(forKey: GuildID(data["id"] as! String)!)!
 
         if data["unavailable"] != nil {
           let unavailableGuild = UnavailableGuild(data, self.id)
@@ -130,34 +123,34 @@ extension Shard {
           self.sword.emit(.guildDelete, with: guild)
         }
 
-        self.sword.guilds.removeValue(forKey: guild.id)
-
       /// GUILD_EMOJIS_UPDATE
       case .guildEmojisUpdate:
         let emojis = (data["emojis"] as! [[String: Any]]).map(Emoji.init)
-        self.sword.emit(.guildEmojisUpdate, with: (self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!, emojis))
+        let guild = self.sword.guilds[GuildID(data["guild_id"] as! String)!]!
+        guild.emojis = emojis
+        self.sword.emit(.guildEmojisUpdate, with: (guild, emojis))
 
       /// GUILD_INTEGRATIONS_UPDATE
       case .guildIntegrationsUpdate:
-        self.sword.emit(.guildIntegrationsUpdate, with: self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!)
+        self.sword.emit(.guildIntegrationsUpdate, with: self.sword.guilds[GuildID(data["guild_id"] as! String)!]!)
 
       /// GUILD_MEMBER_ADD
       case .guildMemberAdd:
-        let guild = self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!
+        let guild = self.sword.guilds[GuildID(data["guild_id"] as! String)!]!
         let member = Member(self.sword, guild, data)
         guild.members[member.user.id] = member
         self.sword.emit(.guildMemberAdd, with: (guild, member))
 
       /// GUILD_MEMBER_REMOVE
       case .guildMemberRemove:
-        let guild = self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!
+        let guild = self.sword.guilds[GuildID(data["guild_id"] as! String)!]!
         let user = User(self.sword, data["user"] as! [String: Any])
         guild.members.removeValue(forKey: user.id)
         self.sword.emit(.guildMemberRemove, with: (guild, user))
 
       /// GUILD_MEMBERS_CHUNK
       case .guildMembersChunk:
-        let guild = self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!
+        let guild = self.sword.guilds[GuildID(data["guild_id"] as! String)!]!
         let members = data["members"] as! [[String: Any]]
         for member in members {
           let member = Member(self.sword, guild, member)
@@ -166,35 +159,37 @@ extension Shard {
 
       /// GUILD_MEMBER_UPDATE
       case .guildMemberUpdate:
-        let guild = self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!
+        let guild = self.sword.guilds[GuildID(data["guild_id"] as! String)!]!
         let member = Member(self.sword, guild, data)
         guild.members[member.user.id] = member
         self.sword.emit(.guildMemberUpdate, with: member)
 
       /// GUILD_ROLE_CREATE
       case .guildRoleCreate:
-        let guild = self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!
+        let guild = self.sword.guilds[GuildID(data["guild_id"] as! String)!]!
         let role = Role(data["role"] as! [String: Any])
         guild.roles[role.id] = role
         self.sword.emit(.guildRoleCreate, with: (guild, role))
 
       /// GUILD_ROLE_DELETE
       case .guildRoleDelete:
-        let guild = self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!
-        let role = guild.roles[Snowflake(data["role_id"] as! String)!]!
+        let guild = self.sword.guilds[GuildID(data["guild_id"] as! String)!]!
+        let role = guild.roles[RoleID(data["role_id"] as! String)!]!
         guild.roles.removeValue(forKey: role.id)
         self.sword.emit(.guildRoleDelete, with: (guild, role))
 
       /// GUILD_ROLE_UPDATE
       case .guildRoleUpdate:
-        let guild = self.sword.guilds[Snowflake(data["guild_id"] as! String)!]!
+        let guild = self.sword.guilds[GuildID(data["guild_id"] as! String)!]!
         let role = Role(data["role"] as! [String: Any])
         guild.roles[role.id] = role
         self.sword.emit(.guildRoleUpdate, with: (guild, role))
 
       /// GUILD_UPDATE
       case .guildUpdate:
-        self.sword.emit(.guildUpdate, with: Guild(self.sword, data, self.id))
+        let guild = Guild(self.sword, data, self.id)
+        self.sword.guilds[guild.id] = guild
+        self.sword.emit(.guildUpdate, with: guild)
 
       /// MESSAGE_CREATE
       case .messageCreate:
@@ -203,14 +198,14 @@ extension Shard {
 
       /// MESSAGE_DELETE
       case .messageDelete:
-        let channelId = Snowflake(data["channel_id"] as! String)!
-        let messageId = Snowflake(data["id"] as! String)!
+        let channelId = ChannelID(data["channel_id"] as! String)!
+        let messageId = MessageID(data["id"] as! String)!
         self.sword.emit(.messageDelete, with: (messageId, channelId))
 
       /// MESSAGE_BULK_DELETE
       case .messageDeleteBulk:
-        let messageIds = (data["ids"] as! [String]).map({ Snowflake($0)! })
-        let channelId = Snowflake(data["channel_id"] as! String)!
+        let messageIds = (data["ids"] as! [String]).map({ MessageID($0)! })
+        let channelId = ChannelID(data["channel_id"] as! String)!
         self.sword.emit(.messageDeleteBulk, with: (messageIds, channelId))
 
       /// MESSAGE_UPDATE
@@ -219,9 +214,9 @@ extension Shard {
 
       /// PRESENCE_UPDATE
       case .presenceUpdate:
-        let userId = Snowflake((data["user"] as! [String: Any])["id"] as! String)!
+        let userId = UserID((data["user"] as! [String: Any])["id"] as! String)!
         let presence = Presence(data)
-        let guildID = Snowflake(data["guild_id"] as! String)!
+        let guildID = GuildID(data["guild_id"] as! String)!
         self.sword.guilds[guildID]?.members[userId]?.presence = presence
         self.sword.emit(.presenceUpdate, with: (userId, presence))
 
@@ -234,14 +229,14 @@ extension Shard {
         let dms = data["private_channels"] as! [[String: Any]]
 
         for guild in guilds {
-          let guildID = Snowflake(guild["id"] as! String)!
+          let guildID = GuildID(guild["id"] as! String)!
           self.sword.unavailableGuilds[guildID] = UnavailableGuild(guild, self.id)
         }
 
         for dm in dms {
           let recipients = dm["recipients"] as! [[String: Any]]
           for recipient in recipients {
-            let recipientID = Snowflake(recipient["id"] as! String)!
+            let recipientID = UserID(recipient["id"] as! String)!
             self.sword.dms[recipientID] = DMChannel(self.sword, dm)
           }
         }
@@ -256,9 +251,9 @@ extension Shard {
 
       /// MESSAGE_REACTION_ADD, MESSAGE_REACTION_REMOVE
       case .reactionAdd, .reactionRemove:
-        let channelID = Snowflake(data["channel_id"] as! String)!
-        let userID = Snowflake(data["user_id"] as! String)!
-        let messageID = Snowflake(data["message_id"] as! String)!
+        let channelID = ChannelID(data["channel_id"] as! String)!
+        let userID = UserID(data["user_id"] as! String)!
+        let messageID = MessageID(data["message_id"] as! String)!
         let emoji = Emoji(data["emoji"] as! [String: Any])
         self.sword.emit(event, with: (channelID, userID, messageID, emoji))
 
@@ -269,8 +264,8 @@ extension Shard {
         #else
         let timestamp = Date(timeIntervalSince1970: Double(data["timestamp"] as! Int))
         #endif
-        let userId = Snowflake(data["user_id"] as! String)!
-        let channelId = Snowflake(data["channel_id"] as! String)!
+        let userId = UserID(data["user_id"] as! String)!
+        let channelId = ChannelID(data["channel_id"] as! String)!
         self.sword.emit(.typingStart, with: (channelId, userId, timestamp))
 
       /// USER_UPDATE
@@ -279,10 +274,10 @@ extension Shard {
 
       /// VOICE_STATE_UPDATE
       case .voiceStateUpdate:
-        let guildId = Snowflake(data["guild_id"] as! String)!
-        let channelId = Snowflake(data["channel_id"] as? String)
+        let guildId = GuildID(data["guild_id"] as! String)!
+        let channelId = ChannelID(data["channel_id"] as? String)
         let sessionId = data["session_id"] as! String
-        let userId = Snowflake(data["user_id"] as! String)!
+        let userId = UserID(data["user_id"] as! String)!
 
         let guild = self.sword.guilds[guildId]!
 
@@ -312,7 +307,7 @@ extension Shard {
 
       /// VOICE_SERVER_UPDATE
       case .voiceServerUpdate:
-        let guildId = Snowflake(data["guild_id"] as! String)!
+        let guildId = GuildID(data["guild_id"] as! String)!
         let token = data["token"] as! String
         let endpoint = data["endpoint"] as! String
 
@@ -330,12 +325,7 @@ extension Shard {
 
         self.sword.voiceManager.join(guildId, endpoint, payload)
 
-
-      // Ignored
-      case .resume:
-        break
-
-      // Won't happen here
+      
       case .audioData:
         break
       case .connectionClose:
@@ -345,6 +335,8 @@ extension Shard {
       case .guildUnavailable:
         break
       case .payload:
+        break
+      case .resume:
         break
       case .shardReady:
         break

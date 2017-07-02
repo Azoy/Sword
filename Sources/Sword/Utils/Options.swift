@@ -26,9 +26,6 @@ public struct SwordOptions {
   /// Whether or not this bot is sharded
   public var willShard = true
 
-  /// Max amount of messages to cache in channels
-  public var messageLimit = 0
-
   /// MARK: Initializer
 
   /// Creates a default SwordOptions

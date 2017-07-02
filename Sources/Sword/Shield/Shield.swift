@@ -40,9 +40,13 @@ open class Shield: Sword {
         self.shieldOptions.prefixes.append("<@!\(bot.id)> ")
         self.shieldOptions.prefixes.append("<@\(bot.id)> ")
       }
+      
+      _ = self.listeners[.ready]!.remove(at: 0)
     }
 
-    self.on(.messageCreate, do: handle)
+    self.on(.messageCreate) { [unowned self] data in
+      self.handle(message: data)
+    }
   }
 
   // MARK: Functions

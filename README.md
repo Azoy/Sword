@@ -4,9 +4,8 @@
 
 # Requirements
 1. macOS, Linux, or iOS (no voice for iOS)
-2. Swift 3.0
+2. Swift 3.1
 3. libsodium (brew update && brew install libsodium)
-4. For macOS, you'll need to install another dependency (brew tap vapor/tap && brew install ctls)
 
 # Adding Sword
 In order to add Sword as a dependency, you must first create a Swift executable in a designated folder, like so `swift package init --type executable`. Then in the newly created Package.swift, open it and add Sword as a dependency
@@ -17,7 +16,7 @@ import PackageDescription
 let package = Package(
     name: "yourswiftexecutablehere",
     dependencies: [
-        .Package(url: "https://github.com/Azoy/Sword", majorVersion: 0, minor: 5)
+        .Package(url: "https://github.com/Azoy/Sword", majorVersion: 0, minor: 7)
     ]
 )
 ```
@@ -29,12 +28,13 @@ import Sword
 
 let bot = Sword(token: "Your bot token here")
 
-bot.on(.ready) { [unowned bot] _ in
-  bot.editStatus(to: "online", playing: "with Sword!")
+bot.on(.ready) { bot in
+  bot.editStatus(to: .online, playing: "with Sword!") // Or if you want to use a string, you can replace .online with "online"
 }
 
 bot.on(.messageCreate) { data in
   let msg = data as! Message
+
   if msg.content == "!ping" {
     msg.reply(with: "Pong!")
   }

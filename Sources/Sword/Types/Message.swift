@@ -10,7 +10,7 @@ import Foundation
 
 /// Message Type
 public struct Message {
-
+  
   // MARK: Properties
 
   /// Array of Attachment structs that was sent with the message
@@ -44,7 +44,7 @@ public struct Message {
   public let isTts: Bool
 
   /// Member struct for message
-  public private(set) var member: Member?
+  public internal(set) var member: Member?
 
   /// Array of Users that were mentioned
   public internal(set) var mentions = [User]()
@@ -60,7 +60,10 @@ public struct Message {
 
   /// Time when message was sent
   public let timestamp: Date
-
+  
+  /// Determines what type of message was sent
+  public let type: Type
+  
   /// If message was sent by webhook, this is that webhook's ID
   public let webhookId: WebhookID?
 
@@ -86,19 +89,9 @@ public struct Message {
 
     self.content = json["content"] as! String
 
-    let channelID = Snowflake(json["channel_id"] as! String)!
+    let channelID = ChannelID(json["channel_id"] as! String)!
 
-    let guild = sword.getGuild(for: channelID)
-    if let guild = guild {
-      self.channel = guild.channels[channelID]!
-    }else {
-      let dm = sword.getDM(for: channelID)
-      if let dm = dm {
-        self.channel = dm
-      }else {
-        self.channel = sword.groups[channelID]!
-      }
-    }
+    self.channel = sword.getChannel(for: channelID)!
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date
@@ -111,7 +104,7 @@ public struct Message {
       self.embeds.append(Embed(embed))
     }
 
-    self.id = Snowflake(json["id"] as! String)!
+    self.id = MessageID(json["id"] as! String)!
 
     if json["webhook_id"] == nil {
       for (_, guild) in sword.guilds {
@@ -131,7 +124,7 @@ public struct Message {
       self.mentions.append(User(sword, mention))
     }
 
-    self.mentionedRoles = (json["mention_roles"] as! [String]).map { Snowflake($0)! }
+    self.mentionedRoles = (json["mention_roles"] as! [String]).map { RoleID($0)! }
 
     self.nonce = Snowflake(json["nonce"] as? String)
 
@@ -141,7 +134,14 @@ public struct Message {
     self.isPinned = json["pinned"] as! Bool
     self.timestamp = (json["timestamp"] as! String).date
     self.isTts = json["tts"] as! Bool
-    self.webhookId = Snowflake(json["webhook_id"] as? String)
+    
+    if let type = json["type"] as? Int {
+      self.type = Type(rawValue: type)!
+    }else {
+      self.type = Type(rawValue: 0)!
+    }
+    
+    self.webhookId = WebhookID(json["webhook_id"] as? String)
   }
 
   // MARK: Functions
@@ -185,8 +185,8 @@ public struct Message {
 
    - parameter content: Content to edit from self
   */
-  public func edit(to content: String, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
-    self.channel.editMessage(self.id, to: content, then: completion)
+  public func edit(with options: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    self.channel.editMessage(self.id, with: options, then: completion)
   }
 
   /**
@@ -214,99 +214,131 @@ public struct Message {
 
 }
 
+extension Message {
+  
+  /// Depicts what kind of message was sent in chat
+  public enum `Type`: Int {
+    
+    /// Regular sent message
+    case `default`
+    
+    /// Someone was added to group message
+    case recipientAdd
+    
+    /// Someone was removed from group message
+    case recipientRemove
+    
+    /// Someone called the group message
+    case call
+    
+    /// Somone changed the group's name message
+    case channelNameChange
+    
+    /// Someone changed the group's icon message
+    case channelIconChange
+    
+    /// Somone pinned a message in this channel message
+    case channelPinnedMessage
+    
+    /// Someone just joined the guild message
+    case guildMemberJoin
+  }
+  
+}
+
 /// Attachment Type
 public struct Attachment {
-
+  
   // MARK: Properties
-
+  
   /// The filename for this Attachment
   public let filename: String
-
+  
   /// Height of image (if image)
   public let height: Int?
-
+  
   /// ID of attachment
   public let id: AttachmentID
-
+  
   /// The proxied URL for this attachment
   public let proxyUrl: String
-
+  
   /// Size of the file in bytes
   public let size: Int
-
+  
   /// The original URL of the attachment
   public let url: String
-
+  
   /// Width of image (if image)
   public let width: Int?
-
+  
   // MARK: Initializer
-
+  
   /**
    Creates an Attachment struct
-
+   
    - parameter json: JSON to decode into Attachment struct
-  */
+   */
   init(_ json: [String: Any]) {
     self.filename = json["filename"] as! String
     self.height = json["height"] as? Int
-    self.id = Snowflake(json["id"] as! String)!
+    self.id = AttachmentID(json["id"] as! String)!
     self.proxyUrl = json["proxy_url"] as! String
     self.size = json["size"] as! Int
     self.url = json["url"] as! String
     self.width = json["width"] as? Int
   }
-
+  
 }
 
 /// Embed Type
 public struct Embed {
-
+  
   // MARK: Properties
-
+  
   /// Author dictionary from embed
   public let author: [String: Any]?
-
+  
   /// Side panel color of embed
   public let color: Int?
-
+  
   /// Description of the embed
   public let description: String?
-
+  
   /// Fields for the embed
   public let fields: [[String: Any]]?
-
+  
   /// Footer dictionary from embed
   public let footer: [String: Any]?
-
+  
   /// Image data from embed
   public let image: [String: Any]?
-
+  
   /// Provider from embed
   public let provider: [String: Any]?
-
+  
   /// Thumbnail data from embed
   public let thumbnail: [String: Any]?
-
+  
   /// Title of the embed
   public let title: String?
-
+  
   /// Type of embed
   public let type: String
-
+  
   /// URL of the embed
   public let url: String?
-
+  
   /// Video data from embed
   public let video: [String: Any]?
-
+  
   // MARK: Initializer
-
+  
   /**
    Creates Embed struct
-
+   
    - parameter json: JSON representable as a dictionary
-  */
+   */
   init(_ json: [String: Any]) {
     self.author = json["author"] as? [String: Any]
     self.color = json["color"] as? Int
@@ -321,5 +353,5 @@ public struct Embed {
     self.url = json["url"] as? String
     self.video = json["video"] as? [String: Any]
   }
-
+  
 }

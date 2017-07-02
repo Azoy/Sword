@@ -19,7 +19,7 @@ public class Guild {
   /// ID of afk voice channel (if there is any)
   public let afkChannelId: ChannelID?
 
-  /// AFK timeout (if there is any)
+  /// AFK timeout in seconds (if there is any)
   public let afkTimeout: Int?
 
   /// Collection of channels mapped by channel ID
@@ -29,13 +29,13 @@ public class Guild {
   public let defaultMessageNotifications: Int
 
   /// ID of embeddable channel
-  public let embedChannelId: Int?
+  public let embedChannelId: ChannelID?
 
   /// Array of custom emojis for this guild
   public internal(set) var emojis = [Emoji]()
 
   /// Array of features this guild has
-  public private(set) var features = [String]()
+  public internal(set) var features = [Feature]()
 
   /// Icon hash for guild
   public let icon: String?
@@ -59,7 +59,7 @@ public class Guild {
   public internal(set) var members = [UserID: Member]()
 
   /// MFA level of guild
-  public let mfaLevel: Int
+  public let mfaLevel: MFALevel
 
   /// Name of the guild
   public let name: String
@@ -80,7 +80,7 @@ public class Guild {
   public let splash: String?
 
   /// Level of verification for guild
-  public let verificationLevel: Int
+  public let verificationLevel: VerificationLevel
 
   /// Collection of member voice states currently in this guild
   public internal(set) var voiceStates = [UserID: VoiceState]()
@@ -97,9 +97,9 @@ public class Guild {
   init(_ sword: Sword, _ json: [String: Any], _ shard: Int? = nil) {
     self.sword = sword
 
-    self.id = Snowflake(json["id"] as! String)!
+    self.id = GuildID(json["id"] as! String)!
 
-    self.afkChannelId = Snowflake(json["afk_channel_id"] as? String)
+    self.afkChannelId = ChannelID(json["afk_channel_id"] as? String)
     self.afkTimeout = json["afk_timeout"] as? Int
 
     if let channels = json["channels"] as? [[String: Any]] {
@@ -112,7 +112,7 @@ public class Guild {
     }
 
     self.defaultMessageNotifications = json["default_message_notifications"] as! Int
-    self.embedChannelId = json["embed_channel_id"] as? Int
+    self.embedChannelId = ChannelID(json["embed_channel_id"] as? String)
     self.isEmbedEnabled = json["embed_enabled"] as? Bool
 
     if let emojis = json["emojis"] as? [[String: Any]] {
@@ -123,7 +123,7 @@ public class Guild {
 
     if let features = json["features"] as? [String] {
       for feature in features {
-        self.features.append(feature)
+        self.features.append(Feature(rawValue: feature)!)
       }
     }
 
@@ -138,9 +138,9 @@ public class Guild {
     self.isLarge = json["large"] as? Bool
     self.memberCount = json["member_count"] as? Int
 
-    self.mfaLevel = json["mfa_level"] as! Int
+    self.mfaLevel = MFALevel(rawValue: json["mfa_level"] as! Int)!
     self.name = json["name"] as! String
-    self.ownerId = Snowflake(json["owner_id"] as! String)!
+    self.ownerId = UserID(json["owner_id"] as! String)!
 
     self.region = json["region"] as! String
 
@@ -152,7 +152,7 @@ public class Guild {
 
     self.shard = shard
     self.splash = json["splash"] as? String
-    self.verificationLevel = json["verification_level"] as! Int
+    self.verificationLevel = VerificationLevel(rawValue: json["verification_level"] as! Int)!
 
     if let members = json["members"] as? [[String: Any]] {
       for member in members {
@@ -163,7 +163,7 @@ public class Guild {
 
     if let presences = json["presences"] as? [[String: Any]] {
       for presence in presences {
-        let userId = Snowflake((presence["user"] as! [String: Any])["id"] as! String)!
+        let userId = UserID((presence["user"] as! [String: Any])["id"] as! String)!
         let presence = Presence(presence)
         self.members[userId]!.presence = presence
       }
@@ -173,8 +173,8 @@ public class Guild {
       for voiceState in voiceStates {
         let voiceStateObjc = VoiceState(voiceState)
 
-        self.voiceStates[Snowflake(voiceState["user_id"] as! String)!] = voiceStateObjc
-        self.members[Snowflake(voiceState["user_id"] as! String)!]!.voiceState = voiceStateObjc
+        self.voiceStates[UserID(voiceState["user_id"] as! String)!] = voiceStateObjc
+        self.members[UserID(voiceState["user_id"] as! String)!]!.voiceState = voiceStateObjc
       }
     }
   }
@@ -492,91 +492,74 @@ public class Guild {
 
 }
 
-/// UnavailableGuild Type
-public struct UnavailableGuild {
-
-  // MARK: Properties
-
-  /// ID of this guild
-  public let id: Int
-
-  /// ID of shard this guild is handled by
-  public let shard: Int
-
-  // MARK: Initializer
-
-  /**
-   Creates an UnavailableGuild structure
-
-   - parameter json: JSON representable as a dictionary
-   - parameter shard: Shard ID this guild is handled by
-  */
-  init(_ json: [String: Any], _ shard: Int) {
-    self.id = Int(json["id"] as! String)!
-    self.shard = shard
-  }
-
-}
-
-/// Emoji Type
-public struct Emoji {
-
-  // MARK: Properties
-
-  /// ID of custom emoji
-  public let id: EmojiID?
-
-  /// Whether or not this emoji is managed
-  public let managed: Bool?
-
-  /// Name of the emoji
-  public let name: String
-
-  /// Whether this emoji requires colons to use
-  public let requireColons: Bool?
-
-  /// Array of roles that can use this emoji
-  public internal(set) var roles = [Role]()
-
-  /// Tag used for rest endpoints
-  public var tag: String {
-    guard let id = id else {
-      return name.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
-    }
-
-    return "\(name):\(id)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
-  }
-
-  // MARK: Initializer
-
-  /**
-   Creates an Emoji structure
-
-   - parameter json: JSON representable as a dictionary
-  */
-  init(_ json: [String: Any]) {
-    self.id = Snowflake(json["id"] as? String)
-    self.managed = json["managed"] as? Bool
-    self.name = json["name"] as! String
-    self.requireColons = json["require_colons"] as? Bool
-
-    if let roles = json["roles"] as? [[String: Any]] {
-      for role in roles {
-        self.roles.append(Role(role))
-      }
-    }
+extension Guild {
+  
+  /// Guild features
+  public enum Feature: String {
+    
+    /// Custom image for invites
+    case inviteSplash = "INVITE_SPLASH"
+    
+    /// Custom url to join the guild with
+    case vanityUrl = "VANITY_URL"
+    
+    /// VIP voice channels for crisp audio
+    case vipRegions = "VIP_REGIONS"
   }
   
-  /**
-   Creates an Emoji structure for use with reactions
-   
-   - parameter name: Emoji unicode character or name (if custom)
-   - parameter id: Emoji snowflake ID if custom (nil if unicode)
-  */
-  public init(_ name: String, id: EmojiID? = nil) {
-    self.id = id
-    self.name = name
-    self.managed = nil
-    self.requireColons = nil
+  
+  public enum MFALevel: Int {
+    
+    /// Admisitration actions don't require 2fa
+    case none
+    
+    /// Admisitration actions require 2fa
+    case elevated
   }
+  
+  /// Level of verification for guild
+  public enum VerificationLevel: Int {
+    
+    /// Unrestricted
+    case none
+    
+    /// Must have a verified email on their Discord account
+    case low
+    
+    /// Low + must be a Discord user for longer than 5 minutes
+    case medium
+    
+    /// Medium + must be a member of guild for 10 minutes
+    case high
+    
+    /// High + must have a verified phone number on their Discord account
+    case veryHigh
+  }
+  
+}
+
+/// UnavailableGuild Type
+public struct UnavailableGuild {
+  
+  // MARK: Properties
+  
+  /// ID of this guild
+  public let id: GuildID
+  
+  /// ID of shard this guild is handled by
+  public let shard: Int
+  
+  // MARK: Initializer
+  
+  /**
+   Creates an UnavailableGuild structure
+   
+   - parameter json: JSON representable as a dictionary
+   - parameter shard: Shard ID this guild is handled by
+   */
+  init(_ json: [String: Any], _ shard: Int) {
+    self.id = GuildID(json["id"] as! String)!
+    self.shard = shard
+  }
+  
 }

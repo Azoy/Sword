@@ -61,5 +61,19 @@ class VoiceManager {
   }
 
 }
-
+  
+/// Used to store potential connection info
+struct PotentialConnection {
+    
+  /// id of potential voice channel
+  let channelID: ChannelID
+    
+  /// id of bot user joining
+  let userID: UserID
+    
+  /// id of potential session
+  let sessionID: String
+    
+}
+  
 #endif

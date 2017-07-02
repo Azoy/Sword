@@ -26,7 +26,7 @@ class Encoder {
   let reader: Pipe
 
   /// The dispatch queue used to read from read pipe
-  let readQueue = DispatchQueue(label: "gg.azoy.sword.encoder.read")
+  lazy var readQueue: DispatchQueue = DispatchQueue(label: "gg.azoy.sword.encoder.read")
 
   /// The pipe ffmpeg uses to read from
   let writer: Pipe

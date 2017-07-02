@@ -15,7 +15,7 @@ public protocol Eventable: class {
   /**
    - parameter event: Event to listen for
    */
-  func on(_ event: Event, do function: @escaping (Any) -> ())
+  func on(_ event: Event, do function: @escaping (Any) -> ()) -> Int
 
   /**
    - parameter event: Event to emit
@@ -31,27 +31,30 @@ extension Eventable {
    Listens for eventName
 
    - parameter event: Event to listen for
-   */
-  public func on(_ event: Event, do function: @escaping (Any) -> ()) {
+  */
+  @discardableResult
+  public func on(_ event: Event, do function: @escaping (Any) -> ()) -> Int {
     guard self.listeners[event] != nil else {
       self.listeners[event] = [function]
-      return
+      return 0
     }
 
     self.listeners[event]!.append(function)
+    
+    return self.listeners[event]!.count - 1
   }
 
   /**
    Emits all listeners for eventName
 
    - parameter event: Event to emit
-   - parameter data: Array of stuff to emit listener with
-   */
+   - parameter data: Stuff to emit listener with
+  */
   public func emit(_ event: Event, with data: Any = ()) {
-    guard let functions = self.listeners[event] else { return }
+    guard let listeners = self.listeners[event] else { return }
 
-    for function in functions {
-      function(data)
+    for listener in listeners {
+      listener(data)
     }
   }
 

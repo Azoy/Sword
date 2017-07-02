@@ -40,7 +40,7 @@ public struct VoiceState {
    - parameter json: The json data
   */
   init(_ json: [String: Any]) {
-    self.channelId = Snowflake(json["channel_id"] as! String)!
+    self.channelId = ChannelID(json["channel_id"] as! String)!
     self.isDeafend = json["deaf"] as! Bool
     self.isMuted = json["mute"] as! Bool
     self.isSelfDeafend = json["self_deaf"] as! Bool

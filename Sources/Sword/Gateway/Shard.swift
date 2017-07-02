@@ -9,12 +9,9 @@
 import Foundation
 import Dispatch
 
-#if os(iOS)
+#if !os(Linux)
 import Starscream
 #else
-import Sockets
-import TLS
-import URI
 import WebSockets
 #endif
 
@@ -213,9 +210,18 @@ class Shard: Gateway {
 
   /// Used to reconnect to gateway
   func reconnect() {
-    (self as Gateway).reconnect()
+    #if !os(Linux)
+    self.session?.disconnect()
+    #else
+    try? self.session?.close()
+    #endif
+    
+    self.isConnected = false
+    self.heartbeat = nil
     
     self.sword.log("Disconnected from gateway... Resuming session")
+    
+    self.start()
   }
 
   /// Function to send packet to server to request for offline members for requested guild
@@ -240,7 +246,7 @@ class Shard: Gateway {
   */
   func send(_ text: String, presence: Bool = false) {
     let item = DispatchWorkItem { [unowned self] in
-      #if os(iOS)
+      #if !os(Linux)
       self.session?.write(string: text)
       #else
       try? self.session?.send(text)
@@ -252,11 +258,17 @@ class Shard: Gateway {
 
   /// Used to stop WS connection
   func stop() {
-    (self as Gateway).stop()
+    #if !os(Linux)
+    self.session?.disconnect()
+    #else
+    try? self.session?.close()
+    #endif
+    
+    self.heartbeat = nil
+    self.isConnected = false
+    self.isReconnecting = false
 
     self.sword.log("Stopping gateway connection...")
-
-    self.isReconnecting = false
   }
 
 }

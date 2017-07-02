@@ -16,12 +16,15 @@ open class Sword: Eventable {
 
   /// Collection of DMChannels mapped by user id
   public internal(set) var dms = [UserID: DMChannel]()
-
+  
+  /// Whether or not Sword is connected to the gateway
+  var isConnected = false
+  
   /// Whether or not the global queue is locked
   var isGloballyLocked = false
 
   /// The queue that handles requests made after being globally limited
-  let globalQueue = DispatchQueue(label: "gg.azoy.sword.rest.global")
+  lazy var globalQueue: DispatchQueue = DispatchQueue(label: "gg.azoy.sword.rest.global")
 
   /// Used to store requests when being globally rate limited
   var globalRequestQueue = [() -> ()]()
@@ -51,7 +54,7 @@ open class Sword: Eventable {
   public internal(set) var shardCount = 1
 
   /// Shard Handler
-  let shardManager = ShardManager()
+  lazy var shardManager = ShardManager()
 
   /// How many shards are ready
   var shardsReady = 0
@@ -85,7 +88,7 @@ open class Sword: Eventable {
   }
 
   /// Voice handler
-  let voiceManager = VoiceManager()
+  lazy var voiceManager = VoiceManager()
 
   #endif
 
@@ -100,59 +103,9 @@ open class Sword: Eventable {
   public init(token: String, with options: SwordOptions = SwordOptions()) {
     self.options = options
     self.token = token
-
-    self.shardManager.sword = self
   }
-
+  
   // MARK: Functions
-
-  /// Gets the gateway URL to connect to
-  func getGateway(then completion: @escaping ([String: Any]?, RequestError?) -> ()) {
-    self.request(.gateway, rateLimited: false) { data, error in
-      if let error = error {
-        completion(nil, error)
-        return
-      }
-
-      guard let data = data as? [String: Any] else {
-        completion(nil, .unknown)
-        return
-      }
-
-      completion(data, nil)
-    }
-  }
-
-  /// Starts the bot
-  public func connect() {
-    self.getGateway() { [unowned self] data, error in
-      guard let data = data else {
-        guard error == .unauthorized else {
-          sleep(3)
-          self.connect()
-          return
-        }
-
-        print("[Sword] Bot token invalid.")
-        return
-      }
-
-      self.shardManager.gatewayUrl = "\(data["url"]!)/?encoding=json&v=6"
-
-      if self.options.willShard {
-        self.shardCount = data["shards"] as! Int
-      }else {
-        self.shardCount = 1
-      }
-
-      self.shardManager.create(self.shardCount)
-    }
-  }
-
-  /// Disconnects the bot from the gateway
-  public func disconnect() {
-    self.shardManager.disconnect()
-  }
 
   /**
    Adds a reaction (unicode or custom emoji) to a message
@@ -162,13 +115,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to add reaction to message in
   */
   public func addReaction(_ reaction: String, to messageId: MessageID, in channelId: ChannelID, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    let actualReaction: String
-    if URL(string: reaction) == nil {
-      actualReaction = reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
-    }else {
-      actualReaction = reaction
-    }
-    self.request(.createReaction(channelId, messageId, reaction: actualReaction)) { data, error in
+    self.request(.createReaction(channelId, messageId, reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!)) { data, error in
       completion(error)
     }
   }
@@ -185,12 +132,40 @@ open class Sword: Eventable {
    - parameter reason: Reason why member was banned from guild (attached to audit log)
    - parameter options: Deletes messages from this user by amount of days
   */
-  public func ban(_ userId: UserID, from guildId: GuildID, for reason: String? = nil, with options: [String: Int] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func ban(_ userId: UserID, from guildId: GuildID, for reason: String? = nil, with options: [String: Any] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
     self.request(.createGuildBan(guildId, userId), body: options, reason: reason) { data, error in
       completion(error)
     }
   }
-
+  
+  /// Starts the bot
+  public func connect() {
+    self.shardManager.sword = self
+    
+    self.getGateway() { [unowned self] data, error in
+      guard let data = data else {
+        guard error!.statusCode == 401 else {
+          sleep(3)
+          self.connect()
+          return
+        }
+        
+        print("[Sword] Bot token invalid.")
+        return
+      }
+      
+      self.shardManager.gatewayUrl = "\(data["url"]!)/?encoding=json&v=6"
+      
+      if self.options.willShard {
+        self.shardCount = data["shards"] as! Int
+      }else {
+        self.shardCount = 1
+      }
+      
+      self.shardManager.create(self.shardCount)
+    }
+  }
+  
   /**
    Creates a channel in a guild
 
@@ -210,7 +185,12 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        completion(GuildChannel(self, data as! [String: Any]), error)
+        let channel = GuildChannel(self, data as! [String: Any])
+        completion(channel, error)
+        
+        if !self.isConnected {
+          self.guilds[guildId]?.channels[channel.id] = channel
+        }
       }
     }
   }
@@ -225,7 +205,12 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        completion(Guild(self, data as! [String: Any]), nil)
+        let guild = Guild(self, data as! [String: Any])
+        completion(guild, nil)
+        
+        if !self.isConnected {
+          self.guilds[guild.id] = guild
+        }
       }
     }
   }
@@ -285,7 +270,12 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        completion(Role(data as! [String: Any]), nil)
+        let role = Role(data as! [String: Any])
+        completion(role, nil)
+        
+        if !self.isConnected {
+          self.guilds[guildId]?.roles[role.id] = role
+        }
       }
     }
   }
@@ -327,6 +317,14 @@ open class Sword: Eventable {
         }else {
           completion(DMChannel(self, channelData), nil)
         }
+        
+        if !self.isConnected {
+          if let guild = self.getGuild(for: channelId) {
+            guild.channels.removeValue(forKey: channelId)
+          }else if let dm = self.getDM(for: channelId) {
+            self.dms.removeValue(forKey: dm.recipient.id)
+          }
+        }
       }
     }
   }
@@ -342,8 +340,11 @@ open class Sword: Eventable {
         completion(nil, error)
       }else {
         let guild = Guild(self, data as! [String: Any])
-        self.guilds.removeValue(forKey: guild.id)
         completion(guild, nil)
+        
+        if !self.isConnected {
+          self.guilds.removeValue(forKey: guild.id)
+        }
       }
     }
   }
@@ -390,8 +391,8 @@ open class Sword: Eventable {
   public func deleteMessages(_ messages: [MessageID], from channelId: ChannelID, then completion: @escaping (RequestError?) -> () = {_ in}) {
     let oldestMessage = UInt64((Date().timeIntervalSince1970 - 1421280000000)) * 4194304
     for message in messages {
-      if message.id < oldestMessage {
-        completion(.unknown)
+      if message.value < oldestMessage {
+        completion(RequestError("One of the messages you wanted to delete was older than allowed."))
       }
     }
 
@@ -421,17 +422,12 @@ open class Sword: Eventable {
    - parameter channelId: Channel to delete reaction from
   */
   public func deleteReaction(_ reaction: String, from messageId: MessageID, by userId: UserID? = nil, in channelId: ChannelID, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    let actualReaction: String
-    if URL(string: reaction) == nil {
-      actualReaction = reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
-    }else {
-      actualReaction = reaction
-    }
+    let reaction = reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
     let url: Endpoint
     if let userId = userId {
-      url = .deleteUserReaction(channelId, messageId, reaction: actualReaction, userId)
+      url = .deleteUserReaction(channelId, messageId, reaction, userId)
     }else {
-      url = .deleteOwnReaction(channelId, messageId, reaction: actualReaction)
+      url = .deleteOwnReaction(channelId, messageId, reaction)
     }
 
     self.request(url) { data, error in
@@ -462,7 +458,12 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        completion(Role(data as! [String: Any]), nil)
+        let role = Role(data as! [String: Any])
+        completion(role, nil)
+        
+        if !self.isConnected {
+          self.guilds[guildId]?.roles.removeValue(forKey: roleId)
+        }
       }
     }
   }
@@ -473,20 +474,25 @@ open class Sword: Eventable {
    - parameter webhookId: Webhook to delete
   */
   public func deleteWebhook(_ webhookId: WebhookID, token: String? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.request(.deleteWebhook(webhookId, token: token)) { data, error in
+    self.request(.deleteWebhook(webhookId, token)) { data, error in
       completion(error)
     }
   }
-
+  
+  /// Disconnects the bot from the gateway
+  public func disconnect() {
+    self.shardManager.disconnect()
+  }
+  
   /**
    Edits a message's content
 
    - parameter messageId: Message to edit
-   - parameter content: Text to change message to
+   - parameter options: Dictionary c
    - parameter channelId: Channel to edit message in
   */
-  public func editMessage(_ messageId: MessageID, to content: String, in channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
-    self.request(.editMessage(channelId, messageId), body: ["content": content]) { [unowned self] data, error in
+  public func editMessage(_ messageId: MessageID, with options: [String: Any], in channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    self.request(.editMessage(channelId, messageId), body: options) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
       }else {
@@ -520,9 +526,20 @@ open class Sword: Eventable {
    - parameter status: Status to set bot to. Either .online (default), .idle, .dnd, .invisible
    - parameter game: Either a string with the game name or ["name": "with Swords!", "type": 0 || 1]
   */
-  public func editStatus(to status: Presence.Status = .online, playing game: Any? = nil) {
-    var data: [String: Any] = ["afk": status == .idle, "game": NSNull(), "since": status == .idle ? Date().milliseconds : 0, "status": status.rawValue]
-
+  @available(*, deprecated: 0.7, message: "This method will be removed in 0.8.0 in favor of editStatus(String, Any?)")
+  public func editStatus(to status: Presence.Status, playing game: Any? = nil) {
+    self.editStatus(to: status.rawValue, playing: game)
+  }
+  
+  /**
+   Edits bot status
+   
+   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
+   - parameter game: Either a string with the game name or ["name": "with Swords!", "type": 0 || 1]
+   */
+  public func editStatus(to status: String, playing game: Any? = nil) {
+    var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
+    
     if let game = game {
       if game is String {
         data["game"] = ["name": game]
@@ -530,16 +547,16 @@ open class Sword: Eventable {
         data["game"] = game
       }
     }
-
+    
     guard self.shardManager.shards.count > 0 else { return }
-
+    
     let payload = Payload(op: .statusUpdate, data: data).encode()
-
+    
     for shard in self.shardManager.shards {
       shard.send(payload, presence: true)
     }
   }
-
+  
   /**
    Executs a slack style webhook
 
@@ -552,7 +569,7 @@ open class Sword: Eventable {
    - parameter content: The slack webhook content to send
   */
   public func executeSlackWebhook(_ webhookId: WebhookID, token webhookToken: String, with content: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.request(.executeSlackWebhook(webhookId, token: webhookToken), body: content) { data, error in
+    self.request(.executeSlackWebhook(webhookId, webhookToken), body: content) { data, error in
       completion(error)
     }
   }
@@ -575,7 +592,7 @@ open class Sword: Eventable {
   */
   public func executeWebhook(_ webhookId: WebhookID, token webhookToken: String, with content: Any, then completion: @escaping (RequestError?) -> () = {_ in}) {
     guard let message = content as? [String: Any] else {
-      self.request(.executeWebhook(webhookId, token: webhookToken), body: ["content": content]) { data, error in
+      self.request(.executeWebhook(webhookId, webhookToken), body: ["content": content]) { data, error in
         completion(error)
       }
       return
@@ -602,7 +619,7 @@ open class Sword: Eventable {
       parameters["avatar_url"] = (messageAvatar as! String)
     }
 
-    self.request(.executeWebhook(webhookId, token: webhookToken), body: parameters, file: file) { data, error in
+    self.request(.executeWebhook(webhookId, webhookToken), body: parameters, file: file) { data, error in
       completion(error)
     }
 
@@ -628,7 +645,24 @@ open class Sword: Eventable {
       }
     }
   }
-
+  
+  /**
+   Get's a basic Channel from a ChannelID
+   
+   - parameter channelId: The ChannelID used to get the Channel
+  */
+  public func getChannel(for channelId: ChannelID) -> Channel? {
+    if let guild = self.getGuild(for: channelId) {
+      return guild.channels[channelId]
+    }
+    
+    if let dm = self.getDM(for: channelId) {
+      return dm
+    }
+    
+    return self.groups[channelId]
+  }
+  
   /**
    Either get a cached channel or restfully get a channel
 
@@ -636,18 +670,7 @@ open class Sword: Eventable {
   */
   public func getChannel(_ channelId: ChannelID, rest: Bool = false, then completion: @escaping (Channel?, RequestError?) -> ()) {
     guard rest else {
-
-      guard let guild = self.getGuild(for: channelId) else {
-        guard let dm = self.getDM(for: channelId) else {
-          completion(nil, .unknown)
-          return
-        }
-
-        completion(dm, nil)
-        return
-      }
-
-      completion(guild.channels[channelId]!, nil)
+      completion(self.getChannel(for: channelId), nil)
       return
     }
 
@@ -696,12 +719,14 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        var returnChannels: [GuildChannel] = []
+        var returnChannels = [GuildChannel]()
         let channels = data as! [[String: Any]]
         for channel in channels {
-          returnChannels.append(GuildChannel(self, channel))
+          let guildChannel = GuildChannel(self, channel)
+          self.guilds[guildId]!.channels[guildChannel.id] = guildChannel
+          returnChannels.append(guildChannel)
         }
-
+        
         completion(returnChannels, nil)
       }
     }
@@ -744,7 +769,14 @@ open class Sword: Eventable {
       }
     }
   }
-
+  
+  /// Gets the gateway URL to connect to
+  public func getGateway(then completion: @escaping ([String: Any]?, RequestError?) -> ()) {
+    self.request(.gateway) { data, error in
+      completion(data as? [String: Any], error)
+    }
+  }
+  
   /**
    Function to get guild from channelId
 
@@ -829,7 +861,7 @@ open class Sword: Eventable {
         var returnGuilds: [Guild] = []
         let guilds = data as! [[String: Any]]
         for guild in guilds {
-          returnGuilds.append(Guild(self, guild, self.getShard(for: Snowflake(guild["id"] as! String)!)))
+          returnGuilds.append(Guild(self, guild, self.getShard(for: GuildID(guild["id"] as? String)!)))
         }
 
         completion(returnGuilds, nil)
@@ -1005,7 +1037,7 @@ open class Sword: Eventable {
     }else {
       actualReaction = reaction
     }
-    self.request(.getReactions(channelId, messageId, reaction: actualReaction)) { [unowned self] data, error in
+    self.request(.getReactions(channelId, messageId, actualReaction)) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
       }else {
@@ -1047,7 +1079,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get shard for
   */
   public func getShard(for guildId: GuildID) -> Int {
-    return Int((guildId.id >> 22) % UInt64(self.shardCount))
+    return Int((guildId.value >> 22) % UInt64(self.shardCount))
   }
 
   /**
@@ -1087,7 +1119,7 @@ open class Sword: Eventable {
    - parameter webhookId: Webhook to get
   */
   public func getWebhook(_ webhookId: WebhookID, token: String? = nil, then completion: @escaping (Webhook?, RequestError?) -> ()) {
-    self.request(.getWebhook(webhookId, token: token)) { [unowned self] data, error in
+    self.request(.getWebhook(webhookId, token)) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
       }else {
@@ -1410,7 +1442,7 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to modify webhook with
   */
   public func modifyWebhook(_ webhookId: WebhookID, token: String? = nil, with options: [String: String], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
-    self.request(.modifyWebhook(webhookId, token: token), body: options) { [unowned self] data, error in
+    self.request(.modifyWebhook(webhookId, token), body: options) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
       }else {
@@ -1439,7 +1471,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to pin message in
   */
   public func pin(_ messageId: MessageID, in channelId: ChannelID, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.request(.addPinnedChannelMessage(channel: channelId, message: messageId)) { data, error in
+    self.request(.addPinnedChannelMessage(channelId, messageId)) { data, error in
       completion(error)
     }
   }
@@ -1452,7 +1484,7 @@ open class Sword: Eventable {
   */
   public func pruneMembers(in guildId: GuildID, for limit: Int, then completion: @escaping (Int?, RequestError?) -> () = {_ in}) {
     guard limit > 1 else {
-      completion(nil, .unknown)
+      completion(nil, RequestError("Limit you provided was lower than 1 user."))
       return
     }
 

@@ -12,18 +12,17 @@ import Foundation
 import Dispatch
 
 import Sockets
-import TLS
-import URI
-import WebSockets
 
 #if os(macOS)
+import Starscream
 import Sodium
 #else
+import WebSockets
 import SodiumLinux
 #endif
 
 /// Voice Connection class that handles connection to voice server
-  public class VoiceConnection: Gateway, Eventable {
+public class VoiceConnection: Gateway, Eventable {
 
   // MARK: Properties
 
@@ -37,7 +36,10 @@ import SodiumLinux
 
   /// Used to block encoder process
   let encoderSema = DispatchSemaphore(value: 1)
-
+  
+  /// Array of endpoint components
+  let endpoint: [String]
+  
   /// URL to connect to WS
   var gatewayUrl: String
 
@@ -120,11 +122,11 @@ import SodiumLinux
    - parameter guildId: Guild we're connecting to
    - parameter handler: Completion handler to call after we're ready
   */
-  init(_ gatewayUrl: String, _ guildId: GuildID, _ handler: @escaping (VoiceConnection) -> ()) {
-    let endpoint = gatewayUrl.components(separatedBy: ":")
-    self.gatewayUrl = "wss://\(endpoint[0])"
+  init(_ endpoint: String, _ guildId: GuildID, _ handler: @escaping (VoiceConnection) -> ()) {
+    self.endpoint = endpoint.components(separatedBy: ":")
+    self.gatewayUrl = "wss://\(self.endpoint[0])"
     self.guildId = guildId
-    self.port = Int(endpoint[1])!
+    self.port = Int(self.endpoint[1])!
     self.handler = handler
 
     self.udpReadQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpRead.\(guildId)")
@@ -267,7 +269,11 @@ import SodiumLinux
   func handleConnect() {
     guard self.identify != nil else { return }
     
+    #if os(macOS)
+    self.session?.disconnect()
+    #else
     try? self.session?.send(self.identify!)
+    #endif
   }
     
   /**
@@ -278,8 +284,6 @@ import SodiumLinux
   func handleDisconnect(for code: Int) {
     guard CloseOP(rawValue: code) != nil else {
       print("[Sword] Voice connection closed with unrecognized response\nCode: \(code)")
-      
-      self.reconnect()
       
       return
     }
@@ -335,8 +339,12 @@ import SodiumLinux
     self.handler = handler
     self.udpReadQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpRead.\(guildId)")
     self.udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite.\(guildId)")
-
+    
+    #if os(macOS)
+    self.session?.disconnect()
+    #else
     try? self.session?.close()
+    #endif
 
     try? self.udpClient?.close()
 
@@ -452,21 +460,11 @@ import SodiumLinux
       }catch {
         guard let isConnected = self?.isConnected, !isConnected else { return }
 
-        print("[Sword] Error reading voice connection for audio data.")
-        self?.stop()
-
-        return
+        print("[Sword] Unable to read voice data from guild: \(self?.guildId as Any).")
       }
 
       self?.receiveAudio()
     }
-  }
-    
-  /// Used to reconnect to the voice gateway
-  func reconnect() {
-    (self as Gateway).reconnect()
-    
-    
   }
     
   /**
@@ -479,8 +477,12 @@ import SodiumLinux
     let localPort = Int(bytes[68]) + (Int(bytes[69]) << 8)
 
     let payload = Payload(voiceOP: .selectProtocol, data: ["protocol": "udp", "data": ["address": localIp, "port": localPort, "mode": "xsalsa20_poly1305"]]).encode()
-
+    
+    #if os(macOS)
+    self.session?.write(string: payload)
+    #else
     try? self.session?.send(payload)
+    #endif
 
     if self.encoder != nil {
       self.readEncoder(for: 1)
@@ -523,8 +525,12 @@ import SodiumLinux
   */
   func setSpeaking(to value: Bool) {
     let payload = Payload(voiceOP: .speaking, data: ["speaking": value, "delay": 0]).encode()
-
+    
+    #if os(macOS)
+    self.session?.write(string: payload)
+    #else
     try? self.session?.send(payload)
+    #endif
   }
 
   /**
@@ -533,7 +539,7 @@ import SodiumLinux
    - parameter port: Port to use to connect to client
   */
   func startUDPSocket(_ port: Int) {
-    let address = InternetAddress(hostname: self.gatewayUrl, port: Port(port))
+    let address = InternetAddress(hostname: self.endpoint[0], port: Port(port))
 
     guard let client = try? UDPInternetSocket(address: address) else {
       self.stop()
@@ -555,13 +561,20 @@ import SodiumLinux
 
   /// Stops WS, UDP, and Encoder
   func stop() {
-    (self as Gateway).stop()
-
     if self.isConnected {
       self.emit(.connectionClose)
     }
-
+    
+    #if !os(Linux)
+    self.session?.disconnect()
+    #else
+    try? self.session?.close()
+    #endif
+    
     try? self.udpClient?.close()
+    
+    self.heartbeat = nil
+    self.isConnected = false
     self.encoder = nil
   }
 

@@ -78,8 +78,8 @@ public extension Channel {
    - parameter messageId: Message to edit
    - parameter content: Text to change message to
   */
-  public func editMessage(_ messageId: MessageID, to content: String, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
-    self.sword?.editMessage(messageId, to: content, in: self.id, then: completion)
+  public func editMessage(_ messageId: MessageID, with options: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    self.sword?.editMessage(messageId, with: options, in: self.id, then: completion)
   }
 
   /**
