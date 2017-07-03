@@ -24,7 +24,7 @@ extension Shard {
       return
     }
 
-    guard !self.sword.options.disabledEvents.contains(event), self.sword.listeners[event] != nil else {
+    guard !self.sword.options.disabledEvents.contains(event) else {
       return
     }
 

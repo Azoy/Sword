@@ -104,9 +104,7 @@ public class Guild {
 
     if let channels = json["channels"] as? [[String: Any]] {
       for channel in channels {
-        var returnChannel = channel
-        returnChannel["guild_id"] = self.id
-        let channel = GuildChannel(sword, returnChannel)
+        let channel = GuildChannel(sword, channel)
         self.channels[channel.id] = channel
       }
     }

@@ -161,6 +161,10 @@ open class Sword: Eventable {
       
       self.shardManager.create(self.shardCount)
     }
+    
+    #if os(macOS)
+    CFRunLoopRun()
+    #endif
   }
   
   /**
