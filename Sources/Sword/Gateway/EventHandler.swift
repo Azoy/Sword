@@ -300,7 +300,7 @@ extension Shard {
         guard userId == self.sword.user!.id else { return }
 
         if let channelId = channelId {
-          self.sword.voiceManager.guilds[guildId] = PotentialConnection(channelID: channelId, userID: userId, sessionID: sessionId)
+          self.sword.voiceManager.guilds[guildId] = PotentialConnection(channelId: channelId, userId: userId, sessionId: sessionId)
         }else {
           self.sword.voiceManager.leave(guildId)
         }
@@ -312,13 +312,13 @@ extension Shard {
         let endpoint = data["endpoint"] as! String
 
         guard let guild = self.sword.voiceManager.guilds[guildId] else { return }
-
+        
         let payload = Payload(
           voiceOP: .identify,
           data: [
             "server_id": guildId.description,
             "user_id": self.sword.user!.id.description,
-            "session_id": guild.sessionID,
+            "session_id": guild.sessionId,
             "token": token
           ]
         ).encode()

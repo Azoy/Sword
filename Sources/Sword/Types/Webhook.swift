@@ -30,7 +30,7 @@ public struct Webhook {
   public let name: String
 
   /// The user account for this webhook
-  public let user: User
+  public let user: User?
 
   /// The token for this webhook
   public let token: String
@@ -50,19 +50,24 @@ public struct Webhook {
 
     let channelId = ChannelID(json["channel_id"] as! String)!
     self.channel = sword.guilds[sword.getGuild(for: channelId)!.id]!.channels[channelId]!
-
-    let guildId = GuildID(json["guild_id"] as! String)!
-    self.guild = sword.guilds[guildId]
+    
+    self.guild = sword.getGuild(for: channelId)!
 
     self.id = WebhookID(json["id"] as! String)!
     self.name = json["name"] as! String
-    self.user = User(sword, json["user"] as! [String: Any])
+    
+    if let user = json["user"] as? [String: Any] {
+      self.user = User(sword, user)
+    }else {
+      self.user = nil
+    }
+    
     self.token = json["token"] as! String
   }
 
   /// Deletes the current webhook from its guild
   public func delete(then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.deleteWebhook(self.id, then: completion)
+    self.sword?.deleteWebhook(self.id, token: self.token, then: completion)
   }
 
   /**
@@ -107,7 +112,7 @@ public struct Webhook {
    - parameter options: A dictionary of options to apply to this webhook
   */
   public func modify(with options: [String: String], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
-    self.sword?.modifyWebhook(self.id, with: options, then: completion)
+    self.sword?.modifyWebhook(self.id, token: self.token, with: options, then: completion)
   }
 
 }

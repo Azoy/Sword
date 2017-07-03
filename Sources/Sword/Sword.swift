@@ -77,9 +77,6 @@ open class Sword: Eventable {
   /// The user account for the bot
   public internal(set) var user: User?
 
-  /// Array of users mapped by userId that the bot sees
-  public internal(set) var users = [UserID: User]()
-
   #if !os(iOS)
 
   /// Object of voice connections the bot is currently connected to. Mapped by guildId
@@ -597,6 +594,7 @@ open class Sword: Eventable {
       }
       return
     }
+    
     var file = ""
     var parameters = [String: String]()
 
@@ -722,9 +720,7 @@ open class Sword: Eventable {
         var returnChannels = [GuildChannel]()
         let channels = data as! [[String: Any]]
         for channel in channels {
-          let guildChannel = GuildChannel(self, channel)
-          self.guilds[guildId]!.channels[guildChannel.id] = guildChannel
-          returnChannels.append(guildChannel)
+          returnChannels.append(GuildChannel(self, channel))
         }
         
         completion(returnChannels, nil)
@@ -788,6 +784,7 @@ open class Sword: Eventable {
     }
 
     if guilds.isEmpty { return nil }
+    
     return guilds[0].1
   }
 
@@ -808,8 +805,11 @@ open class Sword: Eventable {
         completion(nil, error)
       }else {
         let guild = Guild(self, data as! [String: Any])
-        self.guilds[guild.id] = guild
         completion(guild, nil)
+        
+        if !self.isConnected {
+          self.guilds[guild.id] = guild
+        }
       }
     }
   }
@@ -837,46 +837,23 @@ open class Sword: Eventable {
   }
 
   /**
-   Either get cached guilds or restfully get guilds
-
-   #### Option Params ####
-
-   - **before**: Guild Id to get guilds before this one
-   - **after**: Guild Id to get guilds after this one
-   - **limit**: Amount of guilds to return (1-100)
-
-   - parameter rest: Whether or not to restfully get guilds
-   - parameter options: Dictionary containing options regarding what kind of guilds are returned, and amount
-  */
-  public func getGuilds(rest: Bool = false, with options: [String: Any]? = nil, then completion: @escaping ([Guild]?, RequestError?) -> ()) {
-    guard rest else {
-      completion(Array(self.guilds.values), nil)
-      return
-    }
-
-    self.request(.getCurrentUserGuilds, params: options) { [unowned self] data, error in
-      if let error = error {
-        completion(nil, error)
-      }else {
-        var returnGuilds: [Guild] = []
-        let guilds = data as! [[String: Any]]
-        for guild in guilds {
-          returnGuilds.append(Guild(self, guild, self.getShard(for: GuildID(guild["id"] as? String)!)))
-        }
-
-        completion(returnGuilds, nil)
-      }
-    }
-  }
-
-  /**
    Gets a guild's webhooks
 
    - parameter guildId: Guild to get webhooks from
   */
-  public func getGuildWebhooks(from guildId: GuildID, then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
-    self.request(.getGuildWebhooks(guildId)) { data, error in
-      completion(data as? [[String: Any]], error)
+  public func getGuildWebhooks(from guildId: GuildID, then completion: @escaping ([Webhook]?, RequestError?) -> ()) {
+    self.request(.getGuildWebhooks(guildId)) { [unowned self] data, error in
+      if let error = error {
+        completion(nil, error)
+      }else {
+        var returnWebhooks = [Webhook]()
+        let webhooks = data as! [[String: Any]]
+        for webhook in webhooks {
+          returnWebhooks.append(Webhook(self, webhook))
+        }
+        
+        completion(returnWebhooks, error)
+      }
     }
   }
 
@@ -935,7 +912,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        var returnMembers: [Member] = []
+        var returnMembers = [Member]()
         let members = data as! [[String: Any]]
         for member in members {
           returnMembers.append(Member(self, self.guilds[guildId]!, member))
@@ -980,11 +957,12 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        var returnMessages: [Message] = []
+        var returnMessages = [Message]()
         let messages = data as! [[String: Any]]
         for message in messages {
           returnMessages.append(Message(self, message))
         }
+        
         completion(returnMessages, nil)
       }
     }
@@ -1000,7 +978,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        var returnMessages: [Message] = []
+        var returnMessages = [Message]()
         let messages = data as! [[String: Any]]
         for message in messages {
           returnMessages.append(Message(self, message))
@@ -1031,17 +1009,11 @@ open class Sword: Eventable {
    - parameter channelId: Channel to get reaction from
   */
   public func getReaction(_ reaction: String, from messageId: MessageID, in channelId: ChannelID, then completion: @escaping ([User]?, RequestError?) -> ()) {
-    let actualReaction: String
-    if URL(string: reaction) == nil {
-      actualReaction = reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
-    }else {
-      actualReaction = reaction
-    }
-    self.request(.getReactions(channelId, messageId, actualReaction)) { [unowned self] data, error in
+    self.request(.getReactions(channelId, messageId, reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!)) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
       }else {
-        var returnUsers: [User] = []
+        var returnUsers = [User]()
         let users = data as! [[String: Any]]
         for user in users {
           returnUsers.append(User(self, user))
@@ -1062,7 +1034,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        var returnRoles: [Role] = []
+        var returnRoles = [Role]()
         let roles = data as! [[String: Any]]
         for role in roles {
           returnRoles.append(Role(role))
@@ -1087,12 +1059,7 @@ open class Sword: Eventable {
 
    - parameter userId: User to get
   */
-  public func getUser(_ userId: UserID, rest: Bool = false, then completion: @escaping (User?, RequestError?) -> ()) {
-    guard rest else {
-      completion(self.users[userId], nil)
-      return
-    }
-
+  public func getUser(_ userId: UserID, then completion: @escaping (User?, RequestError?) -> ()) {
     self.request(.getUser(userId)) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
@@ -1101,7 +1068,34 @@ open class Sword: Eventable {
       }
     }
   }
-
+  
+  /**
+   Get's the current user's guilds
+   
+   #### Option Params ####
+   
+   - **before**: Guild Id to get guilds before this one
+   - **after**: Guild Id to get guilds after this one
+   - **limit**: Amount of guilds to return (1-100)
+   
+   - parameter options: Dictionary containing options regarding what kind of guilds are returned, and amount
+  */
+  public func getUserGuilds(with options: [String: Any]? = nil, then completion: @escaping ([UserGuild]?, RequestError?) -> ()) {
+    self.request(.getCurrentUserGuilds, params: options) { data, error in
+      if let error = error {
+        completion(nil, error)
+      }else {
+        var returnGuilds = [UserGuild]()
+        let guilds = data as! [[String: Any]]
+        for guild in guilds {
+          returnGuilds.append(UserGuild(guild))
+        }
+        
+        completion(returnGuilds, nil)
+      }
+    }
+  }
+  
   /**
    Gets an array of voice regions from a guild
 
@@ -1138,11 +1132,12 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        var returnWebhooks: [Webhook] = []
+        var returnWebhooks = [Webhook]()
         let webhooks = data as! [[String: Any]]
         for webhook in webhooks {
           returnWebhooks.append(Webhook(self, webhook))
         }
+        
         completion(returnWebhooks, nil)
       }
     }
@@ -1157,11 +1152,12 @@ open class Sword: Eventable {
   */
   public func joinVoiceChannel(_ channelId: ChannelID, then completion: @escaping (VoiceConnection) -> () = {_ in}) {
 
-	guard let guild = self.getGuild(for: channelId) else { return }
+    guard let guild = self.getGuild(for: channelId) else { return }
 
     guard let shardId = guild.shard else { return }
 
-	guard let channel = guild.channels[channelId] else { return }
+    guard let channel = guild.channels[channelId] else { return }
+    
     guard channel.type == 2 else { return }
 
     let shard = self.shardManager.shards.filter {
@@ -1223,7 +1219,7 @@ open class Sword: Eventable {
 
     guard let shardId = guild.shard else { return }
 
-	guard let channel = guild.channels[channelId] else { return }
+    guard let channel = guild.channels[channelId] else { return }
 
     guard channel.type == 2 else { return }
 
@@ -1237,7 +1233,7 @@ open class Sword: Eventable {
   #endif
 
   /**
-   Modifies a channel
+   Modifies a guild channel
 
    #### Options Params ####
 
@@ -1255,7 +1251,13 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        completion(GuildChannel(self, data as! [String: Any]), nil)
+        let channel = GuildChannel(self, data as! [String: Any])
+        completion(channel, nil)
+        
+        if !self.isConnected {
+          let guild = self.getGuild(for: channelId)!
+          self.guilds[guild.id]?.channels[channelId] = channel
+        }
       }
     }
   }
@@ -1278,10 +1280,15 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        var returnChannels: [GuildChannel] = []
+        var returnChannels = [GuildChannel]()
         let channels = data as! [[String: Any]]
         for channel in channels {
-          returnChannels.append(GuildChannel(self, channel))
+          let channel = GuildChannel(self, channel)
+          returnChannels.append(channel)
+          
+          if !self.isConnected {
+            self.guilds[guildId]?.channels[channel.id] = channel
+          }
         }
 
         completion(returnChannels, nil)
@@ -1330,8 +1337,11 @@ open class Sword: Eventable {
         completion(nil, error)
       }else {
         let guild = Guild(self, data as! [String: Any], self.getShard(for: guildId))
-        self.guilds[guildId] = guild
         completion(guild, nil)
+        
+        if !self.isConnected {
+          self.guilds[guildId] = guild
+        }
       }
     }
   }
@@ -1392,11 +1402,16 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to modify guild roles with
   */
   public func modifyRole(_ roleId: RoleID, for guildId: GuildID, with options: [String: Any], then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
-    self.request(.modifyGuildRole(guildId, roleId), body: options) { data, error in
+    self.request(.modifyGuildRole(guildId, roleId), body: options) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
       }else {
-        completion(Role(data as! [String: Any]), nil)
+        let role = Role(data as! [String: Any])
+        completion(role, nil)
+        
+        if !self.isConnected {
+          self.guilds[guildId]?.roles[roleId] = role
+        }
       }
     }
   }
@@ -1415,14 +1430,19 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to set role positions to
   */
   public func modifyRolePositions(for guildId: GuildID, with options: [[String: Any]], then completion: @escaping ([Role]?, RequestError?) -> () = {_ in}) {
-    self.request(.modifyGuildRolePositions(guildId), body: ["array": options]) { data, error in
+    self.request(.modifyGuildRolePositions(guildId), body: ["array": options]) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
       }else {
         var returnRoles: [Role] = []
         let roles = data as! [[String: Any]]
         for role in roles {
-          returnRoles.append(Role(role))
+          let role = Role(role)
+          returnRoles.append(role)
+          
+          if !self.isConnected {
+            self.guilds[guildId]?.roles[role.id] = role
+          }
         }
 
         completion(returnRoles, nil)
@@ -1570,8 +1590,11 @@ open class Sword: Eventable {
         completion(nil, error)
       }else {
         let user = User(self, data as! [String: Any])
-        self.user = user
         completion(user, nil)
+        
+        if !self.isConnected {
+          self.user = user
+        }
       }
     }
   }

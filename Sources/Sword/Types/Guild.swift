@@ -321,7 +321,7 @@ public class Guild {
   }
 
   /// Gets guild's webhooks
-  public func getWebhooks(then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
+  public func getWebhooks(then completion: @escaping ([Webhook]?, RequestError?) -> ()) {
     self.sword?.getGuildWebhooks(from: self.id, then: completion)
   }
 
@@ -560,6 +560,39 @@ public struct UnavailableGuild {
   init(_ json: [String: Any], _ shard: Int) {
     self.id = GuildID(json["id"] as! String)!
     self.shard = shard
+  }
+  
+}
+
+/// Similar to a Guild type, but provides bare minimal info
+public struct UserGuild {
+  
+  // MARK: Properties
+  
+  /// The icon Base64 string
+  public let icon: String
+  
+  /// The guild ID
+  public let id: GuildID
+  
+  /// Whether or not the current user owns this guild
+  public let isOwner: Bool
+  
+  /// The name of the guild
+  public let name: String
+  
+  /// The permission number that the current user has in this guild
+  public let permissions: Int
+  
+  // MARK: Initializer
+  
+  /// Creates a UserGuild structure
+  init(_ json: [String: Any]) {
+    self.icon = json["icon"] as! String
+    self.id = GuildID(json["id"] as! String)!
+    self.isOwner = json["owner"] as! Bool
+    self.name = json["name"] as! String
+    self.permissions = json["permissions"] as! Int
   }
   
 }

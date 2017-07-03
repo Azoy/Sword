@@ -32,12 +32,13 @@ public struct Snowflake {
     self.timestamp = Date(timeIntervalSince1970: (Double(((snowflake & 18446744073705357312) >> 22)) + Double(1420070400000)) / 1000)
   }
   
+  /// Initialize from a String
   init?(_ string: String) {
     guard let snowflake = UInt64(string) else { return nil }
     self.init(snowflake)
   }
   
-  /// Initialize from an optional string (returns nil if the input was nil or if it failed to initialize)
+  /// Initialize from a String? (returns nil if the input was nil or if it failed to initialize)
   init?(_ optionalString: String?) {
     guard let string = optionalString else { return nil }
     self.init(string)
