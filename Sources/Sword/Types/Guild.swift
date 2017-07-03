@@ -505,7 +505,7 @@ extension Guild {
     case vipRegions = "VIP_REGIONS"
   }
   
-  
+  /// Level of verification for admisitrative actions for guild
   public enum MFALevel: Int {
     
     /// Admisitration actions don't require 2fa

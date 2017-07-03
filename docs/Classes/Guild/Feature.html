@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Status Enum Reference</title>
+    <title>Feature Enum Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/Status" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Enum/Feature" class="dashAnchor"></a>
 
-    <a title="Status Enum Reference"></a>
+    <a title="Feature Enum Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../../index.html">Sword Reference</a>
       <img class="carat" src="../../img/carat.png" />
-      Status Enum Reference
+      Feature Enum Reference
     </p>
 
     <div class="content-wrapper">
@@ -225,14 +225,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Status</h1>
+            <h1>Feature</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Status</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Feature</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                 </div>
               </div>
-            <p>Value type for statuses</p>
+            <p>Guild features</p>
 
           </div>
         </section>
@@ -244,9 +244,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword8PresenceV6StatusO3dndA2EmF"></a>
-                    <a name="//apple_ref/swift/Element/dnd" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword8PresenceV6StatusO3dndA2EmF">dnd</a>
+                    <a name="/s:5Sword5GuildC7FeatureO12inviteSplashA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/inviteSplash" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5GuildC7FeatureO12inviteSplashA2EmF">inviteSplash</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -254,14 +254,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Do not disturb status</p>
+                        <p>Custom image for invites</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">dnd</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">inviteSplash</span> <span class="o">=</span> <span class="s">"INVITE_SPLASH"</span></code></pre>
 
                         </div>
                       </div>
@@ -275,9 +275,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword8PresenceV6StatusO4idleA2EmF"></a>
-                    <a name="//apple_ref/swift/Element/idle" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword8PresenceV6StatusO4idleA2EmF">idle</a>
+                    <a name="/s:5Sword5GuildC7FeatureO9vanityUrlA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/vanityUrl" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5GuildC7FeatureO9vanityUrlA2EmF">vanityUrl</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -285,14 +285,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Away status</p>
+                        <p>Custom url to join the guild with</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">idle</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">vanityUrl</span> <span class="o">=</span> <span class="s">"VANITY_URL"</span></code></pre>
 
                         </div>
                       </div>
@@ -306,9 +306,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword8PresenceV6StatusO7offlineA2EmF"></a>
-                    <a name="//apple_ref/swift/Element/offline" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword8PresenceV6StatusO7offlineA2EmF">offline</a>
+                    <a name="/s:5Sword5GuildC7FeatureO10vipRegionsA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/vipRegions" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5GuildC7FeatureO10vipRegionsA2EmF">vipRegions</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -316,45 +316,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Invisible/Offline status</p>
+                        <p>VIP voice channels for crisp audio</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">offline</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5Sword8PresenceV6StatusO6onlineA2EmF"></a>
-                    <a name="//apple_ref/swift/Element/online" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword8PresenceV6StatusO6onlineA2EmF">online</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Online status</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">online</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">vipRegions</span> <span class="o">=</span> <span class="s">"VIP_REGIONS"</span></code></pre>
 
                         </div>
                       </div>

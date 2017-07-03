@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Overwrite Struct Reference</title>
+    <title>Snowflake Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/Overwrite" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/Snowflake" class="dashAnchor"></a>
 
-    <a title="Overwrite Struct Reference"></a>
+    <a title="Snowflake Struct Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Overwrite Struct Reference
+      Snowflake Struct Reference
     </p>
 
     <div class="content-wrapper">
@@ -225,14 +225,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Overwrite</h1>
+            <h1>Snowflake</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Overwrite</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Snowflake</span></code></pre>
 
                 </div>
               </div>
-            <p>Permission Overwrite Type</p>
+            <p>The stored type of a Discord Snowflake ID.</p>
 
           </div>
         </section>
@@ -240,20 +240,13 @@
         <section class="section">
           <div class="section-content">
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Properties"></a>
-                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
-                <a href="#/Properties">
-                  <h3 class="section-name">Properties</h3>
-                </a>
-              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword9OverwriteV5allowSiv"></a>
-                    <a name="//apple_ref/swift/Property/allow" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword9OverwriteV5allowSiv">allow</a>
+                    <a name="/s:5Sword9SnowflakeV15numberInProcesss6UInt16Vv"></a>
+                    <a name="//apple_ref/swift/Property/numberInProcess" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9SnowflakeV15numberInProcesss6UInt16Vv">numberInProcess</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -261,14 +254,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allowed permissions number</p>
+                        <p>Number of generated ID&rsquo;s for the process</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">allow</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">numberInProcess</span><span class="p">:</span> <span class="kt">UInt16</span></code></pre>
 
                         </div>
                       </div>
@@ -278,9 +271,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword9OverwriteV4denySiv"></a>
-                    <a name="//apple_ref/swift/Property/deny" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword9OverwriteV4denySiv">deny</a>
+                    <a name="/s:5Sword9SnowflakeV9processIds5UInt8Vv"></a>
+                    <a name="//apple_ref/swift/Property/processId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9SnowflakeV9processIds5UInt8Vv">processId</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -288,14 +281,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Denied permissions number</p>
+                        <p>Discord&rsquo;s internal process under worker that generated this snowflake</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">deny</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">processId</span><span class="p">:</span> <span class="kt">UInt8</span></code></pre>
 
                         </div>
                       </div>
@@ -305,9 +298,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword9OverwriteV2idAA9SnowflakeVv"></a>
-                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword9OverwriteV2idAA9SnowflakeVv">id</a>
+                    <a name="/s:5Sword9SnowflakeV9timestamp10Foundation4DateVv"></a>
+                    <a name="//apple_ref/swift/Property/timestamp" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9SnowflakeV9timestamp10Foundation4DateVv">timestamp</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -315,14 +308,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>ID of overwrite</p>
+                        <p>Time when snowflake was created</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword11OverwriteIDa">OverwriteID</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">Date</span></code></pre>
 
                         </div>
                       </div>
@@ -332,9 +325,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword9OverwriteV4typeSSv"></a>
-                    <a name="//apple_ref/swift/Property/type" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword9OverwriteV4typeSSv">type</a>
+                    <a name="/s:5Sword9SnowflakeV5values6UInt64Vv"></a>
+                    <a name="//apple_ref/swift/Property/value" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9SnowflakeV5values6UInt64Vv">value</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -342,14 +335,188 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Either <q>role</q> or <q>member</q></p>
+                        <p>The internal value storage for a snowflake</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">UInt64</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword9SnowflakeV8workerIds5UInt8Vv"></a>
+                    <a name="//apple_ref/swift/Property/workerId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9SnowflakeV8workerIds5UInt8Vv">workerId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Discord&rsquo;s internal worker ID that generated this snowflake</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">workerId</span><span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword9SnowflakeVACs6UInt64Vcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9SnowflakeVACs6UInt64Vcfc">init(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize from a UInt64</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">snowflake</span><span class="p">:</span> <span class="kt">UInt64</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword9SnowflakeV11descriptionSSv"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9SnowflakeV11descriptionSSv">description</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Description for string Conversion</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword9SnowflakeV2eeoiSbAC_ACtFZ"></a>
+                    <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9SnowflakeV2eeoiSbAC_ACtFZ">==(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Used to check whether two Snowflakes are equal</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span><span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Snowflake</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Snowflake</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword9SnowflakeV1loiSbAC_ACtFZ"></a>
+                    <a name="//apple_ref/swift/Method/&lt;(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9SnowflakeV1loiSbAC_ACtFZ">&lt;(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Used to compare Snowflakes (which is useful because a greater Snowflake was made later)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&lt;</span><span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Snowflake</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">Snowflake</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword9SnowflakeV9hashValueSiv"></a>
+                    <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9SnowflakeV9hashValueSiv">hashValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The hash value of the Snowflake</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashValue</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>

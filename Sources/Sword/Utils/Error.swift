@@ -8,16 +8,30 @@
 
 import Foundation
 
+/// Custom Error type for quick details on why a request failed
 public struct RequestError: Error {
   
+  // MARK: Properties
+  
+  /// Discord custom error code
   public let code: Int
   
+  /// More detailed message error in form of dictionary
   public let error: [String: String]
   
+  /// Basic jist of why a request failed
   public let message: String
   
+  /// HTTP status code on request
   public let statusCode: Int
   
+  // MARK: Initializer
+  
+  /**
+   Creates a basic error type with message
+   
+   - parameter message: Simple message on why request failed
+  */
   init(_ message: String) {
     self.code = 0
     self.error = [:]
@@ -25,6 +39,12 @@ public struct RequestError: Error {
     self.statusCode = 0
   }
   
+  /**
+   Creates a detailed description on why a request failed
+   
+   - parameter statusCode: HTTP status code of request
+   - parameter response: Discord custom error response
+  */
   init(_ statusCode: Int, _ response: Any) {
     self.statusCode = statusCode
     
@@ -44,6 +64,11 @@ public struct RequestError: Error {
     }
   }
   
+  /**
+   Creates a request error for client side request failures
+   
+   - parameter error: Error foundation reported
+  */
   init(_ error: NSError) {
     self.code = error.code
     self.error = [:]
@@ -51,6 +76,12 @@ public struct RequestError: Error {
     self.statusCode = 0
   }
   
+  /**
+   Generates a specific error message from Discord's v7 error responses
+   
+   - parameter error: Error response
+   - parameter key: Dictionary key
+  */
   static func getSpecificError(for error: [String: Any], _ key: String = "") -> [String: String] {
     var items = [String: String]()
     
@@ -79,6 +110,7 @@ public struct RequestError: Error {
   
 }
 
+/// Simple enum error case for voice
 enum VoiceError: Error {
   case encryptionFail, decryptionFail
 }

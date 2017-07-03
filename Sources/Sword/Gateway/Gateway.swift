@@ -97,7 +97,6 @@ extension Gateway {
       }
     }catch {
       print("[Sword] \(error.localizedDescription)")
-      self.reconnect()
     }
     #endif
   }

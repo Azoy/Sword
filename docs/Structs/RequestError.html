@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Overwrite Struct Reference</title>
+    <title>RequestError Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/Overwrite" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/RequestError" class="dashAnchor"></a>
 
-    <a title="Overwrite Struct Reference"></a>
+    <a title="RequestError Struct Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Overwrite Struct Reference
+      RequestError Struct Reference
     </p>
 
     <div class="content-wrapper">
@@ -225,14 +225,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Overwrite</h1>
+            <h1>RequestError</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Overwrite</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RequestError</span><span class="p">:</span> <span class="kt">Error</span></code></pre>
 
                 </div>
               </div>
-            <p>Permission Overwrite Type</p>
+            <p>Custom Error type for quick details on why a request failed</p>
 
           </div>
         </section>
@@ -251,9 +251,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword9OverwriteV5allowSiv"></a>
-                    <a name="//apple_ref/swift/Property/allow" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword9OverwriteV5allowSiv">allow</a>
+                    <a name="/s:5Sword12RequestErrorV4codeSiv"></a>
+                    <a name="//apple_ref/swift/Property/code" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword12RequestErrorV4codeSiv">code</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -261,14 +261,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allowed permissions number</p>
+                        <p>Discord custom error code</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">allow</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">code</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
@@ -278,9 +278,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword9OverwriteV4denySiv"></a>
-                    <a name="//apple_ref/swift/Property/deny" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword9OverwriteV4denySiv">deny</a>
+                    <a name="/s:5Sword12RequestErrorV5errors10DictionaryVyS2SGv"></a>
+                    <a name="//apple_ref/swift/Property/error" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword12RequestErrorV5errors10DictionaryVyS2SGv">error</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -288,14 +288,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Denied permissions number</p>
+                        <p>More detailed message error in form of dictionary</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">deny</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">error</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -305,9 +305,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword9OverwriteV2idAA9SnowflakeVv"></a>
-                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword9OverwriteV2idAA9SnowflakeVv">id</a>
+                    <a name="/s:5Sword12RequestErrorV7messageSSv"></a>
+                    <a name="//apple_ref/swift/Property/message" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword12RequestErrorV7messageSSv">message</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -315,14 +315,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>ID of overwrite</p>
+                        <p>Basic jist of why a request failed</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:5Sword11OverwriteIDa">OverwriteID</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -332,9 +332,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword9OverwriteV4typeSSv"></a>
-                    <a name="//apple_ref/swift/Property/type" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword9OverwriteV4typeSSv">type</a>
+                    <a name="/s:5Sword12RequestErrorV10statusCodeSiv"></a>
+                    <a name="//apple_ref/swift/Property/statusCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword12RequestErrorV10statusCodeSiv">statusCode</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -342,14 +342,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Either <q>role</q> or <q>member</q></p>
+                        <p>HTTP status code on request</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">statusCode</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
