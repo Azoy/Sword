@@ -29,10 +29,10 @@ public struct Emoji {
   /// Tag used for rest endpoints
   public var tag: String {
     guard let id = id else {
-      return name.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+      return name
     }
     
-    return "\(name):\(id)".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+    return "\(name):\(id)"
   }
   
   // MARK: Initializers
