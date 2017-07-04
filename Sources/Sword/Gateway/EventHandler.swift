@@ -200,13 +200,13 @@ extension Shard {
       case .messageDelete:
         let channelId = ChannelID(data["channel_id"] as! String)!
         let messageId = MessageID(data["id"] as! String)!
-        self.sword.emit(.messageDelete, with: (messageId, channelId))
+        self.sword.emit(.messageDelete, with: (messageId, self.sword.getChannel(for: channelId)!))
 
       /// MESSAGE_BULK_DELETE
       case .messageDeleteBulk:
         let messageIds = (data["ids"] as! [String]).map({ MessageID($0)! })
         let channelId = ChannelID(data["channel_id"] as! String)!
-        self.sword.emit(.messageDeleteBulk, with: (messageIds, channelId))
+        self.sword.emit(.messageDeleteBulk, with: (messageIds, self.sword.getChannel(for: channelId)!))
 
       /// MESSAGE_UPDATE
       case .messageUpdate:
@@ -255,7 +255,7 @@ extension Shard {
         let userID = UserID(data["user_id"] as! String)!
         let messageID = MessageID(data["message_id"] as! String)!
         let emoji = Emoji(data["emoji"] as! [String: Any])
-        self.sword.emit(event, with: (channelID, userID, messageID, emoji))
+        self.sword.emit(event, with: (self.sword.getChannel(for: channelID)!, userID, messageID, emoji))
 
       /// TYPING_START
       case .typingStart:
@@ -266,7 +266,7 @@ extension Shard {
         #endif
         let userId = UserID(data["user_id"] as! String)!
         let channelId = ChannelID(data["channel_id"] as! String)!
-        self.sword.emit(.typingStart, with: (channelId, userId, timestamp))
+        self.sword.emit(.typingStart, with: (self.sword.getChannel(for: channelId)!, userId, timestamp))
 
       /// USER_UPDATE
       case .userUpdate:

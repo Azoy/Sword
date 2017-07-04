@@ -276,7 +276,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.guildRoleDelete) { data in
-       let (guild, roleID) = data as! (Guild, RoleID)
+       let (guild, role) = data as! (Guild, Role)
      }
      ```
     */
@@ -364,7 +364,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.messageUpdate) { data in
-       let (messageID, channelID) = data as! (MessageID, ChannelID)
+       let (messageID, channel) = data as! (MessageID, Channel)
      }
      ```
     */
@@ -412,7 +412,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.reactionAdd) { data in
-       let (channelID, userID, messageID, emoji) = data as! (ChannelID, UserID, MessageID, Emoji)
+       let (channel, userID, messageID, emoji) = data as! (Channel, UserID, MessageID, Emoji)
      }
      ```
     */
@@ -424,7 +424,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.reactionRemove) { data in
-       let (channelID, userID, messageID, emoji) = data as! (ChannelID, UserID, MessageID, Emoji)
+       let (channel, userID, messageID, emoji) = data as! (Channel, UserID, MessageID, Emoji)
      }
      ```
     */

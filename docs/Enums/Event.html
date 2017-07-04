@@ -833,7 +833,7 @@
                         <p>Fired when a role is deleted in a guild</p>
 <h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">guildRoleDelete</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="nf">let</span> <span class="p">(</span><span class="n">guild</span><span class="p">,</span> <span class="n">roleID</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">,</span> <span class="kt">RoleID</span><span class="p">)</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">guild</span><span class="p">,</span> <span class="n">role</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">,</span> <span class="kt">Role</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
 
@@ -1089,7 +1089,7 @@
                         <p>Fired when a message is updated</p>
 <h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">messageUpdate</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="nf">let</span> <span class="p">(</span><span class="n">messageID</span><span class="p">,</span> <span class="n">channelID</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">MessageID</span><span class="p">,</span> <span class="kt">ChannelID</span><span class="p">)</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">messageID</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">MessageID</span><span class="p">,</span> <span class="kt">Channel</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
 
@@ -1233,7 +1233,7 @@
                         <p>Fired when a reaction is added to a message</p>
 <h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">reactionAdd</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="nf">let</span> <span class="p">(</span><span class="n">channelID</span><span class="p">,</span> <span class="n">userID</span><span class="p">,</span> <span class="n">messageID</span><span class="p">,</span> <span class="n">emoji</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">ChannelID</span><span class="p">,</span> <span class="kt">UserID</span><span class="p">,</span> <span class="kt">MessageID</span><span class="p">,</span> <span class="kt">Emoji</span><span class="p">)</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">userID</span><span class="p">,</span> <span class="n">messageID</span><span class="p">,</span> <span class="n">emoji</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Channel</span><span class="p">,</span> <span class="kt">UserID</span><span class="p">,</span> <span class="kt">MessageID</span><span class="p">,</span> <span class="kt">Emoji</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
 
@@ -1269,7 +1269,7 @@
                         <p>Fired when a reaction is removed from a message</p>
 <h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">reactionRemove</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="nf">let</span> <span class="p">(</span><span class="n">channelID</span><span class="p">,</span> <span class="n">userID</span><span class="p">,</span> <span class="n">messageID</span><span class="p">,</span> <span class="n">emoji</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">ChannelID</span><span class="p">,</span> <span class="kt">UserID</span><span class="p">,</span> <span class="kt">MessageID</span><span class="p">,</span> <span class="kt">Emoji</span><span class="p">)</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">userID</span><span class="p">,</span> <span class="n">messageID</span><span class="p">,</span> <span class="n">emoji</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Channel</span><span class="p">,</span> <span class="kt">UserID</span><span class="p">,</span> <span class="kt">MessageID</span><span class="p">,</span> <span class="kt">Emoji</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
 
