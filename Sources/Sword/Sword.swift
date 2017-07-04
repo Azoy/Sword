@@ -390,9 +390,9 @@ open class Sword: Eventable {
    - parameter messages: Array of message ids to delete
   */
   public func deleteMessages(_ messages: [MessageID], from channelId: ChannelID, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    let oldestMessage = UInt64((Date().timeIntervalSince1970 - 1421280000000)) * 4194304
+    let oldestMessage = Snowflake.fakeSnowflake(date: Date(timeIntervalSinceNow: -14 * 24 * 60 * 60)) ?? 0
     for message in messages {
-      if message.value < oldestMessage {
+      if message < oldestMessage {
         completion(RequestError("One of the messages you wanted to delete was older than allowed."))
       }
     }
@@ -1055,7 +1055,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get shard for
   */
   public func getShard(for guildId: GuildID) -> Int {
-    return Int((guildId.value >> 22) % UInt64(self.shardCount))
+    return Int((guildId.rawValue >> 22) % UInt64(self.shardCount))
   }
 
   /**
