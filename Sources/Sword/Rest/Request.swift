@@ -159,7 +159,7 @@ extension Sword {
       sema.signal()
     }
 
-    let apiCall = { [unowned self, unowned sema, unowned task] in
+    let apiCall = { [unowned self] in
       guard rateLimited, self.rateLimits[route] != nil else {
         task.resume()
 
