@@ -39,9 +39,12 @@ extension Shard {
             self.sword.emit(.channelCreate, with: channel)
 
           case 1:
-            let dm = DMChannel(self.sword, data)
-            self.sword.dms[dm.recipient.id] = dm
-            self.sword.emit(.channelCreate, with: dm)
+            let id = ChannelID(data["id"] as! String)!
+            if self.sword.getDM(for: id) == nil {
+              let dm = DMChannel(self.sword, data)
+              self.sword.dms[dm.recipient.id] = dm
+              self.sword.emit(.channelCreate, with: dm)
+            }
 
           case 3:
             let group = GroupChannel(self.sword, data)
@@ -226,19 +229,10 @@ extension Shard {
         self.sessionId = data["session_id"] as? String
 
         let guilds = data["guilds"] as! [[String: Any]]
-        let dms = data["private_channels"] as! [[String: Any]]
 
         for guild in guilds {
           let guildID = GuildID(guild["id"] as! String)!
           self.sword.unavailableGuilds[guildID] = UnavailableGuild(guild, self.id)
-        }
-
-        for dm in dms {
-          let recipients = dm["recipients"] as! [[String: Any]]
-          for recipient in recipients {
-            let recipientID = UserID(recipient["id"] as! String)!
-            self.sword.dms[recipientID] = DMChannel(self.sword, dm)
-          }
         }
 
         self.sword.shardsReady += 1

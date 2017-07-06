@@ -89,9 +89,7 @@ public struct Message {
 
     self.content = json["content"] as! String
 
-    let channelID = ChannelID(json["channel_id"] as! String)!
-
-    self.channel = sword.getChannel(for: channelID)!
+    self.channel = sword.getChannel(for: ChannelID(json["channel_id"] as! String)!)!
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date

@@ -22,7 +22,13 @@ public protocol Eventable: class {
    - parameter data: Array of stuff to emit listener with
    */
   func emit(_ event: Event, with data: Any)
-
+  
+  /**
+   - parameter event: Event to remove a listener from
+   - parameter position: Position of listener callback
+  */
+  func removeListener(from event: Event, at position: Int)
+  
 }
 
 extension Eventable {
@@ -57,5 +63,15 @@ extension Eventable {
       listener(data)
     }
   }
-
+  
+  /**
+   Removes a listener from an event
+   
+   - parameter event: Event to remove a listener from
+   - parameter position: Position of listener callback
+  */
+  public func removeListener(from event: Event, at position: Int) {
+    _ = self.listeners[event]?.remove(at: position)
+  }
+  
 }
