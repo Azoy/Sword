@@ -55,6 +55,7 @@ extension Gateway {
 
     self.session?.onConnect = { [unowned self] in
       self.isConnected = true
+      self.handleConnect()
     }
 
     self.session?.onText = { [unowned self] text in

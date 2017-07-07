@@ -270,7 +270,7 @@ public class VoiceConnection: Gateway, Eventable {
     guard self.identify != nil else { return }
     
     #if os(macOS)
-    self.session?.disconnect()
+    self.session?.write(string: self.identify!)
     #else
     try? self.session?.send(self.identify!)
     #endif
