@@ -62,29 +62,19 @@ extension Sword {
 
    - parameter headers: The received headers from the request
   */
-  func handleRateLimitHeaders(_ limitHeader: Any?, _ remainingHeader: Any?, _ intervalHeader: Any?, _ date: Double, _ route: String) {
-    guard let limitHeader = limitHeader, let remainingHeader = remainingHeader, let intervalHeader = intervalHeader else {
+  func handleRateLimitHeaders(_ limitHeader: Any?, _ intervalHeader: Any?, _ date: Double, _ route: String) {
+    guard let limitHeader = limitHeader, let intervalHeader = intervalHeader else {
       return
     }
 
     let limit = Int(limitHeader as! String)!
-    let remaining = Int(remainingHeader as! String)!
     let interval = Int(intervalHeader as! String)! - Int(date)
 
-    guard let bucket = self.rateLimits[route] else {
+    if self.rateLimits[route] == nil {
       let bucket = Bucket(name: "gg.azoy.sword.rest.\(route)", limit: limit, interval: interval)
       bucket.take(1)
 
       self.rateLimits[route] = bucket
-      return
-    }
-
-    if bucket.tokens != remaining {
-      bucket.tokens = remaining
-    }
-
-    if bucket.limit != limit {
-      bucket.limit = limit
     }
   }
 

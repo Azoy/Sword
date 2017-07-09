@@ -106,7 +106,7 @@ extension Sword {
       }
 
       if rateLimited {
-        self.handleRateLimitHeaders(headers["x-ratelimit-limit"], headers["x-ratelimit-remaining"], headers["x-ratelimit-reset"], (headers["Date"] as! String).httpDate.timeIntervalSince1970, route)
+        self.handleRateLimitHeaders(headers["x-ratelimit-limit"], headers["x-ratelimit-reset"], (headers["Date"] as! String).httpDate.timeIntervalSince1970, route)
       }
 
       if response.statusCode == 204 {
