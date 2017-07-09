@@ -69,7 +69,7 @@ public struct GuildChannel: Channel {
     self.bitrate = json["bitrate"] as? Int
     self.id = ChannelID(json["id"] as! String)!
     
-    self.guild = sword.getGuild(for: self.id)
+    self.guild = sword.guilds[Snowflake(json["guild_id"] as! String)!]
     
     self.isPrivate = json["is_private"] as? Bool
     self.lastMessageId = MessageID(json["last_message_id"] as? String)
