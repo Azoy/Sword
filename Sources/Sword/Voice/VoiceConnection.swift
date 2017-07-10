@@ -283,8 +283,6 @@ public class VoiceConnection: Gateway, Eventable {
   */
   func handleDisconnect(for code: Int) {
     guard CloseOP(rawValue: code) != nil else {
-      print("[Sword] Voice connection closed with unrecognized response\nCode: \(code)")
-      
       return
     }
   }
@@ -398,8 +396,8 @@ public class VoiceConnection: Gateway, Eventable {
 
     process.standardOutput = self.writer
 
-    process.terminationHandler = { [unowned self] _ in
-      self.finish()
+    process.terminationHandler = { [weak self] _ in
+      self?.finish()
     }
 
     process.launch()
@@ -458,7 +456,7 @@ public class VoiceConnection: Gateway, Eventable {
         guard let audioData = try self?.decryptPacket(with: Data(bytes: data)) else { return }
         self?.emit(.audioData, with: audioData)
       }catch {
-        guard let isConnected = self?.isConnected, !isConnected else { return }
+        guard let isConnected = self?.isConnected, isConnected else { return }
 
         print("[Sword] Unable to read voice data from guild: \(self?.guildId as Any).")
       }
@@ -565,6 +563,10 @@ public class VoiceConnection: Gateway, Eventable {
       self.emit(.connectionClose)
     }
     
+    self.heartbeat = nil
+    self.isConnected = false
+    self.encoder = nil
+    
     #if !os(Linux)
     self.session?.disconnect()
     #else
@@ -572,10 +574,6 @@ public class VoiceConnection: Gateway, Eventable {
     #endif
     
     try? self.udpClient?.close()
-    
-    self.heartbeat = nil
-    self.isConnected = false
-    self.encoder = nil
   }
 
 }
