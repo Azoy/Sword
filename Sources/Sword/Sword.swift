@@ -585,7 +585,7 @@ open class Sword: Eventable {
    - **avatar_url**: The url of the user the webhook will send
    - **tts**: Whether or not this message is tts
    - **file**: The url of the image to send
-   - **embed**: The embed object to send. Refer to [Embed structure](https://discordapp.com/developers/docs/resources/channel#embed-object)
+   - **embeds**: Array of embed objects to send. Refer to [Embed structure](https://discordapp.com/developers/docs/resources/channel#embed-object)
 
    - parameter webhookId: Webhook to execute
    - parameter webhookToken: Token for auth to execute
@@ -599,26 +599,26 @@ open class Sword: Eventable {
       return
     }
     
-    var file = ""
-    var parameters = [String: String]()
+    var file: String? = nil
+    var parameters = [String: Any]()
 
     if let messageFile = message["file"] {
-      file = messageFile as! String
+      file = messageFile as? String
     }
     if let messageContent = message["content"] {
-      parameters["content"] = (messageContent as! String)
+      parameters["content"] = messageContent as! String
     }
     if let messageTTS = message["tts"] {
-      parameters["tts"] = (messageTTS as! String)
+      parameters["tts"] = messageTTS as! String
     }
-    if let messageEmbed = message["embed"] {
-      parameters["embeds"] = [(messageEmbed as! [String: Any])].encode()
+    if let messageEmbed = message["embeds"] {
+      parameters["embeds"] = messageEmbed as! [[String: Any]]
     }
     if let messageUser = message["username"] {
-      parameters["username"] = (messageUser as! String)
+      parameters["username"] = messageUser as! String
     }
     if let messageAvatar = message["avatar_url"] {
-      parameters["avatar_url"] = (messageAvatar as! String)
+      parameters["avatar_url"] = messageAvatar as! String
     }
 
     self.request(.executeWebhook(webhookId, webhookToken), body: parameters, file: file) { data, error in
