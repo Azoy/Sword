@@ -759,6 +759,11 @@ open class Sword: Eventable {
    - parameter userId: User to get DM for
   */
   public func getDM(for userId: UserID, then completion: @escaping (DMChannel?, RequestError?) -> ()) {
+    guard self.dms[userId] == nil else {
+      completion(self.dms[userId], nil)
+      return
+    }
+    
     self.request(.createDM, body: ["recipient_id": userId.description]) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
