@@ -165,7 +165,7 @@ public class Guild {
       for presence in presences {
         let userId = UserID((presence["user"] as! [String: Any])["id"] as! String)!
         let presence = Presence(presence)
-        self.members[userId]!.presence = presence
+        self.members[userId]?.presence = presence
       }
     }
 
@@ -174,7 +174,7 @@ public class Guild {
         let voiceStateObjc = VoiceState(voiceState)
 
         self.voiceStates[UserID(voiceState["user_id"] as! String)!] = voiceStateObjc
-        self.members[UserID(voiceState["user_id"] as! String)!]!.voiceState = voiceStateObjc
+        self.members[UserID(voiceState["user_id"] as! String)!]?.voiceState = voiceStateObjc
       }
     }
   }

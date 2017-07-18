@@ -26,7 +26,7 @@ public struct GuildChannel: Channel {
   public let id: ChannelID
 
   /// Whether or not this channel is NSFW
-  public let isNsfw: Bool?
+  public let isNsfw: Bool
 
   /// Whether or not this channel is DM or Guild
   public let isPrivate: Bool?
@@ -82,11 +82,13 @@ public struct GuildChannel: Channel {
 
     let name = json["name"] as? String
     self.name = name
-
-    if let name = name {
+    
+    if let isNsfw = json["nsfw"] as? Bool {
+      self.isNsfw = isNsfw
+    }else if let name = name {
       self.isNsfw = name == "nsfw" || name.hasPrefix("nsfw-")
     }else {
-      self.isNsfw = nil
+      self.isNsfw = false
     }
 
     if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
