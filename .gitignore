@@ -6,3 +6,4 @@
 /docs/docsets
 /Tests
 .swift-version
+Package.resolved

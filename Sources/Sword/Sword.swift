@@ -1167,7 +1167,7 @@ open class Sword: Eventable {
 
     guard let channel = guild.channels[channelId] else { return }
     
-    guard channel.type == 2 else { return }
+    guard channel.type == .guildVoice else { return }
 
     let shard = self.shardManager.shards.filter {
       $0.id == shardId
@@ -1230,7 +1230,7 @@ open class Sword: Eventable {
 
     guard let channel = guild.channels[channelId] else { return }
 
-    guard channel.type == 2 else { return }
+    guard channel.type == .guildVoice else { return }
 
     let shard = self.shardManager.shards.filter {
       $0.id == shardId

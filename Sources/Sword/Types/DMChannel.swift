@@ -22,7 +22,10 @@ public struct DMChannel: Channel {
 
   /// The last message's ID
   public let lastMessageId: MessageID?
-
+  
+  /// Indicates what kind of channel this is
+  public let type: ChannelType
+  
   // MARK: Initializer
 
   /**
@@ -40,6 +43,8 @@ public struct DMChannel: Channel {
     self.recipient = User(sword, recipients[0])
 
     self.lastMessageId = MessageID(json["last_message_id"] as? String)
+    
+    self.type = .dm
   }
 
 }

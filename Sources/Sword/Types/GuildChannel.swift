@@ -49,8 +49,8 @@ public struct GuildChannel: Channel {
   /// (Text) Topic of the channel
   public let topic: String?
 
-  /// 0 = Text & 2 = Voice
-  public let type: Int?
+  /// Indicates what type of channel this is (.guildText or .guildVoice)
+  public let type: ChannelType
 
   /// (Voice) User limit for voice channel
   public let userLimit: Int?
@@ -100,7 +100,7 @@ public struct GuildChannel: Channel {
 
     self.position = json["position"] as? Int
     self.topic = json["topic"] as? String
-    self.type = json["type"] as? Int
+    self.type = ChannelType(rawValue: json["type"] as! Int)!
     self.userLimit = json["user_limit"] as? Int
   }
 
@@ -117,6 +117,7 @@ public struct GuildChannel: Channel {
    - parameter options: Preconfigured options to create this webhook with
   */
   public func createWebhook(with options: [String: String] = [:], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
+    guard self.type != .guildVoice else { return }
     self.sword?.createWebhook(for: self.id, with: options, then: completion)
   }
 
@@ -126,11 +127,13 @@ public struct GuildChannel: Channel {
    - parameter messageId: Message to delete all reactions from
   */
   public func deleteReactions(from messageId: MessageID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+    guard self.type != .guildVoice else { return }
     self.sword?.deleteReactions(from: messageId, in: self.id, then: completion)
   }
 
   /// Gets this channel's webhooks
   public func getWebhooks(then completion: @escaping ([Webhook]?, RequestError?) -> ()) {
+    guard self.type != .guildVoice else { return }
     self.sword?.getWebhooks(from: self.id, then: completion)
   }
 

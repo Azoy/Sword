@@ -49,7 +49,7 @@ public struct RequestError: Error {
     self.statusCode = statusCode
     
     if let response = response as? [String: Any] {
-      self.code = response["code"] as! Int
+      self.code = response["code"] as? Int ?? 0
       self.message = response["message"] as! String
       
       if let error = response["errors"] as? [String: Any] {

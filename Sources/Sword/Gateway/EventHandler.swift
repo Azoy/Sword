@@ -260,7 +260,7 @@ extension Shard {
         #endif
         let userId = UserID(data["user_id"] as! String)!
         let channelId = ChannelID(data["channel_id"] as! String)!
-        self.sword.emit(.typingStart, with: (self.sword.getChannel(for: channelId)!, userId, timestamp))
+        self.sword.emit(.typingStart, with: (channelId, userId, timestamp))
 
       /// USER_UPDATE
       case .userUpdate:

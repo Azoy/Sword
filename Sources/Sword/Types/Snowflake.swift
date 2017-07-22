@@ -72,6 +72,61 @@ public struct Snowflake {
   }
 }
 
+// MARK: Snowflake Conformances
+
+/// Snowflake conformance to ExpressibleByIntegerLiteral
+extension Snowflake : ExpressibleByIntegerLiteral {
+  
+  public typealias IntegerLiteralType = UInt64
+  
+  /// Initialize from an integer literal
+  public init(integerLiteral value: UInt64) {
+    self.rawValue = value
+  }
+}
+
+/// Snowflake conformance to CustomStringConvertible
+extension Snowflake : CustomStringConvertible {
+
+  /// Description for string Conversion
+  public var description: String {
+    return self.rawValue.description
+  }
+
+}
+
+/// Snowflake conformance to RawRepresentable
+extension Snowflake : RawRepresentable, Equatable {
+
+  public typealias RawValue = UInt64
+  
+  /// Init for rawValue conformance
+  public init(rawValue: UInt64) {
+    self.rawValue = rawValue
+  }
+  
+}
+
+/// Snowflake conformance to Comparable
+extension Snowflake: Comparable {
+
+  /// Used to compare Snowflakes (which is useful because a greater Snowflake was made later)
+  public static func <(lhs: Snowflake, rhs: Snowflake) -> Bool {
+    return lhs.rawValue < rhs.rawValue
+  }
+
+}
+
+/// Snowflake conformance to Hashable
+extension Snowflake: Hashable {
+
+  /// The hash value of the Snowflake
+  public var hashValue: Int {
+    return self.rawValue.hashValue
+  }
+
+}
+
 // MARK: Snowflake Typealiases
 
 /// A Snowflake ID representing a Guild
@@ -103,112 +158,3 @@ public typealias IntegrationID = Snowflake
 
 /// A Snowflake ID representing an Attachment
 public typealias AttachmentID = Snowflake
-
-// MARK: Snowflake Conformances
-
-/// Snowflake conformance to ExpressibleByIntegerLiteral
-extension Snowflake : ExpressibleByIntegerLiteral {
-  
-  public typealias IntegerLiteralType = UInt64
-  
-  /// Initialize from an integer literal
-  public init(integerLiteral value: UInt64) {
-    self.rawValue = value
-  }
-}
-
-/// Snowflake conformance to CustomStringConvertible
-extension Snowflake : CustomStringConvertible {
-
-  /// Description for string Conversion
-  public var description: String {
-    return self.rawValue.description
-  }
-
-}
-
-/// Snowflake conformance to RawRepresentable
-extension Snowflake : RawRepresentable, Equatable {
-
-  public typealias RawValue = UInt64
-  
-  /// Init for rawValue conformance
-  public init(rawValue: UInt64) {
-    self.init(rawValue)
-  }
-  
-}
-
-/// Snowflake conformance to Comparable
-extension Snowflake: Comparable {
-
-  /// Used to compare Snowflakes (which is useful because a greater Snowflake was made later)
-  public static func <(lhs: Snowflake, rhs: Snowflake) -> Bool {
-    return lhs.rawValue < rhs.rawValue
-  }
-
-}
-
-/// Snowflake conformance to Hashable
-extension Snowflake: Hashable {
-
-  /// The hash value of the Snowflake
-  public var hashValue: Int {
-    return self.rawValue.hashValue
-  }
-
-}
-
-// MARK: Snowflake String Comparison
-
-/// :nodoc:
-/// Used to check whether a string equals a Snowflake
-public func ==(lhs: Snowflake, rhs: String) -> Bool {
-  return lhs == Snowflake(rhs)
-}
-
-/// :nodoc:
-/// Used to check whether a string equals a Snowflake
-public func ==(lhs: Snowflake?, rhs: String) -> Bool {
-  guard let lhs = lhs else { return false }
-  return lhs == Snowflake(rhs)
-}
-
-/// :nodoc:
-/// Used to check whether a string does not equals a Snowflake
-public func !=(lhs: Snowflake, rhs: String) -> Bool {
-  return lhs != Snowflake(rhs)
-}
-
-/// :nodoc:
-/// Used to check whether a string does not equals a Snowflake
-public func !=(lhs: Snowflake?, rhs: String) -> Bool {
-  guard let lhs = lhs else { return false }
-  return lhs != Snowflake(rhs)
-}
-
-/// :nodoc:
-/// Used to check whether a string equals a Snowflake
-public func ==(lhs: String, rhs: Snowflake) -> Bool {
-  return Snowflake(lhs) == rhs
-}
-
-/// :nodoc:
-/// Used to check whether a string equals a Snowflake
-public func ==(lhs: String, rhs: Snowflake?) -> Bool {
-  guard let rhs = rhs else { return false }
-  return Snowflake(lhs) == rhs
-}
-
-/// :nodoc:
-/// Used to check whether a string does not equals a Snowflake
-public func !=(lhs: String, rhs: Snowflake) -> Bool {
-  return Snowflake(lhs) != rhs
-}
-
-/// :nodoc:
-/// Used to check whether a string does not equals a Snowflake
-public func !=(lhs: String, rhs: Snowflake?) -> Bool {
-  guard let rhs = rhs else { return false }
-  return Snowflake(lhs) != rhs
-}

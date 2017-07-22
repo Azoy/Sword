@@ -451,7 +451,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.typingStart) { data in
-       let (channel, userID, timestamp) = data as! (Channel, UserID, Date)
+       let (channelID, userID, timestamp) = data as! (ChannelID, UserID, Date)
      }
      ```
     */
