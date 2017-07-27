@@ -37,7 +37,7 @@ public struct SwordOptions {
 public struct ShieldOptions {
 
   // MARK: Properties
-
+  
   /// Array of prefixes commands should start with
   public var prefixes = ["@bot"]
 
@@ -46,7 +46,10 @@ public struct ShieldOptions {
 
   /// Wether or not the bot will use case sensitive commands
   public var willBeCaseSensitive = true
-
+  
+  /// Whether or not to automatically create a help command
+  public var willDefaultHelp = true
+  
   /// Whether or not to ignore commands from bots
   public var willIgnoreBots = true
 

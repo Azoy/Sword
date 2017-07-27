@@ -30,8 +30,13 @@ open class Shield: Sword {
   */
   public init(token: String, with swordOptions: SwordOptions = SwordOptions(), and shieldOptions: ShieldOptions = ShieldOptions()) {
     self.shieldOptions = shieldOptions
+    
     super.init(token: token, with: swordOptions)
-
+    
+    if self.shieldOptions.willDefaultHelp {
+      self.registerHelp()
+    }
+    
     self.on(.ready) { [unowned self] data in
       let bot = data as! User
 
@@ -159,8 +164,8 @@ open class Shield: Sword {
    - parameter message: String to send on command
   */
   public func register(_ commandName: String, with options: CommandOptions = CommandOptions(), message: String) {
-    let function: (Message, [String]) -> () = { [unowned self] msg, args in
-      self.send(message, to: msg.channel.id)
+    let function: (Message, [String]) -> () = { msg, args in
+      msg.reply(with: message)
     }
 
     self.commands[commandName.lowercased()] = GenericCommand(function: function, name: commandName, options: options)
@@ -171,7 +176,30 @@ open class Shield: Sword {
       }
     }
   }
-
+  
+  /// Creates a default help command for the bot
+  func registerHelp() {
+    self.register("help") { [unowned self] msg, args in
+      var embed: [String: Any] = [
+        "title": "\(self.user!.username!)'s Help"
+      ]
+      
+      var fields = [[String: Any]]()
+      
+      for command in self.commands.values {
+        fields.append([
+          "name": "\(command.name)",
+          "value": "\(command.options.description)",
+          "inline": true
+        ])
+      }
+      
+      embed["fields"] = fields
+      
+      msg.channel.send(["embed": embed])
+    }
+  }
+  
   /**
    Unregisters a command
    
