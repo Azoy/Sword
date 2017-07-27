@@ -14,7 +14,7 @@ open class Shield: Sword {
   public var commandAliases = [String: String]()
 
   /// Object pointing command names to their Command Object
-  public var commands = [String: Command]()
+  public var commands = [String: Commandable]()
 
   /// Shield Options structure
   public var shieldOptions: ShieldOptions
@@ -64,7 +64,7 @@ open class Shield: Sword {
     }
 
     if !self.shieldOptions.requirements.permissions.isEmpty {
-      let permission = self.shieldOptions.requirements.permissions.map {
+      let permission = self.shieldOptions.requirements.permissions.lazy.map {
         $0.rawValue
       }.reduce(0, |)
 
@@ -115,18 +115,34 @@ open class Shield: Sword {
         guard let author = msg.author, command.options.requirements.users.contains(author.id) else { return }
       }
 
-      command.function(msg, arguments)
+      command.execute(msg, arguments)
     }
   }
-
+  
   /**
    Registers a command
+   
+   - parameter command: The structure that conforms to `Commandable`
+  */
+  public func register(_ command: Commandable) {
+    self.commands[command.name.lowercased()] = command
+    
+    if !command.options.aliases.isEmpty {
+      for alias in command.options.aliases {
+        self.commandAliases[alias.lowercased()] = command.name.lowercased()
+      }
+    }
+  }
+  
+  /**
+   Registers a command
+   
    - parameter commandName: Name to give command
    - parameter options: Options to give command
    - parameter function: Function to execute once command is sent
   */
   public func register(_ commandName: String, with options: CommandOptions = CommandOptions(), _ function: @escaping (Message, [String]) -> ()) {
-    self.commands[commandName.lowercased()] = Command(name: commandName, function: function, options: options)
+    self.commands[commandName.lowercased()] = GenericCommand(function: function, name: commandName, options: options)
 
     if !options.aliases.isEmpty {
       for alias in options.aliases {
@@ -137,6 +153,7 @@ open class Shield: Sword {
 
   /**
    Registers a command
+   
    - parameter commandName: Name to give command
    - parameter options: Options to give command
    - parameter message: String to send on command
@@ -146,7 +163,7 @@ open class Shield: Sword {
       self.send(message, to: msg.channel.id)
     }
 
-    self.commands[commandName.lowercased()] = Command(name: commandName, function: function, options: options)
+    self.commands[commandName.lowercased()] = GenericCommand(function: function, name: commandName, options: options)
 
     if !options.aliases.isEmpty {
       for alias in options.aliases {
@@ -157,6 +174,7 @@ open class Shield: Sword {
 
   /**
    Unregisters a command
+   
    - parameter commandName: Command to get rid of
   */
   public func unregister(_ commandName: String) {

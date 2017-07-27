@@ -64,7 +64,7 @@ class Bucket {
     }
 
     guard self.tokens > 0 else {
-      self.worker.asyncAfter(deadline: self.lastResetDispatch + .seconds(self.interval)) {
+      self.worker.asyncAfter(deadline: self.lastResetDispatch + .seconds(self.interval + 1)) {
         self.check()
       }
 

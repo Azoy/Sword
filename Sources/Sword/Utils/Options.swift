@@ -64,7 +64,10 @@ public struct CommandOptions {
 
   /// Array of command aliases
   public var aliases = [String]()
-
+  
+  /// Used to describe the action of the command
+  public var description = "No description"
+  
   /// Wether or not the command is case sensitive or not
   public var isCaseSensitive: Bool? = nil
 

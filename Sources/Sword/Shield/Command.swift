@@ -6,33 +6,35 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-/// Command structure
-public struct Command {
+/// Command Interface
+public protocol Commandable {
+  
+  /// The name of this command
+  var name: String { get set }
+  
+  /// Set of command options
+  var options: CommandOptions { get set }
+  
+  /// The actual function called when someone does a command
+  func execute(_ msg: Message, _ args: [String])
+  
+}
 
-  // MARK: Properties
-
-  /// Function to execute once command is called
-  public let function: (Message, [String]) -> ()
-
-  /// Name of the command
-  public let name: String
-
-  /// Options of the command
-  public let options: CommandOptions
-
-  // MARK: Initializer
-
-  /**
-   Creates command structure
-
-   - parameter name: Name of the command
-   - parameter function: Function to be called once command is called
-   - parameter options: Options to give the command
-  */
-  init(name: String, function: @escaping (Message, [String]) -> (), options: CommandOptions) {
-    self.function = function
-    self.name = name
-    self.options = options
+/// Used for dynamically added commands
+public struct GenericCommand: Commandable {
+  
+  /// Used as setting the action
+  public var function: (Message, [String]) -> ()
+  
+  /// The name of the command
+  public var name: String
+  
+  /// Set of command options
+  public var options: CommandOptions
+  
+  /// This is what is called on a successful command request
+  public func execute(_ msg: Message, _ args: [String]) {
+    self.function(msg, args)
   }
-
+  
 }
