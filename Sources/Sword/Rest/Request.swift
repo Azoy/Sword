@@ -51,7 +51,7 @@ extension Sword {
     
     var request = URLRequest(url: url)
 
-    request.httpMethod = endpointInfo.method.rawValue.uppercased()
+    request.httpMethod = endpointInfo.method.rawValue
 
     if authorization {
       if self.options.isBot {

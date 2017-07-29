@@ -31,8 +31,6 @@ class ShardManager {
       self.shards.append(shard)
       shard.start()
     }
-    
-    self.sword?.isConnected = true
   }
 
   /// Disconnects all shards from the gateway
@@ -42,8 +40,6 @@ class ShardManager {
     for shard in self.shards {
       shard.stop()
     }
-    
-    self.sword?.isConnected = false
     
     self.shards.removeAll()
   }
@@ -59,10 +55,6 @@ class ShardManager {
     let shard = self.shards.remove(at: index)
 
     shard.stop()
-    
-    if self.shards.isEmpty {
-      self.sword?.isConnected = false
-    }
   }
 
   /**
@@ -74,10 +66,6 @@ class ShardManager {
     guard self.sword != nil else { return }
     guard self.shards.first(where: { $0.id == id }) == nil else { return }
     guard self.gatewayUrl != nil else { return }
-    
-    if self.shards.isEmpty {
-      self.sword?.isConnected = true
-    }
     
     let shard = Shard(self.sword!, id, self.sword!.shardCount, self.gatewayUrl!)
     self.shards.append(shard)

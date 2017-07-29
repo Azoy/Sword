@@ -131,8 +131,8 @@ extension Endpoint {
       case let .getGuild(guild):
         return (.get, "/guilds/\(guild)")
       
-      case let .getGuildAuditLog(guild):
-        return (.get, "/guilds/\(guild)/audit-log")
+      case let .getGuildAuditLogs(guild):
+        return (.get, "/guilds/\(guild)/audit-logs")
       
       case let .getGuildBans(guild):
         return (.get, "/guilds/\(guild)/bans")

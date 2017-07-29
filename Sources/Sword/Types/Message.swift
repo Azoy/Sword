@@ -23,7 +23,7 @@ public struct Message {
   public let content: String
 
   /// Channel struct of the message
-  public let channel: Channel
+  public let channel: TextChannel
 
   /// If message was edited, this is the time it happened
   public let editedTimestamp: Date?
@@ -89,7 +89,7 @@ public struct Message {
 
     self.content = json["content"] as! String
 
-    self.channel = sword.getChannel(for: ChannelID(json["channel_id"] as! String)!)!
+    self.channel = sword.getChannel(for: ChannelID(json["channel_id"] as! String)!)! as! TextChannel
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date
@@ -170,7 +170,7 @@ public struct Message {
 
   /// Deletes all reactions from self
   public func deleteReactions(then completion: @escaping (RequestError?) -> () = {_ in}) {
-    guard let channel = self.channel as? GuildChannel else {
+    guard let channel = self.channel as? GuildText else {
       completion(nil)
       return
     }

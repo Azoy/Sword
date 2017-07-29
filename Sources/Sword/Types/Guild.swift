@@ -106,8 +106,16 @@ public class Guild {
       for channel in channels {
         var channelData = channel
         channelData["guild_id"] = json["id"] as! String
-        let channel = GuildChannel(sword, channelData)
-        self.channels[channel.id] = channel
+        
+        switch channelData["type"] as! Int {
+        case 0:
+          let channel = GuildText(sword, channelData)
+          self.channels[channel.id] = channel
+        case 2:
+          let channel = GuildVoice(sword, channelData)
+          self.channels[channel.id] = channel
+        default: break
+        }
       }
     }
 

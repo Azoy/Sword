@@ -84,7 +84,7 @@ enum Endpoint {
 
   case getGuild(GuildID)
   
-  case getGuildAuditLog(GuildID)
+  case getGuildAuditLogs(GuildID)
   
   case getGuildBans(GuildID)
 

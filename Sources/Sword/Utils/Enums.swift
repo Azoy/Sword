@@ -56,7 +56,11 @@ enum CloseOP: Int {
 
 /// Organize all the different http methods
 enum HTTPMethod: String {
-  case get, post, put, patch, delete
+  case get = "GET",
+       post = "POST",
+       put = "PUT",
+       patch = "PATCH",
+       delete = "DELETE"
 }
 
 /// Used to determine avatar url format

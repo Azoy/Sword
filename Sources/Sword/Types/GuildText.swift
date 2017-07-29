@@ -9,15 +9,12 @@
 import Foundation
 
 /// GuildChannel Type
-public struct GuildChannel: Channel {
+public struct GuildText: GuildChannel, TextChannel {
 
   // MARK: Properties
 
   /// Parent class
   public internal(set) weak var sword: Sword?
-
-  /// (Voice) bitrate (in bits) for channel
-  public let bitrate: Int?
 
   /// Guild object for this channel
   public internal(set) weak var guild: Guild?
@@ -28,10 +25,7 @@ public struct GuildChannel: Channel {
   /// Whether or not this channel is NSFW
   public let isNsfw: Bool
 
-  /// Whether or not this channel is DM or Guild
-  public let isPrivate: Bool?
-
-  /// (Text) Last message sent's ID
+  /// Last message sent's ID
   public let lastMessageId: MessageID?
 
   /// Last Pin's timestamp
@@ -41,37 +35,32 @@ public struct GuildChannel: Channel {
   public let name: String?
 
   /// Array of Overwrite strcuts for channel
-  public internal(set) var permissionOverwrites = [Snowflake: Overwrite]()
+  public internal(set) var permissionOverwrites = [OverwriteID: Overwrite]()
 
   /// Position of channel
   public let position: Int?
 
-  /// (Text) Topic of the channel
+  /// Topic of the channel
   public let topic: String?
 
   /// Indicates what type of channel this is (.guildText or .guildVoice)
   public let type: ChannelType
 
-  /// (Voice) User limit for voice channel
-  public let userLimit: Int?
-
   // MARK: Initializer
 
   /**
-   Creates a channel structure
+   Creates a GuildText structure
 
    - parameter sword: Parent class
    - parameter json: JSON represented as a dictionary
   */
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
-
-    self.bitrate = json["bitrate"] as? Int
+    
     self.id = ChannelID(json["id"] as! String)!
     
-    self.guild = sword.guilds[Snowflake(json["guild_id"] as! String)!]
+    self.guild = sword.guilds[GuildID(json["guild_id"] as! String)!]
     
-    self.isPrivate = json["is_private"] as? Bool
     self.lastMessageId = MessageID(json["last_message_id"] as? String)
 
     if let lastPinTimestamp = json["last_pin_timestamp"] as? String {
@@ -101,7 +90,6 @@ public struct GuildChannel: Channel {
     self.position = json["position"] as? Int
     self.topic = json["topic"] as? String
     self.type = ChannelType(rawValue: json["type"] as! Int)!
-    self.userLimit = json["user_limit"] as? Int
   }
 
   // MARK: Functions

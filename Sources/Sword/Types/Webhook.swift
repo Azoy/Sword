@@ -17,8 +17,8 @@ public struct Webhook {
   /// Avatar for the webhook in base64
   public let avatar: String?
 
-  /// The GuildChannel this webhook messages to
-  public let channel: GuildChannel
+  /// The `GuildText` this webhook messages to
+  public let channel: GuildText
 
   /// The Guild this webhook is located in
   public internal(set) weak var guild: Guild?
@@ -49,7 +49,7 @@ public struct Webhook {
     self.avatar = json["avatar"] as? String
 
     let channelId = ChannelID(json["channel_id"] as! String)!
-    self.channel = sword.guilds[sword.getGuild(for: channelId)!.id]!.channels[channelId]!
+    self.channel = sword.guilds[sword.getGuild(for: channelId)!.id]!.channels[channelId]! as! GuildText
     
     self.guild = sword.getGuild(for: channelId)!
 

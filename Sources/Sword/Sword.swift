@@ -15,10 +15,7 @@ open class Sword: Eventable {
   // MARK: Properties
 
   /// Collection of DMChannels mapped by user id
-  public internal(set) var dms = [UserID: DMChannel]()
-  
-  /// Whether or not Sword is connected to the gateway
-  var isConnected = false
+  public internal(set) var dms = [UserID: DM]()
   
   /// Whether or not the global queue is locked
   var isGloballyLocked = false
@@ -30,7 +27,7 @@ open class Sword: Eventable {
   var globalRequestQueue = [() -> ()]()
 
   /// Collection of group channels the bot is connected to
-  public internal(set) var groups = [ChannelID: GroupChannel]()
+  public internal(set) var groups = [ChannelID: GroupDM]()
 
   /// Colectionl of guilds the bot is currently connected to
   public internal(set) var guilds = [GuildID: Guild]()
@@ -186,11 +183,17 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        let channel = GuildChannel(self, data as! [String: Any])
-        completion(channel, error)
+        let data = data as! [String: Any]
         
-        if !self.isConnected {
-          self.guilds[guildId]?.channels[channel.id] = channel
+        switch data["type"] as! Int {
+        case 0:
+          completion(GuildText(self, data), error)
+          
+        case 2:
+          completion(GuildVoice(self, data), error)
+          
+        default:
+          completion(nil, error)
         }
       }
     }
@@ -206,12 +209,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        let guild = Guild(self, data as! [String: Any])
-        completion(guild, nil)
-        
-        if !self.isConnected {
-          self.guilds[guild.id] = guild
-        }
+        completion(Guild(self, data as! [String: Any]), nil)
       }
     }
   }
@@ -271,12 +269,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        let role = Role(data as! [String: Any])
-        completion(role, nil)
-        
-        if !self.isConnected {
-          self.guilds[guildId]?.roles[role.id] = role
-        }
+        completion(Role(data as! [String: Any]), nil)
       }
     }
   }
@@ -313,18 +306,21 @@ open class Sword: Eventable {
         completion(nil, error)
       }else {
         let channelData = data as! [String: Any]
-        if channelData["recipients"] == nil {
-          completion(GuildChannel(self, channelData), nil)
-        }else {
-          completion(DMChannel(self, channelData), nil)
-        }
         
-        if !self.isConnected {
-          if let guild = self.getGuild(for: channelId) {
-            guild.channels.removeValue(forKey: channelId)
-          }else if let dm = self.getDM(for: channelId) {
-            self.dms.removeValue(forKey: dm.recipient.id)
-          }
+        switch channelData["type"] as! Int {
+        case 0:
+          completion(GuildText(self, channelData), error)
+          
+        case 1:
+          completion(DM(self, channelData), error)
+          
+        case 2:
+          completion(GuildVoice(self, channelData), error)
+          
+        case 3:
+          completion(GroupDM(self, channelData), error)
+          
+        default: break
         }
       }
     }
@@ -340,12 +336,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        let guild = Guild(self, data as! [String: Any])
-        completion(guild, nil)
-        
-        if !self.isConnected {
-          self.guilds.removeValue(forKey: guild.id)
-        }
+        completion(Guild(self, data as! [String: Any]), nil)
       }
     }
   }
@@ -459,12 +450,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        let role = Role(data as! [String: Any])
-        completion(role, nil)
-        
-        if !self.isConnected {
-          self.guilds[guildId]?.roles.removeValue(forKey: roleId)
-        }
+        completion(Role(data as! [String: Any]), nil)
       }
     }
   }
@@ -519,17 +505,6 @@ open class Sword: Eventable {
     self.request(.editChannelPermissions(channelId, overwriteId), body: permissions) { data, error in
       completion(error)
     }
-  }
-
-  /**
-   Edits bot status
-
-   - parameter status: Status to set bot to. Either .online (default), .idle, .dnd, .invisible
-   - parameter game: Either a string with the game name or ["name": "with Swords!", "type": 0 || 1]
-  */
-  @available(*, deprecated: 0.7, message: "This method will be removed in 0.8.0 in favor of editStatus(String, Any?)")
-  public func editStatus(to status: Presence.Status, playing game: Any? = nil) {
-    self.editStatus(to: status.rawValue, playing: game)
   }
   
   /**
@@ -681,10 +656,21 @@ open class Sword: Eventable {
         completion(nil, error)
       }else {
         let channelData = data as! [String: Any]
-        if channelData["recipients"] == nil {
-          completion(GuildChannel(self, channelData), nil)
-        }else {
-          completion(DMChannel(self, channelData), nil)
+        
+        switch channelData["type"] as! Int {
+        case 0:
+          completion(GuildText(self, channelData), error)
+          
+        case 1:
+          completion(DM(self, channelData), error)
+          
+        case 2:
+          completion(GuildVoice(self, channelData), error)
+          
+        case 3:
+          completion(GroupDM(self, channelData), error)
+          
+        default: break
         }
       }
     }
@@ -724,7 +710,13 @@ open class Sword: Eventable {
         var returnChannels = [GuildChannel]()
         let channels = data as! [[String: Any]]
         for channel in channels {
-          returnChannels.append(GuildChannel(self, channel))
+          switch channel["type"] as! Int {
+          case 0:
+            returnChannels.append(GuildText(self, channel))
+          case 2:
+            returnChannels.append(GuildVoice(self, channel))
+          default: break
+          }
         }
         
         completion(returnChannels, nil)
@@ -744,7 +736,7 @@ open class Sword: Eventable {
 
    - parameter channelId: Channel to get dm from
   */
-  public func getDM(for channelId: ChannelID) -> DMChannel? {
+  public func getDM(for channelId: ChannelID) -> DM? {
     var dms = self.dms.filter {
       $0.1.id == channelId
     }
@@ -758,7 +750,7 @@ open class Sword: Eventable {
 
    - parameter userId: User to get DM for
   */
-  public func getDM(for userId: UserID, then completion: @escaping (DMChannel?, RequestError?) -> ()) {
+  public func getDM(for userId: UserID, then completion: @escaping (DM?, RequestError?) -> ()) {
     guard self.dms[userId] == nil else {
       completion(self.dms[userId], nil)
       return
@@ -768,7 +760,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        let dm = DMChannel(self, data as! [String: Any])
+        let dm = DM(self, data as! [String: Any])
         self.dms[userId] = dm
         completion(dm, nil)
       }
@@ -813,12 +805,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        let guild = Guild(self, data as! [String: Any])
-        completion(guild, nil)
-        
-        if !self.isConnected {
-          self.guilds[guild.id] = guild
-        }
+        completion(Guild(self, data as! [String: Any]), nil)
       }
     }
   }
@@ -1260,12 +1247,14 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        let channel = GuildChannel(self, data as! [String: Any])
-        completion(channel, nil)
+        let channelData = data as! [String: Any]
         
-        if !self.isConnected {
-          let guild = self.getGuild(for: channelId)!
-          self.guilds[guild.id]?.channels[channelId] = channel
+        switch channelData["type"] as! Int {
+        case 0:
+          completion(GuildText(self, channelData), error)
+        case 2:
+          completion(GuildVoice(self, channelData), error)
+        default: break
         }
       }
     }
@@ -1292,11 +1281,12 @@ open class Sword: Eventable {
         var returnChannels = [GuildChannel]()
         let channels = data as! [[String: Any]]
         for channel in channels {
-          let channel = GuildChannel(self, channel)
-          returnChannels.append(channel)
-          
-          if !self.isConnected {
-            self.guilds[guildId]?.channels[channel.id] = channel
+          switch channel["type"] as! Int {
+          case 0:
+            returnChannels.append(GuildText(self, channel))
+          case 2:
+            returnChannels.append(GuildVoice(self, channel))
+          default: break
           }
         }
 
@@ -1345,12 +1335,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        let guild = Guild(self, data as! [String: Any], self.getShard(for: guildId))
-        completion(guild, nil)
-        
-        if !self.isConnected {
-          self.guilds[guildId] = guild
-        }
+        completion(Guild(self, data as! [String: Any], self.getShard(for: guildId)), nil)
       }
     }
   }
@@ -1411,16 +1396,11 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to modify guild roles with
   */
   public func modifyRole(_ roleId: RoleID, for guildId: GuildID, with options: [String: Any], then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
-    self.request(.modifyGuildRole(guildId, roleId), body: options) { [unowned self] data, error in
+    self.request(.modifyGuildRole(guildId, roleId), body: options) { data, error in
       if let error = error {
         completion(nil, error)
       }else {
-        let role = Role(data as! [String: Any])
-        completion(role, nil)
-        
-        if !self.isConnected {
-          self.guilds[guildId]?.roles[roleId] = role
-        }
+        completion(Role(data as! [String: Any]), nil)
       }
     }
   }
@@ -1439,19 +1419,14 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to set role positions to
   */
   public func modifyRolePositions(for guildId: GuildID, with options: [[String: Any]], then completion: @escaping ([Role]?, RequestError?) -> () = {_ in}) {
-    self.request(.modifyGuildRolePositions(guildId), body: ["array": options]) { [unowned self] data, error in
+    self.request(.modifyGuildRolePositions(guildId), body: ["array": options]) { data, error in
       if let error = error {
         completion(nil, error)
       }else {
         var returnRoles: [Role] = []
         let roles = data as! [[String: Any]]
         for role in roles {
-          let role = Role(role)
-          returnRoles.append(role)
-          
-          if !self.isConnected {
-            self.guilds[guildId]?.roles[role.id] = role
-          }
+          returnRoles.append(Role(role))
         }
 
         completion(returnRoles, nil)
@@ -1481,7 +1456,7 @@ open class Sword: Eventable {
   }
 
   /**
-   Moves a member in a guild to another voice channel (if they are in one)
+   Moves a member in a voice channel to another voice channel (if they are in one)
 
    - parameter userId: User to move
    - parameter guildId: Guild that they're in currently
@@ -1598,12 +1573,7 @@ open class Sword: Eventable {
       if let error = error {
         completion(nil, error)
       }else {
-        let user = User(self, data as! [String: Any])
-        completion(user, nil)
-        
-        if !self.isConnected {
-          self.user = user
-        }
+        completion(User(self, data as! [String: Any]), nil)
       }
     }
   }

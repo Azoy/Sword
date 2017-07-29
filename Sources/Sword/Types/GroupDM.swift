@@ -1,13 +1,13 @@
 //
-//  DMChannel.swift
+//  GroupChannel.swift
 //  Sword
 //
 //  Created by Alejandro Alonso
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-/// DMChannel Type
-public struct DMChannel: Channel {
+/// GroupDM Type
+public struct GroupDM: TextChannel {
 
   // MARK: Properties
 
@@ -18,7 +18,7 @@ public struct DMChannel: Channel {
   public let id: ChannelID
 
   /// The recipient of this DM
-  public internal(set) var recipient: User
+  public internal(set) var recipients = [User]()
 
   /// The last message's ID
   public let lastMessageId: MessageID?
@@ -29,7 +29,7 @@ public struct DMChannel: Channel {
   // MARK: Initializer
 
   /**
-   Creates a DMChannel struct
+   Creates a GroupChannel struct
 
    - parameter sword: Parent class
    - parameter json: JSON representable as a dictionary
@@ -37,14 +37,16 @@ public struct DMChannel: Channel {
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 
-    self.id = ChannelID(json["id"] as! String)!
+    self.id = ChannelID(json["id"] as? String)!
 
     let recipients = json["recipients"] as! [[String: Any]]
-    self.recipient = User(sword, recipients[0])
+    for recipient in recipients {
+      self.recipients.append(User(sword, recipient))
+    }
 
     self.lastMessageId = MessageID(json["last_message_id"] as? String)
     
-    self.type = .dm
+    self.type = .groupDM
   }
 
 }
