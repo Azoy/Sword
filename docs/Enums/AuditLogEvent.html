@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Permission Enum Reference</title>
+    <title>AuditLogEvent Enum Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/Permission" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Enum/AuditLogEvent" class="dashAnchor"></a>
 
-    <a title="Permission Enum Reference"></a>
+    <a title="AuditLogEvent Enum Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Permission Enum Reference
+      AuditLogEvent Enum Reference
     </p>
 
     <div class="content-wrapper">
@@ -252,14 +252,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Permission</h1>
+            <h1>AuditLogEvent</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Permission</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">AuditLogEvent</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                 </div>
               </div>
-            <p>Permission enum to prevent wrong permission checks</p>
+            <p>Type of action that occurs for an entry</p>
 
           </div>
         </section>
@@ -271,9 +271,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO19createInstantInviteA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/createInstantInvite" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO19createInstantInviteA2CmF">createInstantInvite</a>
+                    <a name="/s:5Sword13AuditLogEventO11guildUpdateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/guildUpdate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO11guildUpdateA2CmF">guildUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -281,14 +281,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows creation of instant invites</p>
+                        <p>A guild is updated</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">createInstantInvite</span> <span class="o">=</span> <span class="mh">0x1</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">guildUpdate</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
 
                         </div>
                       </div>
@@ -302,9 +302,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO11kickMembersA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/kickMembers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO11kickMembersA2CmF">kickMembers</a>
+                    <a name="/s:5Sword13AuditLogEventO13channelCreateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/channelCreate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO13channelCreateA2CmF">channelCreate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -312,14 +312,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows kicking members</p>
+                        <p>A channel is created in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">kickMembers</span> <span class="o">=</span> <span class="mh">0x2</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">channelCreate</span> <span class="o">=</span> <span class="mi">10</span></code></pre>
 
                         </div>
                       </div>
@@ -333,9 +333,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO10banMembersA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/banMembers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO10banMembersA2CmF">banMembers</a>
+                    <a name="/s:5Sword13AuditLogEventO13channelUpdateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/channelUpdate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO13channelUpdateA2CmF">channelUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -343,14 +343,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows banning members</p>
+                        <p>A channel is updated in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">banMembers</span> <span class="o">=</span> <span class="mh">0x4</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">channelUpdate</span></code></pre>
 
                         </div>
                       </div>
@@ -364,9 +364,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO13administratorA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/administrator" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO13administratorA2CmF">administrator</a>
+                    <a name="/s:5Sword13AuditLogEventO13channelDeleteA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/channelDelete" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO13channelDeleteA2CmF">channelDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -374,14 +374,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows all permissions and bypasses channel permission overwrites</p>
+                        <p>A channel is deleted in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">administrator</span> <span class="o">=</span> <span class="mh">0x8</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">channelDelete</span></code></pre>
 
                         </div>
                       </div>
@@ -395,9 +395,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO14manageChannelsA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/manageChannels" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO14manageChannelsA2CmF">manageChannels</a>
+                    <a name="/s:5Sword13AuditLogEventO22channelOverwriteCreateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/channelOverwriteCreate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO22channelOverwriteCreateA2CmF">channelOverwriteCreate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -405,14 +405,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows management and editing of channels</p>
+                        <p>A channel creates a new overwrite</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageChannels</span> <span class="o">=</span> <span class="mh">0x10</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">channelOverwriteCreate</span></code></pre>
 
                         </div>
                       </div>
@@ -426,9 +426,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO11manageGuildA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/manageGuild" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO11manageGuildA2CmF">manageGuild</a>
+                    <a name="/s:5Sword13AuditLogEventO22channelOverwriteUpdateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/channelOverwriteUpdate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO22channelOverwriteUpdateA2CmF">channelOverwriteUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -436,14 +436,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows management and editing of the guild</p>
+                        <p>A channel&rsquo;s overwrite is updated</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageGuild</span> <span class="o">=</span> <span class="mh">0x20</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">channelOverwriteUpdate</span></code></pre>
 
                         </div>
                       </div>
@@ -457,9 +457,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO12addReactionsA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/addReactions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO12addReactionsA2CmF">addReactions</a>
+                    <a name="/s:5Sword13AuditLogEventO22channelOverwriteDeleteA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/channelOverwriteDelete" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO22channelOverwriteDeleteA2CmF">channelOverwriteDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -467,14 +467,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for the addition of reactions to messages</p>
+                        <p>A chanenl&rsquo;s overwrite is deleted</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">addReactions</span> <span class="o">=</span> <span class="mh">0x40</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">channelOverwriteDelete</span></code></pre>
 
                         </div>
                       </div>
@@ -488,9 +488,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO12viewAuditLogA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/viewAuditLog" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO12viewAuditLogA2CmF">viewAuditLog</a>
+                    <a name="/s:5Sword13AuditLogEventO10memberKickA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/memberKick" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO10memberKickA2CmF">memberKick</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -498,14 +498,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for the user to view a server&rsquo;s audit log</p>
+                        <p>A member is kicked from a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">viewAuditLog</span> <span class="o">=</span> <span class="mh">0x80</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">memberKick</span> <span class="o">=</span> <span class="mi">20</span></code></pre>
 
                         </div>
                       </div>
@@ -519,9 +519,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO12readMessagesA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/readMessages" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO12readMessagesA2CmF">readMessages</a>
+                    <a name="/s:5Sword13AuditLogEventO11memberPruneA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/memberPrune" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO11memberPruneA2CmF">memberPrune</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -529,14 +529,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows reading messages in a channel. The channel will not appear for users without this permission</p>
+                        <p>Someone decides to prune inactive members</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">readMessages</span> <span class="o">=</span> <span class="mh">0x400</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">memberPrune</span></code></pre>
 
                         </div>
                       </div>
@@ -550,9 +550,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO12sendMessagesA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/sendMessages" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO12sendMessagesA2CmF">sendMessages</a>
+                    <a name="/s:5Sword13AuditLogEventO12memberBanAddA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/memberBanAdd" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO12memberBanAddA2CmF">memberBanAdd</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -560,14 +560,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for sending messages in a channel.</p>
+                        <p>A member of a guild was banned</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">sendMessages</span> <span class="o">=</span> <span class="mh">0x800</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">memberBanAdd</span></code></pre>
 
                         </div>
                       </div>
@@ -581,9 +581,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO15sendTTSMessagesA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/sendTTSMessages" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO15sendTTSMessagesA2CmF">sendTTSMessages</a>
+                    <a name="/s:5Sword13AuditLogEventO15memberBanRemoveA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/memberBanRemove" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO15memberBanRemoveA2CmF">memberBanRemove</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -591,14 +591,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for sending of /tts messages</p>
+                        <p>A member of a guild was unbanned</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">sendTTSMessages</span> <span class="o">=</span> <span class="mh">0x1000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">memberBanRemove</span></code></pre>
 
                         </div>
                       </div>
@@ -612,9 +612,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO14manageMessagesA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/manageMessages" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO14manageMessagesA2CmF">manageMessages</a>
+                    <a name="/s:5Sword13AuditLogEventO12memberUpdateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/memberUpdate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO12memberUpdateA2CmF">memberUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -622,14 +622,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for deletion of other users messages</p>
+                        <p>A member of a guild was updated</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageMessages</span> <span class="o">=</span> <span class="mh">0x2000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">memberUpdate</span></code></pre>
 
                         </div>
                       </div>
@@ -643,9 +643,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO10embedLinksA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/embedLinks" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO10embedLinksA2CmF">embedLinks</a>
+                    <a name="/s:5Sword13AuditLogEventO16memberRoleUpdateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/memberRoleUpdate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO16memberRoleUpdateA2CmF">memberRoleUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -653,14 +653,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Links sent by this user will be auto-embedded</p>
+                        <p>A member&rsquo;s role was updated</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">embedLinks</span> <span class="o">=</span> <span class="mh">0x4000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">memberRoleUpdate</span></code></pre>
 
                         </div>
                       </div>
@@ -674,9 +674,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO11attachFilesA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/attachFiles" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO11attachFilesA2CmF">attachFiles</a>
+                    <a name="/s:5Sword13AuditLogEventO10roleCreateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/roleCreate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO10roleCreateA2CmF">roleCreate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -684,14 +684,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for uploading images and files</p>
+                        <p>A role was created in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">attachFiles</span> <span class="o">=</span> <span class="mh">0x8000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">roleCreate</span> <span class="o">=</span> <span class="mi">30</span></code></pre>
 
                         </div>
                       </div>
@@ -705,9 +705,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO18readMessageHistoryA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/readMessageHistory" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO18readMessageHistoryA2CmF">readMessageHistory</a>
+                    <a name="/s:5Sword13AuditLogEventO10roleUpdateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/roleUpdate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO10roleUpdateA2CmF">roleUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -715,14 +715,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for reading of message history</p>
+                        <p>A role was updated in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">readMessageHistory</span> <span class="o">=</span> <span class="mh">0x10000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">roleUpdate</span></code></pre>
 
                         </div>
                       </div>
@@ -736,9 +736,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO15mentionEveryoneA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/mentionEveryone" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO15mentionEveryoneA2CmF">mentionEveryone</a>
+                    <a name="/s:5Sword13AuditLogEventO10roleDeleteA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/roleDelete" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO10roleDeleteA2CmF">roleDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -746,14 +746,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for using the @everyone tag to notify all users in a channel, and the @here tag to notify all online users in a channel</p>
+                        <p>A role was deleted in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">mentionEveryone</span> <span class="o">=</span> <span class="mh">0x20000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">roleDelete</span></code></pre>
 
                         </div>
                       </div>
@@ -767,9 +767,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO17useExternalEmojisA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/useExternalEmojis" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO17useExternalEmojisA2CmF">useExternalEmojis</a>
+                    <a name="/s:5Sword13AuditLogEventO12inviteCreateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/inviteCreate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO12inviteCreateA2CmF">inviteCreate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -777,14 +777,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows the usage of custom emojis from other servers</p>
+                        <p>An invite was created in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">useExternalEmojis</span> <span class="o">=</span> <span class="mh">0x40000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">inviteCreate</span> <span class="o">=</span> <span class="mi">40</span></code></pre>
 
                         </div>
                       </div>
@@ -798,9 +798,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO7connectA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/connect" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO7connectA2CmF">connect</a>
+                    <a name="/s:5Sword13AuditLogEventO12inviteUpdateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/inviteUpdate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO12inviteUpdateA2CmF">inviteUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -808,14 +808,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for joining of a voice channel</p>
+                        <p>An invite was updated in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">connect</span> <span class="o">=</span> <span class="mh">0x100000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">inviteUpdate</span></code></pre>
 
                         </div>
                       </div>
@@ -829,9 +829,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO5speakA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/speak" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO5speakA2CmF">speak</a>
+                    <a name="/s:5Sword13AuditLogEventO12inviteDeleteA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/inviteDelete" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO12inviteDeleteA2CmF">inviteDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -839,14 +839,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for speaking in a voice channel</p>
+                        <p>An invite was deleted in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">speak</span> <span class="o">=</span> <span class="mh">0x200000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">inviteDelete</span></code></pre>
 
                         </div>
                       </div>
@@ -860,9 +860,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO11muteMembersA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/muteMembers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO11muteMembersA2CmF">muteMembers</a>
+                    <a name="/s:5Sword13AuditLogEventO13webhookCreateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/webhookCreate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO13webhookCreateA2CmF">webhookCreate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -870,14 +870,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for muting members in a voice channel</p>
+                        <p>A webhook was created for a channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">muteMembers</span> <span class="o">=</span> <span class="mh">0x400000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">webhookCreate</span> <span class="o">=</span> <span class="mi">50</span></code></pre>
 
                         </div>
                       </div>
@@ -891,9 +891,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO13deafenMembersA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/deafenMembers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO13deafenMembersA2CmF">deafenMembers</a>
+                    <a name="/s:5Sword13AuditLogEventO13webhookUpdateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/webhookUpdate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO13webhookUpdateA2CmF">webhookUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -901,14 +901,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for deafening of members in a voice channel</p>
+                        <p>A webhook was updated for a channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">deafenMembers</span> <span class="o">=</span> <span class="mh">0x800000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">webhookUpdate</span></code></pre>
 
                         </div>
                       </div>
@@ -922,9 +922,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO11moveMembersA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/moveMembers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO11moveMembersA2CmF">moveMembers</a>
+                    <a name="/s:5Sword13AuditLogEventO13webhookDeleteA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/webhookDelete" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO13webhookDeleteA2CmF">webhookDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -932,14 +932,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>llows for moving of members between voice channels</p>
+                        <p>A webhook was deleted for a channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">moveMembers</span> <span class="o">=</span> <span class="mh">0x1000000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">webhookDelete</span></code></pre>
 
                         </div>
                       </div>
@@ -953,9 +953,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO6useVadA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/useVad" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO6useVadA2CmF">useVad</a>
+                    <a name="/s:5Sword13AuditLogEventO11emojiCreateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/emojiCreate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO11emojiCreateA2CmF">emojiCreate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -963,14 +963,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for using voice-activity-detection in a voice channel</p>
+                        <p>A custom emoji was created in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">useVad</span> <span class="o">=</span> <span class="mh">0x2000000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">emojiCreate</span> <span class="o">=</span> <span class="mi">60</span></code></pre>
 
                         </div>
                       </div>
@@ -984,9 +984,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO14changeNicknameA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/changeNickname" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO14changeNicknameA2CmF">changeNickname</a>
+                    <a name="/s:5Sword13AuditLogEventO11emojiUpdateA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/emojiUpdate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO11emojiUpdateA2CmF">emojiUpdate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -994,14 +994,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for modification of own nickname</p>
+                        <p>A custom emoji was updated in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">changeNickname</span> <span class="o">=</span> <span class="mh">0x4000000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">emojiUpdate</span></code></pre>
 
                         </div>
                       </div>
@@ -1015,9 +1015,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO15manageNicknamesA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/manageNicknames" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO15manageNicknamesA2CmF">manageNicknames</a>
+                    <a name="/s:5Sword13AuditLogEventO11emojiDeleteA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/emojiDelete" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO11emojiDeleteA2CmF">emojiDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1025,14 +1025,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows for modification of other users nicknames</p>
+                        <p>A custom emoji was deleted in a guild</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageNicknames</span> <span class="o">=</span> <span class="mh">0x8000000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">emojiDelete</span></code></pre>
 
                         </div>
                       </div>
@@ -1046,9 +1046,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword10PermissionO11manageRolesA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/manageRoles" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO11manageRolesA2CmF">manageRoles</a>
+                    <a name="/s:5Sword13AuditLogEventO13messageDeleteA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/messageDelete" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEventO13messageDeleteA2CmF">messageDelete</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1056,76 +1056,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows management and editing of roles</p>
+                        <p>A message was deleted in a channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageRoles</span> <span class="o">=</span> <span class="mh">0x10000000</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5Sword10PermissionO14manageWebhooksA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/manageWebhooks" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO14manageWebhooksA2CmF">manageWebhooks</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Allows management and editing of webhooks</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageWebhooks</span> <span class="o">=</span> <span class="mh">0x20000000</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5Sword10PermissionO12manageEmojisA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/manageEmojis" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword10PermissionO12manageEmojisA2CmF">manageEmojis</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Allows management and editing of emojis</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">manageEmojis</span> <span class="o">=</span> <span class="mh">0x40000000</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">messageDelete</span> <span class="o">=</span> <span class="mi">72</span></code></pre>
 
                         </div>
                       </div>

@@ -274,7 +274,23 @@ public class Guild {
   public func delete(then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
     self.sword?.deleteGuild(self.id, then: completion)
   }
-
+  
+  /**
+   Get's this guild's audit logs
+   
+   #### Options Params ####
+   
+   - **user_id**: String of user to look for logs of
+   - **action_type**: Integer of Audit Log Event. Refer to [Audit Log Events](https://discordapp.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events)
+   - **before**: String of entry id to look before
+   - **limit**: Integer of how many entries to return (default 50, minimum 1, maximum 100)
+   
+   - parameter options: Optional flags to request for when getting audit logs
+  */
+  public func getAuditLog(with options: [String: Any]? = nil, then completion: @escaping (AuditLog?, RequestError?) -> ()) {
+    self.sword?.getAuditLog(from: self.id, with: options, then: completion)
+  }
+  
   /// Gets guild's bans
   public func getBans(then completion: @escaping ([User]?, RequestError?) -> ()) {
     self.sword?.getBans(from: self.id, then: completion)

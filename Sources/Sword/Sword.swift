@@ -601,7 +601,30 @@ open class Sword: Eventable {
     }
 
   }
-
+  
+  /**
+   Get's a guild's audit logs
+   
+   #### Options Params ####
+   
+   - **user_id**: String of user to look for logs of
+   - **action_type**: Integer of Audit Log Event. Refer to [Audit Log Events](https://discordapp.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events)
+   - **before**: String of entry id to look before
+   - **limit**: Integer of how many entries to return (default 50, minimum 1, maximum 100)
+   
+   - parameter guildId: Guild to get audit logs from
+   - parameter options: Optional flags to request for when getting audit logs
+  */
+  public func getAuditLog(from guildId: GuildID, with options: [String: Any]? = nil, then completion: @escaping (AuditLog?, RequestError?) -> ()) {
+    self.request(.getGuildAuditLogs(guildId), params: options) { data, error in
+      if let error = error {
+        completion(nil, error)
+      }else {
+        completion(AuditLog(self, data as! [String: [Any]]), error)
+      }
+    }
+  }
+  
   /**
    Gets a guild's bans
 

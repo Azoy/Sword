@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>RequestError Struct Reference</title>
+    <title>ChannelType Enum Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/RequestError" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Enum/ChannelType" class="dashAnchor"></a>
 
-    <a title="RequestError Struct Reference"></a>
+    <a title="ChannelType Enum Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      RequestError Struct Reference
+      ChannelType Enum Reference
     </p>
 
     <div class="content-wrapper">
@@ -252,14 +252,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>RequestError</h1>
+            <h1>ChannelType</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RequestError</span><span class="p">:</span> <span class="kt">Error</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">ChannelType</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                 </div>
               </div>
-            <p>Custom Error type for quick details on why a request failed</p>
+            <p>Used to indicate the type of channel</p>
 
           </div>
         </section>
@@ -267,20 +267,13 @@
         <section class="section">
           <div class="section-content">
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Properties"></a>
-                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
-                <a href="#/Properties">
-                  <h3 class="section-name">Properties</h3>
-                </a>
-              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword12RequestErrorV4codeSiv"></a>
-                    <a name="//apple_ref/swift/Property/code" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword12RequestErrorV4codeSiv">code</a>
+                    <a name="/s:5Sword11ChannelTypeO9guildTextA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/guildText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword11ChannelTypeO9guildTextA2CmF">guildText</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -288,26 +281,30 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Discord custom error code</p>
+                        <p>This is a regular Guild Text Channel (<code><a href="../Protocols/GuildChannel.html">GuildChannel</a></code>)</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">code</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">guildText</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword12RequestErrorV5errors10DictionaryVyS2SGv"></a>
-                    <a name="//apple_ref/swift/Property/error" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword12RequestErrorV5errors10DictionaryVyS2SGv">error</a>
+                    <a name="/s:5Sword11ChannelTypeO2dmA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/dm" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword11ChannelTypeO2dmA2CmF">dm</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -315,26 +312,30 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>More detailed message error in form of dictionary</p>
+                        <p>This is a 1 on 1 DM with a user (<code>DMChannel</code>)</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">error</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">dm</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword12RequestErrorV7messageSSv"></a>
-                    <a name="//apple_ref/swift/Property/message" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword12RequestErrorV7messageSSv">message</a>
+                    <a name="/s:5Sword11ChannelTypeO10guildVoiceA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/guildVoice" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword11ChannelTypeO10guildVoiceA2CmF">guildVoice</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -342,26 +343,30 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Basic jist of why a request failed</p>
+                        <p>This is the famous Guild Voice Channel (<code><a href="../Protocols/GuildChannel.html">GuildChannel</a></code>)</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">guildVoice</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword12RequestErrorV10statusCodeSiv"></a>
-                    <a name="//apple_ref/swift/Property/statusCode" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword12RequestErrorV10statusCodeSiv">statusCode</a>
+                    <a name="/s:5Sword11ChannelTypeO7groupDMA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/groupDM" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword11ChannelTypeO7groupDMA2CmF">groupDM</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -369,14 +374,45 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>HTTP status code on request</p>
+                        <p>This is a Group DM Channel (<code>GroupChannel</code>)</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">statusCode</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">groupDM</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword11ChannelTypeO13guildCategoryA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/guildCategory" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword11ChannelTypeO13guildCategoryA2CmF">guildCategory</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is an unreleased Guild Category Channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">guildCategory</span></code></pre>
 
                         </div>
                       </div>

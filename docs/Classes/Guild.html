@@ -80,6 +80,12 @@
             <a class="nav-group-name-link" href="../Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/AuditLogEvent.html">AuditLogEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ChannelType.html">ChannelType</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
               </li>
               <li class="nav-group-task">
@@ -97,7 +103,16 @@
                 <a class="nav-group-task-link" href="../Protocols/Channel.html">Channel</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Commandable.html">Commandable</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/Eventable.html">Eventable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/GuildChannel.html">GuildChannel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/TextChannel.html">TextChannel</a>
               </li>
             </ul>
           </li>
@@ -108,7 +123,13 @@
                 <a class="nav-group-task-link" href="../Structs/Attachment.html">Attachment</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/Command.html">Command</a>
+                <a class="nav-group-task-link" href="../Structs/AuditLog.html">AuditLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AuditLogChange.html">AuditLogChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AuditLogEntry.html">AuditLogEntry</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/CommandOptions.html">CommandOptions</a>
@@ -117,7 +138,7 @@
                 <a class="nav-group-task-link" href="../Structs/CommandRequirements.html">CommandRequirements</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/DMChannel.html">DMChannel</a>
+                <a class="nav-group-task-link" href="../Structs/DM.html">DM</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Embed.html">Embed</a>
@@ -126,10 +147,16 @@
                 <a class="nav-group-task-link" href="../Structs/Emoji.html">Emoji</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/GroupChannel.html">GroupChannel</a>
+                <a class="nav-group-task-link" href="../Structs/GenericCommand.html">GenericCommand</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/GuildChannel.html">GuildChannel</a>
+                <a class="nav-group-task-link" href="../Structs/GroupDM.html">GroupDM</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/GuildText.html">GuildText</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/GuildVoice.html">GuildVoice</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Member.html">Member</a>
@@ -332,9 +359,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword5GuildC8channelss10DictionaryVyAA9SnowflakeVAA0B7ChannelVGv"></a>
+                    <a name="/s:5Sword5GuildC8channelss10DictionaryVyAA9SnowflakeVAA0B7Channel_pGv"></a>
                     <a name="//apple_ref/swift/Property/channels" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword5GuildC8channelss10DictionaryVyAA9SnowflakeVAA0B7ChannelVGv">channels</a>
+                    <a class="token" href="#/s:5Sword5GuildC8channelss10DictionaryVyAA9SnowflakeVAA0B7Channel_pGv">channels</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -349,7 +376,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">channels</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Typealiases.html#/s:5Sword9ChannelIDa">ChannelID</a></span><span class="p">:</span> <span class="kt"><a href="../Structs/GuildChannel.html">GuildChannel</a></span><span class="p">]()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">channels</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Typealiases.html#/s:5Sword9ChannelIDa">ChannelID</a></span><span class="p">:</span> <span class="kt"><a href="../Protocols/GuildChannel.html">GuildChannel</a></span><span class="p">]()</span></code></pre>
 
                         </div>
                       </div>
@@ -942,9 +969,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword5GuildC13createChannelys10DictionaryVySSypG4with_yAA0bD0VSg_AA12RequestErrorVSgtc4thentF"></a>
+                    <a name="/s:5Sword5GuildC13createChannelys10DictionaryVySSypG4with_yAA0bD0_pSg_AA12RequestErrorVSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/createChannel(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword5GuildC13createChannelys10DictionaryVySSypG4with_yAA0bD0VSg_AA12RequestErrorVSgtc4thentF">createChannel(with:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC13createChannelys10DictionaryVySSypG4with_yAA0bD0_pSg_AA12RequestErrorVSgtc4thentF">createChannel(with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -968,7 +995,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createChannel</span><span class="p">(</span><span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Structs/GuildChannel.html">GuildChannel</a></span><span class="p">?,</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createChannel</span><span class="p">(</span><span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Protocols/GuildChannel.html">GuildChannel</a></span><span class="p">?,</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -1119,6 +1146,41 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Guild</span><span class="p">?,</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword5GuildC11getAuditLogys10DictionaryVySSypGSg4with_yAA0dE0VSg_AA12RequestErrorVSgtc4thentF"></a>
+                    <a name="//apple_ref/swift/Method/getAuditLog(with:then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword5GuildC11getAuditLogys10DictionaryVySSypGSg4with_yAA0dE0VSg_AA12RequestErrorVSgtc4thentF">getAuditLog(with:then:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get&rsquo;s this guild&rsquo;s audit logs</p>
+<h4 id='options-params' class='heading'>Options Params</h4>
+
+<ul>
+<li><strong>user_id</strong>: String of user to look for logs of</li>
+<li><strong>action_type</strong>: Integer of Audit Log Event. Refer to <a href="https://discordapp.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events">Audit Log Events</a></li>
+<li><strong>before</strong>: String of entry id to look before</li>
+<li><p><strong>limit</strong>: Integer of how many entries to return (default 50, minimum 1, maximum 100)</p></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getAuditLog</span><span class="p">(</span><span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Structs/AuditLog.html">AuditLog</a></span><span class="p">?,</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">())</span></code></pre>
 
                         </div>
                       </div>
@@ -1444,9 +1506,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword5GuildC22modifyChannelPositionsySays10DictionaryVySSypGG4with_ySayAA0bD0VGSg_AA12RequestErrorVSgtc4thentF"></a>
+                    <a name="/s:5Sword5GuildC22modifyChannelPositionsySays10DictionaryVySSypGG4with_ySayAA0bD0_pGSg_AA12RequestErrorVSgtc4thentF"></a>
                     <a name="//apple_ref/swift/Method/modifyChannelPositions(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword5GuildC22modifyChannelPositionsySays10DictionaryVySSypGG4with_ySayAA0bD0VGSg_AA12RequestErrorVSgtc4thentF">modifyChannelPositions(with:then:)</a>
+                    <a class="token" href="#/s:5Sword5GuildC22modifyChannelPositionsySays10DictionaryVySSypGG4with_ySayAA0bD0_pGSg_AA12RequestErrorVSgtc4thentF">modifyChannelPositions(with:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1469,7 +1531,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modifyChannelPositions</span><span class="p">(</span><span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt"><a href="../Structs/GuildChannel.html">GuildChannel</a></span><span class="p">]?,</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modifyChannelPositions</span><span class="p">(</span><span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt"><a href="../Protocols/GuildChannel.html">GuildChannel</a></span><span class="p">]?,</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -1854,7 +1916,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-07-06)</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-07-30)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

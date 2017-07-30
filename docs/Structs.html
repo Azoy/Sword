@@ -79,6 +79,12 @@
             <a class="nav-group-name-link" href="Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/AuditLogEvent.html">AuditLogEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/ChannelType.html">ChannelType</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Enums/Event.html">Event</a>
               </li>
               <li class="nav-group-task">
@@ -96,7 +102,16 @@
                 <a class="nav-group-task-link" href="Protocols/Channel.html">Channel</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/Commandable.html">Commandable</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/Eventable.html">Eventable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/GuildChannel.html">GuildChannel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/TextChannel.html">TextChannel</a>
               </li>
             </ul>
           </li>
@@ -107,7 +122,13 @@
                 <a class="nav-group-task-link" href="Structs/Attachment.html">Attachment</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/Command.html">Command</a>
+                <a class="nav-group-task-link" href="Structs/AuditLog.html">AuditLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AuditLogChange.html">AuditLogChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AuditLogEntry.html">AuditLogEntry</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/CommandOptions.html">CommandOptions</a>
@@ -116,7 +137,7 @@
                 <a class="nav-group-task-link" href="Structs/CommandRequirements.html">CommandRequirements</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/DMChannel.html">DMChannel</a>
+                <a class="nav-group-task-link" href="Structs/DM.html">DM</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/Embed.html">Embed</a>
@@ -125,10 +146,16 @@
                 <a class="nav-group-task-link" href="Structs/Emoji.html">Emoji</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/GroupChannel.html">GroupChannel</a>
+                <a class="nav-group-task-link" href="Structs/GenericCommand.html">GenericCommand</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/GuildChannel.html">GuildChannel</a>
+                <a class="nav-group-task-link" href="Structs/GroupDM.html">GroupDM</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/GuildText.html">GuildText</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/GuildVoice.html">GuildVoice</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/Member.html">Member</a>
@@ -237,9 +264,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword7CommandV"></a>
-                    <a name="//apple_ref/swift/Struct/Command" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7CommandV">Command</a>
+                    <a name="/s:5Sword14GenericCommandV"></a>
+                    <a name="//apple_ref/swift/Struct/GenericCommand" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword14GenericCommandV">GenericCommand</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -247,15 +274,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Command structure</p>
+                        <p>Used for dynamically added commands</p>
 
-                        <a href="Structs/Command.html" class="slightly-smaller">See more</a>
+                        <a href="Structs/GenericCommand.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Command</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GenericCommand</span><span class="p">:</span> <span class="kt"><a href="Protocols/Commandable.html">Commandable</a></span></code></pre>
 
                         </div>
                       </div>
@@ -288,6 +315,38 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Role</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword2DMV"></a>
+                    <a name="//apple_ref/swift/Struct/DM" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword2DMV">DM</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>DM Type</p>
+
+                        <a href="Structs/DM.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">DM</span><span class="p">:</span> <span class="kt"><a href="Protocols/TextChannel.html">TextChannel</a></span></code></pre>
 
                         </div>
                       </div>
@@ -513,9 +572,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword12GuildChannelV"></a>
-                    <a name="//apple_ref/swift/Struct/GuildChannel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword12GuildChannelV">GuildChannel</a>
+                    <a name="/s:5Sword9GuildTextV"></a>
+                    <a name="//apple_ref/swift/Struct/GuildText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword9GuildTextV">GuildText</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -525,13 +584,13 @@
                       <div class="abstract">
                         <p>GuildChannel Type</p>
 
-                        <a href="Structs/GuildChannel.html" class="slightly-smaller">See more</a>
+                        <a href="Structs/GuildText.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GuildChannel</span><span class="p">:</span> <span class="kt"><a href="Protocols/Channel.html">Channel</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GuildText</span><span class="p">:</span> <span class="kt"><a href="Protocols/GuildChannel.html">GuildChannel</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/TextChannel.html">TextChannel</a></span></code></pre>
 
                         </div>
                       </div>
@@ -605,38 +664,6 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword9DMChannelV"></a>
-                    <a name="//apple_ref/swift/Struct/DMChannel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword9DMChannelV">DMChannel</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>DMChannel Type</p>
-
-                        <a href="Structs/DMChannel.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">DMChannel</span><span class="p">:</span> <span class="kt"><a href="Protocols/Channel.html">Channel</a></span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
                     <a name="/s:5Sword6MemberV"></a>
                     <a name="//apple_ref/swift/Struct/Member" class="dashAnchor"></a>
                     <a class="token" href="#/s:5Sword6MemberV">Member</a>
@@ -697,9 +724,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword12GroupChannelV"></a>
-                    <a name="//apple_ref/swift/Struct/GroupChannel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword12GroupChannelV">GroupChannel</a>
+                    <a name="/s:5Sword8AuditLogV"></a>
+                    <a name="//apple_ref/swift/Struct/AuditLog" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword8AuditLogV">AuditLog</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -707,15 +734,71 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>DMChannel Type</p>
+                        <p>Represents a guild&rsquo;s audit log</p>
 
-                        <a href="Structs/GroupChannel.html" class="slightly-smaller">See more</a>
+                        <a href="Structs/AuditLog.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GroupChannel</span><span class="p">:</span> <span class="kt"><a href="Protocols/Channel.html">Channel</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AuditLog</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword13AuditLogEntryV"></a>
+                    <a name="//apple_ref/swift/Struct/AuditLogEntry" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword13AuditLogEntryV">AuditLogEntry</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Representation of an individual entry in audit logs</p>
+
+                        <a href="Structs/AuditLogEntry.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AuditLogEntry</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword14AuditLogChangeV"></a>
+                    <a name="//apple_ref/swift/Struct/AuditLogChange" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword14AuditLogChangeV">AuditLogChange</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Specific information of changes made to targetId</p>
+
+                        <a href="Structs/AuditLogChange.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AuditLogChange</span></code></pre>
 
                         </div>
                       </div>
@@ -761,6 +844,38 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:5Sword7GroupDMV"></a>
+                    <a name="//apple_ref/swift/Struct/GroupDM" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword7GroupDMV">GroupDM</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>GroupDM Type</p>
+
+                        <a href="Structs/GroupDM.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GroupDM</span><span class="p">:</span> <span class="kt"><a href="Protocols/TextChannel.html">TextChannel</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:5Sword5EmojiV"></a>
                     <a name="//apple_ref/swift/Struct/Emoji" class="dashAnchor"></a>
                     <a class="token" href="#/s:5Sword5EmojiV">Emoji</a>
@@ -780,6 +895,38 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Emoji</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword10GuildVoiceV"></a>
+                    <a name="//apple_ref/swift/Struct/GuildVoice" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceV">GuildVoice</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Representation of a guild voice channel</p>
+
+                        <a href="Structs/GuildVoice.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GuildVoice</span><span class="p">:</span> <span class="kt"><a href="Protocols/GuildChannel.html">GuildChannel</a></span></code></pre>
 
                         </div>
                       </div>
@@ -974,7 +1121,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-07-06)</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-07-30)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

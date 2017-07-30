@@ -41,7 +41,7 @@ extension Sword {
 
     if let params = params {
       urlString += "?"
-      urlString += params.lazy.map({ key, value in "\(key)=\(value)" }).joined(separator: "&")
+      urlString += params.map({ key, value in "\(key)=\(value)" }).joined(separator: "&")
     }
 
     guard let url = URL(string: urlString) else {
@@ -62,16 +62,16 @@ extension Sword {
     }
 
     if let reason = reason {
-      request.addValue(reason, forHTTPHeaderField: "X-Audit-Log-Reason")
+      request.addValue(reason.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!, forHTTPHeaderField: "X-Audit-Log-Reason")
     }
 
     request.addValue("DiscordBot (https://github.com/Azoy/Sword, 0.7.0)", forHTTPHeaderField: "User-Agent")
 
     if let body = body {
-      request.httpBody = body.createBody()
-
       if let array = body["array"] as? [Any] {
         request.httpBody = array.createBody()
+      }else {
+        request.httpBody = body.createBody()
       }
 
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -80,10 +80,13 @@ extension Sword {
     #if os(macOS)
     if let file = file {
       let boundary = createBoundary()
-      var payloadJson = body?.encode()
+      
+      let payloadJson: String?
 
       if let array = body?["array"] as? [Any] {
         payloadJson = array.encode()
+      }else {
+        payloadJson = body?.encode()
       }
 
       request.httpBody = try? self.createMultipartBody(with: payloadJson, fileUrl: file, boundary: boundary)

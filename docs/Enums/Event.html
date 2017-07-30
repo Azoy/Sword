@@ -80,6 +80,12 @@
             <a class="nav-group-name-link" href="../Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/AuditLogEvent.html">AuditLogEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ChannelType.html">ChannelType</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
               </li>
               <li class="nav-group-task">
@@ -97,7 +103,16 @@
                 <a class="nav-group-task-link" href="../Protocols/Channel.html">Channel</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Commandable.html">Commandable</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/Eventable.html">Eventable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/GuildChannel.html">GuildChannel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/TextChannel.html">TextChannel</a>
               </li>
             </ul>
           </li>
@@ -108,7 +123,13 @@
                 <a class="nav-group-task-link" href="../Structs/Attachment.html">Attachment</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/Command.html">Command</a>
+                <a class="nav-group-task-link" href="../Structs/AuditLog.html">AuditLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AuditLogChange.html">AuditLogChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AuditLogEntry.html">AuditLogEntry</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/CommandOptions.html">CommandOptions</a>
@@ -117,7 +138,7 @@
                 <a class="nav-group-task-link" href="../Structs/CommandRequirements.html">CommandRequirements</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/DMChannel.html">DMChannel</a>
+                <a class="nav-group-task-link" href="../Structs/DM.html">DM</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Embed.html">Embed</a>
@@ -126,10 +147,16 @@
                 <a class="nav-group-task-link" href="../Structs/Emoji.html">Emoji</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/GroupChannel.html">GroupChannel</a>
+                <a class="nav-group-task-link" href="../Structs/GenericCommand.html">GenericCommand</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/GuildChannel.html">GuildChannel</a>
+                <a class="nav-group-task-link" href="../Structs/GroupDM.html">GroupDM</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/GuildText.html">GuildText</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/GuildVoice.html">GuildVoice</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Member.html">Member</a>
@@ -1341,7 +1368,7 @@
                         <p>Fired when someone starts typing a message</p>
 <h3 id='usage' class='heading'>Usage</h3>
 <pre class="highlight swift"><code><span class="n">bot</span><span class="o">.</span><span class="nf">on</span><span class="p">(</span><span class="o">.</span><span class="n">typingStart</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
-  <span class="nf">let</span> <span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">userID</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">Channel</span><span class="p">,</span> <span class="kt">UserID</span><span class="p">,</span> <span class="kt">Date</span><span class="p">)</span>
+  <span class="nf">let</span> <span class="p">(</span><span class="n">channelID</span><span class="p">,</span> <span class="n">userID</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span> <span class="nf">as</span><span class="o">!</span> <span class="p">(</span><span class="kt">ChannelID</span><span class="p">,</span> <span class="kt">UserID</span><span class="p">,</span> <span class="kt">Date</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
 
@@ -1509,7 +1536,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-07-06)</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-07-30)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
