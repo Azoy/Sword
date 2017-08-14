@@ -1531,7 +1531,23 @@ open class Sword: Eventable {
       completion(error)
     }
   }
-
+  
+  /**
+   Sends a message to channel
+   
+   - parameter content: String containing message
+   - parameter channelId: Channel to send message to
+   */
+  public func send(_ content: String, to channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    self.request(.createMessage(channelId), body: ["content": content]) { [unowned self] data, error in
+      if let error = error {
+        completion(nil, error)
+      }else {
+        completion(Message(self, data as! [String: Any]), nil)
+      }
+    }
+  }
+  
   /**
    Sends a message to channel
 
@@ -1544,29 +1560,19 @@ open class Sword: Eventable {
    - **file**: The url of the image to send
    - **embed**: The embed object to send. Refer to [Embed structure](https://discordapp.com/developers/docs/resources/channel#embed-object)
 
-   - parameter content: Either string or dictionary containing info on message
+   - parameter content: Dictionary containing info on message
    - parameter channelId: Channel to send message to
   */
-  public func send(_ content: Any, to channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
-    guard var message = content as? [String: Any] else {
-      self.request(.createMessage(channelId), body: ["content": content]) { [unowned self] data, error in
-        if let error = error {
-          completion(nil, error)
-        }else {
-          completion(Message(self, data as! [String: Any]), nil)
-        }
-      }
-      return
-    }
-
+  public func send(_ content: [String: Any], to channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    var content = content
     var file: String? = nil
 
-    if let messageFile = message["file"] as? String {
+    if let messageFile = content["file"] as? String {
       file = messageFile
-      message.removeValue(forKey: "file")
+      content.removeValue(forKey: "file")
     }
 
-    self.request(.createMessage(channelId), body: !message.isEmpty ? message : nil, file: file) { [unowned self] data, error in
+    self.request(.createMessage(channelId), body: !content.isEmpty ? content : nil, file: file) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
       }else {
@@ -1574,7 +1580,23 @@ open class Sword: Eventable {
       }
     }
   }
-
+  
+  /**
+   Sends an embed to channel
+   
+   - parameter content: Embed to send as message
+   - parameter channelId: Channel to send message to
+   */
+  public func send(_ content: Embed, to channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    self.request(.createMessage(channelId), body: ["embed": content.encode()]) { [unowned self] data, error in
+      if let error = error {
+        completion(nil, error)
+      }else {
+        completion(Message(self, data as! [String: Any]), nil)
+      }
+    }
+  }
+  
   /**
    Sets bot to typing in channel
 

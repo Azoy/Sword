@@ -150,12 +150,30 @@ public extension TextChannel {
   /**
    Sends a message to channel
 
-   - parameter message: Message to send
+   - parameter message: String to send as message
    */
-  func send(_ message: Any, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  func send(_ message: String, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
     self.sword?.send(message, to: self.id, then: completion)
   }
-
+  
+  /**
+   Sends a message to channel
+   
+   - parameter message: Dictionary containing info on message to send
+   */
+  func send(_ message: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    self.sword?.send(message, to: self.id, then: completion)
+  }
+  
+  /**
+   Sends a message to channel
+   
+   - parameter message: Embed to send as message
+   */
+  func send(_ message: Embed, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    self.sword?.send(message, to: self.id, then: completion)
+  }
+  
   /**
    Unpins a pinned message from this channel
 

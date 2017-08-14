@@ -205,11 +205,17 @@ public struct Message {
    Replies to message (alias to bot.send(_:to:)...)
   */
   public func reply(with message: String, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
-    self.channel.send(message) { msg, error in
-      completion(msg, error)
-    }
+    self.channel.send(message, then: completion)
   }
-
+  
+  public func reply(with message: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    self.channel.send(message, then: completion)
+  }
+  
+  public func reply(with message: Embed, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+    self.channel.send(message, then: completion)
+  }
+  
 }
 
 extension Message {
@@ -295,40 +301,40 @@ public struct Embed {
   // MARK: Properties
   
   /// Author dictionary from embed
-  public let author: [String: Any]?
+  public var author: [String: Any]?
   
   /// Side panel color of embed
-  public let color: Int?
+  public var color: Int?
   
   /// Description of the embed
-  public let description: String?
+  public var description: String?
   
   /// Fields for the embed
-  public let fields: [[String: Any]]?
+  public var fields: [[String: Any]]?
   
   /// Footer dictionary from embed
-  public let footer: [String: Any]?
+  public var footer: [String: Any]?
   
   /// Image data from embed
-  public let image: [String: Any]?
+  public var image: [String: Any]?
   
   /// Provider from embed
-  public let provider: [String: Any]?
+  public var provider: [String: Any]?
   
   /// Thumbnail data from embed
-  public let thumbnail: [String: Any]?
+  public var thumbnail: [String: Any]?
   
   /// Title of the embed
-  public let title: String?
+  public var title: String?
   
   /// Type of embed
   public let type: String
   
   /// URL of the embed
-  public let url: String?
+  public var url: String?
   
   /// Video data from embed
-  public let video: [String: Any]?
+  public var video: [String: Any]?
   
   // MARK: Initializer
   
@@ -350,6 +356,34 @@ public struct Embed {
     self.type = json["type"] as! String
     self.url = json["url"] as? String
     self.video = json["video"] as? [String: Any]
+  }
+  
+  /**
+   Adds a field to the embed
+   
+   - parameter name: Name to give field
+   - parameter value: Text that will be displayed underneath name
+   - parameter inline: Whether or not to keep this field inline with others
+  */
+  public mutating func addField(_ name: String, value: String, inline: Bool = false) {
+    self.fields?.append(["name": name, "value": value, "inline": inline])
+  }
+  
+  /// Converts embed to dictionary
+  func encode() -> [String: Any] {
+    var embed = [String: Any]()
+    
+    if self.author != nil { embed["author"] = self.author! }
+    if self.color != nil { embed["color"] = self.color! }
+    if self.description != nil { embed["description"] = self.description! }
+    if self.fields != nil { embed["fields"] = self.fields! }
+    if self.footer != nil { embed["footer"] = self.footer! }
+    if self.image != nil { embed["image"] = self.image! }
+    if self.thumbnail != nil { embed["thumbnail"] = self.thumbnail! }
+    if self.title != nil { embed["title"] = self.title! }
+    if self.url != nil { embed["url"] = self.url! }
+    
+    return embed
   }
   
 }
