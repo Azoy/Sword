@@ -974,7 +974,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Replies to message (alias to bot.send(_:to:)&hellip;)</p>
+                        <p>Replies to a channel</p>
 
                       </div>
                       <div class="declaration">
@@ -982,6 +982,63 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reply</span><span class="p">(</span><span class="n">with</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Message</span><span class="p">?,</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword7MessageV5replyys10DictionaryVySSypG4with_yACSg_AA12RequestErrorVSgtc4thentF"></a>
+                    <a name="//apple_ref/swift/Method/reply(with:then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword7MessageV5replyys10DictionaryVySSypG4with_yACSg_AA12RequestErrorVSgtc4thentF">reply(with:then:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replies to a channel</p>
+<h4 id='message-options' class='heading'>Message Options</h4>
+
+<p>Refer to Discord&rsquo;s documentation on the message body <a href="https://discordapp.com/developers/docs/resources/channel#create-message-json-params">https://discordapp.com/developers/docs/resources/channel#create-message-json-params</a></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reply</span><span class="p">(</span><span class="n">with</span> <span class="nv">message</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Message</span><span class="p">?,</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword7MessageV5replyyAA5EmbedV4with_yACSg_AA12RequestErrorVSgtc4thentF"></a>
+                    <a name="//apple_ref/swift/Method/reply(with:then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword7MessageV5replyyAA5EmbedV4with_yACSg_AA12RequestErrorVSgtc4thentF">reply(with:then:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replies to a channel with an Embed</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reply</span><span class="p">(</span><span class="n">with</span> <span class="nv">message</span><span class="p">:</span> <span class="kt"><a href="../Structs/Embed.html">Embed</a></span><span class="p">,</span> <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Message</span><span class="p">?,</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -1028,7 +1085,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-07-30)</p>
+      <p>&copy; 2017 <a class="link" href="https://github.com/Azoy" target="_blank" rel="external">Azoy</a>. All rights reserved. (Last updated: 2017-08-20)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

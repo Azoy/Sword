@@ -512,17 +512,50 @@ open class Sword: Eventable {
    
    - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
    - parameter game: Either a string with the game name or ["name": "with Swords!", "type": 0 || 1]
-   */
-  public func editStatus(to status: String, playing game: Any? = nil) {
-    var data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
+  */
+  public func editStatus(to status: String) {
+    let data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
     
-    if let game = game {
-      if game is String {
-        data["game"] = ["name": game]
-      }else if game is [String: Any] {
-        data["game"] = game
-      }
+    guard self.shardManager.shards.count > 0 else { return }
+    
+    let payload = Payload(op: .statusUpdate, data: data).encode()
+    
+    for shard in self.shardManager.shards {
+      shard.send(payload, presence: true)
     }
+  }
+  
+  /**
+   Edits bot status
+   
+   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
+   - parameter game: Either a string with the game name or ["name": "with Swords!", "type": 0 || 1]
+  */
+  public func editStatus(to status: String, playing game: String) {
+    let data: [String: Any] = ["afk": status == "idle", "game": ["name": game, "type": 0], "since": status == "idle" ? Date().milliseconds : 0, "status": status]
+    
+    guard self.shardManager.shards.count > 0 else { return }
+    
+    let payload = Payload(op: .statusUpdate, data: data).encode()
+    
+    for shard in self.shardManager.shards {
+      shard.send(payload, presence: true)
+    }
+  }
+  
+  /**
+   Edits bot status
+   
+   #### Game Options ####
+   - **name**: Name of the game playing/streaming
+   - **type**: 0 for a normal playing game, or 1 for streaming
+   - **url**: Required if streaming, the url discord displays for streams
+   
+   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
+   - parameter game: Dictonary with information on the game
+  */
+  public func editStatus(to status: String, playing game: [String: Any]) {
+    let data: [String: Any] = ["afk": status == "idle", "game": game, "since": status == "idle" ? Date().milliseconds : 0, "status": status]
     
     guard self.shardManager.shards.count > 0 else { return }
     

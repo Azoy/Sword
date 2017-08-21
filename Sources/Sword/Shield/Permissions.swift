@@ -33,8 +33,8 @@ public enum Permission: Int {
   /// Allows for the user to view a server's audit log
   case viewAuditLog = 0x80
 
-  /// Allows reading messages in a channel. The channel will not appear for users without this permission
-  case readMessages = 0x400
+  /// Allows viewing of a channel. The channel will not appear for users without this permission
+  case viewChannel = 0x400
 
   /// Allows for sending messages in a channel.
   case sendMessages = 0x800

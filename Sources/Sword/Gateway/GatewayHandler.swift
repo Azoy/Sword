@@ -25,56 +25,56 @@ extension Shard {
     
     switch op {
 
-      /// OP: 1
-      case .heartbeat:
-        let heartbeat = Payload(
-          op: .heartbeat,
-          data: self.lastSeq ?? NSNull()
-        ).encode()
-        self.send(heartbeat)
+    /// OP: 1
+    case .heartbeat:
+      let heartbeat = Payload(
+        op: .heartbeat,
+        data: self.lastSeq ?? NSNull()
+      ).encode()
+      self.send(heartbeat)
 
-      /// OP: 11
-      case .heartbeatACK:
-        self.heartbeat?.received = true
+    /// OP: 11
+    case .heartbeatACK:
+      self.heartbeat?.received = true
 
-      /// OP: 10
-      case .hello:
-        self.heartbeat = Heartbeat(self.session!, "heartbeat.shard.\(self.id)", interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
-        self.heartbeat?.received = true
-        self.heartbeat?.send()
+    /// OP: 10
+    case .hello:
+      self.heartbeat = Heartbeat(self.session!, "heartbeat.shard.\(self.id)", interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
+      self.heartbeat?.received = true
+      self.heartbeat?.send()
 
-        guard !self.isReconnecting else {
-          self.isReconnecting = false
-          var data: [String: Any] = ["token": self.sword.token, "session_id": self.sessionId!, "seq": NSNull()]
-          
-          if let lastSeq = self.lastSeq {
-            data["seq"] = lastSeq
-          }
-          
-          let payload = Payload(
-            op: .resume,
-            data: data
-          ).encode()
-
-          self.send(payload)
-          return
-        }
-
-        self.identify()
-
-      /// OP: 9
-      case .invalidSession:
+      guard !self.isReconnecting else {
         self.isReconnecting = false
-        self.reconnect()
+        var data: [String: Any] = ["token": self.sword.token, "session_id": self.sessionId!, "seq": NSNull()]
+          
+        if let lastSeq = self.lastSeq {
+          data["seq"] = lastSeq
+        }
+          
+        let payload = Payload(
+          op: .resume,
+          data: data
+        ).encode()
 
-      /// OP: 7
-      case .reconnect:
-        self.isReconnecting = true
-        self.reconnect()
+        self.send(payload)
+        return
+      }
 
-      /// Others~~~
-      default:
-        break
+      self.identify()
+
+    /// OP: 9
+    case .invalidSession:
+      self.isReconnecting = false
+      self.reconnect()
+
+    /// OP: 7
+    case .reconnect:
+      self.isReconnecting = true
+      self.reconnect()
+
+    /// Others~~~
+    default:
+      break
     }
 
   }

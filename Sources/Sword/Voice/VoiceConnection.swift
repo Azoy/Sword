@@ -12,13 +12,12 @@ import Foundation
 import Dispatch
 
 import Sockets
+import Sodium
 
 #if os(macOS)
 import Starscream
-import Sodium
 #else
 import WebSockets
-import SodiumLinux
 #endif
 
 /// Voice Connection class that handles connection to voice server
@@ -53,14 +52,14 @@ public class VoiceConnection: Gateway, Eventable {
   var heartbeat: Heartbeat?
   
   /// Payload to send over gateway to initialize a voice connection
-  var identify: String?
+  var identify: Payload
   
   /// Whether or not the WS is connected
   var isConnected = false
 
   /// Whether or not the voice connection is playing something
   public var isPlaying = false
-
+  
   /// Event listeners
   public var listeners = [Event: [(Any) -> ()]]()
 
@@ -122,10 +121,11 @@ public class VoiceConnection: Gateway, Eventable {
    - parameter guildId: Guild we're connecting to
    - parameter handler: Completion handler to call after we're ready
   */
-  init(_ endpoint: String, _ guildId: GuildID, _ handler: @escaping (VoiceConnection) -> ()) {
+  init(_ endpoint: String, _ guildId: GuildID, _ identify: Payload, _ handler: @escaping (VoiceConnection) -> ()) {
     self.endpoint = endpoint.components(separatedBy: ":")
-    self.gatewayUrl = "wss://\(self.endpoint[0])"
+    self.gatewayUrl = "wss://\(self.endpoint[0])?v=3"
     self.guildId = guildId
+    self.identify = identify
     self.port = Int(self.endpoint[1])!
     self.handler = handler
 
@@ -186,6 +186,7 @@ public class VoiceConnection: Gateway, Eventable {
     let audioSize = 16 + data.count
     #endif
     let audioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
+    
     defer {
       free(audioData)
     }
@@ -267,12 +268,10 @@ public class VoiceConnection: Gateway, Eventable {
     
   /// Handles what to do on connect to gateway
   func handleConnect() {
-    guard self.identify != nil else { return }
-    
     #if os(macOS)
-    self.session?.write(string: self.identify!)
+    self.session?.write(string: self.identify.encode())
     #else
-    try? self.session?.send(self.identify!)
+    try? self.session?.send(self.identify.encode())
     #endif
   }
     
@@ -282,8 +281,21 @@ public class VoiceConnection: Gateway, Eventable {
    - parameter code: Error code received from gateway
   */
   func handleDisconnect(for code: Int) {
-    guard CloseOP(rawValue: code) != nil else {
+    guard let closeOp = VoiceCloseOP(rawValue: code) else {
+      print("[Sword] Received unknown voice close code: \(code)")
+      self.stop()
       return
+    }
+    
+    switch closeOp {
+    case .disconnected:
+      self.reconnect()
+      
+    case .voiceServerCrash:
+      self.reconnect()
+      
+    default:
+      self.stop()
     }
   }
   
@@ -298,26 +310,31 @@ public class VoiceConnection: Gateway, Eventable {
       guard let voiceOP = VoiceOP(rawValue: payload.op) else { return }
 
       guard let data = payload.d as? [String: Any] else {
-        self.heartbeat?.received = true
+        
+        switch voiceOP {
+        case .heartbeatACK:
+          self.heartbeat?.received = true
+        default: break
+        }
+        
         return
       }
 
       switch voiceOP {
-        case .ready:
+      case .ready:
+        self.heartbeat = Heartbeat(self.session!, "heartbeat.voiceconnection.\(self.guildId)", interval: data["heartbeat_interval"] as! Int, voice: true)
+        self.heartbeat?.received = true
+        self.heartbeat?.send()
 
-          self.heartbeat = Heartbeat(self.session!, "heartbeat.voiceconnection.\(self.guildId)", interval: data["heartbeat_interval"] as! Int, voice: true)
-          self.heartbeat?.received = true
-          self.heartbeat?.send()
+        self.ssrc = data["ssrc"] as! UInt32
 
-          self.ssrc = data["ssrc"] as! UInt32
+        self.startUDPSocket(data["port"] as! Int)
 
-          self.startUDPSocket(data["port"] as! Int)
+      case .sessionDescription:
+        self.secret = data["secret_key"] as! [UInt8]
 
-        case .sessionDescription:
-          self.secret = data["secret_key"] as! [UInt8]
-
-        default:
-          break
+      default:
+        break
       }
 
       return
@@ -331,7 +348,7 @@ public class VoiceConnection: Gateway, Eventable {
    - parameter identify: New identify to send to WS
    - parameter handler: New completion handler to call once voice connection is ready
   */
-  func moveChannels(_ gatewayUrl: String, _ identify: String, _ handler: @escaping (VoiceConnection) -> ()) {
+  func moveChannels(_ gatewayUrl: String, _ identify: Payload, _ handler: @escaping (VoiceConnection) -> ()) {
     self.gatewayUrl = gatewayUrl
     self.identify = identify
     self.handler = handler
@@ -464,7 +481,19 @@ public class VoiceConnection: Gateway, Eventable {
       self?.receiveAudio()
     }
   }
+  
+  /// Used to reconnect to voice gateway
+  func reconnect() {
+    var resumeIdentify = self.identify
+    resumeIdentify.op = VoiceOP.resume.rawValue
+    var d = resumeIdentify.d as! [String: String]
+    d.removeValue(forKey: "user_id")
+    resumeIdentify.d = d
+    self.identify = resumeIdentify
     
+    self.start()
+  }
+  
   /**
    Sends a WS event that contains the protocol of audio we're sending, and user IP and Port
 

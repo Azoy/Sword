@@ -24,7 +24,7 @@ protocol Gateway: class {
   var heartbeat: Heartbeat? { get set }
 
   var isConnected: Bool { get set }
-
+  
   var session: WebSocket? { get set }
   
   #if !os(iOS)
@@ -34,6 +34,8 @@ protocol Gateway: class {
   func handleDisconnect(for code: Int)
   
   func handlePayload(_ payload: Payload)
+  
+  func reconnect()
   
   func start()
 

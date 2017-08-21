@@ -202,16 +202,32 @@ public struct Message {
   }
 
   /**
-   Replies to message (alias to bot.send(_:to:)...)
+   Replies to a channel
+   
+   - parameter message: String to send to channel
   */
   public func reply(with message: String, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
     self.channel.send(message, then: completion)
   }
   
+  /**
+   Replies to a channel
+   
+   #### Message Options ####
+   
+   Refer to Discord's documentation on the message body https://discordapp.com/developers/docs/resources/channel#create-message-json-params
+   
+   - parameter message: Dictionary containing information on the message
+  */
   public func reply(with message: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
     self.channel.send(message, then: completion)
   }
   
+  /**
+   Replies to a channel with an Embed
+   
+   - parameter message: Embed to send to channel
+  */
   public func reply(with message: Embed, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
     self.channel.send(message, then: completion)
   }
@@ -370,7 +386,7 @@ public struct Embed {
   }
   
   /// Converts embed to dictionary
-  func encode() -> [String: Any] {
+  public func encode() -> [String: Any] {
     var embed = [String: Any]()
     
     if self.author != nil { embed["author"] = self.author! }

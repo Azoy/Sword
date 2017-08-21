@@ -31,15 +31,14 @@ class VoiceManager {
    - parameter endpoint: URL for voice server
    - parameter identify: Identify payload to send once we're ready
   */
-  func join(_ guildId: GuildID, _ gatewayUrl: String, _ identify: String) {
+  func join(_ guildId: GuildID, _ gatewayUrl: String, _ identify: Payload) {
     guard self.connections[guildId] == nil else {
       self.connections[guildId]!.moveChannels(gatewayUrl, identify, self.handlers[guildId]!)
       self.handlers.removeValue(forKey: guildId)
       return
     }
 
-    let voiceConnection = VoiceConnection(gatewayUrl, guildId, self.handlers[guildId]!)
-    voiceConnection.identify = identify
+    let voiceConnection = VoiceConnection(gatewayUrl, guildId, identify, self.handlers[guildId]!)
     self.connections[guildId] = voiceConnection
     voiceConnection.start()
     self.handlers.removeValue(forKey: guildId)

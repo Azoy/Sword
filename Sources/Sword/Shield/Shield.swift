@@ -83,7 +83,7 @@ open class Shield: Sword {
     for prefix in self.shieldOptions.prefixes {
       guard msg.content.hasPrefix(prefix) else { continue }
 
-      let content = msg.content.replacingOccurrences(of: prefix, with: "")
+      let content = msg.content.substring(from: msg.content.range(of: prefix)!.upperBound)
       var arguments = content.components(separatedBy: " ")
 
       var commandString = arguments.remove(at: 0)

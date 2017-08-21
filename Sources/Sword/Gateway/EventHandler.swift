@@ -322,7 +322,7 @@ extension Shard {
           "session_id": guild.sessionId,
           "token": token
         ]
-      ).encode()
+      )
 
       self.sword.voiceManager.join(guildId, endpoint, payload)
 
