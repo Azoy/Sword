@@ -352,13 +352,18 @@ public struct Embed {
   /// Video data from embed
   public var video: [String: Any]?
   
-  // MARK: Initializer
+  // MARK: Initializers
+  
+  /// Creates an Embed Structure
+  public init() {
+    self.type = "rich"
+  }
   
   /**
-   Creates Embed struct
+   Creates an Embed Structure
    
    - parameter json: JSON representable as a dictionary
-   */
+  */
   init(_ json: [String: Any]) {
     self.author = json["author"] as? [String: Any]
     self.color = json["color"] as? Int
