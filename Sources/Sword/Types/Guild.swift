@@ -9,7 +9,7 @@
 import Foundation
 
 /// Guild Type
-public class Guild {
+public class Guild: Updatable {
 
   // MARK: Properties
 
@@ -189,6 +189,9 @@ public class Guild {
 
   // MARK: Functions
 
+  func update(_ json: [String : Any]) {
+  }
+  
   /**
    Bans a member from this guild
 

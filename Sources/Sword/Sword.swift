@@ -108,9 +108,9 @@ open class Sword: Eventable {
    - parameter messageId: Message to add reaction to
    - parameter channelId: Channel to add reaction to message in
   */
-  public func addReaction(_ reaction: String, to messageId: MessageID, in channelId: ChannelID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func addReaction(_ reaction: String, to messageId: MessageID, in channelId: ChannelID, then completion: ((RequestError?) -> ())? = nil) {
     self.request(.createReaction(channelId, messageId, reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!)) { data, error in
-      completion(error)
+      completion?(error)
     }
   }
 
@@ -126,9 +126,9 @@ open class Sword: Eventable {
    - parameter reason: Reason why member was banned from guild (attached to audit log)
    - parameter options: Deletes messages from this user by amount of days
   */
-  public func ban(_ userId: UserID, from guildId: GuildID, for reason: String? = nil, with options: [String: Any] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func ban(_ userId: UserID, from guildId: GuildID, for reason: String? = nil, with options: [String: Any] = [:], then completion: ((RequestError?) -> ())? = nil) {
     self.request(.createGuildBan(guildId, userId), body: options, reason: reason) { data, error in
-      completion(error)
+      completion?(error)
     }
   }
   
@@ -178,22 +178,22 @@ open class Sword: Eventable {
    - parameter guildId: Guild to create channel for
    - parameter options: Preconfigured options to give the channel on create
   */
-  public func createChannel(for guildId: GuildID, with options: [String: Any], then completion: @escaping (GuildChannel?, RequestError?) -> () = {_ in}) {
+  public func createChannel(for guildId: GuildID, with options: [String: Any], then completion: ((GuildChannel?, RequestError?) -> ())? = nil) {
     self.request(.createGuildChannel(guildId), body: options) { [unowned self] data, error in
       if let error = error {
-        completion(nil, error)
+        completion?(nil, error)
       }else {
         let data = data as! [String: Any]
         
         switch data["type"] as! Int {
         case 0:
-          completion(GuildText(self, data), error)
+          completion?(GuildText(self, data), error)
           
         case 2:
-          completion(GuildVoice(self, data), error)
+          completion?(GuildVoice(self, data), error)
           
         default:
-          completion(nil, error)
+          completion?(nil, error)
         }
       }
     }
@@ -204,12 +204,12 @@ open class Sword: Eventable {
 
    - parameter options: Refer to [discord docs](https://discordapp.com/developers/docs/resources/guild#create-guild) for guild options
   */
-  public func createGuild(with options: [String: Any], then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
+  public func createGuild(with options: [String: Any], then completion: ((Guild?, RequestError?) -> ())? = nil) {
     self.request(.createGuild, body: options) { [unowned self] data, error in
       if let error = error {
-        completion(nil, error)
+        completion?(nil, error)
       }else {
-        completion(Guild(self, data as! [String: Any]), nil)
+        completion?(Guild(self, data as! [String: Any]), nil)
       }
     }
   }
@@ -225,9 +225,9 @@ open class Sword: Eventable {
    - parameter guildId: Guild to create integration for
    - parameter options: Preconfigured options for this integration
   */
-  public func createIntegration(for guildId: GuildID, with options: [String: String], then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func createIntegration(for guildId: GuildID, with options: [String: String], then completion: ((RequestError?) -> ())? = nil) {
     self.request(.createGuildIntegration(guildId), body: options) { data, error in
-      completion(error)
+      completion?(error)
     }
   }
 
@@ -244,9 +244,9 @@ open class Sword: Eventable {
    - parameter channelId: Channel to create invite for
    - parameter options: Options to give invite
   */
-  public func createInvite(for channelId: ChannelID, with options: [String: Any] = [:], then completion: @escaping ([String: Any]?, RequestError?) -> () = {_ in}) {
+  public func createInvite(for channelId: ChannelID, with options: [String: Any] = [:], then completion: (([String: Any]?, RequestError?) -> ())? = nil) {
     self.request(.createChannelInvite(channelId), body: options) { data, error in
-      completion(data as? [String: Any], error)
+      completion?(data as? [String: Any], error)
     }
   }
 
@@ -264,12 +264,12 @@ open class Sword: Eventable {
    - parameter guildId: Guild to create role for
    - parameter options: Preset options to configure role with
   */
-  public func createRole(for guildId: GuildID, with options: [String: Any], then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
+  public func createRole(for guildId: GuildID, with options: [String: Any], then completion: ((Role?, RequestError?) -> ())? = nil) {
     self.request(.createGuildRole(guildId), body: options) { data, error in
       if let error = error {
-        completion(nil, error)
+        completion?(nil, error)
       }else {
-        completion(Role(data as! [String: Any]), nil)
+        completion?(Role(data as! [String: Any]), nil)
       }
     }
   }
@@ -285,12 +285,12 @@ open class Sword: Eventable {
    - parameter channelId: Guild channel to create webhook for
    - parameter options: Preconfigured options to create this webhook with
   */
-  public func createWebhook(for channelId: ChannelID, with options: [String: String] = [:], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
+  public func createWebhook(for channelId: ChannelID, with options: [String: String] = [:], then completion: ((Webhook?, RequestError?) -> ())? = nil) {
     self.request(.createWebhook(channelId), body: options) { [unowned self] data, error in
       if let error = error {
-        completion(nil, error)
+        completion?(nil, error)
       }else {
-        completion(Webhook(self, data as! [String: Any]), nil)
+        completion?(Webhook(self, data as! [String: Any]), nil)
       }
     }
   }
@@ -300,25 +300,25 @@ open class Sword: Eventable {
 
    - parameter channelId: Channel to delete
   */
-  public func deleteChannel(_ channelId: ChannelID, then completion: @escaping (Channel?, RequestError?) -> () = {_ in}) {
+  public func deleteChannel(_ channelId: ChannelID, then completion: ((Channel?, RequestError?) -> ())? = nil) {
     self.request(.deleteChannel(channelId)) { [unowned self] data, error in
       if let error = error {
-        completion(nil, error)
+        completion?(nil, error)
       }else {
         let channelData = data as! [String: Any]
         
         switch channelData["type"] as! Int {
         case 0:
-          completion(GuildText(self, channelData), error)
+          completion?(GuildText(self, channelData), error)
           
         case 1:
-          completion(DM(self, channelData), error)
+          completion?(DM(self, channelData), error)
           
         case 2:
-          completion(GuildVoice(self, channelData), error)
+          completion?(GuildVoice(self, channelData), error)
           
         case 3:
-          completion(GroupDM(self, channelData), error)
+          completion?(GroupDM(self, channelData), error)
           
         default: break
         }
@@ -331,12 +331,12 @@ open class Sword: Eventable {
 
    - parameter guildId: Guild to delete
   */
-  public func deleteGuild(_ guildId: GuildID, then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
+  public func deleteGuild(_ guildId: GuildID, then completion: ((Guild?, RequestError?) -> ())? = nil) {
     self.request(.deleteGuild(guildId)) { [unowned self] data, error in
       if let error = error {
-        completion(nil, error)
+        completion?(nil, error)
       }else {
-        completion(Guild(self, data as! [String: Any]), nil)
+        completion?(Guild(self, data as! [String: Any]), nil)
       }
     }
   }
@@ -347,9 +347,9 @@ open class Sword: Eventable {
    - parameter integrationId: Integration to delete
    - parameter guildId: Guild to delete integration from
   */
-  public func deleteIntegration(_ integrationId: IntegrationID, from guildId: GuildID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func deleteIntegration(_ integrationId: IntegrationID, from guildId: GuildID, then completion: ((RequestError?) -> ())? = nil) {
     self.request(.deleteGuildIntegration(guildId, integrationId)) { data, error in
-      completion(error)
+      completion?(error)
     }
   }
 
@@ -358,9 +358,13 @@ open class Sword: Eventable {
 
    - parameter inviteId: Invite to delete
   */
-  public func deleteInvite(_ inviteId: String, then completion: @escaping ([String: Any]?, RequestError?) -> () = {_ in}) {
-    self.request(.deleteInvite(invite: inviteId)) { data, error in
-      completion(data as? [String: Any], error)
+  public func deleteInvite(_ inviteId: String, then completion: ((Invite?, RequestError?) -> ())? = nil) {
+    self.request(.deleteInvite(invite: inviteId)) { [unowned self] data, error in
+      if let error = error {
+        completion?(nil, error)
+      }else {
+        completion?(Invite(self, data as! [String: Any]), nil)
+      }
     }
   }
 
@@ -369,9 +373,9 @@ open class Sword: Eventable {
 
    - parameter messageId: Message to delete
   */
-  public func deleteMessage(_ messageId: MessageID, from channelId: ChannelID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func deleteMessage(_ messageId: MessageID, from channelId: ChannelID, then completion: ((RequestError?) -> ())? = nil) {
     self.request(.deleteMessage(channelId, messageId)) { data, error in
-      completion(error)
+      completion?(error)
     }
   }
 
@@ -380,16 +384,17 @@ open class Sword: Eventable {
 
    - parameter messages: Array of message ids to delete
   */
-  public func deleteMessages(_ messages: [MessageID], from channelId: ChannelID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func deleteMessages(_ messages: [MessageID], from channelId: ChannelID, then completion: ((RequestError?) -> ())? = nil) {
     let oldestMessage = Snowflake.fakeSnowflake(date: Date(timeIntervalSinceNow: -14 * 24 * 60 * 60)) ?? 0
+    
     for message in messages {
       if message < oldestMessage {
-        completion(RequestError("One of the messages you wanted to delete was older than allowed."))
+        completion?(RequestError("One of the messages you wanted to delete was older than allowed."))
       }
     }
 
     self.request(.bulkDeleteMessages(channelId), body: ["messages": messages.map({ $0.description })]) { data, error in
-      completion(error)
+      completion?(error)
     }
   }
 
@@ -445,7 +450,7 @@ open class Sword: Eventable {
    - parameter roleId: Role to delete
    - parameter guildId: Guild to delete role from
   */
-  public func deleteRole(_ roleId: RoleID, from guildId: GuildID, then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
+  public func deleteRole(_ roleId: RoleID, from guildId: GuildID, then completion: @escaping (Role?, RequestError?) -> () = {_,_  in}) {
     self.request(.deleteGuildRole(guildId, roleId)) { data, error in
       if let error = error {
         completion(nil, error)
@@ -478,7 +483,7 @@ open class Sword: Eventable {
    - parameter options: Dictionary c
    - parameter channelId: Channel to edit message in
   */
-  public func editMessage(_ messageId: MessageID, with options: [String: Any], in channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  public func editMessage(_ messageId: MessageID, with options: [String: Any], in channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.request(.editMessage(channelId, messageId), body: options) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
@@ -513,26 +518,12 @@ open class Sword: Eventable {
    - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
    - parameter game: Either a string with the game name or ["name": "with Swords!", "type": 0 || 1]
   */
-  public func editStatus(to status: String) {
-    let data: [String: Any] = ["afk": status == "idle", "game": NSNull(), "since": status == "idle" ? Date().milliseconds : 0, "status": status]
+  public func editStatus(to status: String, playing game: String? = nil) {
+    var data: [String: Any] = ["afk": status == "idle", "since": status == "idle" ? Date().milliseconds : 0, "status": status]
     
-    guard self.shardManager.shards.count > 0 else { return }
-    
-    let payload = Payload(op: .statusUpdate, data: data).encode()
-    
-    for shard in self.shardManager.shards {
-      shard.send(payload, presence: true)
+    if let game = game {
+      data["game"] = ["name": game, "type": 0]
     }
-  }
-  
-  /**
-   Edits bot status
-   
-   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
-   - parameter game: Either a string with the game name or ["name": "with Swords!", "type": 0 || 1]
-  */
-  public func editStatus(to status: String, playing game: String) {
-    let data: [String: Any] = ["afk": status == "idle", "game": ["name": game, "type": 0], "since": status == "idle" ? Date().milliseconds : 0, "status": status]
     
     guard self.shardManager.shards.count > 0 else { return }
     
@@ -798,7 +789,7 @@ open class Sword: Eventable {
     }
 
     if dms.isEmpty { return nil }
-    return dms[0].1
+    return dms[0]
   }
 
   /**
@@ -1298,7 +1289,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to edit
    - parameter options: Optons to give channel
   */
-  public func modifyChannel(_ channelId: ChannelID, with options: [String: Any] = [:], then completion: @escaping (GuildChannel?, RequestError?) -> () = {_ in}) {
+  public func modifyChannel(_ channelId: ChannelID, with options: [String: Any] = [:], then completion: @escaping (GuildChannel?, RequestError?) -> () = {_,_  in}) {
     self.request(.modifyChannel(channelId), body: options) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
@@ -1329,7 +1320,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to modify channel positions from
    - parameter options: Preconfigured options to set channel positions to
   */
-  public func modifyChannelPositions(for guildId: GuildID, with options: [[String: Any]], then completion: @escaping ([GuildChannel]?, RequestError?) -> () = {_ in}) {
+  public func modifyChannelPositions(for guildId: GuildID, with options: [[String: Any]], then completion: @escaping ([GuildChannel]?, RequestError?) -> () = {_,_  in}) {
     self.request(.modifyGuildChannelPositions(guildId), body: ["array": options]) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
@@ -1362,7 +1353,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to edit embed in
    - parameter options: Dictionary of options to give embed
   */
-  public func modifyEmbed(for guildId: GuildID, with options: [String: Any], then completion: @escaping ([String: Any]?, RequestError?) -> () = {_ in}) {
+  public func modifyEmbed(for guildId: GuildID, with options: [String: Any], then completion: @escaping ([String: Any]?, RequestError?) -> () = {_,_  in}) {
     self.request(.modifyGuildEmbed(guildId), body: options) { data, error in
       completion(data as? [String: Any], error)
     }
@@ -1386,7 +1377,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to modify
    - parameter options: Preconfigured options to modify guild with
   */
-  public func modifyGuild(_ guildId: GuildID, with options: [String: Any], then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
+  public func modifyGuild(_ guildId: GuildID, with options: [String: Any], then completion: @escaping (Guild?, RequestError?) -> () = {_,_  in}) {
     self.request(.modifyGuild(guildId), body: options) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
@@ -1451,7 +1442,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to modify role from
    - parameter options: Preconfigured options to modify guild roles with
   */
-  public func modifyRole(_ roleId: RoleID, for guildId: GuildID, with options: [String: Any], then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
+  public func modifyRole(_ roleId: RoleID, for guildId: GuildID, with options: [String: Any], then completion: @escaping (Role?, RequestError?) -> () = {_,_  in}) {
     self.request(.modifyGuildRole(guildId, roleId), body: options) { data, error in
       if let error = error {
         completion(nil, error)
@@ -1474,7 +1465,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to modify role positions from
    - parameter options: Preconfigured options to set role positions to
   */
-  public func modifyRolePositions(for guildId: GuildID, with options: [[String: Any]], then completion: @escaping ([Role]?, RequestError?) -> () = {_ in}) {
+  public func modifyRolePositions(for guildId: GuildID, with options: [[String: Any]], then completion: @escaping ([Role]?, RequestError?) -> () = {_,_  in}) {
     self.request(.modifyGuildRolePositions(guildId), body: ["array": options]) { data, error in
       if let error = error {
         completion(nil, error)
@@ -1501,7 +1492,7 @@ open class Sword: Eventable {
    - parameter webhookId: Webhook to modify
    - parameter options: Preconfigured options to modify webhook with
   */
-  public func modifyWebhook(_ webhookId: WebhookID, token: String? = nil, with options: [String: String], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
+  public func modifyWebhook(_ webhookId: WebhookID, token: String? = nil, with options: [String: String], then completion: @escaping (Webhook?, RequestError?) -> () = {_,_  in}) {
     self.request(.modifyWebhook(webhookId, token), body: options) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
@@ -1542,7 +1533,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to prune members in
    - parameter limit: Amount of days for prunned users
   */
-  public func pruneMembers(in guildId: GuildID, for limit: Int, then completion: @escaping (Int?, RequestError?) -> () = {_ in}) {
+  public func pruneMembers(in guildId: GuildID, for limit: Int, then completion: @escaping (Int?, RequestError?) -> () = {_,_  in}) {
     guard limit > 1 else {
       completion(nil, RequestError("Limit you provided was lower than 1 user."))
       return
@@ -1571,7 +1562,7 @@ open class Sword: Eventable {
    - parameter content: String containing message
    - parameter channelId: Channel to send message to
    */
-  public func send(_ content: String, to channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  public func send(_ content: String, to channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.request(.createMessage(channelId), body: ["content": content]) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
@@ -1596,7 +1587,7 @@ open class Sword: Eventable {
    - parameter content: Dictionary containing info on message
    - parameter channelId: Channel to send message to
   */
-  public func send(_ content: [String: Any], to channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  public func send(_ content: [String: Any], to channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     var content = content
     var file: String? = nil
 
@@ -1620,7 +1611,7 @@ open class Sword: Eventable {
    - parameter content: Embed to send as message
    - parameter channelId: Channel to send message to
    */
-  public func send(_ content: Embed, to channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  public func send(_ content: Embed, to channelId: ChannelID, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.request(.createMessage(channelId), body: ["embed": content.encode()]) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)
@@ -1646,7 +1637,7 @@ open class Sword: Eventable {
 
    - parameter name: Name to set bot's username to
   */
-  public func setUsername(to name: String, then completion: @escaping (User?, RequestError?) -> () = {_ in}) {
+  public func setUsername(to name: String, then completion: @escaping (User?, RequestError?) -> () = {_,_  in}) {
     self.request(.modifyCurrentUser, body: ["username": name]) { [unowned self] data, error in
       if let error = error {
         completion(nil, error)

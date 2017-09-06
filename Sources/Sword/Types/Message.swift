@@ -183,7 +183,7 @@ public struct Message {
 
    - parameter content: Content to edit from self
   */
-  public func edit(with options: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  public func edit(with options: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.channel.editMessage(self.id, with: options, then: completion)
   }
 
@@ -206,7 +206,7 @@ public struct Message {
    
    - parameter message: String to send to channel
   */
-  public func reply(with message: String, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  public func reply(with message: String, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.channel.send(message, then: completion)
   }
   
@@ -219,7 +219,7 @@ public struct Message {
    
    - parameter message: Dictionary containing information on the message
   */
-  public func reply(with message: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  public func reply(with message: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.channel.send(message, then: completion)
   }
   
@@ -228,7 +228,7 @@ public struct Message {
    
    - parameter message: Embed to send to channel
   */
-  public func reply(with message: Embed, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  public func reply(with message: Embed, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.channel.send(message, then: completion)
   }
   
@@ -335,7 +335,7 @@ public struct Embed {
   public var image: [String: Any]?
   
   /// Provider from embed
-  public var provider: [String: Any]?
+  public let provider: [String: Any]?
   
   /// Thumbnail data from embed
   public var thumbnail: [String: Any]?
@@ -350,13 +350,15 @@ public struct Embed {
   public var url: String?
   
   /// Video data from embed
-  public var video: [String: Any]?
+  public let video: [String: Any]?
   
   // MARK: Initializers
   
   /// Creates an Embed Structure
   public init() {
+    self.provider = nil
     self.type = "rich"
+    self.video = nil
   }
   
   /**
@@ -387,6 +389,10 @@ public struct Embed {
    - parameter inline: Whether or not to keep this field inline with others
   */
   public mutating func addField(_ name: String, value: String, inline: Bool = false) {
+    if self.fields == nil {
+      self.fields = [[String: Any]]()
+    }
+    
     self.fields?.append(["name": name, "value": value, "inline": inline])
   }
   

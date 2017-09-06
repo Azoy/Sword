@@ -29,7 +29,7 @@ public extension Channel {
   // MARK: Functions
 
   /// Deletes the current channel, whether it be a DMChannel or GuildChannel
-  func delete(then completion: @escaping (Channel?, RequestError?) -> () = {_ in}) {
+  func delete(then completion: @escaping (Channel?, RequestError?) -> () = {_,_  in}) {
     self.sword?.deleteChannel(self.id, then: completion)
   }
 
@@ -94,7 +94,7 @@ public extension TextChannel {
    - parameter messageId: Message to edit
    - parameter content: Text to change message to
    */
-  func editMessage(_ messageId: MessageID, with options: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  func editMessage(_ messageId: MessageID, with options: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.sword?.editMessage(messageId, with: options, in: self.id, then: completion)
   }
 
@@ -134,7 +134,7 @@ public extension TextChannel {
   }
 
   /// Get Pinned messages for this channel
-  func getPinnedMessages(then completion: @escaping ([Message]?, RequestError?) -> () = {_ in}) {
+  func getPinnedMessages(then completion: @escaping ([Message]?, RequestError?) -> () = {_,_  in}) {
     self.sword?.getPinnedMessages(from: self.id, then: completion)
   }
 
@@ -152,7 +152,7 @@ public extension TextChannel {
 
    - parameter message: String to send as message
    */
-  func send(_ message: String, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  func send(_ message: String, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.sword?.send(message, to: self.id, then: completion)
   }
   
@@ -161,7 +161,7 @@ public extension TextChannel {
    
    - parameter message: Dictionary containing info on message to send
    */
-  func send(_ message: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  func send(_ message: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.sword?.send(message, to: self.id, then: completion)
   }
   
@@ -170,7 +170,7 @@ public extension TextChannel {
    
    - parameter message: Embed to send as message
    */
-  func send(_ message: Embed, then completion: @escaping (Message?, RequestError?) -> () = {_ in}) {
+  func send(_ message: Embed, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
     self.sword?.send(message, to: self.id, then: completion)
   }
   
@@ -186,7 +186,7 @@ public extension TextChannel {
 }
 
 /// Distinguishes Guild channels over dm type channels
-public protocol GuildChannel: Channel {
+public protocol GuildChannel: class, Channel {
 
   // MARK: Properties
 

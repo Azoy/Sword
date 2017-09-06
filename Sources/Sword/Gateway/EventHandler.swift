@@ -82,8 +82,10 @@ extension Shard {
     case .channelUpdate:
       switch data["type"] as! Int {
       case 0:
-        let channel = GuildText(self.sword, data)
-        self.sword.guilds[channel.guild!.id]!.channels[channel.id] = channel
+        let guildId = GuildID(data["guild_id"] as! String)!
+        let channelId = ChannelID(data["id"] as! String)!
+        let channel = self.sword.guilds[guildId]!.channels[channelId] as! GuildText
+        channel.update(data)
         self.sword.emit(.channelUpdate, with: channel)
           
       case 2:

@@ -111,7 +111,7 @@ public struct Webhook {
 
    - parameter options: A dictionary of options to apply to this webhook
   */
-  public func modify(with options: [String: String], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
+  public func modify(with options: [String: String], then completion: @escaping (Webhook?, RequestError?) -> () = {_,_  in}) {
     self.sword?.modifyWebhook(self.id, token: self.token, with: options, then: completion)
   }
 

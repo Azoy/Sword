@@ -83,7 +83,7 @@ open class Shield: Sword {
     for prefix in self.shieldOptions.prefixes {
       guard msg.content.hasPrefix(prefix) else { continue }
 
-      let content = msg.content.substring(from: msg.content.range(of: prefix)!.upperBound)
+      let content = msg.content[msg.content.range(of: prefix)!.upperBound...]
       var arguments = content.components(separatedBy: " ")
 
       var commandString = arguments.remove(at: 0)
@@ -92,7 +92,7 @@ open class Shield: Sword {
       commandString = commandString.lowercased()
       
       // Replace an alias with the string for the base command if it exists
-      if (self.commands[commandString] == nil) {
+      if self.commands[commandString] == nil {
         if let alias = self.commandAliases[commandString] {
           commandString = alias
         }

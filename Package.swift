@@ -13,8 +13,7 @@ var dependencies: [Package.Dependency] = [
 dependencies += [
   .Package(
     url: "https://github.com/daltoniam/Starscream.git",
-    majorVersion: 2,
-    minor: 0
+    majorVersion: 2
   ),
   .Package(
     url: "https://github.com/vapor/sockets.git",

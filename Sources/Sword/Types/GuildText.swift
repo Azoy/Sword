@@ -9,7 +9,7 @@
 import Foundation
 
 /// GuildChannel Type
-public struct GuildText: GuildChannel, TextChannel {
+public class GuildText: GuildChannel, TextChannel, Updatable {
 
   // MARK: Properties
 
@@ -94,6 +94,9 @@ public struct GuildText: GuildChannel, TextChannel {
 
   // MARK: Functions
 
+  func update(_ json: [String : Any]) {
+  }
+  
   /**
    Creates a webhook for this channel
 

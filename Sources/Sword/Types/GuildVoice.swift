@@ -6,7 +6,7 @@
 //
 
 /// Representation of a guild voice channel
-public struct GuildVoice: GuildChannel {
+public class GuildVoice: GuildChannel, Updatable {
   
   // MARK: Properties
   
@@ -69,6 +69,9 @@ public struct GuildVoice: GuildChannel {
   }
   
   // MARK: Functions
+  
+  func update(_ json: [String : Any]) {
+  }
   
   /**
    Moves a member in this voice channel to another voice channel (if they are in it)

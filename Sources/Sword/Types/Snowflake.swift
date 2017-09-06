@@ -29,12 +29,6 @@ public struct Snowflake {
     return Date(timeInterval: Double((rawValue & 0xFFFFFFFFFFC00000) >> 22) / 1000, since: Snowflake.epoch)
   }
   
-  /// For backwards compatibility, use .rawValue instead
-  @available(*, deprecated: 0.7, renamed: "rawValue")
-  public var value: UInt64 {
-    return rawValue
-  }
-  
   /// Discord's internal worker ID that generated this snowflake
   public var workerId: Int {
     return Int((rawValue & 0x3E0000) >> 17)
@@ -48,12 +42,14 @@ public struct Snowflake {
   /// Initialize from a String
   public init?(_ string: String) {
     guard let snowflake = UInt64(string) else { return nil }
+    
     self.init(snowflake)
   }
   
   /// Initialize from a String? (returns nil if the input was nil or if it failed to initialize)
   public init?(_ optionalString: String?) {
     guard let string = optionalString else { return nil }
+    
     self.init(string)
   }
   
@@ -66,8 +62,11 @@ public struct Snowflake {
   */
   public static func fakeSnowflake(date: Date) -> Snowflake? {
     let intervalSinceDiscordEpoch = Int64(date.timeIntervalSince(Snowflake.epoch) * 1000)
+    
     guard intervalSinceDiscordEpoch > 0 else { return nil }
+    
     guard intervalSinceDiscordEpoch < (1 << 41) else { return nil }
+    
     return Snowflake(UInt64(intervalSinceDiscordEpoch) << 22)
   }
 }
