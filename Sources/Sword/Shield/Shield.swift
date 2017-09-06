@@ -91,8 +91,7 @@ open class Shield: Sword {
       let originalCommand = commandString
       commandString = commandString.lowercased()
       
-      // Replace an alias with the string for the base command if it exists
-      if (self.commands[commandString] == nil) {
+      if self.commands[commandString] == nil {
         if let alias = self.commandAliases[commandString] {
           commandString = alias
         }

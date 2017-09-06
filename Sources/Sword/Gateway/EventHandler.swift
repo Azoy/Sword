@@ -298,6 +298,8 @@ extension Shard {
 
       self.sword.emit(.voiceStateUpdate, with: userId)
 
+      
+      #if !os(iOS)
       guard userId == self.sword.user!.id else { return }
 
       if let channelId = channelId {
@@ -305,9 +307,11 @@ extension Shard {
       }else {
         self.sword.voiceManager.leave(guildId)
       }
+      #endif
 
     /// VOICE_SERVER_UPDATE
     case .voiceServerUpdate:
+      #if !os(iOS)
       let guildId = GuildID(data["guild_id"] as! String)!
       let token = data["token"] as! String
       let endpoint = data["endpoint"] as! String
@@ -325,6 +329,9 @@ extension Shard {
       )
 
       self.sword.voiceManager.join(guildId, endpoint, payload)
+      #else
+      break
+      #endif
 
       
     case .audioData:
