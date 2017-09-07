@@ -11,7 +11,7 @@ open class Shield: Sword {
   // MARK: Properties
 
   /// Object pointing command aliases to their respected full name
-  public var commandAliases = [String: String]()
+  public var commandAliases = [String: (casePreserved: String, target: String)]()
 
   /// Object pointing command names to their Command Object
   public var commands = [String: Commandable]()
@@ -89,23 +89,27 @@ open class Shield: Sword {
       var commandString = arguments.remove(at: 0)
 
       let originalCommand = commandString
+      var correctCaseAlias: String? = nil
       commandString = commandString.lowercased()
       
       // Replace an alias with the string for the base command if it exists
       if (self.commands[commandString] == nil) {
         if let alias = self.commandAliases[commandString] {
-          commandString = alias
+          commandString = alias.target
+          correctCaseAlias = alias.casePreserved
         }
       }
       
       guard let command = self.commands[commandString] else { return }
 
+      let correctCaseCommand = correctCaseAlias ?? command.name
+
       if let isCaseSensitive = command.options.isCaseSensitive {
         if isCaseSensitive {
-          guard command.name == originalCommand else { return }
+          guard correctCaseCommand == originalCommand else { return }
         }
-      }else if self.shieldOptions.willBeCaseSensitive {
-        guard command.name == originalCommand else { return }
+      } else if self.shieldOptions.willBeCaseSensitive {
+        guard correctCaseCommand == originalCommand else { return }
       }
 
       if !command.options.requirements.permissions.isEmpty {
@@ -134,7 +138,7 @@ open class Shield: Sword {
     
     if !command.options.aliases.isEmpty {
       for alias in command.options.aliases {
-        self.commandAliases[alias.lowercased()] = command.name.lowercased()
+        self.commandAliases[alias.lowercased()] = (alias, command.name.lowercased())
       }
     }
   }
@@ -151,7 +155,7 @@ open class Shield: Sword {
 
     if !options.aliases.isEmpty {
       for alias in options.aliases {
-        self.commandAliases[alias.lowercased()] = commandName.lowercased()
+        self.commandAliases[alias.lowercased()] = (alias, commandName.lowercased())
       }
     }
   }
@@ -172,7 +176,7 @@ open class Shield: Sword {
 
     if !options.aliases.isEmpty {
       for alias in options.aliases {
-        self.commandAliases[alias.lowercased()] = commandName.lowercased()
+        self.commandAliases[alias.lowercased()] = (alias, commandName.lowercased())
       }
     }
   }
@@ -211,7 +215,7 @@ open class Shield: Sword {
     }
 
     for (key, value) in self.commandAliases {
-      if value == commandName {
+      if value.target == commandName {
         self.commandAliases.removeValue(forKey: key)
       }
     }
