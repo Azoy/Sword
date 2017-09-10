@@ -57,7 +57,10 @@ extension Gateway {
 
     self.session?.onConnect = { [unowned self] in
       self.isConnected = true
+      
+      #if !os(iOS)
       self.handleConnect()
+      #endif
     }
 
     self.session?.onText = { [unowned self] text in

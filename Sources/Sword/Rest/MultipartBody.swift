@@ -8,6 +8,10 @@
 
 #if !os(Linux)
 import Foundation
+  
+#if os(iOS)
+import MobileCoreServices
+#endif
 
 /// Image Handler
 extension Sword {
