@@ -29,7 +29,7 @@ public extension Channel {
   // MARK: Functions
 
   /// Deletes the current channel, whether it be a DMChannel or GuildChannel
-  func delete(then completion: @escaping (Channel?, RequestError?) -> () = {_,_  in}) {
+  func delete(then completion: ((Channel?, RequestError?) -> ())? = nil) {
     self.sword?.deleteChannel(self.id, then: completion)
   }
 
@@ -55,8 +55,17 @@ public extension TextChannel {
    - parameter reaction: Unicode or custom emoji reaction
    - parameter messageId: Message to add reaction to
    */
-  func addReaction(_ reaction: String, to messageId: MessageID, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.addReaction(reaction, to: messageId, in: self.id, then: completion)
+  func addReaction(
+    _ reaction: String,
+    to messageId: MessageID,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
+    self.sword?.addReaction(
+      reaction,
+      to: messageId,
+      in: self.id,
+      then: completion
+    )
   }
 
   /**
@@ -64,7 +73,10 @@ public extension TextChannel {
 
    - parameter messageId: Message to delete
    */
-  func deleteMessage(_ messageId: MessageID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  func deleteMessage(
+    _ messageId: MessageID,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     self.sword?.deleteMessage(messageId, from: self.id, then: completion)
   }
 
@@ -73,7 +85,10 @@ public extension TextChannel {
 
    - parameter messages: Array of message ids to delete
    */
-  func deleteMessages(_ messages: [MessageID], then completion: @escaping (RequestError?) -> () = {_ in}) {
+  func deleteMessages(
+    _ messages: [MessageID],
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     self.sword?.deleteMessages(messages, from: self.id, then: completion)
   }
 
@@ -84,8 +99,19 @@ public extension TextChannel {
    - parameter messageId: Message to delete reaction from
    - parameter userId: If nil, deletes bot's reaction from, else delete a reaction from user
    */
-  func deleteReaction(_ reaction: String, from messageId: MessageID, by userId: UserID? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.deleteReaction(reaction, from: messageId, by: userId, in: self.id, then: completion)
+  func deleteReaction(
+    _ reaction: String,
+    from messageId: MessageID,
+    by userId: UserID? = nil,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
+    self.sword?.deleteReaction(
+      reaction,
+      from: messageId,
+      by: userId,
+      in: self.id,
+      then: completion
+    )
   }
 
   /**
@@ -94,8 +120,17 @@ public extension TextChannel {
    - parameter messageId: Message to edit
    - parameter content: Text to change message to
    */
-  func editMessage(_ messageId: MessageID, with options: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
-    self.sword?.editMessage(messageId, with: options, in: self.id, then: completion)
+  func editMessage(
+    _ messageId: MessageID,
+    with options: [String: Any],
+    then completion: ((Message?, RequestError?) -> ())? = nil
+  ) {
+    self.sword?.editMessage(
+      messageId,
+      with: options,
+      in: self.id,
+      then: completion
+    )
   }
 
   /**
@@ -103,7 +138,10 @@ public extension TextChannel {
 
    - parameter messageId: Id of message you want to get
    **/
-  func getMessage(_ messageId: MessageID, then completion: @escaping (Message?, RequestError?) -> ()) {
+  func getMessage(
+    _ messageId: MessageID,
+    then completion: @escaping (Message?, RequestError?) -> ()
+  ) {
     self.sword?.getMessage(messageId, from: self.id, then: completion)
   }
 
@@ -119,7 +157,10 @@ public extension TextChannel {
 
    - parameter options: Dictionary containing optional options regarding how many messages, or when to get them
    **/
-  func getMessages(with options: [String: Any]? = nil, then completion: @escaping ([Message]?, RequestError?) -> ()) {
+  func getMessages(
+    with options: [String: Any]? = nil,
+    then completion: @escaping ([Message]?, RequestError?) -> ()
+  ) {
     self.sword?.getMessages(from: self.id, with: options, then: completion)
   }
 
@@ -129,12 +170,23 @@ public extension TextChannel {
    - parameter reaction: Unicode or custom emoji to get
    - parameter messageId: Message to get reaction users from
    */
-  func getReaction(_ reaction: String, from messageId: MessageID, then completion: @escaping ([User]?, RequestError?) -> ()) {
-    self.sword?.getReaction(reaction, from: messageId, in: self.id, then: completion)
+  func getReaction(
+    _ reaction: String,
+    from messageId: MessageID,
+    then completion: @escaping ([User]?, RequestError?) -> ()
+  ) {
+    self.sword?.getReaction(
+      reaction,
+      from: messageId,
+      in: self.id,
+      then: completion
+    )
   }
 
   /// Get Pinned messages for this channel
-  func getPinnedMessages(then completion: @escaping ([Message]?, RequestError?) -> () = {_,_  in}) {
+  func getPinnedMessages(
+    then completion: @escaping ([Message]?, RequestError?) -> ()
+  ) {
     self.sword?.getPinnedMessages(from: self.id, then: completion)
   }
 
@@ -143,7 +195,10 @@ public extension TextChannel {
 
    - parameter messageId: Message to pin
    */
-  func pin(_ messageId: MessageID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  func pin(
+    _ messageId: MessageID,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     self.sword?.pin(messageId, in: self.id, then: completion)
   }
 
@@ -152,7 +207,10 @@ public extension TextChannel {
 
    - parameter message: String to send as message
    */
-  func send(_ message: String, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
+  func send(
+    _ message: String,
+    then completion: ((Message?, RequestError?) -> ())? = nil
+  ) {
     self.sword?.send(message, to: self.id, then: completion)
   }
   
@@ -161,7 +219,10 @@ public extension TextChannel {
    
    - parameter message: Dictionary containing info on message to send
    */
-  func send(_ message: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
+  func send(
+    _ message: [String: Any],
+    then completion: ((Message?, RequestError?) -> ())? = nil
+  ) {
     self.sword?.send(message, to: self.id, then: completion)
   }
   
@@ -170,7 +231,10 @@ public extension TextChannel {
    
    - parameter message: Embed to send as message
    */
-  func send(_ message: Embed, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
+  func send(
+    _ message: Embed,
+    then completion: ((Message?, RequestError?) -> ())? = nil
+  ) {
     self.sword?.send(message, to: self.id, then: completion)
   }
   
@@ -179,7 +243,10 @@ public extension TextChannel {
 
    - parameter messageId: Pinned message to unpin
    */
-  func unpin(_ messageId: MessageID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  func unpin(
+    _ messageId: MessageID,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     self.sword?.unpin(messageId, from: self.id, then: completion)
   }
 

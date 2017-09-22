@@ -26,7 +26,9 @@ public struct Snowflake {
 
   /// Time when snowflake was created
   public var timestamp: Date {
-    return Date(timeInterval: Double((rawValue & 0xFFFFFFFFFFC00000) >> 22) / 1000, since: Snowflake.epoch)
+    return Date(timeInterval: Double(
+      (rawValue & 0xFFFFFFFFFFC00000) >> 22) / 1000, since: Snowflake.epoch
+    )
   }
   
   /// Discord's internal worker ID that generated this snowflake
@@ -61,7 +63,9 @@ public struct Snowflake {
    - returns: A fake snowflake with the specified date, or nil if the specified date will not make a valid snowflake
   */
   public static func fakeSnowflake(date: Date) -> Snowflake? {
-    let intervalSinceDiscordEpoch = Int64(date.timeIntervalSince(Snowflake.epoch) * 1000)
+    let intervalSinceDiscordEpoch = Int64(
+      date.timeIntervalSince(Snowflake.epoch) * 1000
+    )
     
     guard intervalSinceDiscordEpoch > 0 else { return nil }
     

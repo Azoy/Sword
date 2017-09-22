@@ -67,7 +67,12 @@ class ShardManager {
     guard self.shards.first(where: { $0.id == id }) == nil else { return }
     guard self.gatewayUrl != nil else { return }
     
-    let shard = Shard(self.sword!, id, self.sword!.shardCount, self.gatewayUrl!)
+    let shard = Shard(
+      self.sword!,
+      id,
+      self.sword!.shardCount,
+      self.gatewayUrl!
+    )
     self.shards.append(shard)
   }
 

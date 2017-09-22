@@ -121,7 +121,12 @@ public class VoiceConnection: Gateway, Eventable {
    - parameter guildId: Guild we're connecting to
    - parameter handler: Completion handler to call after we're ready
   */
-  init(_ endpoint: String, _ guildId: GuildID, _ identify: Payload, _ handler: @escaping (VoiceConnection) -> ()) {
+  init(
+    _ endpoint: String,
+    _ guildId: GuildID,
+    _ identify: Payload,
+    _ handler: @escaping (VoiceConnection) -> ()
+  ) {
     self.endpoint = endpoint.components(separatedBy: ":")
     self.gatewayUrl = "wss://\(self.endpoint[0])?v=3"
     self.guildId = guildId
@@ -129,8 +134,12 @@ public class VoiceConnection: Gateway, Eventable {
     self.port = Int(self.endpoint[1])!
     self.handler = handler
 
-    self.udpReadQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpRead.\(guildId)")
-    self.udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite.\(guildId)")
+    self.udpReadQueue = DispatchQueue(
+      label: "me.azoy.sword.voiceConnection.udpRead.\(guildId)"
+    )
+    self.udpWriteQueue = DispatchQueue(
+      label: "me.azoy.sword.voiceConnection.udpWrite.\(guildId)"
+    )
 
     _ = sodium_init()
 
@@ -191,13 +200,21 @@ public class VoiceConnection: Gateway, Eventable {
       free(audioData)
     }
 
-    let encrypted = crypto_secretbox_easy(audioData, &buffer, UInt64(buffer.count), &nonce, &self.secret)
+    let encrypted = crypto_secretbox_easy(
+      audioData,
+      &buffer,
+      UInt64(buffer.count),
+      &nonce,
+      &self.secret
+    )
 
     guard encrypted != -1 else {
       throw VoiceError.encryptionFail
     }
 
-    let encryptedAudioData = Array(UnsafeBufferPointer(start: audioData, count: audioSize))
+    let encryptedAudioData = Array(
+      UnsafeBufferPointer(start: audioData, count: audioSize)
+    )
 
     return header + encryptedAudioData
   }
@@ -212,9 +229,21 @@ public class VoiceConnection: Gateway, Eventable {
 
     header.storeBytes(of: 0x80, as: UInt8.self)
     header.storeBytes(of: 0x78, toByteOffset: 1, as: UInt8.self)
-    header.storeBytes(of: self.sequence.bigEndian, toByteOffset: 2, as: UInt16.self)
-    header.storeBytes(of: self.timestamp.bigEndian, toByteOffset: 4, as: UInt32.self)
-    header.storeBytes(of: self.ssrc.bigEndian, toByteOffset: 8, as: UInt32.self)
+    header.storeBytes(
+      of: self.sequence.bigEndian,
+      toByteOffset: 2,
+      as: UInt16.self
+    )
+    header.storeBytes(
+      of: self.timestamp.bigEndian,
+      toByteOffset: 4,
+      as: UInt32.self
+    )
+    header.storeBytes(
+      of: self.ssrc.bigEndian,
+      toByteOffset: 8,
+      as: UInt32.self
+    )
 
     return Array(header)
   }
@@ -233,19 +262,30 @@ public class VoiceConnection: Gateway, Eventable {
     #else
     let audioSize = audioData.count - 16
     #endif
-    let unencryptedAudioData = UnsafeMutablePointer<UInt8>.allocate(capacity: audioSize)
+    let unencryptedAudioData = UnsafeMutablePointer<UInt8>.allocate(
+      capacity: audioSize
+    )
 
     defer {
       free(unencryptedAudioData)
     }
 
-    let unencrypted = crypto_secretbox_open_easy(unencryptedAudioData, audioData, UInt64(data.count - 12), &nonce, &self.secret)
+    let unencrypted = crypto_secretbox_open_easy(
+      unencryptedAudioData,
+      audioData,
+      UInt64(data.count - 12),
+      &nonce,
+      &self.secret
+    )
 
     guard unencrypted != -1 else {
       throw VoiceError.decryptionFail
     }
 
-    return Array(UnsafeBufferPointer(start: unencryptedAudioData, count: audioSize))
+    return Array(UnsafeBufferPointer(
+      start: unencryptedAudioData,
+      count: audioSize
+    ))
   }
 
   /// Creates a new encoder when old one is done
@@ -322,7 +362,12 @@ public class VoiceConnection: Gateway, Eventable {
 
       switch voiceOP {
       case .ready:
-        self.heartbeat = Heartbeat(self.session!, "heartbeat.voiceconnection.\(self.guildId)", interval: data["heartbeat_interval"] as! Int, voice: true)
+        self.heartbeat = Heartbeat(
+          self.session!,
+          "heartbeat.voiceconnection.\(self.guildId)",
+          interval: data["heartbeat_interval"] as! Int,
+          voice: true
+        )
         self.heartbeat?.received = true
         self.heartbeat?.send()
 
@@ -348,12 +393,20 @@ public class VoiceConnection: Gateway, Eventable {
    - parameter identify: New identify to send to WS
    - parameter handler: New completion handler to call once voice connection is ready
   */
-  func moveChannels(_ gatewayUrl: String, _ identify: Payload, _ handler: @escaping (VoiceConnection) -> ()) {
+  func moveChannels(
+    _ gatewayUrl: String,
+    _ identify: Payload,
+    _ handler: @escaping (VoiceConnection) -> ()
+  ) {
     self.gatewayUrl = gatewayUrl
     self.identify = identify
     self.handler = handler
-    self.udpReadQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpRead.\(guildId)")
-    self.udpWriteQueue = DispatchQueue(label: "gg.azoy.sword.voiceConnection.udpWrite.\(guildId)")
+    self.udpReadQueue = DispatchQueue(
+      label: "me.azoy.sword.voiceConnection.udpRead.\(guildId)"
+    )
+    self.udpWriteQueue = DispatchQueue(
+      label: "me.azoy.sword.voiceConnection.udpWrite.\(guildId)"
+    )
     
     #if os(macOS)
     self.session?.disconnect()
@@ -470,7 +523,9 @@ public class VoiceConnection: Gateway, Eventable {
 
       do {
         let (data, _) = try client.recvfrom(maxBytes: 4096)
-        guard let audioData = try self?.decryptPacket(with: Data(bytes: data)) else { return }
+        guard let audioData = try self?.decryptPacket(
+          with: Data(bytes: data)
+        ) else { return }
         self?.emit(.audioData, with: audioData)
       }catch {
         guard let isConnected = self?.isConnected, isConnected else { return }
@@ -500,10 +555,23 @@ public class VoiceConnection: Gateway, Eventable {
    - parameter bytes: Raw data to get user's IP and Port from
   */
   func selectProtocol(_ bytes: [UInt8]) {
-    let localIp = String(data: Data(bytes: bytes.dropLast(2)), encoding: .utf8)!.replacingOccurrences(of: "\0", with: "")
+    let localIp = String(
+      data: Data(bytes: bytes.dropLast(2)),
+      encoding: .utf8
+    )!.replacingOccurrences(of: "\0", with: "")
     let localPort = Int(bytes[68]) + (Int(bytes[69]) << 8)
 
-    let payload = Payload(voiceOP: .selectProtocol, data: ["protocol": "udp", "data": ["address": localIp, "port": localPort, "mode": "xsalsa20_poly1305"]]).encode()
+    let payload = Payload(
+      voiceOP: .selectProtocol,
+      data: [
+        "protocol": "udp",
+        "data": [
+          "address": localIp,
+          "port": localPort,
+          "mode": "xsalsa20_poly1305"
+        ]
+      ]
+    ).encode()
     
     #if os(macOS)
     self.session?.write(string: payload)
@@ -551,7 +619,10 @@ public class VoiceConnection: Gateway, Eventable {
    - parameter value: Whether or not we want to speak
   */
   func setSpeaking(to value: Bool) {
-    let payload = Payload(voiceOP: .speaking, data: ["speaking": value, "delay": 0]).encode()
+    let payload = Payload(
+      voiceOP: .speaking,
+      data: ["speaking": value, "delay": 0]
+    ).encode()
     
     #if os(macOS)
     self.session?.write(string: payload)

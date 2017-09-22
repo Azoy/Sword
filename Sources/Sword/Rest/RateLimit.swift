@@ -19,10 +19,17 @@ extension Sword {
   */
   func getRoute(for url: String) -> String {
 
-    let regex = try! NSRegularExpression(pattern: "/([a-z-]+)/(?:[0-9]{17,})+?", options: .caseInsensitive)
+    let regex = try! NSRegularExpression(
+      pattern: "/([a-z-]+)/(?:[0-9]{17,})+?",
+      options: .caseInsensitive
+    )
 
     let string = NSString(string: url)
-    let matches = regex.matches(in: url, options: [], range: NSMakeRange(0, string.length))
+    let matches = regex.matches(
+      in: url,
+      options: [],
+      range: NSMakeRange(0, string.length)
+    )
 
     guard matches.count > 0 else {
       return url
@@ -39,7 +46,8 @@ extension Sword {
       let parameterId = parameters[1]
       parameters[1] = ":id"
 
-      if (parameters[0] == "channels" || parameters[0] == "guilds") && route.isEmpty {
+      if (parameters[0] == "channels" || parameters[0] == "guilds")
+        && route.isEmpty {
         parameters[1] = parameterId
       }
 
@@ -62,8 +70,14 @@ extension Sword {
 
    - parameter headers: The received headers from the request
   */
-  func handleRateLimitHeaders(_ limitHeader: Any?, _ intervalHeader: Any?, _ date: Double, _ route: String) {
-    guard let limitHeader = limitHeader, let intervalHeader = intervalHeader else {
+  func handleRateLimitHeaders(
+    _ limitHeader: Any?,
+    _ intervalHeader: Any?,
+    _ date: Double,
+    _ route: String
+  ) {
+    guard let limitHeader = limitHeader,
+      let intervalHeader = intervalHeader else {
       return
     }
 
@@ -71,7 +85,11 @@ extension Sword {
     let interval = Int(intervalHeader as! String)! - Int(date)
 
     if self.rateLimits[route] == nil {
-      let bucket = Bucket(name: "gg.azoy.sword.rest.\(route)", limit: limit, interval: interval)
+      let bucket = Bucket(
+        name: "me.azoy.sword.rest.\(route)",
+        limit: limit,
+        interval: interval
+      )
       bucket.take(1)
 
       self.rateLimits[route] = bucket

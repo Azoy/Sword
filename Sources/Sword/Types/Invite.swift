@@ -29,9 +29,13 @@ public struct Invite {
    - parameter json: Dictionary representation of invite json
   */
   init(_ sword: Sword, _ json: [String: Any]) {
-    let guild = sword.guilds[GuildID((json["guild"] as! [String: Any])["id"] as! String)!]
+    let guild = sword.guilds[
+      GuildID((json["guild"] as! [String: Any])["id"] as! String)!
+    ]
     self.guild = guild
-    self.channel = guild?.channels[ChannelID((json["channel"] as! [String: Any])["id"] as! String)!] as? GuildText
+    self.channel = guild?.channels[
+      ChannelID((json["channel"] as! [String: Any])["id"] as! String)!
+    ] as? GuildText
     self.code = json["code"] as! String
   }
   

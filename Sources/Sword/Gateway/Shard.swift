@@ -72,13 +72,13 @@ class Shard: Gateway {
     self.gatewayUrl = gatewayUrl
 
     self.globalBucket = Bucket(
-      name: "gg.azoy.sword.gateway.global",
+      name: "me.azoy.sword.gateway.global",
       limit: 120,
       interval: 60
     )
 
     self.presenceBucket = Bucket(
-      name: "gg.azoy.sword.gateway.presence",
+      name: "me.azoy.sword.gateway.presence",
       limit: 5,
       interval: 60
     )

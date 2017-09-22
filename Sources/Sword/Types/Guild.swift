@@ -119,7 +119,8 @@ public class Guild: Updatable {
       }
     }
 
-    self.defaultMessageNotifications = json["default_message_notifications"] as! Int
+    self.defaultMessageNotifications =
+      json["default_message_notifications"] as! Int
     self.embedChannelId = ChannelID(json["embed_channel_id"] as? String)
     self.isEmbedEnabled = json["embed_enabled"] as? Bool
 
@@ -160,7 +161,9 @@ public class Guild: Updatable {
 
     self.shard = shard
     self.splash = json["splash"] as? String
-    self.verificationLevel = VerificationLevel(rawValue: json["verification_level"] as! Int)!
+    self.verificationLevel = VerificationLevel(
+      rawValue: json["verification_level"] as! Int
+    )!
 
     if let members = json["members"] as? [[String: Any]] {
       for member in members {
@@ -171,7 +174,9 @@ public class Guild: Updatable {
 
     if let presences = json["presences"] as? [[String: Any]] {
       for presence in presences {
-        let userId = UserID((presence["user"] as! [String: Any])["id"] as! String)!
+        let userId = UserID(
+          (presence["user"] as! [String: Any])["id"] as! String
+        )!
         let presence = Presence(presence)
         self.members[userId]?.presence = presence
       }
@@ -181,8 +186,12 @@ public class Guild: Updatable {
       for voiceState in voiceStates {
         let voiceStateObjc = VoiceState(voiceState)
 
-        self.voiceStates[UserID(voiceState["user_id"] as! String)!] = voiceStateObjc
-        self.members[UserID(voiceState["user_id"] as! String)!]?.voiceState = voiceStateObjc
+        self.voiceStates[
+          UserID(voiceState["user_id"] as! String)!
+        ] = voiceStateObjc
+        self.members[
+          UserID(voiceState["user_id"] as! String)!
+        ]?.voiceState = voiceStateObjc
       }
     }
   }
@@ -203,8 +212,19 @@ public class Guild: Updatable {
    - parameter reason: Reason why member was banned from guild (attached to audit log)
    - parameter options: Deletes messages from this user by amount of days
   */
-  public func ban(_ member: UserID, for reason: String? = nil, with options: [String: Int] = [:], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.ban(member, from: self.id, for: reason, with: options, then: completion)
+  public func ban(
+    _ member: UserID,
+    for reason: String? = nil,
+    with options: [String: Int] = [:],
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
+    self.sword?.ban(
+      member,
+      from: self.id,
+      for: reason,
+      with: options,
+      then: completion
+    )
   }
 
   /**
@@ -220,7 +240,10 @@ public class Guild: Updatable {
 
    - parameter options: Preconfigured options to give the channel on create
   */
-  public func createChannel(with options: [String: Any], then completion: @escaping (GuildChannel?, RequestError?) -> () = {_ in}) {
+  public func createChannel(
+    with options: [String: Any],
+    then completion: ((GuildChannel?, RequestError?) -> ())? = nil
+  ) {
     self.sword?.createChannel(for: self.id, with: options, then: completion)
   }
 
@@ -234,7 +257,10 @@ public class Guild: Updatable {
 
    - parameter options: Preconfigured options for this integration
   */
-  public func createIntegration(with options: [String: String], then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func createIntegration(
+    with options: [String: String],
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     self.sword?.createIntegration(for: self.id, with: options, then: completion)
   }
 
@@ -251,7 +277,10 @@ public class Guild: Updatable {
 
    - parameter options: Preset options to configure role with
   */
-  public func createRole(with options: [String: Any], then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
+  public func createRole(
+    with options: [String: Any],
+    then completion: ((Role?, RequestError?) -> ())? = nil
+  ) {
     self.sword?.createRole(for: self.id, with: options, then: completion)
   }
 
@@ -260,8 +289,15 @@ public class Guild: Updatable {
 
    - parameter integrationId: Integration to delete
   */
-  public func deleteIntegration(_ integrationId: IntegrationID, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.deleteIntegration(integrationId, from: self.id, then: completion)
+  public func deleteIntegration(
+    _ integrationId: IntegrationID,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
+    self.sword?.deleteIntegration(
+      integrationId,
+      from: self.id,
+      then: completion
+    )
   }
 
   /**
@@ -269,12 +305,15 @@ public class Guild: Updatable {
 
    - parameter roleId: Role to delete
   */
-  public func deleteRole(_ roleId: RoleID, then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
+  public func deleteRole(
+    _ roleId: RoleID,
+    then completion: ((Role?, RequestError?) -> ())? = nil
+  ) {
     self.sword?.deleteRole(roleId, from: self.id, then: completion)
   }
 
   /// Deletes current guild
-  public func delete(then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
+  public func delete(then completion: ((Guild?, RequestError?) -> ())? = nil) {
     self.sword?.deleteGuild(self.id, then: completion)
   }
   
@@ -290,27 +329,38 @@ public class Guild: Updatable {
    
    - parameter options: Optional flags to request for when getting audit logs
   */
-  public func getAuditLog(with options: [String: Any]? = nil, then completion: @escaping (AuditLog?, RequestError?) -> ()) {
+  public func getAuditLog(
+    with options: [String: Any]? = nil,
+    then completion: @escaping (AuditLog?, RequestError?) -> ()
+  ) {
     self.sword?.getAuditLog(from: self.id, with: options, then: completion)
   }
   
   /// Gets guild's bans
-  public func getBans(then completion: @escaping ([User]?, RequestError?) -> ()) {
+  public func getBans(
+    then completion: @escaping ([User]?, RequestError?) -> ()
+  ) {
     self.sword?.getBans(from: self.id, then: completion)
   }
 
   /// Gets the guild embed
-  public func getEmbed(then completion: @escaping ([String: Any]?, RequestError?) -> ()) {
+  public func getEmbed(
+    then completion: @escaping ([String: Any]?, RequestError?) -> ()
+  ) {
     self.sword?.getGuildEmbed(from: self.id, then: completion)
   }
 
   /// Gets guild's integrations
-  public func getIntegrations(then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
+  public func getIntegrations(
+    then completion: @escaping ([[String: Any]]?, RequestError?) -> ()
+  ) {
     self.sword?.getIntegrations(from: self.id, then: completion)
   }
 
   /// Gets guild's invites
-  public func getInvites(then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
+  public func getInvites(
+    then completion: @escaping ([[String: Any]]?, RequestError?) -> ()
+  ) {
     self.sword?.getGuildInvites(from: self.id, then: completion)
   }
 
@@ -324,7 +374,10 @@ public class Guild: Updatable {
 
    - parameter options: Dictionary containing optional optiond regarding what members are returned
   */
-  public func getMembers(with options: [String: Any]? = nil, then completion: @escaping ([Member]?, RequestError?) -> ()) {
+  public func getMembers(
+    with options: [String: Any]? = nil,
+    then completion: @escaping ([Member]?, RequestError?) -> ()
+  ) {
     self.sword?.getMembers(from: self.id, with: options, then: completion)
   }
 
@@ -333,22 +386,31 @@ public class Guild: Updatable {
 
    - parameter limit: Number of days to get prune count for
   */
-  public func getPruneCount(for limit: Int, then completion: @escaping (Int?, RequestError?) -> ()) {
+  public func getPruneCount(
+    for limit: Int,
+    then completion: @escaping (Int?, RequestError?) -> ()
+  ) {
     self.sword?.getPruneCount(from: self.id, for: limit, then: completion)
   }
 
   /// Gets guild roles
-  public func getRoles(then completion: @escaping ([Role]?, RequestError?) -> ()) {
+  public func getRoles(
+    then completion: @escaping ([Role]?, RequestError?) -> ()
+  ) {
     self.sword?.getRoles(from: self.id, then: completion)
   }
 
   /// Gets an array of voice regions from guild
-  public func getVoiceRegions(then completion: @escaping ([[String: Any]]?, RequestError?) -> ()) {
+  public func getVoiceRegions(
+    then completion: @escaping ([[String: Any]]?, RequestError?) -> ()
+  ) {
     self.sword?.getVoiceRegions(from: self.id, then: completion)
   }
 
   /// Gets guild's webhooks
-  public func getWebhooks(then completion: @escaping ([Webhook]?, RequestError?) -> ()) {
+  public func getWebhooks(
+    then completion: @escaping ([Webhook]?, RequestError?) -> ()
+  ) {
     self.sword?.getGuildWebhooks(from: self.id, then: completion)
   }
 
@@ -358,7 +420,11 @@ public class Guild: Updatable {
    - parameter userId: Member to kick from server
    - parameter reason: Reason why member was kicked from server
   */
-  public func kick(_ userId: UserID, for reason: String? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func kick(
+    _ userId: UserID,
+    for reason: String? = nil,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     self.sword?.kick(userId, from: self.id, for: reason, then: completion)
   }
 
@@ -379,7 +445,10 @@ public class Guild: Updatable {
 
    - parameter options: Preconfigured options to modify guild with
   */
-  public func modify(with options: [String: Any], then completion: @escaping (Guild?, RequestError?) -> () = {_ in}) {
+  public func modify(
+    with options: [String: Any],
+    then completion: ((Guild?, RequestError?) -> ())? = nil
+  ) {
     self.sword?.modifyGuild(self.id, with: options, then: completion)
   }
 
@@ -395,8 +464,15 @@ public class Guild: Updatable {
 
    - parameter options: Preconfigured options to set channel positions to
   */
-  public func modifyChannelPositions(with options: [[String: Any]], then completion: @escaping ([GuildChannel]?, RequestError?) -> () = {_ in}) {
-    self.sword?.modifyChannelPositions(for: self.id, with: options, then: completion)
+  public func modifyChannelPositions(
+    with options: [[String: Any]],
+    then completion: (([GuildChannel]?, RequestError?) -> ())? = nil
+  ) {
+    self.sword?.modifyChannelPositions(
+      for: self.id,
+      with: options,
+      then: completion
+    )
   }
 
   /**
@@ -409,7 +485,10 @@ public class Guild: Updatable {
 
    - parameter options: Dictionary of options to give embed
   */
-  public func modifyEmbed(with options: [String: Any], then completion: @escaping ([String: Any]?, RequestError?) -> () = {_ in}) {
+  public func modifyEmbed(
+    with options: [String: Any],
+    then completion: (([String: Any]?, RequestError?) -> ())? = nil
+  ) {
     self.sword?.modifyEmbed(for: self.id, with: options, then: completion)
   }
 
@@ -425,8 +504,17 @@ public class Guild: Updatable {
    - parameter integrationId: Integration to modify
    - parameter options: Preconfigured options to modify this integration with
   */
-  public func modifyIntegration(_ integrationId: IntegrationID, with options: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.modifyIntegration(integrationId, for: self.id, with: options, then: completion)
+  public func modifyIntegration(
+    _ integrationId: IntegrationID,
+    with options: [String: Any],
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
+    self.sword?.modifyIntegration(
+      integrationId,
+      for: self.id,
+      with: options,
+      then: completion
+    )
   }
 
   /**
@@ -443,8 +531,17 @@ public class Guild: Updatable {
    - parameter userId: Member to modify
    - parameter options: Preconfigured options to modify member with
   */
-  public func modifyMember(_ userId: UserID, with options: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.modifyMember(userId, in: self.id, with: options, then: completion)
+  public func modifyMember(
+    _ userId: UserID,
+    with options: [String: Any],
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
+    self.sword?.modifyMember(
+      userId,
+      in: self.id,
+      with: options,
+      then: completion
+    )
   }
 
   /**
@@ -461,8 +558,17 @@ public class Guild: Updatable {
    - parameter roleId: Role to modify
    - parameter options: Preconfigured options to modify guild roles with
   */
-  public func modifyRole(_ roleId: RoleID, with options: [String: Any], then completion: @escaping (Role?, RequestError?) -> () = {_ in}) {
-    self.sword?.modifyRole(roleId, for: self.id, with: options, then: completion)
+  public func modifyRole(
+    _ roleId: RoleID,
+    with options: [String: Any],
+    then completion: ((Role?, RequestError?) -> ())? = nil
+  ) {
+    self.sword?.modifyRole(
+      roleId,
+      for: self.id,
+      with: options,
+      then: completion
+    )
   }
 
   /**
@@ -477,8 +583,15 @@ public class Guild: Updatable {
 
    - parameter options: Preconfigured options to set role positions to
   */
-  public func modifyRolePositions(with options: [[String: Any]], then completion: @escaping ([Role]?, RequestError?) -> () = {_ in}) {
-    self.sword?.modifyRolePositions(for: self.id, with: options, then: completion)
+  public func modifyRolePositions(
+    with options: [[String: Any]],
+    then completion: (([Role]?, RequestError?) -> ())? = nil
+  ) {
+    self.sword?.modifyRolePositions(
+      for: self.id,
+      with: options,
+      then: completion
+    )
   }
 
   /**
@@ -486,7 +599,11 @@ public class Guild: Updatable {
 
    - parameter channelId: The Id of the channel to send them to
   */
-  public func moveMember(_ userId: UserID, to channelId: ChannelID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func moveMember(
+    _ userId: UserID,
+    to channelId: ChannelID,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     self.sword?.moveMember(userId, in: self.id, to: channelId, then: completion)
   }
 
@@ -495,7 +612,10 @@ public class Guild: Updatable {
 
    - parameter limit: Amount of days for prunned users
   */
-  public func pruneMembers(for limit: Int, then completion: @escaping (Int?, RequestError?) -> () = {_ in}) {
+  public func pruneMembers(
+    for limit: Int,
+    then completion: ((Int?, RequestError?) -> ())? = nil
+  ) {
     self.sword?.pruneMembers(in: self.id, for: limit, then: completion)
   }
 
@@ -504,7 +624,10 @@ public class Guild: Updatable {
 
    - parameter integrationId: Integration to sync
   */
-  public func syncIntegration(_ integrationId: IntegrationID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func syncIntegration(
+    _ integrationId: IntegrationID,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     self.sword?.syncIntegration(integrationId, for: self.id, then: completion)
   }
 
@@ -513,7 +636,10 @@ public class Guild: Updatable {
 
    - parameter userId: User to unban
   */
-  public func unbanMember(_ userId: UserID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func unbanMember(
+    _ userId: UserID,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     self.sword?.unbanMember(userId, from: self.id, then: completion)
   }
 

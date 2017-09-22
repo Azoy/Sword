@@ -26,7 +26,9 @@ class Encoder {
   let reader: Pipe
 
   /// The dispatch queue used to read from read pipe
-  lazy var readQueue: DispatchQueue = DispatchQueue(label: "gg.azoy.sword.encoder.read")
+  lazy var readQueue: DispatchQueue = DispatchQueue(
+    label: "me.azoy.sword.encoder.read"
+  )
 
   /// The pipe ffmpeg uses to read from
   let writer: Pipe
@@ -102,9 +104,13 @@ class Encoder {
   /// Reads opus audio data from read pipe
   func readFromPipe(then completion: @escaping (Bool, [UInt8]) -> ()) {
     self.readQueue.async {[weak self] in
-      guard let fileDescriptor = self?.reader.fileHandleForReading.fileDescriptor else { return }
+      guard let fileDescriptor =
+        self?.reader.fileHandleForReading.fileDescriptor else { return }
 
-      let buffer = UnsafeMutableRawPointer.allocate(bytes: 320, alignedTo: MemoryLayout<UInt8>.alignment)
+      let buffer = UnsafeMutableRawPointer.allocate(
+        bytes: 320,
+        alignedTo: MemoryLayout<UInt8>.alignment
+      )
       defer {
         free(buffer)
       }

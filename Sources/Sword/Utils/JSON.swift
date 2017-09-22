@@ -13,7 +13,10 @@ extension String {
 
   /// EZPZ String JSON -> Array | Dictionary | Other
   func decode() -> Any {
-    let data = try? JSONSerialization.jsonObject(with: self.data(using: .utf8)!, options: .allowFragments)
+    let data = try? JSONSerialization.jsonObject(
+      with: self.data(using: .utf8)!,
+      options: .allowFragments
+    )
 
     if let dictionary = data as? [String: Any] {
       return dictionary

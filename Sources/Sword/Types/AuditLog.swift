@@ -83,7 +83,9 @@ extension AuditLog {
      - parameter json: Dictionary representation of the entry
      */
     init(_ json: [String: Any]) {
-      self.actionType = AuditLog.Entry.Event(rawValue: json["action_type"] as! Int)!
+      self.actionType = AuditLog.Entry.Event(
+        rawValue: json["action_type"] as! Int
+      )!
       
       let changes = json["changes"] as! [[String: Any]]
       for change in changes {

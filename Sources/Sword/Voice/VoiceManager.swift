@@ -33,12 +33,21 @@ class VoiceManager {
   */
   func join(_ guildId: GuildID, _ gatewayUrl: String, _ identify: Payload) {
     guard self.connections[guildId] == nil else {
-      self.connections[guildId]!.moveChannels(gatewayUrl, identify, self.handlers[guildId]!)
+      self.connections[guildId]!.moveChannels(
+        gatewayUrl,
+        identify,
+        self.handlers[guildId]!
+      )
       self.handlers.removeValue(forKey: guildId)
       return
     }
 
-    let voiceConnection = VoiceConnection(gatewayUrl, guildId, identify, self.handlers[guildId]!)
+    let voiceConnection = VoiceConnection(
+      gatewayUrl,
+      guildId,
+      identify,
+      self.handlers[guildId]!
+    )
     self.connections[guildId] = voiceConnection
     voiceConnection.start()
     self.handlers.removeValue(forKey: guildId)

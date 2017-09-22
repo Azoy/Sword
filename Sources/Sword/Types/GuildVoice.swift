@@ -78,10 +78,16 @@ public class GuildVoice: GuildChannel, Updatable {
    
    - parameter userId: User to move
    */
-  public func moveMember(_ userId: UserID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func moveMember(
+    _ userId: UserID,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     guard let guild = self.guild else { return }
-    self.sword?.request(.modifyGuildMember(guild.id, userId), body: ["channel_id": self.id.description]) { data, error in
-      completion(error)
+    self.sword?.request(
+      .modifyGuildMember(guild.id, userId),
+      body: ["channel_id": self.id.description]
+    ) { data, error in
+      completion?(error)
     }
   }
   

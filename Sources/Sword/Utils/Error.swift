@@ -82,7 +82,10 @@ public struct RequestError: Error {
    - parameter error: Error response
    - parameter key: Dictionary key
   */
-  static func getSpecificError(for error: [String: Any], _ key: String = "") -> [String: String] {
+  static func getSpecificError(
+    for error: [String: Any],
+    _ key: String = ""
+  ) -> [String: String] {
     var items = [String: String]()
     
     for (k, v) in error {

@@ -89,7 +89,9 @@ public struct Message {
 
     self.content = json["content"] as! String
 
-    self.channel = sword.getChannel(for: ChannelID(json["channel_id"] as! String)!)! as! TextChannel
+    self.channel = sword.getChannel(
+      for: ChannelID(json["channel_id"] as! String)!
+    )! as! TextChannel
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date
@@ -122,7 +124,9 @@ public struct Message {
       self.mentions.append(User(sword, mention))
     }
 
-    self.mentionedRoles = (json["mention_roles"] as! [String]).map { RoleID($0)! }
+    self.mentionedRoles = (
+      json["mention_roles"] as! [String]
+    ).map { RoleID($0)! }
 
     self.nonce = Snowflake(json["nonce"] as? String)
 
@@ -149,12 +153,15 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji to add to this message
   */
-  public func add(reaction: String, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func add(
+    reaction: String,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     self.channel.addReaction(reaction, to: self.id, then: completion)
   }
 
   /// Deletes self
-  public func delete(then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func delete(then completion: ((RequestError?) -> ())? = nil) {
     self.channel.deleteMessage(self.id, then: completion)
   }
 
@@ -164,14 +171,23 @@ public struct Message {
    - parameter reaction: Either unicode or custom emoji reaction to remove
    - parameter userId: If nil, delete from self else delete from userId
   */
-  public func delete(reaction: String, from userId: UserID? = nil, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.channel.deleteReaction(reaction, from: self.id, by: userId ?? nil, then: completion)
+  public func delete(
+    reaction: String,
+    from userId: UserID? = nil,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
+    self.channel.deleteReaction(
+      reaction,
+      from: self.id,
+      by: userId ?? nil,
+      then: completion
+    )
   }
 
   /// Deletes all reactions from self
-  public func deleteReactions(then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func deleteReactions(then completion: ((RequestError?) -> ())? = nil) {
     guard let channel = self.channel as? GuildText else {
-      completion(nil)
+      completion?(nil)
       return
     }
 
@@ -183,7 +199,10 @@ public struct Message {
 
    - parameter content: Content to edit from self
   */
-  public func edit(with options: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
+  public func edit(
+    with options: [String: Any],
+    then completion: ((Message?, RequestError?) -> ())? = nil
+  ) {
     self.channel.editMessage(self.id, with: options, then: completion)
   }
 
@@ -192,12 +211,15 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji reaction to get users from
   */
-  public func get(reaction: String, then completion: @escaping ([User]?, RequestError?) -> ()) {
+  public func get(
+    reaction: String,
+    then completion: @escaping ([User]?, RequestError?) -> ()
+  ) {
     self.channel.getReaction(reaction, from: self.id, then: completion)
   }
 
   /// Pins self
-  public func pin(then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func pin(then completion: ((RequestError?) -> ())? = nil) {
     self.channel.pin(self.id, then: completion)
   }
 
@@ -206,7 +228,10 @@ public struct Message {
    
    - parameter message: String to send to channel
   */
-  public func reply(with message: String, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
+  public func reply(
+    with message: String,
+    then completion: ((Message?, RequestError?) -> ())? = nil
+  ) {
     self.channel.send(message, then: completion)
   }
   
@@ -219,7 +244,10 @@ public struct Message {
    
    - parameter message: Dictionary containing information on the message
   */
-  public func reply(with message: [String: Any], then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
+  public func reply(
+    with message: [String: Any],
+    then completion: ((Message?, RequestError?) -> ())? = nil
+  ) {
     self.channel.send(message, then: completion)
   }
   
@@ -228,7 +256,10 @@ public struct Message {
    
    - parameter message: Embed to send to channel
   */
-  public func reply(with message: Embed, then completion: @escaping (Message?, RequestError?) -> () = {_,_  in}) {
+  public func reply(
+    with message: Embed,
+    then completion: ((Message?, RequestError?) -> ())? = nil
+  ) {
     self.channel.send(message, then: completion)
   }
   
@@ -388,7 +419,11 @@ public struct Embed {
    - parameter value: Text that will be displayed underneath name
    - parameter inline: Whether or not to keep this field inline with others
   */
-  public mutating func addField(_ name: String, value: String, inline: Bool = false) {
+  public mutating func addField(
+    _ name: String,
+    value: String,
+    inline: Bool = false
+  ) {
     if self.fields == nil {
       self.fields = [[String: Any]]()
     }

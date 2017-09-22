@@ -28,7 +28,11 @@ open class Shield: Sword {
    - parameter swordOptions: SwordOptions structure to apply to bot
    - parameter shieldOptions: ShieldOptions structure to apply to command client
   */
-  public init(token: String, with swordOptions: SwordOptions = SwordOptions(), and shieldOptions: ShieldOptions = ShieldOptions()) {
+  public init(
+    token: String,
+    with swordOptions: SwordOptions = SwordOptions(),
+    and shieldOptions: ShieldOptions = ShieldOptions()
+  ) {
     self.shieldOptions = shieldOptions
     
     super.init(token: token, with: swordOptions)
@@ -41,7 +45,9 @@ open class Shield: Sword {
       let bot = data as! User
 
       if self.shieldOptions.prefixes.contains("@bot") {
-        self.shieldOptions.prefixes.remove(at: self.shieldOptions.prefixes.index(of: "@bot")!)
+        self.shieldOptions.prefixes.remove(
+          at: self.shieldOptions.prefixes.index(of: "@bot")!
+        )
         self.shieldOptions.prefixes.append("<@!\(bot.id)> ")
         self.shieldOptions.prefixes.append("<@\(bot.id)> ")
       }
@@ -73,11 +79,13 @@ open class Shield: Sword {
         $0.rawValue
       }.reduce(0, |)
 
-      guard let permissions = msg.member?.permissions, permissions & permission > 0 else { return }
+      guard let permissions = msg.member?.permissions,
+        permissions & permission > 0 else { return }
     }
 
     if !self.shieldOptions.requirements.users.isEmpty {
-      guard let author = msg.author, self.shieldOptions.requirements.users.contains(author.id) else { return }
+      guard let author = msg.author,
+        self.shieldOptions.requirements.users.contains(author.id) else { return }
     }
 
     for prefix in self.shieldOptions.prefixes {
@@ -92,7 +100,6 @@ open class Shield: Sword {
       var correctCaseAlias: String? = nil
       commandString = commandString.lowercased()
       
-      // Replace an alias with the string for the base command if it exists
       if self.commands[commandString] == nil {
         if let alias = self.commandAliases[commandString] {
           commandString = alias.target
@@ -104,10 +111,8 @@ open class Shield: Sword {
 
       let correctCaseCommand = correctCaseAlias ?? command.name
 
-      if let isCaseSensitive = command.options.isCaseSensitive {
-        if isCaseSensitive {
-          guard correctCaseCommand == originalCommand else { return }
-        }
+      if let isCaseSensitive = command.options.isCaseSensitive, isCaseSensitive {
+        guard correctCaseCommand == originalCommand else { return }
       } else if self.shieldOptions.willBeCaseSensitive {
         guard correctCaseCommand == originalCommand else { return }
       }
@@ -117,11 +122,13 @@ open class Shield: Sword {
           $0.rawValue
         }.reduce(0, |)
 
-        guard let permissions = msg.member?.permissions, permissions & requiredPermission > 0  else { return }
+        guard let permissions = msg.member?.permissions,
+          permissions & requiredPermission > 0  else { return }
       }
 
       if !command.options.requirements.users.isEmpty {
-        guard let author = msg.author, command.options.requirements.users.contains(author.id) else { return }
+        guard let author = msg.author,
+          command.options.requirements.users.contains(author.id) else { return }
       }
 
       command.execute(msg, arguments)
@@ -150,8 +157,16 @@ open class Shield: Sword {
    - parameter options: Options to give command
    - parameter function: Function to execute once command is sent
   */
-  public func register(_ commandName: String, with options: CommandOptions = CommandOptions(), _ function: @escaping (Message, [String]) -> ()) {
-    self.commands[commandName.lowercased()] = GenericCommand(function: function, name: commandName, options: options)
+  public func register(
+    _ commandName: String,
+    with options: CommandOptions = CommandOptions(),
+    _ function: @escaping (Message, [String]) -> ()
+  ) {
+    self.commands[commandName.lowercased()] = GenericCommand(
+      function: function,
+      name: commandName,
+      options: options
+    )
 
     if !options.aliases.isEmpty {
       for alias in options.aliases {
@@ -167,12 +182,20 @@ open class Shield: Sword {
    - parameter options: Options to give command
    - parameter message: String to send on command
   */
-  public func register(_ commandName: String, with options: CommandOptions = CommandOptions(), message: String) {
+  public func register(
+    _ commandName: String,
+    with options: CommandOptions = CommandOptions(),
+    message: String
+  ) {
     let function: (Message, [String]) -> () = { msg, args in
       msg.reply(with: message)
     }
 
-    self.commands[commandName.lowercased()] = GenericCommand(function: function, name: commandName, options: options)
+    self.commands[commandName.lowercased()] = GenericCommand(
+      function: function,
+      name: commandName,
+      options: options
+    )
 
     if !options.aliases.isEmpty {
       for alias in options.aliases {

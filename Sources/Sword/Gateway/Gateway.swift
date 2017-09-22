@@ -80,9 +80,15 @@ extension Gateway {
     #else
     do {
       let gatewayUri = try URI(self.gatewayUrl)
-      let tcp = try TCPInternetSocket(scheme: "https", hostname: gatewayUri.hostname, port: gatewayUri.port ?? 443)
+      let tcp = try TCPInternetSocket(
+        scheme: "https",
+        hostname: gatewayUri.hostname,
+        port: gatewayUri.port ?? 443
+      )
       let stream = try TLS.InternetSocket(tcp, TLS.Context(.client))
-      try WebSocket.connect(to: gatewayUrl, using: stream) { [unowned self] ws in
+      try WebSocket.connect(to: gatewayUrl, using: stream) {
+        [unowned self] ws in
+        
         self.session = ws
         self.isConnected = true
         

@@ -17,7 +17,10 @@ extension Shard {
    - parameter data: Data sent with dispatch
    - parameter eventName: Event name sent with dispatch
    */
-  func handleEvent(_ data: [String: Any], _ eventName: String) {
+  func handleEvent(
+    _ data: [String: Any],
+    _ eventName: String
+  ) {
 
     guard let event = Event(rawValue: eventName) else {
       self.sword.log("Received unknown event: \(eventName)")
@@ -63,16 +66,24 @@ extension Shard {
     case .channelDelete:
       switch data["type"] as! Int {
       case 0, 2:
-        let channel = self.sword.guilds[GuildID(data["guild_id"] as! String)!]!.channels.removeValue(forKey: ChannelID(data["id"] as! String)!)
+        let channel = self.sword.guilds[
+          GuildID(data["guild_id"] as! String)!
+          ]!.channels.removeValue(
+            forKey: ChannelID(data["id"] as! String)!
+        )
         self.sword.emit(.channelDelete, with: channel!)
 
       case 1:
         let recipient = (data["recipients"] as! [[String: Any]])[0]
-        let dm = self.sword.dms.removeValue(forKey: UserID(recipient["id"] as! String)!)
+        let dm = self.sword.dms.removeValue(
+          forKey: UserID(recipient["id"] as! String)!
+        )
         self.sword.emit(.channelDelete, with: dm!)
 
       case 3:
-        let group = self.sword.groups.removeValue(forKey: ChannelID(data["id"] as! String)!)
+        let group = self.sword.groups.removeValue(
+          forKey: ChannelID(data["id"] as! String)!
+        )
         self.sword.emit(.channelDelete, with: group!)
 
       default: break
@@ -84,7 +95,8 @@ extension Shard {
       case 0:
         let guildId = GuildID(data["guild_id"] as! String)!
         let channelId = ChannelID(data["id"] as! String)!
-        let channel = self.sword.guilds[guildId]!.channels[channelId] as! GuildText
+        let channel =
+          self.sword.guilds[guildId]!.channels[channelId] as! GuildText
         channel.update(data)
         self.sword.emit(.channelUpdate, with: channel)
           
@@ -119,13 +131,16 @@ extension Shard {
         self.sword.emit(.guildCreate, with: guild)
       }
 
-      if self.sword.options.willCacheAllMembers && guild.members.count != guild.memberCount {
+      if self.sword.options.willCacheAllMembers
+        && guild.members.count != guild.memberCount {
         self.requestOfflineMembers(for: guild.id)
       }
 
     /// GUILD_DELETE
     case .guildDelete:
-      let guild = self.sword.guilds.removeValue(forKey: GuildID(data["id"] as! String)!)!
+      let guild = self.sword.guilds.removeValue(
+        forKey: GuildID(data["id"] as! String)!
+      )!
 
       if data["unavailable"] != nil {
         let unavailableGuild = UnavailableGuild(data, self.id)
@@ -144,7 +159,12 @@ extension Shard {
 
     /// GUILD_INTEGRATIONS_UPDATE
     case .guildIntegrationsUpdate:
-      self.sword.emit(.guildIntegrationsUpdate, with: self.sword.guilds[GuildID(data["guild_id"] as! String)!]!)
+      self.sword.emit(
+        .guildIntegrationsUpdate,
+        with: self.sword.guilds[
+                GuildID(data["guild_id"] as! String)!
+              ]!
+      )
 
     /// GUILD_MEMBER_ADD
     case .guildMemberAdd:
@@ -212,13 +232,19 @@ extension Shard {
     case .messageDelete:
       let channelId = ChannelID(data["channel_id"] as! String)!
       let messageId = MessageID(data["id"] as! String)!
-      self.sword.emit(.messageDelete, with: (messageId, self.sword.getChannel(for: channelId)!))
+      self.sword.emit(
+        .messageDelete,
+        with: (messageId, self.sword.getChannel(for: channelId)!)
+      )
 
     /// MESSAGE_BULK_DELETE
     case .messageDeleteBulk:
       let messageIds = (data["ids"] as! [String]).map({ MessageID($0)! })
       let channelId = ChannelID(data["channel_id"] as! String)!
-      self.sword.emit(.messageDeleteBulk, with: (messageIds, self.sword.getChannel(for: channelId)!))
+      self.sword.emit(
+        .messageDeleteBulk,
+        with: (messageIds, self.sword.getChannel(for: channelId)!)
+      )
       
     /// MESSAGE_UPDATE
     case .messageUpdate:
@@ -258,14 +284,19 @@ extension Shard {
       let userID = UserID(data["user_id"] as! String)!
       let messageID = MessageID(data["message_id"] as! String)!
       let emoji = Emoji(data["emoji"] as! [String: Any])
-      self.sword.emit(event, with: (self.sword.getChannel(for: channelID)!, userID, messageID, emoji))
+      self.sword.emit(
+        event,
+        with: (self.sword.getChannel(for: channelID)!, userID, messageID, emoji)
+      )
 
     /// TYPING_START
     case .typingStart:
       #if !os(Linux)
       let timestamp = Date(timeIntervalSince1970: data["timestamp"] as! Double)
       #else
-      let timestamp = Date(timeIntervalSince1970: Double(data["timestamp"] as! Int))
+      let timestamp = Date(
+        timeIntervalSince1970: Double(data["timestamp"] as! Int)
+      )
       #endif
       let userId = UserID(data["user_id"] as! String)!
       let channelId = ChannelID(data["channel_id"] as! String)!
@@ -305,7 +336,12 @@ extension Shard {
       guard userId == self.sword.user!.id else { return }
 
       if let channelId = channelId {
-        self.sword.voiceManager.guilds[guildId] = PotentialConnection(channelId: channelId, userId: userId, sessionId: sessionId)
+        self.sword.voiceManager.guilds[guildId] =
+          PotentialConnection(
+            channelId: channelId,
+            userId: userId,
+            sessionId: sessionId
+        )
       }else {
         self.sword.voiceManager.leave(guildId)
       }

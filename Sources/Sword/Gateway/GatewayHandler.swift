@@ -19,7 +19,9 @@ extension Shard {
   func handleGateway(_ payload: Payload) {
     
     guard let op = OP(rawValue: payload.op) else {
-      self.sword.log("Received unknown gateway\nOP: \(payload.op)\nData: \(payload.d)")
+      self.sword.log(
+        "Received unknown gateway\nOP: \(payload.op)\nData: \(payload.d)"
+      )
       return
     }
     
@@ -39,13 +41,21 @@ extension Shard {
 
     /// OP: 10
     case .hello:
-      self.heartbeat = Heartbeat(self.session!, "heartbeat.shard.\(self.id)", interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
+      self.heartbeat = Heartbeat(
+        self.session!,
+        "heartbeat.shard.\(self.id)",
+        interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int
+      )
       self.heartbeat?.received = true
       self.heartbeat?.send()
 
       guard !self.isReconnecting else {
         self.isReconnecting = false
-        var data: [String: Any] = ["token": self.sword.token, "session_id": self.sessionId!, "seq": NSNull()]
+        var data: [String: Any] = [
+          "token": self.sword.token,
+          "session_id": self.sessionId!,
+          "seq": NSNull()
+        ]
           
         if let lastSeq = self.lastSeq {
           data["seq"] = lastSeq

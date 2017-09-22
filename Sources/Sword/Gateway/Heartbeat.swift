@@ -48,7 +48,10 @@ class Heartbeat {
    */
   init(_ ws: WebSocket, _ name: String, interval: Int, voice: Bool = false) {
     self.session = ws
-    self.queue = DispatchQueue(label: "gg.azoy.sword.\(name)", qos: .userInitiated)
+    self.queue = DispatchQueue(
+      label: "me.azoy.sword.\(name)",
+      qos: .userInitiated
+    )
     self.interval = interval
     self.isVoice = voice
   }
@@ -57,7 +60,8 @@ class Heartbeat {
 
   /// Starts/Sends heartbeat payload
   func send() {
-    let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(self.interval)
+    let deadline = DispatchTime.now()
+      + DispatchTimeInterval.milliseconds(self.interval)
 
     queue.asyncAfter(deadline: deadline) { [weak self] in
 

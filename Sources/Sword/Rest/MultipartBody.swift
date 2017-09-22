@@ -24,14 +24,20 @@ extension Sword {
    - parameter paths: Array of URLS to get file data from
    - parameter boundary: UUID Boundary
   */
-  func createMultipartBody(with payloadJson: String?, fileUrl: String, boundary: String) throws -> Data {
+  func createMultipartBody(
+    with payloadJson: String?,
+    fileUrl: String,
+    boundary: String
+  ) throws -> Data {
 
     var body = Data()
 
     body.append("--\(boundary)\r\n")
 
     if let payloadJson = payloadJson {
-      body.append("Content-Disposition: form-data; name=\"payload_json\"\r\nContent-Type: application/json\r\n\r\n")
+      body.append(
+        "Content-Disposition: form-data; name=\"payload_json\"\r\nContent-Type: application/json\r\n\r\n"
+      )
       body.append("\(payloadJson)\r\n")
     }
 
@@ -41,7 +47,9 @@ extension Sword {
     let mimetype = mimeType(for: fileUrl)
 
     body.append("--\(boundary)\r\n")
-    body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n")
+    body.append(
+      "Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n"
+    )
     body.append("Content-Type: \(mimetype)\r\n\r\n")
     body.append(data)
     body.append("\r\n")
@@ -68,8 +76,14 @@ func mimeType(for path: String) -> String {
   let url = NSURL(string: path)!
   let pathExtension = url.pathExtension
 
-  if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension! as NSString, nil)?.takeRetainedValue() {
-    if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+  if let uti = UTTypeCreatePreferredIdentifierForTag(
+      kUTTagClassFilenameExtension,
+      pathExtension! as NSString, nil
+    )?.takeRetainedValue() {
+    if let mimetype = UTTypeCopyPreferredTagWithClass(
+        uti,
+        kUTTagClassMIMEType
+      )?.takeRetainedValue() {
       return mimetype as String
     }
   }

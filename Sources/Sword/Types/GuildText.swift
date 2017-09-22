@@ -107,7 +107,10 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
 
    - parameter options: Preconfigured options to create this webhook with
   */
-  public func createWebhook(with options: [String: String] = [:], then completion: @escaping (Webhook?, RequestError?) -> () = {_ in}) {
+  public func createWebhook(
+    with options: [String: String] = [:],
+    then completion: ((Webhook?, RequestError?) -> ())? = nil
+  ) {
     guard self.type != .guildVoice else { return }
     self.sword?.createWebhook(for: self.id, with: options, then: completion)
   }
@@ -117,13 +120,18 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
 
    - parameter messageId: Message to delete all reactions from
   */
-  public func deleteReactions(from messageId: MessageID, then completion: @escaping (RequestError?) -> () = {_ in}) {
+  public func deleteReactions(
+    from messageId: MessageID,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
     guard self.type != .guildVoice else { return }
     self.sword?.deleteReactions(from: messageId, in: self.id, then: completion)
   }
 
   /// Gets this channel's webhooks
-  public func getWebhooks(then completion: @escaping ([Webhook]?, RequestError?) -> ()) {
+  public func getWebhooks(
+    then completion: @escaping ([Webhook]?, RequestError?) -> ()
+  ) {
     guard self.type != .guildVoice else { return }
     self.sword?.getWebhooks(from: self.id, then: completion)
   }

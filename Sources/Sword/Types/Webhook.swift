@@ -49,7 +49,9 @@ public struct Webhook {
     self.avatar = json["avatar"] as? String
 
     let channelId = ChannelID(json["channel_id"] as! String)!
-    self.channel = sword.guilds[sword.getGuild(for: channelId)!.id]!.channels[channelId]! as! GuildText
+    self.channel = sword.guilds[
+      sword.getGuild(for: channelId)!.id
+    ]!.channels[channelId]! as! GuildText
     
     self.guild = sword.getGuild(for: channelId)!
 
@@ -84,8 +86,16 @@ public struct Webhook {
 
    - parameter content: String or dictionary containing message content
   */
-  public func execute(with content: Any, then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.executeWebhook(self.id, token: self.token, with: content, then: completion)
+  public func execute(
+    with content: Any,
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
+    self.sword?.executeWebhook(
+      self.id,
+      token: self.token,
+      with: content,
+      then: completion
+    )
   }
 
   /**
@@ -97,8 +107,16 @@ public struct Webhook {
 
    - parameter content: Dictionary containing slack webhook info
   */
-  public func executeSlack(with content: [String: Any], then completion: @escaping (RequestError?) -> () = {_ in}) {
-    self.sword?.executeSlackWebhook(self.id, token: self.token, with: content, then: completion)
+  public func executeSlack(
+    with content: [String: Any],
+    then completion: ((RequestError?) -> ())? = nil
+  ) {
+    self.sword?.executeSlackWebhook(
+      self.id,
+      token: self.token,
+      with: content,
+      then: completion
+    )
   }
 
   /**
@@ -111,8 +129,16 @@ public struct Webhook {
 
    - parameter options: A dictionary of options to apply to this webhook
   */
-  public func modify(with options: [String: String], then completion: @escaping (Webhook?, RequestError?) -> () = {_,_  in}) {
-    self.sword?.modifyWebhook(self.id, token: self.token, with: options, then: completion)
+  public func modify(
+    with options: [String: String],
+    then completion: ((Webhook?, RequestError?) -> ())? = nil
+  ) {
+    self.sword?.modifyWebhook(
+      self.id,
+      token: self.token,
+      with: options,
+      then: completion
+    )
   }
 
 }
