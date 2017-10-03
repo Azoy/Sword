@@ -74,7 +74,7 @@ extension Shard {
 
     /// OP: 9
     case .invalidSession:
-      self.isReconnecting = false
+      self.isReconnecting = payload.d as! Bool
       self.reconnect()
 
     /// OP: 7

@@ -112,10 +112,12 @@ class Shard: Gateway {
    - parameter code: Close code for the gateway closing
   */
   func handleDisconnect(for code: Int) {
+    self.isReconnecting = true
+    
     guard let closeCode = CloseOP(rawValue: code) else {
       self.sword.log("Connection closed with unrecognized response \(code).")
 
-      if self.isReconnecting { self.reconnect() }
+      self.reconnect()
 
       return
     }
@@ -131,7 +133,7 @@ class Shard: Gateway {
         print("[Sword] Sharding is required for this bot to run correctly.")
 
       default:
-        if self.isReconnecting { self.reconnect() }
+        self.reconnect()
     }
   }
 
