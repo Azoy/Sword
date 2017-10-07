@@ -39,7 +39,8 @@ enum VoiceOP: Int {
 
 /// Organize all websocket close codes
 enum CloseOP: Int {
-  case clean = 1000,
+  case noInternet = 50,
+       clean = 1000,
        unknownError = 4000,
        unknownOP,
        decodeError,
@@ -140,8 +141,7 @@ public enum Event: String {
        let (channel, timestamp) = data as! (TextChannel, Date?)
      }
      ```
-   
-     */
+    */
   case channelPinsUpdate = "CHANNEL_PINS_UPDATE"
   
     /**
@@ -168,6 +168,18 @@ public enum Event: String {
     */
   case connectionClose
 
+    /**
+     Fired when a shard is disconnected from the gateway
+   
+     ### Usage ###
+     ```swift
+     bot.on(.disconnect) { data in
+       let shardNumber = data as! Int
+     }
+     ```
+   */
+  case disconnect
+  
     /**
      Fired when a guild is available (This is not guildCreate)
 
@@ -477,6 +489,9 @@ public enum Event: String {
 
   /// :nodoc:
   case resume = "RESUME"
+  
+  /// :nodoc:
+  case resumed = "RESUMED"
 
     /**
      Fired when a shard becomes ready

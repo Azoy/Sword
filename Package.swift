@@ -3,41 +3,48 @@
 import PackageDescription
 
 var dependencies: [Package.Dependency] = [
-  .Package(
+  .package(
     url: "https://github.com/Azoy/Sodium",
-    majorVersion: 1
+    .upToNextMajor(from: "1.0.0")
   )
 ]
 
+var targetDeps: [Target.Dependency] = ["Sodium"]
+
 #if !os(Linux)
 dependencies += [
-  .Package(
+  .package(
     url: "https://github.com/daltoniam/Starscream.git",
-    majorVersion: 2
+    .upToNextMajor(from: "3.0.0")
   ),
-  .Package(
+  .package(
     url: "https://github.com/vapor/sockets.git",
-    majorVersion: 2
+    .upToNextMajor(from: "2.0.0")
   )
 ]
+  
+targetDeps += ["Starscreamm", "Sockets"]
 #else
 dependencies += [
-  .Package(
+  .package(
     url: "https://github.com/vapor/engine.git",
-    majorVersion: 2
+    .upToNextMajor(from: "2.0.0")
   )
 ]
+  
+targetDeps += ["TLS", "URI", "WebSockets"]
 #endif
 
 let package = Package(
   name: "Sword",
-  targets: [
-    Target(
-      name: "Sword",
-      dependencies: []
-    )
+  products: [
+    .library(name: "Sword", targets: ["Sword"])
   ],
   dependencies: dependencies,
-  swiftLanguageVersions: [3],
-  exclude: ["Examples", "docs", "images"]
+  targets: [
+    .target(
+      name: "Sword",
+      dependencies: targetDeps
+    )
+  ]
 )

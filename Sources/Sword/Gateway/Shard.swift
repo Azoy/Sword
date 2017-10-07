@@ -114,6 +114,8 @@ class Shard: Gateway {
   func handleDisconnect(for code: Int) {
     self.isReconnecting = true
     
+    self.sword.emit(.disconnect, with: self.id)
+    
     guard let closeCode = CloseOP(rawValue: code) else {
       self.sword.log("Connection closed with unrecognized response \(code).")
 
@@ -129,6 +131,14 @@ class Shard: Gateway {
       case .invalidShard:
         print("[Sword] Invalid Shard (We messed up here. Try again.)")
 
+      case .noInternet:
+        self.sword.globalQueue.asyncAfter(
+          deadline: DispatchTime.now() + .seconds(10)
+        ) { [unowned self] in
+          self.sword.warn("Detected a loss of internet...")
+          self.reconnect()
+        }
+      
       case .shardingRequired:
         print("[Sword] Sharding is required for this bot to run correctly.")
 

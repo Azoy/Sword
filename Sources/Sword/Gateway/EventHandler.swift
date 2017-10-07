@@ -394,6 +394,8 @@ extension Shard {
       break
     case .connectionClose:
       break
+    case .disconnect:
+      break
     case .guildAvailable:
       break
     case .guildUnavailable:
@@ -401,6 +403,8 @@ extension Shard {
     case .payload:
       break
     case .resume:
+      break
+    case .resumed:
       break
     case .shardReady:
       break
