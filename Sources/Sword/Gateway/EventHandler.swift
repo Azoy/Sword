@@ -89,6 +89,15 @@ extension Shard {
       default: break
       }
 
+    /// CHANNEL_PINS_UPDATE
+    case .channelPinsUpdate:
+      let channelId = ChannelID(data["channel_id"] as! String)!
+      let timestamp = data["last_pin_timestamp"] as? String
+      self.sword.emit(
+        .channelPinsUpdate,
+        with: (self.sword.getChannel(for: channelId)!, timestamp?.date)
+      )
+      
     /// CHANNEL_UPDATE
     case .channelUpdate:
       switch data["type"] as! Int {
@@ -244,6 +253,15 @@ extension Shard {
       self.sword.emit(
         .messageDeleteBulk,
         with: (messageIds, self.sword.getChannel(for: channelId)!)
+      )
+      
+    /// MESSAGE_REACTION_REMOVE_ALL
+    case .messageReactionRemoveAll:
+      let messageId = MessageID(data["message_id"] as! String)!
+      let channelId = ChannelID(data["channel_id"] as! String)!
+      self.sword.emit(
+        .messageReactionRemoveAll,
+        with: (messageId, self.sword.getChannel(for: channelId)!)
       )
       
     /// MESSAGE_UPDATE

@@ -132,6 +132,19 @@ public enum Event: String {
   case channelDelete = "CHANNEL_DELETE"
 
     /**
+     Fired when a channel adds a pin or removes a pin
+   
+     ### Usage ###
+     ```swift
+     bot.on(.channelPinsUpdate) { data in
+       let (channel, timestamp) = data as! (TextChannel, Date?)
+     }
+     ```
+   
+     */
+  case channelPinsUpdate = "CHANNEL_PINS_UPDATE"
+  
+    /**
      Fired when a channel is updated
 
      ### Usage ###
@@ -356,9 +369,9 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.messageDelete) { data in
-      guard let (msg, channel) = data as? (Message, Channel) else {
+      guard let (msg, channel) = data as? (Message, TextChannel) else {
         // data has returned a MessageID
-        let (messageID, channel) = data as! (MessageID, Channel)
+        let (messageID, channel) = data as! (MessageID, TextChannel)
         return
       }
      }
@@ -372,19 +385,31 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.messageDeleteBulk) { data in
-       let (messageIDs, channel) = data as! ([MessageID], Channel)
+       let (messageIDs, channel) = data as! ([MessageID], TextChannel)
      }
      ```
     */
   case messageDeleteBulk = "MESSAGE_DELETE_BULK"
 
     /**
+     Fired when a message's reactions are all removed
+   
+     ### Usage ###
+     ```swift
+     bot.on(.messageReactionRemoveAll) { data in
+       let (messageID, channel) = data as! (MessageID, TextChannel)
+     }
+     ```
+     */
+  case messageReactionRemoveAll = "MESSAGE_REACTION_REMOVE_ALL"
+  
+    /**
      Fired when a message is updated
 
      ### Usage ###
      ```swift
      bot.on(.messageUpdate) { data in
-       let (messageID, channel) = data as! (MessageID, Channel)
+       let (messageID, channel) = data as! (MessageID, TextChannel)
      }
      ```
     */
@@ -432,7 +457,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.reactionAdd) { data in
-       let (channel, userID, messageID, emoji) = data as! (Channel, UserID, MessageID, Emoji)
+       let (channel, userID, messageID, emoji) = data as! (TextChannel, UserID, MessageID, Emoji)
      }
      ```
     */
@@ -444,7 +469,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.reactionRemove) { data in
-       let (channel, userID, messageID, emoji) = data as! (Channel, UserID, MessageID, Emoji)
+       let (channel, userID, messageID, emoji) = data as! (TextChannel, UserID, MessageID, Emoji)
      }
      ```
     */
@@ -471,7 +496,7 @@ public enum Event: String {
      ### Usage ###
      ```swift
      bot.on(.typingStart) { data in
-       let (channelID, userID, timestamp) = data as! (ChannelID, UserID, Date)
+       let (channel, userID, timestamp) = data as! (TextChannel, UserID, Date)
      }
      ```
     */

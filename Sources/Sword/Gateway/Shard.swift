@@ -213,9 +213,13 @@ class Shard: Gateway {
   /// Used to reconnect to gateway
   func reconnect() {
     #if !os(Linux)
-    self.session?.disconnect()
+    if let isOn = self.session?.isConnected, isOn {
+      self.session?.disconnect()
+    }
     #else
-    try? self.session?.close()
+    if let isOn = self.session?.state, isOn == .open {
+        try? self.session?.close()
+    }
     #endif
     
     self.isConnected = false

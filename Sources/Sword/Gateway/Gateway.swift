@@ -53,27 +53,29 @@ extension Gateway {
   /// Starts the gateway connection
   func start() {
     #if !os(Linux)
-    self.session = WebSocket(url: URL(string: self.gatewayUrl)!)
-
-    self.session?.onConnect = { [unowned self] in
-      self.isConnected = true
+    if self.session == nil {
+      self.session = WebSocket(url: URL(string: self.gatewayUrl)!)
       
-      #if !os(iOS)
-      self.handleConnect()
-      #endif
-    }
-
-    self.session?.onText = { [unowned self] text in
-      self.handlePayload(Payload(with: text))
-    }
-
-    self.session?.onDisconnect = { [unowned self] error in
-      self.heartbeat = nil
-      self.isConnected = false
-
-      guard let error = error else { return }
-
-      self.handleDisconnect(for: error.code)
+      self.session?.onConnect = { [unowned self] in
+        self.isConnected = true
+        
+        #if !os(iOS)
+          self.handleConnect()
+        #endif
+      }
+      
+      self.session?.onText = { [unowned self] text in
+        self.handlePayload(Payload(with: text))
+      }
+      
+      self.session?.onDisconnect = { [unowned self] error in
+        self.heartbeat = nil
+        self.isConnected = false
+        
+        guard let error = error else { return }
+        
+        self.handleDisconnect(for: error.code)
+      }
     }
 
     self.session?.connect()
