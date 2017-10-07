@@ -34,6 +34,9 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
   /// Name of channel
   public let name: String?
 
+  /// Channel Category this channel belongs to
+  public let parentId: ChannelID?
+  
   /// Array of Overwrite strcuts for channel
   public internal(set) var permissionOverwrites = [OverwriteID: Overwrite]()
 
@@ -80,6 +83,8 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
       self.isNsfw = false
     }
 
+    self.parentId = ChannelID(json["parent_id"] as? String)
+    
     if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
       for overwrite in overwrites {
         let overwrite = Overwrite(overwrite)

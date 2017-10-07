@@ -960,7 +960,8 @@ open class Sword: Eventable {
     }
 
     if dms.isEmpty { return nil }
-    return dms[0]
+    
+    return dms.first?.value
   }
 
   /**
@@ -1012,7 +1013,7 @@ open class Sword: Eventable {
 
     if guilds.isEmpty { return nil }
     
-    return guilds[0]
+    return guilds.first?.value
   }
 
   /**

@@ -25,6 +25,9 @@ public class GuildVoice: GuildChannel, Updatable {
   /// Name of channel
   public let name: String?
   
+  /// Channel Category this channel belongs to
+  public let parentId: ChannelID?
+  
   /// Collection of Overwrites mapped by `OverwriteID`
   public internal(set) var permissionOverwrites = [OverwriteID : Overwrite]()
   
@@ -55,6 +58,8 @@ public class GuildVoice: GuildChannel, Updatable {
     
     let name = json["name"] as? String
     self.name = name
+    
+    self.parentId = ChannelID(json["parent_id"] as? String)
     
     if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
       for overwrite in overwrites {
