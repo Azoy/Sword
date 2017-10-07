@@ -9,7 +9,7 @@ var dependencies: [Package.Dependency] = [
   )
 ]
 
-var targetDeps: [Target.Dependency] = ["Sodium"]
+var targetDeps: [Target.Dependency] = []
 
 #if !os(Linux)
 dependencies += [
@@ -23,7 +23,7 @@ dependencies += [
   )
 ]
   
-targetDeps += ["Starscreamm", "Sockets"]
+targetDeps += ["Starscream", "Sockets"]
 #else
 dependencies += [
   .package(
@@ -32,7 +32,7 @@ dependencies += [
   )
 ]
   
-targetDeps += ["TLS", "URI", "WebSockets"]
+targetDeps += ["URI", "WebSockets"]
 #endif
 
 let package = Package(

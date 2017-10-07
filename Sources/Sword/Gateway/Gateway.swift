@@ -74,7 +74,7 @@ extension Gateway {
         
         guard let error = error else { return }
         
-        self.handleDisconnect(for: error.code)
+        self.handleDisconnect(for: (error as NSError).code)
       }
     }
 

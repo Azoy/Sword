@@ -199,6 +199,7 @@ public class Guild: Updatable {
   // MARK: Functions
 
   func update(_ json: [String : Any]) {
+    
   }
   
   /**
