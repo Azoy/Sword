@@ -91,7 +91,7 @@ open class Shield: Sword {
     for prefix in self.shieldOptions.prefixes {
       guard msg.content.hasPrefix(prefix) else { continue }
 
-      let content = msg.content[msg.content.range(of: prefix)!.upperBound...]
+      let content = String(msg.content[msg.content.range(of: prefix)!.upperBound...])
       var arguments = content.components(separatedBy: " ")
 
       var commandString = arguments.remove(at: 0)
@@ -207,23 +207,18 @@ open class Shield: Sword {
   /// Creates a default help command for the bot
   func registerHelp() {
     self.register("help") { [unowned self] msg, args in
-      var embed: [String: Any] = [
-        "title": "\(self.user!.username!)'s Help"
-      ]
-      
-      var fields = [[String: Any]]()
+      var embed = Embed()
+      embed.title = "\(self.user!.username!)'s Help"
       
       for command in self.commands.values {
-        fields.append([
-          "name": "\(command.name)",
-          "value": "\(command.options.description)",
-          "inline": true
-        ])
+        embed.addField(
+          command.name,
+          value: command.options.description,
+          inline: true
+        )
       }
       
-      embed["fields"] = fields
-      
-      msg.channel.send(["embed": embed])
+      msg.channel.send(embed)
     }
   }
   

@@ -104,14 +104,15 @@ extension Shard {
       case 0:
         let guildId = GuildID(data["guild_id"] as! String)!
         let channelId = ChannelID(data["id"] as! String)!
-        let channel =
-          self.sword.guilds[guildId]!.channels[channelId] as! GuildText
+        let channel = self.sword.guilds[guildId]!.channels[channelId] as! GuildText
         channel.update(data)
         self.sword.emit(.channelUpdate, with: channel)
           
       case 2:
-        let channel = GuildVoice(self.sword, data)
-        self.sword.guilds[channel.guild!.id]!.channels[channel.id] = channel
+        let guildId = GuildID(data["guild_id"] as! String)!
+        let channelId = ChannelID(data["id"] as! String)!
+        let channel = self.sword.guilds[guildId]!.channels[channelId] as! GuildVoice
+        channel.update(data)
         self.sword.emit(.channelUpdate, with: channel)
           
       case 3:
@@ -228,8 +229,9 @@ extension Shard {
 
     /// GUILD_UPDATE
     case .guildUpdate:
-      let guild = Guild(self.sword, data, self.id)
-      self.sword.guilds[guild.id] = guild
+      let guildId = GuildID(data["id"] as! String)!
+      let guild = self.sword.guilds[guildId]!
+      guild.update(data) 
       self.sword.emit(.guildUpdate, with: guild)
 
     /// MESSAGE_CREATE
