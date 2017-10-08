@@ -16,8 +16,19 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
   /// Parent class
   public internal(set) weak var sword: Sword?
 
+  /// Channel Category this channel belongs to
+  public var category: GuildCategory? {
+    guard let parentId = parentId else {
+      return nil
+    }
+    
+    return guild?.channels[parentId] as? GuildCategory
+  }
+  
   /// Guild object for this channel
-  public internal(set) weak var guild: Guild?
+  public var guild: Guild? {
+    return sword?.getGuild(for: id)
+  }
 
   /// ID of the channel
   public let id: ChannelID
@@ -33,8 +44,8 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
 
   /// Name of channel
   public let name: String?
-
-  /// Channel Category this channel belongs to
+  
+  /// Parent Category ID of this channel
   public let parentId: ChannelID?
   
   /// Array of Overwrite strcuts for channel
@@ -47,7 +58,7 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
   public let topic: String?
 
   /// Indicates what type of channel this is (.guildText or .guildVoice)
-  public let type: ChannelType
+  public let type = ChannelType.guildText
 
   // MARK: Initializer
 
@@ -61,8 +72,6 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
     self.sword = sword
     
     self.id = ChannelID(json["id"] as! String)!
-    
-    self.guild = sword.guilds[GuildID(json["guild_id"] as! String)!]
     
     self.lastMessageId = MessageID(json["last_message_id"] as? String)
 
@@ -94,7 +103,6 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
 
     self.position = json["position"] as? Int
     self.topic = json["topic"] as? String
-    self.type = ChannelType(rawValue: json["type"] as! Int)!
   }
 
   // MARK: Functions

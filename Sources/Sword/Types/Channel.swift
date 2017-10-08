@@ -14,7 +14,7 @@ public protocol Channel {
   // MARK: Properties
 
   /// Parent class
-  weak var sword: Sword? { get }
+  var sword: Sword? { get }
 
   /// The id of the channel
   var id: ChannelID { get }
@@ -257,13 +257,15 @@ public protocol GuildChannel: class, Channel {
 
   // MARK: Properties
 
+  /// Channel Category this channel belongs to
+  var category: GuildCategory? { get }
+  
   /// Guild this channel belongs to
-  weak var guild: Guild? { get }
+  var guild: Guild? { get }
 
   /// Name of the channel
   var name: String? { get }
-
-  /// Channel Category this channel belongs to
+  
   var parentId: ChannelID? { get }
   
   /// Collection of overwrites mapped by `OverwriteID`

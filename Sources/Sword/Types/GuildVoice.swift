@@ -16,8 +16,19 @@ public class GuildVoice: GuildChannel, Updatable {
   /// Bitrate (in bits) for channel
   public let bitrate: Int?
   
+  /// Channel Category this channel belongs to
+  public var category: GuildCategory? {
+    guard let parentId = parentId else {
+      return nil
+    }
+    
+    return guild?.channels[parentId] as? GuildCategory
+  }
+  
   /// Guild object for this channel
-  public internal(set) weak var guild: Guild?
+  public var guild: Guild? {
+    return sword?.getGuild(for: id)
+  }
   
   /// ID of the channel
   public let id: ChannelID
@@ -25,7 +36,7 @@ public class GuildVoice: GuildChannel, Updatable {
   /// Name of channel
   public let name: String?
   
-  /// Channel Category this channel belongs to
+  /// Parent Category ID of this channel
   public let parentId: ChannelID?
   
   /// Collection of Overwrites mapped by `OverwriteID`
@@ -35,7 +46,7 @@ public class GuildVoice: GuildChannel, Updatable {
   public let position: Int?
   
   /// Indicates what type of channel this is (.guildVoice)
-  public let type: ChannelType
+  public let type = ChannelType.guildVoice
   
   /// (Voice) User limit for voice channel
   public let userLimit: Int?
@@ -54,8 +65,6 @@ public class GuildVoice: GuildChannel, Updatable {
     self.bitrate = json["bitrate"] as? Int
     self.id = ChannelID(json["id"] as! String)!
     
-    self.guild = sword.guilds[Snowflake(json["guild_id"] as! String)!]
-    
     let name = json["name"] as? String
     self.name = name
     
@@ -69,7 +78,6 @@ public class GuildVoice: GuildChannel, Updatable {
     }
     
     self.position = json["position"] as? Int
-    self.type = ChannelType(rawValue: json["type"] as! Int)!
     self.userLimit = json["user_limit"] as? Int
   }
   

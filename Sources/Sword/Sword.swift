@@ -15,7 +15,15 @@ open class Sword: Eventable {
   // MARK: Properties
 
   /// Collection of DMChannels mapped by user id
-  public internal(set) var dms = [UserID: DM]()
+  public internal(set) var dms = [UserID: DM]() {
+    didSet {
+      guard dms.count > 10 else {
+        return
+      }
+      
+      dms.removeValue(forKey: dms.first!.key)
+    }
+  }
   
   /// Whether or not the global queue is locked
   var isGloballyLocked = false
@@ -955,7 +963,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to get dm from
   */
   public func getDM(for channelId: ChannelID) -> DM? {
-    var dms = self.dms.filter {
+    let dms = self.dms.filter {
       $0.1.id == channelId
     }
 
@@ -1007,7 +1015,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to get guild from
   */
   public func getGuild(for channelId: ChannelID) -> Guild? {
-    var guilds = self.guilds.filter {
+    let guilds = self.guilds.filter {
       $0.1.channels[channelId] != nil
     }
 

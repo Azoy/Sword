@@ -24,7 +24,7 @@ public struct GroupDM: TextChannel {
   public let lastMessageId: MessageID?
   
   /// Indicates what kind of channel this is
-  public let type: ChannelType
+  public let type = ChannelType.groupDM
   
   // MARK: Initializer
 
@@ -45,8 +45,6 @@ public struct GroupDM: TextChannel {
     }
 
     self.lastMessageId = MessageID(json["last_message_id"] as? String)
-    
-    self.type = .groupDM
   }
 
 }

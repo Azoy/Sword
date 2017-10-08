@@ -78,7 +78,7 @@ public struct Member {
 
    - parameter permission: Permission to check for
   */
-  public func has(permission: Permission) -> Bool {
+  public func hasPermission(_ permission: Permission) -> Bool {
     if self.user.id == self.guild!.ownerId {
       return true
     }

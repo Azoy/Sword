@@ -103,10 +103,7 @@ public class Guild: Updatable {
     self.afkTimeout = json["afk_timeout"] as? Int
 
     if let channels = json["channels"] as? [[String: Any]] {
-      for channel in channels {
-        var channelData = channel
-        channelData["guild_id"] = json["id"] as! String
-        
+      for channelData in channels {
         switch channelData["type"] as! Int {
         case 0:
           let channel = GuildText(sword, channelData)
@@ -114,7 +111,17 @@ public class Guild: Updatable {
         case 2:
           let channel = GuildVoice(sword, channelData)
           self.channels[channel.id] = channel
+        case 4:
+          let channel = GuildCategory(sword, channelData)
+          self.channels[channel.id] = channel
         default: break
+        }
+      }
+      
+      for (channelId, channel) in self.channels where channel.type == .guildCategory {
+        for (channelId2, channel2) in self.channels where channel.parentId == channelId {
+          let channel = channel as! GuildCategory
+          channel.channels[channelId2] = channel2
         }
       }
     }
