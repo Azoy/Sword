@@ -87,6 +87,12 @@ public struct CommandOptions {
 /// Command requirements, such as permissions, users, roles, etc
 public struct CommandRequirements {
 
+  /// Array of channels that can use this command
+  public var channels = [ChannelID]()
+  
+  /// Array of guilds that can use this command
+  public var guilds = [GuildID]()
+  
   /// Array of required permissions in order to use command
   public var permissions = [Permission]()
 

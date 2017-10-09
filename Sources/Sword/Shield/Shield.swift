@@ -74,6 +74,19 @@ open class Shield: Sword {
       return
     }
 
+    if !self.shieldOptions.requirements.channels.isEmpty {
+      guard !self.shieldOptions.requirements.channels.contains(msg.channel.id) else {
+        return
+      }
+    }
+    
+    if !self.shieldOptions.requirements.guilds.isEmpty {
+      guard let guildChannel = msg.channel as? GuildChannel,
+        !self.shieldOptions.requirements.guilds.contains(guildChannel.guild!.id) else {
+        return
+      }
+    }
+    
     if !self.shieldOptions.requirements.permissions.isEmpty {
       let permission = self.shieldOptions.requirements.permissions.lazy.map {
         $0.rawValue
@@ -117,6 +130,19 @@ open class Shield: Sword {
         guard correctCaseCommand == originalCommand else { return }
       }
 
+      if !command.options.requirements.channels.isEmpty {
+        guard !command.options.requirements.channels.contains(msg.channel.id) else {
+          return
+        }
+      }
+      
+      if !command.options.requirements.guilds.isEmpty {
+        guard let guildChannel = msg.channel as? GuildChannel,
+          !command.options.requirements.guilds.contains(guildChannel.guild!.id) else {
+            return
+        }
+      }
+      
       if !command.options.requirements.permissions.isEmpty {
         let requiredPermission = command.options.requirements.permissions.lazy.map {
           $0.rawValue
