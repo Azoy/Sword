@@ -38,26 +38,23 @@ extension Shard {
       switch data["type"] as! Int {
       case 0:
         let channel = GuildText(self.sword, data)
-        self.sword.guilds[channel.guild!.id]!.channels[channel.id] = channel
         self.sword.emit(.channelCreate, with: channel)
 
       case 1:
-        let id = ChannelID(data["id"] as! String)!
-        if self.sword.getDM(for: id) == nil {
-          let dm = DM(self.sword, data)
-          self.sword.dms[dm.recipient.id] = dm
-          self.sword.emit(.channelCreate, with: dm)
-        }
+        let dm = DM(self.sword, data)
+        self.sword.emit(.channelCreate, with: dm)
           
       case 2:
         let channel = GuildVoice(self.sword, data)
-        self.sword.guilds[channel.guild!.id]!.channels[channel.id] = channel
         self.sword.emit(.channelCreate, with: channel)
           
       case 3:
         let group = GroupDM(self.sword, data)
-        self.sword.groups[group.id] = group
         self.sword.emit(.channelCreate, with: group)
+        
+      case 4:
+        let category = GuildCategory(self.sword, data)
+        self.sword.emit(.channelCreate, with: category)
 
       default: break
       }

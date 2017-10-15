@@ -45,6 +45,8 @@ public struct GroupDM: TextChannel {
     }
 
     self.lastMessageId = MessageID(json["last_message_id"] as? String)
+    
+    sword.groups[self.id] = self
   }
-
+  
 }

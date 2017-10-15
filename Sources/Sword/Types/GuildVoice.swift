@@ -79,6 +79,10 @@ public class GuildVoice: GuildChannel, Updatable {
     
     self.position = json["position"] as? Int
     self.userLimit = json["user_limit"] as? Int
+    
+    if let guildId = GuildID(json["guild_id"] as? String) {
+      sword.guilds[guildId]!.channels[self.id] = self
+    }
   }
   
   // MARK: Functions

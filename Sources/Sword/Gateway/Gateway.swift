@@ -60,7 +60,7 @@ extension Gateway {
         self.isConnected = true
         
         #if !os(iOS)
-          self.handleConnect()
+        self.handleConnect()
         #endif
       }
       

@@ -43,6 +43,8 @@ public struct DM: TextChannel {
     self.recipient = User(sword, recipients[0])
 
     self.lastMessageId = MessageID(json["last_message_id"] as? String)
+    
+    sword.dms[self.recipient.id] = self
   }
 
 }

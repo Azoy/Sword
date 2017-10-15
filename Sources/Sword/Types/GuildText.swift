@@ -103,6 +103,10 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
 
     self.position = json["position"] as? Int
     self.topic = json["topic"] as? String
+    
+    if let guildId = GuildID(json["guild_id"] as? String) {
+      sword.guilds[guildId]!.channels[self.id] = self
+    }
   }
 
   // MARK: Functions

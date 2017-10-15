@@ -68,6 +68,10 @@ public class GuildCategory: GuildChannel {
     }
     
     self.position = json["position"] as? Int
+    
+    if let guildId = GuildID(json["guild_id"] as? String) {
+      sword.guilds[guildId]!.channels[self.id] = self
+    }
   }
   
 }
