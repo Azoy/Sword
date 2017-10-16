@@ -62,7 +62,7 @@ extension Shard {
     /// CHANNEL_DELETE
     case .channelDelete:
       switch data["type"] as! Int {
-      case 0, 2:
+      case 0, 2, 4:
         let channel = self.sword.guilds[
           GuildID(data["guild_id"] as! String)!
           ]!.channels.removeValue(
@@ -98,17 +98,10 @@ extension Shard {
     /// CHANNEL_UPDATE
     case .channelUpdate:
       switch data["type"] as! Int {
-      case 0:
+      case 0, 2, 4:
         let guildId = GuildID(data["guild_id"] as! String)!
         let channelId = ChannelID(data["id"] as! String)!
-        let channel = self.sword.guilds[guildId]!.channels[channelId] as! GuildText
-        channel.update(data)
-        self.sword.emit(.channelUpdate, with: channel)
-          
-      case 2:
-        let guildId = GuildID(data["guild_id"] as! String)!
-        let channelId = ChannelID(data["id"] as! String)!
-        let channel = self.sword.guilds[guildId]!.channels[channelId] as! GuildVoice
+        let channel = self.sword.guilds[guildId]!.channels[channelId] as! Updatable
         channel.update(data)
         self.sword.emit(.channelUpdate, with: channel)
           

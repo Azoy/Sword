@@ -170,25 +170,53 @@ open class Sword: Eventable {
   public func connect() {
     self.shardManager.sword = self
     
-    self.getGateway() { [unowned self] data, error in
-      guard let data = data else {
-        guard error!.statusCode == 401 else {
-          sleep(3)
-          self.connect()
+    if self.options.willShard {
+      self.getGateway() { [unowned self] data, error in
+        guard let data = data else {
+          guard error!.statusCode == 401 else {
+            sleep(3)
+            self.connect()
+            return
+          }
+          
+          print("[Sword] Bot token invalid.")
           return
         }
         
-        print("[Sword] Bot token invalid.")
-        return
-      }
-      
-      self.shardManager.gatewayUrl = "\(data["url"]!)/?encoding=json&v=6"
-      
-      if self.options.willShard {
+        self.shardManager.gatewayUrl = "\(data["url"]!)/?encoding=json&v=6"
         self.shardCount = data["shards"] as! Int
-      }else {
-        self.shardCount = 1
+        
+        guard self.options.isDistributed else {
+          self.shardManager.create(self.shardCount)
+          return
+        }
+        
+        let arguments = CommandLine.arguments
+        
+        guard arguments.count > 1 else {
+          print("[Sword] Insufficient argument count.")
+          return
+        }
+        
+        guard arguments.contains("--shard") else {
+          print("[Sword] Must specify shard with '--shard'")
+          return
+        }
+        
+        guard arguments.index(of: "--shard")! != arguments.count - 1 else {
+          print("[Sword] '--shard' must not be the last argument. Correct syntax is '--shard {id here}'")
+          return
+        }
+        
+        guard let shardId = Int(arguments[arguments.index(of: "--shard")! + 1]) else {
+          print("[Sword] Shard ID could not be recognized.")
+          return
+        }
+        
+        self.shardManager.spawn(shardId)
       }
+    }else {
+      self.shardCount = 1
       
       self.shardManager.create(self.shardCount)
     }

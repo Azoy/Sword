@@ -14,6 +14,9 @@ public struct SwordOptions {
   /// Whether or not the application is a bot or oauth bearer
   public var isBot = true
 
+  /// Whether or not this bot will distribute it's shards across multiple process/machines
+  public var isDistributed = false
+  
   /// Array of event names to disable
   public var disabledEvents = [Event]()
 
