@@ -32,17 +32,17 @@ extension String {
 }
 
 /// Used to add same function to two different types once
-protocol Encodable {
+protocol JSONEncodable {
   func encode() -> String
   func createBody() -> Data?
 }
 
 /// Make Dictionary & Array Encaodable
-extension Dictionary: Encodable {}
-extension Array: Encodable {}
+extension Dictionary: JSONEncodable {}
+extension Array: JSONEncodable {}
 
 /// Make Dictionary & Array conform to Encodable
-extension Encodable {
+extension JSONEncodable {
 
   /// Encode Array | Dictionary -> JSON String
   func encode() -> String {

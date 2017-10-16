@@ -14,7 +14,7 @@ public class GuildVoice: GuildChannel, Updatable {
   public internal(set) weak var sword: Sword?
   
   /// Bitrate (in bits) for channel
-  public let bitrate: Int?
+  public internal(set) var bitrate: Int?
   
   /// Channel Category this channel belongs to
   public var category: GuildCategory? {
@@ -34,22 +34,22 @@ public class GuildVoice: GuildChannel, Updatable {
   public let id: ChannelID
   
   /// Name of channel
-  public let name: String?
+  public internal(set) var name: String?
   
   /// Parent Category ID of this channel
-  public let parentId: ChannelID?
+  public internal(set) var parentId: ChannelID?
   
   /// Collection of Overwrites mapped by `OverwriteID`
   public internal(set) var permissionOverwrites = [OverwriteID : Overwrite]()
   
   /// Position of channel
-  public let position: Int?
+  public internal(set) var position: Int?
   
   /// Indicates what type of channel this is (.guildVoice)
   public let type = ChannelType.guildVoice
   
   /// (Voice) User limit for voice channel
-  public let userLimit: Int?
+  public internal(set) var userLimit: Int?
   
   // MARK: Initializer
   
@@ -88,6 +88,22 @@ public class GuildVoice: GuildChannel, Updatable {
   // MARK: Functions
   
   func update(_ json: [String : Any]) {
+    self.bitrate = json["bitrate"] as? Int
+    
+    let name = json["name"] as? String
+    self.name = name
+    
+    self.parentId = ChannelID(json["parent_id"] as? String)
+    
+    if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
+      for overwrite in overwrites {
+        let overwrite = Overwrite(overwrite)
+        self.permissionOverwrites[overwrite.id] = overwrite
+      }
+    }
+    
+    self.position = json["position"] as? Int
+    self.userLimit = json["user_limit"] as? Int
   }
   
   /**

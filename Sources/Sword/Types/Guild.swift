@@ -17,19 +17,19 @@ public class Guild: Updatable {
   public internal(set) weak var sword: Sword?
 
   /// ID of afk voice channel (if there is any)
-  public let afkChannelId: ChannelID?
+  public internal(set) var afkChannelId: ChannelID?
 
   /// AFK timeout in seconds (if there is any)
-  public let afkTimeout: Int?
+  public internal(set) var afkTimeout: Int?
 
   /// Collection of channels mapped by channel ID
   public internal(set) var channels = [ChannelID: GuildChannel]()
 
   /// Default notification protocol
-  public let defaultMessageNotifications: Int
+  public internal(set) var defaultMessageNotifications: Int
 
   /// ID of embeddable channel
-  public let embedChannelId: ChannelID?
+  public internal(set) var embedChannelId: ChannelID?
 
   /// Array of custom emojis for this guild
   public internal(set) var emojis = [Emoji]()
@@ -38,13 +38,13 @@ public class Guild: Updatable {
   public internal(set) var features = [Feature]()
 
   /// Icon hash for guild
-  public let icon: String?
+  public internal(set) var icon: String?
 
   /// ID of guild
   public let id: GuildID
 
   /// Whether or not this guild is embeddable
-  public let isEmbedEnabled: Bool?
+  public internal(set) var isEmbedEnabled: Bool?
 
   /// Whether or not this guild is considered "large"
   public let isLarge: Bool?
@@ -59,16 +59,16 @@ public class Guild: Updatable {
   public internal(set) var members = [UserID: Member]()
 
   /// MFA level of guild
-  public let mfaLevel: MFALevel
+  public internal(set) var mfaLevel: MFALevel
 
   /// Name of the guild
-  public let name: String
+  public internal(set) var name: String
 
   /// Owner's user ID
-  public let ownerId: UserID
+  public internal(set) var ownerId: UserID
 
   /// Region this guild is hosted in
-  public let region: String
+  public internal(set) var region: String
 
   /// Collection of roles mapped by role ID
   public internal(set) var roles = [RoleID: Role]()
@@ -77,10 +77,10 @@ public class Guild: Updatable {
   public let shard: Int?
 
   /// Splash Hash for guild
-  public let splash: String?
+  public internal(set) var splash: String?
 
   /// Level of verification for guild
-  public let verificationLevel: VerificationLevel
+  public internal(set) var verificationLevel: VerificationLevel
 
   /// Collection of member voice states currently in this guild
   public internal(set) var voiceStates = [UserID: VoiceState]()
@@ -206,7 +206,44 @@ public class Guild: Updatable {
   // MARK: Functions
 
   func update(_ json: [String : Any]) {
+    self.afkChannelId = ChannelID(json["afk_channel_id"] as? String)
+    self.afkTimeout = json["afk_timeout"] as? Int
     
+    self.defaultMessageNotifications =
+      json["default_message_notifications"] as! Int
+    self.embedChannelId = ChannelID(json["embed_channel_id"] as? String)
+    self.isEmbedEnabled = json["embed_enabled"] as? Bool
+    
+    if let emojis = json["emojis"] as? [[String: Any]] {
+      for emoji in emojis {
+        self.emojis.append(Emoji(emoji))
+      }
+    }
+    
+    if let features = json["features"] as? [String] {
+      for feature in features {
+        self.features.append(Feature(rawValue: feature)!)
+      }
+    }
+    
+    self.icon = json["icon"] as? String
+    
+    self.mfaLevel = MFALevel(rawValue: json["mfa_level"] as! Int)!
+    self.name = json["name"] as! String
+    self.ownerId = UserID(json["owner_id"] as! String)!
+    
+    self.region = json["region"] as! String
+    
+    let roles = json["roles"] as! [[String: Any]]
+    for role in roles {
+      let role = Role(role)
+      self.roles[role.id] = role
+    }
+    
+    self.splash = json["splash"] as? String
+    self.verificationLevel = VerificationLevel(
+      rawValue: json["verification_level"] as! Int
+      )!
   }
   
   /**

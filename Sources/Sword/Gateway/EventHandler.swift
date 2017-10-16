@@ -227,6 +227,11 @@ extension Shard {
     /// MESSAGE_CREATE
     case .messageCreate:
       let msg = Message(self.sword, data)
+      
+      if let channel = msg.channel as? GuildText {
+        channel.lastMessageId = msg.id
+      }
+      
       self.sword.emit(.messageCreate, with: msg)
 
     /// MESSAGE_DELETE

@@ -34,28 +34,28 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
   public let id: ChannelID
 
   /// Whether or not this channel is NSFW
-  public let isNsfw: Bool
+  public internal(set) var isNsfw: Bool
 
   /// Last message sent's ID
-  public let lastMessageId: MessageID?
+  public internal(set) var lastMessageId: MessageID?
 
   /// Last Pin's timestamp
-  public let lastPinTimestamp: Date?
+  public internal(set) var lastPinTimestamp: Date?
 
   /// Name of channel
-  public let name: String?
+  public internal(set) var name: String?
   
   /// Parent Category ID of this channel
-  public let parentId: ChannelID?
+  public internal(set) var parentId: ChannelID?
   
   /// Array of Overwrite strcuts for channel
   public internal(set) var permissionOverwrites = [OverwriteID: Overwrite]()
 
   /// Position of channel
-  public let position: Int?
+  public internal(set) var position: Int?
 
   /// Topic of the channel
-  public let topic: String?
+  public internal(set) var topic: String?
 
   /// Indicates what type of channel this is (.guildText or .guildVoice)
   public let type = ChannelType.guildText
@@ -112,6 +112,36 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
   // MARK: Functions
 
   func update(_ json: [String : Any]) {
+    self.lastMessageId = MessageID(json["last_message_id"] as? String)
+    
+    if let lastPinTimestamp = json["last_pin_timestamp"] as? String {
+      self.lastPinTimestamp = lastPinTimestamp.date
+    }else {
+      self.lastPinTimestamp = nil
+    }
+    
+    let name = json["name"] as? String
+    self.name = name
+    
+    if let isNsfw = json["nsfw"] as? Bool {
+      self.isNsfw = isNsfw
+    }else if let name = name {
+      self.isNsfw = name == "nsfw" || name.hasPrefix("nsfw-")
+    }else {
+      self.isNsfw = false
+    }
+    
+    self.parentId = ChannelID(json["parent_id"] as? String)
+    
+    if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
+      for overwrite in overwrites {
+        let overwrite = Overwrite(overwrite)
+        self.permissionOverwrites[overwrite.id] = overwrite
+      }
+    }
+    
+    self.position = json["position"] as? Int
+    self.topic = json["topic"] as? String
   }
   
   /**
