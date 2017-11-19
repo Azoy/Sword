@@ -102,6 +102,10 @@ class Shard: Gateway {
       return
     }
 
+    guard payload.d is [String: Any] else {
+      return
+    }
+    
     self.handleEvent(payload.d as! [String: Any], payload.t!)
     self.sword.emit(.payload, with: payload.encode())
   }

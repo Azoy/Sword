@@ -1,6 +1,6 @@
 # Sword - A Discord Library for Swift
 
-[![Swift Version](https://img.shields.io/badge/Swift-3.1-orange.svg?style=flat-square)](https://swift.org) [![Build Status](https://img.shields.io/travis/Azoy/Sword/master.svg?style=flat-square)](https://travis-ci.org/Azoy/Sword) [![Tag](https://img.shields.io/github/tag/Azoy/Sword.svg?style=flat-square&label=release&colorB=)](https://github.com/Azoy/Sword/releases)
+[![Swift Version](https://img.shields.io/badge/Swift-4.0-orange.svg?style=flat-square)](https://swift.org) [![Build Status](https://img.shields.io/travis/Azoy/Sword/master.svg?style=flat-square)](https://travis-ci.org/Azoy/Sword) [![Tag](https://img.shields.io/github/tag/Azoy/Sword.svg?style=flat-square&label=release&colorB=)](https://github.com/Azoy/Sword/releases)
 
 # Requirements
 1. macOS, Linux, or iOS (no voice for iOS)
@@ -11,12 +11,20 @@
 In order to add Sword as a dependency, you must first create a Swift executable in a designated folder, like so `swift package init --type executable`. Then in the newly created Package.swift, open it and add Sword as a dependency
 
 ```swift
+// swift-tools-version: 4.0
+
 import PackageDescription
 
 let package = Package(
     name: "yourswiftexecutablehere",
     dependencies: [
-        .Package(url: "https://github.com/Azoy/Sword", majorVersion: 0, minor: 8)
+        .package(url: "https://github.com/Azoy/Sword", .upToNextMajor(from: "0.9.0"))
+    ],
+    targets: [
+      .target(
+        name: "yourswiftexecutablehere",
+        dependencies: ["Sword"]
+      )
     ]
 )
 ```
@@ -44,7 +52,7 @@ bot.connect()
 ```
 
 # Running the bot
-Build the libraries with `swift build`, then type `.build/debug/yourswiftexecutablehere`
+Build the libraries with `swift build`, then type `swift run`
 
 # Running the bot in Xcode
 To run the bot in Xcode, you first have to compile the libraries with `swift build`. Then to build the xcode project, type `swift package generate-xcodeproj`. Finally, type `open yourswiftexecutablehere.xcodeproj`, look at the top and follow the steps below

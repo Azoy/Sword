@@ -18,7 +18,7 @@ class Bucket {
   let worker: DispatchQueue
 
   /// Array of DispatchWorkItems to execute
-  var queue: [DispatchWorkItem] = []
+  var queue = [DispatchWorkItem]()
 
   /// Limit on token count
   var limit: Int
