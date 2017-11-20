@@ -270,6 +270,14 @@ extension Shard {
       let userId = UserID((data["user"] as! [String: Any])["id"] as! String)!
       let presence = Presence(data)
       let guildID = GuildID(data["guild_id"] as! String)!
+      
+      guard self.sword.options.willCacheAllMembers else {
+        guard presence.status == .offline else { break }
+        
+        self.sword.guilds[guildID]?.members.removeValue(forKey: userId)
+        break
+      }
+      
       self.sword.guilds[guildID]?.members[userId]?.presence = presence
       self.sword.emit(.presenceUpdate, with: (userId, presence))
 
