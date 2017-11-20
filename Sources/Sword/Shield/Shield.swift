@@ -56,6 +56,8 @@ open class Shield: Sword {
     }
 
     self.on(.messageCreate) { [unowned self] data in
+      guard self.commands.count > 0 else { return }
+      
       self.handle(message: data)
     }
   }
@@ -105,7 +107,11 @@ open class Shield: Sword {
       guard msg.content.hasPrefix(prefix) else { continue }
 
       let content = String(msg.content[msg.content.range(of: prefix)!.upperBound...])
-      var arguments = content.components(separatedBy: " ")
+      var arguments: [String]!
+      
+      for (_, command) in self.commands {
+        arguments = content.components(separatedBy: command.options.separator)
+      }
 
       var commandString = arguments.remove(at: 0)
 

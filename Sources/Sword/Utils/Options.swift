@@ -80,6 +80,9 @@ public struct CommandOptions {
   /// Required command options
   public var requirements = CommandRequirements()
 
+  /// Defines the separator used when parsing a command
+  public var separator = " "
+  
   // MARK: Initializer
 
   /// Creates a default CommandOptions

@@ -4,7 +4,7 @@
 
 # Requirements
 1. macOS, Linux, or iOS (no voice for iOS)
-2. Swift 3.1
+2. Swift 4.0
 3. libsodium (brew update && brew install libsodium)
 
 # Adding Sword
