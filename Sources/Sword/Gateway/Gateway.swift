@@ -111,6 +111,7 @@ extension Gateway {
       }
     }catch {
       print("[Sword] \(error.localizedDescription)")
+      self.start()
     }
     #endif
   }

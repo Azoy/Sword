@@ -161,21 +161,27 @@ class Shard: Gateway {
     let osName = "iOS"
     #endif
 
+    var data: [String: Any] = [
+      "token": self.sword.token,
+      "properties": [
+        "$os": osName,
+        "$browser": "Sword",
+        "$device": "Sword"
+      ],
+      "compress": false,
+      "large_threshold": 250,
+      "shard": [
+        self.id, self.shardCount
+      ]
+    ]
+    
+    if let presence = self.sword.presence {
+      data["presence"] = presence
+    }
+    
     let identity = Payload(
       op: .identify,
-      data: [
-        "token": self.sword.token,
-        "properties": [
-          "$os": osName,
-          "$browser": "Sword",
-          "$device": "Sword"
-        ],
-        "compress": false,
-        "large_threshold": 250,
-        "shard": [
-          self.id, self.shardCount
-        ]
-      ]
+      data: data
     ).encode()
 
     self.send(identity)

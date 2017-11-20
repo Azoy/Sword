@@ -266,6 +266,7 @@ public protocol GuildChannel: class, Channel {
   /// Name of the channel
   var name: String? { get }
   
+  /// The channel id of the category that owns this channel
   var parentId: ChannelID? { get }
   
   /// Collection of overwrites mapped by `OverwriteID`
@@ -291,6 +292,6 @@ public enum ChannelType: Int {
   /// This is a Group DM Channel (`GroupChannel`)
   case groupDM
 
-  /// This is one of the brand new Guild Channel Categories
+  /// This is a Guild Category Channel (`GuildCategory`)
   case guildCategory
 }

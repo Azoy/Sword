@@ -48,6 +48,9 @@ open class Sword: Eventable {
   /// Optional options to apply to bot
   var options: SwordOptions
 
+  /// Initial presence of bot
+  var presence: [String: Any]? = nil
+  
   /// Collection of Collections of buckets mapped by route
   var rateLimits = [String: Bucket]()
 
@@ -689,26 +692,30 @@ open class Sword: Eventable {
    Edits bot status
    
    - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
-   - parameter game: Either a string with the game name or ["name": "with Swords!", "type": 0 || 1]
-  */
-  public func editStatus(to status: String, playing game: String? = nil) {
-    guard self.shardManager.shards.count > 0 else { return }
-    
-    var data: [String: Any] = [
-      "afk": status == "idle",
-      "since": status == "idle" ? Date().milliseconds : 0,
-      "status": status
+   - parameter game: A string containing the song the bot is listening to
+   */
+  public func editStatus(to status: String, listening song: String) {
+    let game: [String: Any] = [
+      "name": song,
+      "type": 0
     ]
     
-    if let game = game {
-      data["game"] = ["name": game, "type": 0]
-    }
+    self.editStatus(to: status, playing: game)
+  }
+  
+  /**
+   Edits bot status
+   
+   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
+   - parameter game: A string containing the game the bot is playing
+  */
+  public func editStatus(to status: String, playing game: String) {
+    let game: [String: Any] = [
+      "name": game,
+      "type": 0
+    ]
     
-    let payload = Payload(op: .statusUpdate, data: data).encode()
-    
-    for shard in self.shardManager.shards {
-      shard.send(payload, presence: true)
-    }
+    self.editStatus(to: status, playing: game)
   }
   
   /**
@@ -722,21 +729,42 @@ open class Sword: Eventable {
    - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
    - parameter game: Dictonary with information on the game
   */
-  public func editStatus(to status: String, playing game: [String: Any]) {
-    guard self.shardManager.shards.count > 0 else { return }
-    
-    let data: [String: Any] = [
+  public func editStatus(to status: String, playing game: [String: Any]? = nil) {
+    var data: [String: Any] = [
       "afk": status == "idle",
-      "game": game,
       "since": status == "idle" ? Date().milliseconds : 0,
       "status": status
     ]
+    
+    if let game = game {
+      data["game"] = game
+    }
+    
+    guard self.shardManager.shards.count > 0 else {
+      self.presence = data
+      return
+    }
     
     let payload = Payload(op: .statusUpdate, data: data).encode()
     
     for shard in self.shardManager.shards {
       shard.send(payload, presence: true)
     }
+  }
+  
+  /**
+   Edits bot status
+   
+   - parameter status: Status to set bot to. Either "online" (default), "idle", "dnd", "invisible"
+   - parameter video: A string containing the video the bot is watching
+   */
+  public func editStatus(to status: String, watching video: String) {
+    let game: [String: Any] = [
+      "name": video,
+      "type": 0
+    ]
+    
+    self.editStatus(to: status, playing: game)
   }
   
   /**
