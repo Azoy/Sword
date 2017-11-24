@@ -66,4 +66,4 @@ Then click the play button!
 # Links
 [Documentation](http://sword.azoy.me) - (created with [Jazzy](https://github.com/Realm/Jazzy))
 
-Join the [API Channel](https://discord.gg/q7Zyd2r) to ask questions!
+Join the [API Channel](https://discord.gg/99a3xNk) to ask questions!
