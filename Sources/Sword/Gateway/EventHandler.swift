@@ -355,7 +355,7 @@ extension Shard {
       self.sword.emit(.voiceStateUpdate, with: userId)
 
       
-      #if !os(iOS)
+      #if os(macOS) || os(Linux)
       guard userId == self.sword.user!.id else { return }
 
       if let channelId = channelId {
@@ -372,7 +372,7 @@ extension Shard {
 
     /// VOICE_SERVER_UPDATE
     case .voiceServerUpdate:
-      #if !os(iOS)
+      #if os(macOS) || os(Linux)
       let guildId = GuildID(data["guild_id"] as! String)!
       let token = data["token"] as! String
       let endpoint = data["endpoint"] as! String

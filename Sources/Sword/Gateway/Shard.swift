@@ -159,6 +159,10 @@ class Shard: Gateway {
     let osName = "Linux"
     #elseif os(iOS)
     let osName = "iOS"
+    #elseif os(watchOS)
+    let osName = "watchOS"
+    #elseif os(tvOS)
+    let osName = "tvOS"
     #endif
 
     var data: [String: Any] = [

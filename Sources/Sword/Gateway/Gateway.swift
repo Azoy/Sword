@@ -27,7 +27,7 @@ protocol Gateway: class {
   
   var session: WebSocket? { get set }
   
-  #if !os(iOS)
+  #if os(macOS) || os(Linux)
   func handleConnect()
   #endif
   
@@ -59,7 +59,7 @@ extension Gateway {
       self.session?.onConnect = { [unowned self] in
         self.isConnected = true
         
-        #if !os(iOS)
+        #if os(macOS) || os(Linux)
         self.handleConnect()
         #endif
       }

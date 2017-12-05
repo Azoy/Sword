@@ -9,7 +9,7 @@
 #if !os(Linux)
 import Foundation
   
-#if os(iOS)
+#if !os(macOS)
 import MobileCoreServices
 #endif
 

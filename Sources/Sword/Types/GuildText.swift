@@ -58,7 +58,9 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
   public internal(set) var topic: String?
 
   /// Indicates what type of channel this is (.guildText or .guildVoice)
-  public let type = ChannelType.guildText
+  public var type: ChannelType {
+    return .guildText
+  }
 
   // MARK: Initializer
 

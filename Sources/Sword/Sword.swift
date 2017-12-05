@@ -91,7 +91,7 @@ open class Sword: Eventable {
   /// The user account for the bot
   public internal(set) var user: User?
 
-  #if !os(iOS)
+  #if os(macOS) || os(Linux)
 
   /// Object of voice connections the bot is currently connected to. Mapped by guildId
   public var voiceConnections: [GuildID: VoiceConnection] {
@@ -1515,7 +1515,7 @@ open class Sword: Eventable {
     }
   }
 
-  #if !os(iOS)
+  #if os(macOS) || os(Linux)
 
   /**
    Joins a voice channel
@@ -1590,7 +1590,7 @@ open class Sword: Eventable {
     }
   }
 
-  #if !os(iOS)
+  #if os(macOS) || os(Linux)
 
   /**
    Leaves a voice channel

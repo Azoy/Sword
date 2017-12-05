@@ -6,7 +6,7 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
-#if !os(iOS)
+#if os(macOS) || os(Linux)
 
 import Foundation
 import Dispatch
