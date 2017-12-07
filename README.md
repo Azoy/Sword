@@ -75,10 +75,10 @@ end
 
 Then all you have to do is `pod install` and you're ready to go.
 
-## Running the bot
+## Running the bot (SPM)
 Build the libraries with `swift build`, then type `swift run`
 
-## Running the bot in Xcode
+## Running the bot in Xcode (SPM)
 To run the bot in Xcode, you first have to compile the libraries with `swift build`. Then to build the xcode project, type `swift package generate-xcodeproj`. Finally, type `open yourswiftexecutablehere.xcodeproj`, look at the top and follow the steps below
 
 ![Step 1](images/step1.png)
