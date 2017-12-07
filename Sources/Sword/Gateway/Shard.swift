@@ -191,7 +191,7 @@ class Shard: Gateway {
     self.send(identity)
   }
 
-  #if !os(iOS)
+  #if os(macOS) || os(Linux)
 
   /**
    Sends a payload to socket telling it we want to join a voice channel

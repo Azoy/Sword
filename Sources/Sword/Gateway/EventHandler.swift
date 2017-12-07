@@ -65,9 +65,7 @@ extension Shard {
       case 0, 2, 4:
         let channel = self.sword.guilds[
           GuildID(data["guild_id"] as! String)!
-          ]!.channels.removeValue(
-            forKey: ChannelID(data["id"] as! String)!
-        )
+        ]!.channels.removeValue(forKey: ChannelID(data["id"] as! String)!)
         self.sword.emit(.channelDelete, with: channel!)
 
       case 1:
