@@ -264,6 +264,9 @@ open class Sword: Eventable {
         case 2:
           completion?(GuildVoice(self, data), error)
           
+        case 4:
+          completion?(GuildCategory(self, data), error)
+          
         default:
           completion?(nil, error)
         }
@@ -422,6 +425,9 @@ open class Sword: Eventable {
           
         case 3:
           completion?(GroupDM(self, channelData), error)
+          
+        case 4:
+          completion?(GuildCategory(self, channelData), error)
           
         default: break
         }
@@ -943,6 +949,9 @@ open class Sword: Eventable {
         case 3:
           completion(GroupDM(self, channelData), error)
           
+        case 4:
+          completion(GuildCategory(self, channelData), error)
+          
         default: break
         }
       }
@@ -995,6 +1004,8 @@ open class Sword: Eventable {
             returnChannels.append(GuildText(self, channel))
           case 2:
             returnChannels.append(GuildVoice(self, channel))
+          case 4:
+            returnChannels.append(GuildCategory(self, channel))
           default: break
           }
         }
@@ -1651,6 +1662,8 @@ open class Sword: Eventable {
           completion?(GuildText(self, channelData), error)
         case 2:
           completion?(GuildVoice(self, channelData), error)
+        case 4:
+          completion?(GuildCategory(self, channelData), error)
         default: break
         }
       }
@@ -1690,6 +1703,8 @@ open class Sword: Eventable {
             returnChannels.append(GuildText(self, channel))
           case 2:
             returnChannels.append(GuildVoice(self, channel))
+          case 4:
+            returnChannels.append(GuildCategory(self, channel))
           default: break
           }
         }
