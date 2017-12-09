@@ -768,7 +768,7 @@ public struct UserGuild {
   // MARK: Properties
   
   /// The icon Base64 string
-  public let icon: String
+  public let icon: String?
   
   /// The guild ID
   public let id: GuildID
@@ -786,7 +786,7 @@ public struct UserGuild {
   
   /// Creates a UserGuild structure
   init(_ json: [String: Any]) {
-    self.icon = json["icon"] as! String
+    self.icon = json["icon"] as? String
     self.id = GuildID(json["id"] as! String)!
     self.isOwner = json["owner"] as! Bool
     self.name = json["name"] as! String
