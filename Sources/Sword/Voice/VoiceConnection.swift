@@ -43,7 +43,7 @@ public class VoiceConnection: Gateway, Eventable {
   var gatewayUrl: String
 
   /// Guild that this voice connection is server
-  public let guildId: GuildID
+  public let guildId: Snowflake
 
   /// Completion handler function that calls when voice connection is ready
   var handler: (VoiceConnection) -> ()
@@ -123,7 +123,7 @@ public class VoiceConnection: Gateway, Eventable {
   */
   init(
     _ endpoint: String,
-    _ guildId: GuildID,
+    _ guildId: Snowflake,
     _ identify: Payload,
     _ handler: @escaping (VoiceConnection) -> ()
   ) {
@@ -308,11 +308,7 @@ public class VoiceConnection: Gateway, Eventable {
     
   /// Handles what to do on connect to gateway
   func handleConnect() {
-    #if os(macOS)
-    self.session?.write(string: self.identify.encode())
-    #else
-    try? self.session?.send(self.identify.encode())
-    #endif
+    self.send(self.identify.encode(), presence: false)
   }
     
   /**
@@ -363,7 +359,7 @@ public class VoiceConnection: Gateway, Eventable {
       switch voiceOP {
       case .ready:
         self.heartbeat = Heartbeat(
-          self.session!,
+          self,
           "heartbeat.voiceconnection.\(self.guildId)",
           interval: data["heartbeat_interval"] as! Int,
           voice: true
@@ -573,11 +569,7 @@ public class VoiceConnection: Gateway, Eventable {
       ]
     ).encode()
     
-    #if os(macOS)
-    self.session?.write(string: payload)
-    #else
-    try? self.session?.send(payload)
-    #endif
+    self.send(payload, presence: false)
 
     if self.encoder != nil {
       self.readEncoder(for: 1)
@@ -588,6 +580,20 @@ public class VoiceConnection: Gateway, Eventable {
     self.receiveAudio()
   }
 
+  /**
+   Sends a gateway message
+   
+   - parameter text: String to send over gateway
+   - parameter presence: Not needed by voice, but for Shard (will remove in rewrite)
+  */
+  func send(_ text: String, presence: Bool) {
+    #if !os(Linux)
+    self.session?.write(string: text)
+    #else
+    try? self.session?.send(text)
+    #endif
+  }
+  
   /**
    Sends a voice packet through the udp client
 
@@ -624,11 +630,7 @@ public class VoiceConnection: Gateway, Eventable {
       data: ["speaking": value, "delay": 0]
     ).encode()
     
-    #if os(macOS)
-    self.session?.write(string: payload)
-    #else
-    try? self.session?.send(payload)
-    #endif
+    self.send(payload, presence: false)
   }
 
   /**

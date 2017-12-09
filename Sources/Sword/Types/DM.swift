@@ -15,13 +15,13 @@ public struct DM: TextChannel {
   public internal(set) weak var sword: Sword?
 
   /// ID of DM
-  public let id: ChannelID
+  public let id: Snowflake
 
   /// The recipient of this DM
   public internal(set) var recipient: User
 
   /// The last message's ID
-  public let lastMessageId: MessageID?
+  public let lastMessageId: Snowflake?
   
   /// Indicates what kind of channel this is
   public let type = ChannelType.dm
@@ -37,12 +37,12 @@ public struct DM: TextChannel {
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 
-    self.id = ChannelID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
 
     let recipients = json["recipients"] as! [[String: Any]]
     self.recipient = User(sword, recipients[0])
 
-    self.lastMessageId = MessageID(json["last_message_id"] as? String)
+    self.lastMessageId = Snowflake(json["last_message_id"])
     
     sword.dms[self.recipient.id] = self
   }

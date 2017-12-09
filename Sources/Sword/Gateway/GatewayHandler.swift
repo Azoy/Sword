@@ -29,6 +29,7 @@ extension Shard {
 
     /// OP: 1
     case .heartbeat:
+      self.heartbeat?.received = true
       let heartbeat = Payload(
         op: .heartbeat,
         data: self.lastSeq ?? NSNull()
@@ -42,7 +43,7 @@ extension Shard {
     /// OP: 10
     case .hello:
       self.heartbeat = Heartbeat(
-        self.session!,
+        self,
         "heartbeat.shard.\(self.id)",
         interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int
       )

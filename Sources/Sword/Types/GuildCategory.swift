@@ -22,10 +22,10 @@ public class GuildCategory: GuildChannel {
   }
   
   /// Collection of channels this category parents mapped by channel id
-  public internal(set) var channels = [ChannelID: GuildChannel]()
+  public internal(set) var channels = [Snowflake: GuildChannel]()
   
   /// The id of the channel
-  public let id: ChannelID
+  public let id: Snowflake
   
   /// Guild this channel belongs to
   public var guild: Guild? {
@@ -36,10 +36,10 @@ public class GuildCategory: GuildChannel {
   public let name: String?
   
   /// Parent Category ID of this channel
-  public let parentId: ChannelID?
+  public let parentId: Snowflake?
   
   /// Collection of overwrites mapped by `OverwriteID`
-  public internal(set) var permissionOverwrites = [OverwriteID: Overwrite]()
+  public internal(set) var permissionOverwrites = [Snowflake: Overwrite]()
   
   /// Position the channel is in guild
   public let position: Int?
@@ -56,9 +56,9 @@ public class GuildCategory: GuildChannel {
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
     
-    self.id = ChannelID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
     self.name = json["name"] as? String
-    self.parentId = ChannelID(json["parent_id"] as? String)
+    self.parentId = Snowflake(json["parent_id"])
     
     if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
       for overwrite in overwrites {
@@ -69,7 +69,7 @@ public class GuildCategory: GuildChannel {
     
     self.position = json["position"] as? Int
     
-    if let guildId = GuildID(json["guild_id"] as? String) {
+    if let guildId = Snowflake(json["guild_id"]) {
       sword.guilds[guildId]!.channels[self.id] = self
     }
   }

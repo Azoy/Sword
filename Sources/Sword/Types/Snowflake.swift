@@ -41,18 +41,20 @@ public struct Snowflake {
     self.rawValue = snowflake
   }
   
-  /// Initialize from a String
-  public init?(_ string: String) {
-    guard let snowflake = UInt64(string) else { return nil }
+  /// Initialize from any type
+  /// Currently supports:
+  ///   - String
+  public init?(_ any: Any?) {
+    guard let any = any else {
+      return nil
+    }
     
-    self.init(snowflake)
-  }
-  
-  /// Initialize from a String? (returns nil if the input was nil or if it failed to initialize)
-  public init?(_ optionalString: String?) {
-    guard let string = optionalString else { return nil }
+    if let string = any as? String, let snowflake = UInt64(string) {
+      self.init(snowflake)
+      return
+    }
     
-    self.init(string)
+    return nil
   }
   
   /**
@@ -95,7 +97,6 @@ extension Snowflake : CustomStringConvertible {
   public var description: String {
     return self.rawValue.description
   }
-
 }
 
 /// Snowflake conformance to RawRepresentable
@@ -107,7 +108,6 @@ extension Snowflake : RawRepresentable, Equatable {
   public init(rawValue: UInt64) {
     self.rawValue = rawValue
   }
-  
 }
 
 /// Snowflake conformance to Comparable
@@ -117,7 +117,6 @@ extension Snowflake: Comparable {
   public static func <(lhs: Snowflake, rhs: Snowflake) -> Bool {
     return lhs.rawValue < rhs.rawValue
   }
-
 }
 
 /// Snowflake conformance to Hashable
@@ -127,37 +126,4 @@ extension Snowflake: Hashable {
   public var hashValue: Int {
     return self.rawValue.hashValue
   }
-
 }
-
-// MARK: Snowflake Typealiases
-
-/// A Snowflake ID representing a Guild
-public typealias GuildID = Snowflake
-
-/// A Snowflake ID representing a Channel
-public typealias ChannelID = Snowflake
-
-/// A Snowflake ID representing a User
-public typealias UserID = Snowflake
-
-/// A Snowflake ID representing a Role
-public typealias RoleID = Snowflake
-
-/// A Snowflake ID representing a Message
-public typealias MessageID = Snowflake
-
-/// A Snowflake ID representing a Webhook
-public typealias WebhookID = Snowflake
-
-/// A Snowflake ID representing a Permissions Overwrite
-public typealias OverwriteID = Snowflake
-
-/// A Snowflake ID representing an Emoji
-public typealias EmojiID = Snowflake
-
-/// A Snowflake ID representing an Integration
-public typealias IntegrationID = Snowflake
-
-/// A Snowflake ID representing an Attachment
-public typealias AttachmentID = Snowflake

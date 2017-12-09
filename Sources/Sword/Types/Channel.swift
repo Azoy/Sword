@@ -17,7 +17,7 @@ public protocol Channel {
   var sword: Sword? { get }
 
   /// The id of the channel
-  var id: ChannelID { get }
+  var id: Snowflake { get }
 
   /// Indicates what type of channel this is
   var type: ChannelType { get }
@@ -41,7 +41,7 @@ public protocol TextChannel: Channel {
   // MARK: Properties
 
   /// The last message's id
-  var lastMessageId: MessageID? { get }
+  var lastMessageId: Snowflake? { get }
 
 }
 
@@ -57,7 +57,7 @@ public extension TextChannel {
    */
   func addReaction(
     _ reaction: String,
-    to messageId: MessageID,
+    to messageId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.sword?.addReaction(
@@ -74,7 +74,7 @@ public extension TextChannel {
    - parameter messageId: Message to delete
    */
   func deleteMessage(
-    _ messageId: MessageID,
+    _ messageId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.sword?.deleteMessage(messageId, from: self.id, then: completion)
@@ -86,7 +86,7 @@ public extension TextChannel {
    - parameter messages: Array of message ids to delete
    */
   func deleteMessages(
-    _ messages: [MessageID],
+    _ messages: [Snowflake],
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.sword?.deleteMessages(messages, from: self.id, then: completion)
@@ -101,8 +101,8 @@ public extension TextChannel {
    */
   func deleteReaction(
     _ reaction: String,
-    from messageId: MessageID,
-    by userId: UserID? = nil,
+    from messageId: Snowflake,
+    by userId: Snowflake? = nil,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.sword?.deleteReaction(
@@ -121,7 +121,7 @@ public extension TextChannel {
    - parameter content: Text to change message to
    */
   func editMessage(
-    _ messageId: MessageID,
+    _ messageId: Snowflake,
     with options: [String: Any],
     then completion: ((Message?, RequestError?) -> ())? = nil
   ) {
@@ -139,7 +139,7 @@ public extension TextChannel {
    - parameter messageId: Id of message you want to get
    **/
   func getMessage(
-    _ messageId: MessageID,
+    _ messageId: Snowflake,
     then completion: @escaping (Message?, RequestError?) -> ()
   ) {
     self.sword?.getMessage(messageId, from: self.id, then: completion)
@@ -172,7 +172,7 @@ public extension TextChannel {
    */
   func getReaction(
     _ reaction: String,
-    from messageId: MessageID,
+    from messageId: Snowflake,
     then completion: @escaping ([User]?, RequestError?) -> ()
   ) {
     self.sword?.getReaction(
@@ -196,7 +196,7 @@ public extension TextChannel {
    - parameter messageId: Message to pin
    */
   func pin(
-    _ messageId: MessageID,
+    _ messageId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.sword?.pin(messageId, in: self.id, then: completion)
@@ -244,7 +244,7 @@ public extension TextChannel {
    - parameter messageId: Pinned message to unpin
    */
   func unpin(
-    _ messageId: MessageID,
+    _ messageId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.sword?.unpin(messageId, from: self.id, then: completion)
@@ -267,10 +267,10 @@ public protocol GuildChannel: class, Channel {
   var name: String? { get }
   
   /// The channel id of the category that owns this channel
-  var parentId: ChannelID? { get }
+  var parentId: Snowflake? { get }
   
   /// Collection of overwrites mapped by `OverwriteID`
-  var permissionOverwrites: [OverwriteID: Overwrite] { get }
+  var permissionOverwrites: [Snowflake: Overwrite] { get }
 
   /// Position the channel is in guild
   var position: Int? { get }

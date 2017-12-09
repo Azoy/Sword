@@ -15,7 +15,7 @@ public struct Role {
   public let color: Int
 
   /// ID of the role
-  public let id: RoleID
+  public let id: Snowflake
 
   /// Whether or not this role is hoisted
   public let isHoisted: Bool
@@ -45,7 +45,7 @@ public struct Role {
   init(_ json: [String: Any]) {
     self.color = json["color"] as! Int
     self.isHoisted = json["hoist"] as! Bool
-    self.id = RoleID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
     self.isManaged = json["managed"] as! Bool
     self.isMentionable = json["mentionable"] as! Bool
     self.name = json["name"] as! String

@@ -31,16 +31,16 @@ public class GuildVoice: GuildChannel, Updatable {
   }
   
   /// ID of the channel
-  public let id: ChannelID
+  public let id: Snowflake
   
   /// Name of channel
   public internal(set) var name: String?
   
   /// Parent Category ID of this channel
-  public internal(set) var parentId: ChannelID?
+  public internal(set) var parentId: Snowflake?
   
   /// Collection of Overwrites mapped by `OverwriteID`
-  public internal(set) var permissionOverwrites = [OverwriteID : Overwrite]()
+  public internal(set) var permissionOverwrites = [Snowflake : Overwrite]()
   
   /// Position of channel
   public internal(set) var position: Int?
@@ -63,12 +63,12 @@ public class GuildVoice: GuildChannel, Updatable {
     self.sword = sword
     
     self.bitrate = json["bitrate"] as? Int
-    self.id = ChannelID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
     
     let name = json["name"] as? String
     self.name = name
     
-    self.parentId = ChannelID(json["parent_id"] as? String)
+    self.parentId = Snowflake(json["parent_id"])
     
     if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
       for overwrite in overwrites {
@@ -80,7 +80,7 @@ public class GuildVoice: GuildChannel, Updatable {
     self.position = json["position"] as? Int
     self.userLimit = json["user_limit"] as? Int
     
-    if let guildId = GuildID(json["guild_id"] as? String) {
+    if let guildId = Snowflake(json["guild_id"]) {
       sword.guilds[guildId]!.channels[self.id] = self
     }
   }
@@ -93,7 +93,7 @@ public class GuildVoice: GuildChannel, Updatable {
     let name = json["name"] as? String
     self.name = name
     
-    self.parentId = ChannelID(json["parent_id"] as? String)
+    self.parentId = Snowflake(json["parent_id"])
     
     if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
       for overwrite in overwrites {
@@ -112,7 +112,7 @@ public class GuildVoice: GuildChannel, Updatable {
    - parameter userId: User to move
    */
   public func moveMember(
-    _ userId: UserID,
+    _ userId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     guard let guild = self.guild else { return }

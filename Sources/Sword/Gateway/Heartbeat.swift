@@ -33,7 +33,7 @@ class Heartbeat {
   var sequence: Int?
 
   /// Current websocket
-  let session: WebSocket
+  weak var gateway: Gateway?
 
   /// Whether or not this heartbeat is voice
   let isVoice: Bool
@@ -46,8 +46,8 @@ class Heartbeat {
    - parameter ws: Websocket connection
    - parameter interval: Interval to set heartbeats at
    */
-  init(_ ws: WebSocket, _ name: String, interval: Int, voice: Bool = false) {
-    self.session = ws
+  init(_ gateway: Gateway, _ name: String, interval: Int, voice: Bool = false) {
+    self.gateway = gateway
     self.queue = DispatchQueue(
       label: "me.azoy.sword.\(name)",
       qos: .userInitiated
@@ -63,11 +63,15 @@ class Heartbeat {
     let deadline = DispatchTime.now()
       + DispatchTimeInterval.milliseconds(self.interval)
 
-    queue.asyncAfter(deadline: deadline) { [weak self] in
+    self.queue.asyncAfter(deadline: deadline) { [weak self] in
 
       guard let this = self else { return }
 
-      guard this.received else { return }
+      guard this.received else {
+        print("[Sword] Did not receive ACK from server, reconnecting...")
+        this.gateway?.reconnect()
+        return
+      }
 
       var heartbeat = Payload(
         op: .heartbeat,
@@ -79,11 +83,7 @@ class Heartbeat {
         heartbeat.d = Int(Date().timeIntervalSince1970 * 1000)
       }
 
-      #if !os(Linux)
-      this.session.write(string: heartbeat.encode())
-      #else
-      try? this.session.send(heartbeat.encode())
-      #endif
+      this.gateway?.send(heartbeat.encode(), presence: false)
 
       this.received = false
 

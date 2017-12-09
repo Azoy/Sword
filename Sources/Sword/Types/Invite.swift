@@ -30,11 +30,11 @@ public struct Invite {
   */
   init(_ sword: Sword, _ json: [String: Any]) {
     let guild = sword.guilds[
-      GuildID((json["guild"] as! [String: Any])["id"] as! String)!
+      Snowflake((json["guild"] as! [String: Any])["id"])!
     ]
     self.guild = guild
     self.channel = guild?.channels[
-      ChannelID((json["channel"] as! [String: Any])["id"] as! String)!
+      Snowflake((json["channel"] as! [String: Any])["id"])!
     ] as? GuildText
     self.code = json["code"] as! String
   }

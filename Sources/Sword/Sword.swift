@@ -15,7 +15,7 @@ open class Sword: Eventable {
   // MARK: Properties
 
   /// Collection of DMChannels mapped by user id
-  public internal(set) var dms = [UserID: DM]() {
+  public internal(set) var dms = [Snowflake: DM]() {
     didSet {
       guard dms.count > 10 else {
         return
@@ -37,10 +37,10 @@ open class Sword: Eventable {
   var globalRequestQueue = [() -> ()]()
 
   /// Collection of group channels the bot is connected to
-  public internal(set) var groups = [ChannelID: GroupDM]()
+  public internal(set) var groups = [Snowflake: GroupDM]()
 
   /// Colectionl of guilds the bot is currently connected to
-  public internal(set) var guilds = [GuildID: Guild]()
+  public internal(set) var guilds = [Snowflake: Guild]()
 
   /// Event listeners
   public var listeners = [Event: [(Any) -> ()]]()
@@ -77,7 +77,7 @@ open class Sword: Eventable {
   let token: String
 
   /// Array of unavailable guilds the bot is currently connected to
-  public internal(set) var unavailableGuilds = [GuildID: UnavailableGuild]()
+  public internal(set) var unavailableGuilds = [Snowflake: UnavailableGuild]()
 
   /// Int in seconds of how long the bot has been online
   public var uptime: Int? {
@@ -94,7 +94,7 @@ open class Sword: Eventable {
   #if os(macOS) || os(Linux)
 
   /// Object of voice connections the bot is currently connected to. Mapped by guildId
-  public var voiceConnections: [GuildID: VoiceConnection] {
+  public var voiceConnections: [Snowflake: VoiceConnection] {
     return self.voiceManager.connections
   }
 
@@ -127,8 +127,8 @@ open class Sword: Eventable {
   */
   public func addReaction(
     _ reaction: String,
-    to messageId: MessageID,
-    in channelId: ChannelID,
+    to messageId: Snowflake,
+    in channelId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(
@@ -154,8 +154,8 @@ open class Sword: Eventable {
    - parameter options: Deletes messages from this user by amount of days
   */
   public func ban(
-    _ userId: UserID,
-    from guildId: GuildID,
+    _ userId: Snowflake,
+    from guildId: Snowflake,
     for reason: String? = nil,
     with options: [String: Any] = [:],
     then completion: ((RequestError?) -> ())? = nil
@@ -244,7 +244,7 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to give the channel on create
   */
   public func createChannel(
-    for guildId: GuildID,
+    for guildId: Snowflake,
     with options: [String: Any],
     then completion: ((GuildChannel?, RequestError?) -> ())? = nil
   ) {
@@ -304,7 +304,7 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options for this integration
   */
   public func createIntegration(
-    for guildId: GuildID,
+    for guildId: Snowflake,
     with options: [String: String],
     then completion: ((RequestError?) -> ())? = nil
   ) {
@@ -330,7 +330,7 @@ open class Sword: Eventable {
    - parameter options: Options to give invite
   */
   public func createInvite(
-    for channelId: ChannelID,
+    for channelId: Snowflake,
     with options: [String: Any] = [:],
     then completion: (([String: Any]?, RequestError?) -> ())? = nil
   ) {
@@ -357,7 +357,7 @@ open class Sword: Eventable {
    - parameter options: Preset options to configure role with
   */
   public func createRole(
-    for guildId: GuildID,
+    for guildId: Snowflake,
     with options: [String: Any],
     then completion: ((Role?, RequestError?) -> ())? = nil
   ) {
@@ -382,7 +382,7 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to create this webhook with
   */
   public func createWebhook(
-    for channelId: ChannelID,
+    for channelId: Snowflake,
     with options: [String: String] = [:],
     then completion: ((Webhook?, RequestError?) -> ())? = nil
   ) {
@@ -404,7 +404,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to delete
   */
   public func deleteChannel(
-    _ channelId: ChannelID,
+    _ channelId: Snowflake,
     then completion: ((Channel?, RequestError?) -> ())? = nil
   ) {
     self.request(.deleteChannel(channelId)) { [unowned self] data, error in
@@ -441,7 +441,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to delete
   */
   public func deleteGuild(
-    _ guildId: GuildID,
+    _ guildId: Snowflake,
     then completion: ((Guild?, RequestError?) -> ())? = nil
   ) {
     self.request(.deleteGuild(guildId)) { [unowned self] data, error in
@@ -460,8 +460,8 @@ open class Sword: Eventable {
    - parameter guildId: Guild to delete integration from
   */
   public func deleteIntegration(
-    _ integrationId: IntegrationID,
-    from guildId: GuildID,
+    _ integrationId: Snowflake,
+    from guildId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(
@@ -497,8 +497,8 @@ open class Sword: Eventable {
    - parameter messageId: Message to delete
   */
   public func deleteMessage(
-    _ messageId: MessageID,
-    from channelId: ChannelID,
+    _ messageId: Snowflake,
+    from channelId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(.deleteMessage(channelId, messageId)) { data, error in
@@ -512,8 +512,8 @@ open class Sword: Eventable {
    - parameter messages: Array of message ids to delete
   */
   public func deleteMessages(
-    _ messages: [MessageID],
-    from channelId: ChannelID,
+    _ messages: [Snowflake],
+    from channelId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     let oldestMessage = Snowflake.fakeSnowflake(
@@ -545,8 +545,8 @@ open class Sword: Eventable {
    - parameter overwriteId: Overwrite ID to use for permissons
   */
   public func deletePermission(
-    from channelId: ChannelID,
-    with overwriteId: OverwriteID,
+    from channelId: Snowflake,
+    with overwriteId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(
@@ -566,9 +566,9 @@ open class Sword: Eventable {
   */
   public func deleteReaction(
     _ reaction: String,
-    from messageId: MessageID,
-    by userId: UserID? = nil,
-    in channelId: ChannelID,
+    from messageId: Snowflake,
+    by userId: Snowflake? = nil,
+    in channelId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     let reaction = reaction.addingPercentEncoding(
@@ -593,8 +593,8 @@ open class Sword: Eventable {
    - parameter channelId: Channel to remove reactions in
   */
   public func deleteReactions(
-    from messageId: MessageID,
-    in channelId: ChannelID,
+    from messageId: Snowflake,
+    in channelId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(.deleteAllReactions(channelId, messageId)) { data, error in
@@ -609,8 +609,8 @@ open class Sword: Eventable {
    - parameter guildId: Guild to delete role from
   */
   public func deleteRole(
-    _ roleId: RoleID,
-    from guildId: GuildID,
+    _ roleId: Snowflake,
+    from guildId: Snowflake,
     then completion: ((Role?, RequestError?) -> ())? = nil
   ) {
     self.request(.deleteGuildRole(guildId, roleId)) { data, error in
@@ -628,7 +628,7 @@ open class Sword: Eventable {
    - parameter webhookId: Webhook to delete
   */
   public func deleteWebhook(
-    _ webhookId: WebhookID,
+    _ webhookId: Snowflake,
     token: String? = nil,
     then completion: ((RequestError?) -> ())? = nil
   ) {
@@ -650,9 +650,9 @@ open class Sword: Eventable {
    - parameter channelId: Channel to edit message in
   */
   public func editMessage(
-    _ messageId: MessageID,
+    _ messageId: Snowflake,
     with options: [String: Any],
-    in channelId: ChannelID,
+    in channelId: Snowflake,
     then completion: ((Message?, RequestError?) -> ())? = nil
   ) {
     self.request(
@@ -682,8 +682,8 @@ open class Sword: Eventable {
   */
   public func editPermissions(
     _ permissions: [String: Any],
-    for channelId: ChannelID,
-    with overwriteId: OverwriteID,
+    for channelId: Snowflake,
+    with overwriteId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(
@@ -785,7 +785,7 @@ open class Sword: Eventable {
    - parameter content: The slack webhook content to send
   */
   public func executeSlackWebhook(
-    _ webhookId: WebhookID,
+    _ webhookId: Snowflake,
     token webhookToken: String,
     with content: [String: Any],
     then completion: ((RequestError?) -> ())? = nil
@@ -815,7 +815,7 @@ open class Sword: Eventable {
    - parameter content: String or dictionary containing message content
   */
   public func executeWebhook(
-    _ webhookId: WebhookID,
+    _ webhookId: Snowflake,
     token webhookToken: String,
     with content: Any,
     then completion: ((RequestError?) -> ())? = nil
@@ -861,7 +861,7 @@ open class Sword: Eventable {
    - parameter options: Optional flags to request for when getting audit logs
   */
   public func getAuditLog(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     with options: [String: Any]? = nil,
     then completion: @escaping (AuditLog?, RequestError?) -> ()
   ) {
@@ -880,7 +880,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get bans from
   */
   public func getBans(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     then completion: @escaping ([User]?, RequestError?) -> ()
   ) {
     self.request(.getGuildBans(guildId)) { [unowned self] data, error in
@@ -903,7 +903,7 @@ open class Sword: Eventable {
    
    - parameter channelId: The ChannelID used to get the Channel
   */
-  public func getChannel(for channelId: ChannelID) -> Channel? {
+  public func getChannel(for channelId: Snowflake) -> Channel? {
     if let guild = self.getGuild(for: channelId) {
       return guild.channels[channelId]
     }
@@ -921,7 +921,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to get
   */
   public func getChannel(
-    _ channelId: ChannelID,
+    _ channelId: Snowflake,
     rest: Bool = false,
     then completion: @escaping (Channel?, RequestError?) -> ()
   ) {
@@ -964,7 +964,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to get invites from
   */
   public func getChannelInvites(
-    from channelId: ChannelID,
+    from channelId: Snowflake,
     then completion: @escaping ([[String: Any]]?, RequestError?) -> ()
   ) {
     self.request(.getChannelInvites(channelId)) { data, error in
@@ -978,7 +978,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get channels from
   */
   public func getChannels(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     rest: Bool = false,
     then completion: @escaping ([GuildChannel]?, RequestError?) -> ()
   ) {
@@ -1029,7 +1029,7 @@ open class Sword: Eventable {
 
    - parameter channelId: Channel to get dm from
   */
-  public func getDM(for channelId: ChannelID) -> DM? {
+  public func getDM(for channelId: Snowflake) -> DM? {
     let dms = self.dms.filter {
       $0.1.id == channelId
     }
@@ -1045,7 +1045,7 @@ open class Sword: Eventable {
    - parameter userId: User to get DM for
   */
   public func getDM(
-    for userId: UserID,
+    for userId: Snowflake,
     then completion: @escaping (DM?, RequestError?) -> ()
   ) {
     guard self.dms[userId] == nil else {
@@ -1081,7 +1081,7 @@ open class Sword: Eventable {
 
    - parameter channelId: Channel to get guild from
   */
-  public func getGuild(for channelId: ChannelID) -> Guild? {
+  public func getGuild(for channelId: Snowflake) -> Guild? {
     let guilds = self.guilds.filter {
       $0.1.channels[channelId] != nil
     }
@@ -1098,7 +1098,7 @@ open class Sword: Eventable {
    - parameter rest: Whether or not to get this guild restfully or not
   */
   public func getGuild(
-    _ guildId: GuildID,
+    _ guildId: Snowflake,
     rest: Bool = false,
     then completion: @escaping (Guild?, RequestError?) -> ()
   ) {
@@ -1122,7 +1122,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get embed from
   */
   public func getGuildEmbed(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     then completion: @escaping ([String: Any]?, RequestError?) -> ()
   ) {
     self.request(.getGuildEmbed(guildId)) { data, error in
@@ -1136,7 +1136,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get invites from
   */
   public func getGuildInvites(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     then completion: @escaping ([[String: Any]]?, RequestError?) -> ()
   ) {
     self.request(.getGuildInvites(guildId)) { data, error in
@@ -1150,7 +1150,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get webhooks from
   */
   public func getGuildWebhooks(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     then completion: @escaping ([Webhook]?, RequestError?) -> ()
   ) {
     self.request(.getGuildWebhooks(guildId)) { [unowned self] data, error in
@@ -1174,7 +1174,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get integrations from
   */
   public func getIntegrations(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     then completion: @escaping ([[String: Any]]?, RequestError?) -> ()
   ) {
     self.request(.getGuildIntegrations(guildId)) { data, error in
@@ -1203,8 +1203,8 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get member from
   */
   public func getMember(
-    _ userId: UserID,
-    from guildId: GuildID,
+    _ userId: Snowflake,
+    from guildId: Snowflake,
     then completion: @escaping (Member?, RequestError?) -> ()
     ) {
     self.request(
@@ -1231,7 +1231,7 @@ open class Sword: Eventable {
    - parameter options: Dictionary containing optional optiond regarding what members are returned
   */
   public func getMembers(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     with options: [String: Any]? = nil,
     then completion: @escaping ([Member]?, RequestError?) -> ()
   ) {
@@ -1260,8 +1260,8 @@ open class Sword: Eventable {
    - parameter channelId: Channel to get message from
   */
   public func getMessage(
-    _ messageId: MessageID,
-    from channelId: ChannelID,
+    _ messageId: Snowflake,
+    from channelId: Snowflake,
     then completion: @escaping (Message?, RequestError?) -> ()
   ) {
     self.request(
@@ -1289,7 +1289,7 @@ open class Sword: Eventable {
    - parameter options: Dictionary containing optional options regarding how many messages, or when to get them
   */
   public func getMessages(
-    from channelId: ChannelID,
+    from channelId: Snowflake,
     with options: [String: Any]? = nil,
     then completion: @escaping ([Message]?, RequestError?) -> ()
   ) {
@@ -1317,7 +1317,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to get pinned messages fromn
   */
   public func getPinnedMessages(
-    from channelId: ChannelID,
+    from channelId: Snowflake,
     then completion: @escaping ([Message]?, RequestError?) -> ()
   ) {
     self.request(.getPinnedMessages(channelId)) { [unowned self] data, error in
@@ -1342,7 +1342,7 @@ open class Sword: Eventable {
    - parameter limit: Number of days to get prune count for
   */
   public func getPruneCount(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     for limit: Int,
     then completion: @escaping (Int?, RequestError?) -> ()
   ) {
@@ -1363,8 +1363,8 @@ open class Sword: Eventable {
   */
   public func getReaction(
     _ reaction: String,
-    from messageId: MessageID,
-    in channelId: ChannelID,
+    from messageId: Snowflake,
+    in channelId: Snowflake,
     then completion: @escaping ([User]?, RequestError?) -> ()
   ) {
     self.request(
@@ -1394,7 +1394,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get roles from
   */
   public func getRoles(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     then completion: @escaping ([Role]?, RequestError?) -> ()
   ) {
     self.request(.getGuildRoles(guildId)) { data, error in
@@ -1417,7 +1417,7 @@ open class Sword: Eventable {
 
    - parameter guildId: Guild to get shard for
   */
-  public func getShard(for guildId: GuildID) -> Int {
+  public func getShard(for guildId: Snowflake) -> Int {
     return Int((guildId.rawValue >> 22) % UInt64(self.shardCount))
   }
 
@@ -1427,7 +1427,7 @@ open class Sword: Eventable {
    - parameter userId: User to get
   */
   public func getUser(
-    _ userId: UserID,
+    _ userId: Snowflake,
     then completion: @escaping (User?, RequestError?) -> ()
   ) {
     self.request(.getUser(userId)) { [unowned self] data, error in
@@ -1475,7 +1475,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to get voice regions from
   */
   public func getVoiceRegions(
-    from guildId: GuildID,
+    from guildId: Snowflake,
     then completion: @escaping ([[String: Any]]?, RequestError?) -> ()
   ) {
     self.request(.getGuildVoiceRegions(guildId)) { data, error in
@@ -1489,7 +1489,7 @@ open class Sword: Eventable {
    - parameter webhookId: Webhook to get
   */
   public func getWebhook(
-    _ webhookId: WebhookID,
+    _ webhookId: Snowflake,
     token: String? = nil,
     then completion: @escaping (Webhook?, RequestError?) -> ()
   ) {
@@ -1508,7 +1508,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to get webhooks from
   */
   public func getWebhooks(
-    from channelId: ChannelID,
+    from channelId: Snowflake,
     then completion: @escaping ([Webhook]?, RequestError?) -> ()
   ) {
     self.request(.getChannelWebhooks(channelId)) { [unowned self] data, error in
@@ -1534,7 +1534,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to connect to
   */
   public func joinVoiceChannel(
-    _ channelId: ChannelID,
+    _ channelId: Snowflake,
     then completion: @escaping (VoiceConnection) -> ()
   ) {
 
@@ -1565,8 +1565,8 @@ open class Sword: Eventable {
    - parameter reason: Reason why member was kicked from guild (attached to audit log)
   */
   public func kick(
-    _ userId: UserID,
-    from guildId: GuildID,
+    _ userId: Snowflake,
+    from guildId: Snowflake,
     for reason: String? = nil,
     then completion: ((RequestError?) -> ())? = nil
   ) {
@@ -1593,7 +1593,7 @@ open class Sword: Eventable {
    - parameter guildId: Guild to leave
    */
   public func leaveGuild(
-    _ guildId: GuildID,
+    _ guildId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(.leaveGuild(guildId)) { data, error in
@@ -1608,7 +1608,7 @@ open class Sword: Eventable {
 
    - parameter channelId: Channel to disconnect from
   */
-  public func leaveVoiceChannel(_ channelId: ChannelID) {
+  public func leaveVoiceChannel(_ channelId: Snowflake) {
 
     guard let guild = self.getGuild(for: channelId) else { return }
 
@@ -1644,7 +1644,7 @@ open class Sword: Eventable {
    - parameter options: Optons to give channel
   */
   public func modifyChannel(
-    _ channelId: ChannelID,
+    _ channelId: Snowflake,
     with options: [String: Any] = [:],
     then completion: ((GuildChannel?, RequestError?) -> ())? = nil
   ) {
@@ -1684,7 +1684,7 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to set channel positions to
   */
   public func modifyChannelPositions(
-    for guildId: GuildID,
+    for guildId: Snowflake,
     with options: [[String: Any]],
     then completion: (([GuildChannel]?, RequestError?) -> ())? = nil
   ) {
@@ -1726,7 +1726,7 @@ open class Sword: Eventable {
    - parameter options: Dictionary of options to give embed
   */
   public func modifyEmbed(
-    for guildId: GuildID,
+    for guildId: Snowflake,
     with options: [String: Any],
     then completion: (([String: Any]?, RequestError?) -> ())? = nil
   ) {
@@ -1754,7 +1754,7 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to modify guild with
   */
   public func modifyGuild(
-    _ guildId: GuildID,
+    _ guildId: Snowflake,
     with options: [String: Any],
     then completion: ((Guild?, RequestError?) -> ())? = nil
   ) {
@@ -1789,8 +1789,8 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to modify this integration with
   */
   public func modifyIntegration(
-    _ integrationId: IntegrationID,
-    for guildId: GuildID,
+    _ integrationId: Snowflake,
+    for guildId: Snowflake,
     with options: [String: Any],
     then completion: ((RequestError?) -> ())? = nil
   ) {
@@ -1818,8 +1818,8 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to modify member with
   */
   public func modifyMember(
-    _ userId: UserID,
-    in guildId: GuildID,
+    _ userId: Snowflake,
+    in guildId: Snowflake,
     with options: [String: Any],
     then completion: ((RequestError?) -> ())? = nil
   ) {
@@ -1847,8 +1847,8 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to modify guild roles with
   */
   public func modifyRole(
-    _ roleId: RoleID,
-    for guildId: GuildID,
+    _ roleId: Snowflake,
+    for guildId: Snowflake,
     with options: [String: Any],
     then completion: ((Role?, RequestError?) -> ())? = nil
   ) {
@@ -1878,7 +1878,7 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to set role positions to
   */
   public func modifyRolePositions(
-    for guildId: GuildID,
+    for guildId: Snowflake,
     with options: [[String: Any]],
     then completion: (([Role]?, RequestError?) -> ())? = nil
   ) {
@@ -1912,7 +1912,7 @@ open class Sword: Eventable {
    - parameter options: Preconfigured options to modify webhook with
   */
   public func modifyWebhook(
-    _ webhookId: WebhookID,
+    _ webhookId: Snowflake,
     token: String? = nil,
     with options: [String: String],
     then completion: ((Webhook?, RequestError?) -> ())? = nil
@@ -1937,9 +1937,9 @@ open class Sword: Eventable {
    - parameter channelId: The Id of the channel to send them to
   */
   public func moveMember(
-    _ userId: UserID,
-    in guildId: GuildID,
-    to channelId: ChannelID,
+    _ userId: Snowflake,
+    in guildId: Snowflake,
+    to channelId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(
@@ -1957,8 +1957,8 @@ open class Sword: Eventable {
    - parameter channelId: Channel to pin message in
   */
   public func pin(
-    _ messageId: MessageID,
-    in channelId: ChannelID,
+    _ messageId: Snowflake,
+    in channelId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(
@@ -1975,7 +1975,7 @@ open class Sword: Eventable {
    - parameter limit: Amount of days for prunned users
   */
   public func pruneMembers(
-    in guildId: GuildID,
+    in guildId: Snowflake,
     for limit: Int,
     then completion: ((Int?, RequestError?) -> ())? = nil
   ) {
@@ -2002,8 +2002,8 @@ open class Sword: Eventable {
    - parameter groupDMId: Snowflake of Group DM you want to remove user from
   */
   public func removeUser(
-    _ userId: UserID,
-    fromGroupDM groupDMId: ChannelID,
+    _ userId: Snowflake,
+    fromGroupDM groupDMId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(.groupDMRemoveRecipient(groupDMId, userId)) { _, error in
@@ -2019,7 +2019,7 @@ open class Sword: Eventable {
    */
   public func send(
     _ content: String,
-    to channelId: ChannelID,
+    to channelId: Snowflake,
     then completion: ((Message?, RequestError?) -> ())? = nil
   ) {
     self.request(
@@ -2051,7 +2051,7 @@ open class Sword: Eventable {
   */
   public func send(
     _ content: [String: Any],
-    to channelId: ChannelID,
+    to channelId: Snowflake,
     then completion: ((Message?, RequestError?) -> ())? = nil
   ) {
     var content = content
@@ -2083,7 +2083,7 @@ open class Sword: Eventable {
    */
   public func send(
     _ content: Embed,
-    to channelId: ChannelID,
+    to channelId: Snowflake,
     then completion: ((Message?, RequestError?) -> ())? = nil
   ) {
     self.request(
@@ -2104,7 +2104,7 @@ open class Sword: Eventable {
    - parameter channelId: Channel to set typing to
   */
   public func setTyping(
-    for channelId: ChannelID,
+    for channelId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(.triggerTypingIndicator(channelId)) { data, error in
@@ -2149,8 +2149,8 @@ open class Sword: Eventable {
    - parameter guildId: Guild to sync intregration for
   */
   public func syncIntegration(
-    _ integrationId: IntegrationID,
-    for guildId: GuildID,
+    _ integrationId: Snowflake,
+    for guildId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(.syncGuildIntegration(guildId, integrationId)) { data, error in
@@ -2164,8 +2164,8 @@ open class Sword: Eventable {
    - parameter userId: User to unban
   */
   public func unbanMember(
-    _ userId: UserID,
-    from guildId: GuildID,
+    _ userId: Snowflake,
+    from guildId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(.removeGuildBan(guildId, userId)) { data, error in
@@ -2179,8 +2179,8 @@ open class Sword: Eventable {
    - parameter messageId: Pinned message to unpin
   */
   public func unpin(
-    _ messageId: MessageID,
-    from channelId: ChannelID,
+    _ messageId: Snowflake,
+    from channelId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.request(

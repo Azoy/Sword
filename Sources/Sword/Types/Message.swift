@@ -32,7 +32,7 @@ public struct Message {
   public internal(set) var embeds = [Embed]()
 
   /// Message ID
-  public let id: MessageID
+  public let id: Snowflake
 
   /// Whether or not this message mentioned everyone
   public let isEveryoneMentioned: Bool
@@ -50,7 +50,7 @@ public struct Message {
   public internal(set) var mentions = [User]()
 
   /// Array of Roles that were mentioned
-  public internal(set) var mentionedRoles = [RoleID]()
+  public internal(set) var mentionedRoles = [Snowflake]()
 
   /// Used to validate a message was sent
   public let nonce: Snowflake?
@@ -65,7 +65,7 @@ public struct Message {
   public let type: Type
   
   /// If message was sent by webhook, this is that webhook's ID
-  public let webhookId: WebhookID?
+  public let webhookId: Snowflake?
 
   // MARK: Initializer
 
@@ -89,9 +89,7 @@ public struct Message {
 
     self.content = json["content"] as! String
 
-    self.channel = sword.getChannel(
-      for: ChannelID(json["channel_id"] as! String)!
-    )! as! TextChannel
+    self.channel = sword.getChannel(for: Snowflake(json["channel_id"])!)! as! TextChannel
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date
@@ -104,7 +102,7 @@ public struct Message {
       self.embeds.append(Embed(embed))
     }
 
-    self.id = MessageID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
 
     if json["webhook_id"] == nil {
       for (_, guild) in sword.guilds {
@@ -126,9 +124,9 @@ public struct Message {
 
     self.mentionedRoles = (
       json["mention_roles"] as! [String]
-    ).map { RoleID($0)! }
+    ).map { Snowflake($0)! }
 
-    self.nonce = Snowflake(json["nonce"] as? String)
+    self.nonce = Snowflake(json["nonce"])
 
     if let reactions = json["reactions"] as? [[String: Any]] {
       self.reactions = reactions
@@ -143,7 +141,7 @@ public struct Message {
       self.type = Type(rawValue: 0)!
     }
     
-    self.webhookId = WebhookID(json["webhook_id"] as? String)
+    self.webhookId = Snowflake(json["webhook_id"])
   }
 
   // MARK: Functions
@@ -173,7 +171,7 @@ public struct Message {
   */
   public func delete(
     reaction: String,
-    from userId: UserID? = nil,
+    from userId: Snowflake? = nil,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.channel.deleteReaction(
@@ -309,7 +307,7 @@ public struct Attachment {
   public let height: Int?
   
   /// ID of attachment
-  public let id: AttachmentID
+  public let id: Snowflake
   
   /// The proxied URL for this attachment
   public let proxyUrl: String
@@ -333,7 +331,7 @@ public struct Attachment {
   init(_ json: [String: Any]) {
     self.filename = json["filename"] as! String
     self.height = json["height"] as? Int
-    self.id = AttachmentID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
     self.proxyUrl = json["proxy_url"] as! String
     self.size = json["size"] as! Int
     self.url = json["url"] as! String

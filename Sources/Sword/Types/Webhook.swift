@@ -24,7 +24,7 @@ public struct Webhook {
   public internal(set) weak var guild: Guild?
 
   /// The id of the webhook
-  public let id: WebhookID
+  public let id: Snowflake
 
   /// The display name of the webhook
   public let name: String
@@ -48,14 +48,14 @@ public struct Webhook {
 
     self.avatar = json["avatar"] as? String
 
-    let channelId = ChannelID(json["channel_id"] as! String)!
+    let channelId = Snowflake(json["channel_id"])!
     self.channel = sword.guilds[
       sword.getGuild(for: channelId)!.id
     ]!.channels[channelId]! as! GuildText
     
     self.guild = sword.getGuild(for: channelId)!
 
-    self.id = WebhookID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
     self.name = json["name"] as! String
     
     if let user = json["user"] as? [String: Any] {

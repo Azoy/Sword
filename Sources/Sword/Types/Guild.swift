@@ -17,19 +17,19 @@ public class Guild: Updatable {
   public internal(set) weak var sword: Sword?
 
   /// ID of afk voice channel (if there is any)
-  public internal(set) var afkChannelId: ChannelID?
+  public internal(set) var afkChannelId: Snowflake?
 
   /// AFK timeout in seconds (if there is any)
   public internal(set) var afkTimeout: Int?
 
   /// Collection of channels mapped by channel ID
-  public internal(set) var channels = [ChannelID: GuildChannel]()
+  public internal(set) var channels = [Snowflake: GuildChannel]()
 
   /// Default notification protocol
   public internal(set) var defaultMessageNotifications: Int
 
   /// ID of embeddable channel
-  public internal(set) var embedChannelId: ChannelID?
+  public internal(set) var embedChannelId: Snowflake?
 
   /// Array of custom emojis for this guild
   public internal(set) var emojis = [Emoji]()
@@ -41,7 +41,7 @@ public class Guild: Updatable {
   public internal(set) var icon: String?
 
   /// ID of guild
-  public let id: GuildID
+  public let id: Snowflake
 
   /// Whether or not this guild is embeddable
   public internal(set) var isEmbedEnabled: Bool?
@@ -56,7 +56,7 @@ public class Guild: Updatable {
   public let memberCount: Int?
 
   /// Collection of members mapped by user ID
-  public internal(set) var members = [UserID: Member]()
+  public internal(set) var members = [Snowflake: Member]()
 
   /// MFA level of guild
   public internal(set) var mfaLevel: MFALevel
@@ -65,13 +65,13 @@ public class Guild: Updatable {
   public internal(set) var name: String
 
   /// Owner's user ID
-  public internal(set) var ownerId: UserID
+  public internal(set) var ownerId: Snowflake
 
   /// Region this guild is hosted in
   public internal(set) var region: String
 
   /// Collection of roles mapped by role ID
-  public internal(set) var roles = [RoleID: Role]()
+  public internal(set) var roles = [Snowflake: Role]()
 
   /// Shard ID this guild is handled by
   public let shard: Int?
@@ -83,7 +83,7 @@ public class Guild: Updatable {
   public internal(set) var verificationLevel: VerificationLevel
 
   /// Collection of member voice states currently in this guild
-  public internal(set) var voiceStates = [UserID: VoiceState]()
+  public internal(set) var voiceStates = [Snowflake: VoiceState]()
 
   // MARK: Initializer
 
@@ -97,9 +97,9 @@ public class Guild: Updatable {
   init(_ sword: Sword, _ json: [String: Any], _ shard: Int? = nil) {
     self.sword = sword
 
-    self.id = GuildID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
 
-    self.afkChannelId = ChannelID(json["afk_channel_id"] as? String)
+    self.afkChannelId = Snowflake(json["afk_channel_id"])
     self.afkTimeout = json["afk_timeout"] as? Int
 
     if let channels = json["channels"] as? [[String: Any]] {
@@ -128,7 +128,7 @@ public class Guild: Updatable {
 
     self.defaultMessageNotifications =
       json["default_message_notifications"] as! Int
-    self.embedChannelId = ChannelID(json["embed_channel_id"] as? String)
+    self.embedChannelId = Snowflake(json["embed_channel_id"])
     self.isEmbedEnabled = json["embed_enabled"] as? Bool
 
     if let emojis = json["emojis"] as? [[String: Any]] {
@@ -156,7 +156,7 @@ public class Guild: Updatable {
 
     self.mfaLevel = MFALevel(rawValue: json["mfa_level"] as! Int)!
     self.name = json["name"] as! String
-    self.ownerId = UserID(json["owner_id"] as! String)!
+    self.ownerId = Snowflake(json["owner_id"])!
 
     self.region = json["region"] as! String
 
@@ -181,9 +181,7 @@ public class Guild: Updatable {
 
     if let presences = json["presences"] as? [[String: Any]] {
       for presence in presences {
-        let userId = UserID(
-          (presence["user"] as! [String: Any])["id"] as! String
-        )!
+        let userId = Snowflake((presence["user"] as! [String: Any])["id"])!
         let presence = Presence(presence)
         self.members[userId]?.presence = presence
       }
@@ -193,12 +191,8 @@ public class Guild: Updatable {
       for voiceState in voiceStates {
         let voiceStateObjc = VoiceState(voiceState)
 
-        self.voiceStates[
-          UserID(voiceState["user_id"] as! String)!
-        ] = voiceStateObjc
-        self.members[
-          UserID(voiceState["user_id"] as! String)!
-        ]?.voiceState = voiceStateObjc
+        self.voiceStates[Snowflake(voiceState["user_id"])!] = voiceStateObjc
+        self.members[Snowflake(voiceState["user_id"])!]?.voiceState = voiceStateObjc
       }
     }
   }
@@ -206,12 +200,12 @@ public class Guild: Updatable {
   // MARK: Functions
 
   func update(_ json: [String : Any]) {
-    self.afkChannelId = ChannelID(json["afk_channel_id"] as? String)
+    self.afkChannelId = Snowflake(json["afk_channel_id"])
     self.afkTimeout = json["afk_timeout"] as? Int
     
     self.defaultMessageNotifications =
       json["default_message_notifications"] as! Int
-    self.embedChannelId = ChannelID(json["embed_channel_id"] as? String)
+    self.embedChannelId = Snowflake(json["embed_channel_id"])
     self.isEmbedEnabled = json["embed_enabled"] as? Bool
     
     if let emojis = json["emojis"] as? [[String: Any]] {
@@ -230,7 +224,7 @@ public class Guild: Updatable {
     
     self.mfaLevel = MFALevel(rawValue: json["mfa_level"] as! Int)!
     self.name = json["name"] as! String
-    self.ownerId = UserID(json["owner_id"] as! String)!
+    self.ownerId = Snowflake(json["owner_id"])!
     
     self.region = json["region"] as! String
     
@@ -258,7 +252,7 @@ public class Guild: Updatable {
    - parameter options: Deletes messages from this user by amount of days
   */
   public func ban(
-    _ member: UserID,
+    _ member: Snowflake,
     for reason: String? = nil,
     with options: [String: Int] = [:],
     then completion: ((RequestError?) -> ())? = nil
@@ -335,7 +329,7 @@ public class Guild: Updatable {
    - parameter integrationId: Integration to delete
   */
   public func deleteIntegration(
-    _ integrationId: IntegrationID,
+    _ integrationId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.sword?.deleteIntegration(
@@ -351,7 +345,7 @@ public class Guild: Updatable {
    - parameter roleId: Role to delete
   */
   public func deleteRole(
-    _ roleId: RoleID,
+    _ roleId: Snowflake,
     then completion: ((Role?, RequestError?) -> ())? = nil
   ) {
     self.sword?.deleteRole(roleId, from: self.id, then: completion)
@@ -466,7 +460,7 @@ public class Guild: Updatable {
    - parameter reason: Reason why member was kicked from server
   */
   public func kick(
-    _ userId: UserID,
+    _ userId: Snowflake,
     for reason: String? = nil,
     then completion: ((RequestError?) -> ())? = nil
   ) {
@@ -550,7 +544,7 @@ public class Guild: Updatable {
    - parameter options: Preconfigured options to modify this integration with
   */
   public func modifyIntegration(
-    _ integrationId: IntegrationID,
+    _ integrationId: Snowflake,
     with options: [String: Any],
     then completion: ((RequestError?) -> ())? = nil
   ) {
@@ -577,7 +571,7 @@ public class Guild: Updatable {
    - parameter options: Preconfigured options to modify member with
   */
   public func modifyMember(
-    _ userId: UserID,
+    _ userId: Snowflake,
     with options: [String: Any],
     then completion: ((RequestError?) -> ())? = nil
   ) {
@@ -604,7 +598,7 @@ public class Guild: Updatable {
    - parameter options: Preconfigured options to modify guild roles with
   */
   public func modifyRole(
-    _ roleId: RoleID,
+    _ roleId: Snowflake,
     with options: [String: Any],
     then completion: ((Role?, RequestError?) -> ())? = nil
   ) {
@@ -645,8 +639,8 @@ public class Guild: Updatable {
    - parameter channelId: The Id of the channel to send them to
   */
   public func moveMember(
-    _ userId: UserID,
-    to channelId: ChannelID,
+    _ userId: Snowflake,
+    to channelId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.sword?.moveMember(userId, in: self.id, to: channelId, then: completion)
@@ -670,7 +664,7 @@ public class Guild: Updatable {
    - parameter integrationId: Integration to sync
   */
   public func syncIntegration(
-    _ integrationId: IntegrationID,
+    _ integrationId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.sword?.syncIntegration(integrationId, for: self.id, then: completion)
@@ -682,7 +676,7 @@ public class Guild: Updatable {
    - parameter userId: User to unban
   */
   public func unbanMember(
-    _ userId: UserID,
+    _ userId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.sword?.unbanMember(userId, from: self.id, then: completion)
@@ -742,7 +736,7 @@ public struct UnavailableGuild {
   // MARK: Properties
   
   /// ID of this guild
-  public let id: GuildID
+  public let id: Snowflake
   
   /// ID of shard this guild is handled by
   public let shard: Int
@@ -756,7 +750,7 @@ public struct UnavailableGuild {
    - parameter shard: Shard ID this guild is handled by
    */
   init(_ json: [String: Any], _ shard: Int) {
-    self.id = GuildID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
     self.shard = shard
   }
   
@@ -771,7 +765,7 @@ public struct UserGuild {
   public let icon: String?
   
   /// The guild ID
-  public let id: GuildID
+  public let id: Snowflake
   
   /// Whether or not the current user owns this guild
   public let isOwner: Bool
@@ -787,7 +781,7 @@ public struct UserGuild {
   /// Creates a UserGuild structure
   init(_ json: [String: Any]) {
     self.icon = json["icon"] as? String
-    self.id = GuildID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
     self.isOwner = json["owner"] as! Bool
     self.name = json["name"] as! String
     self.permissions = json["permissions"] as! Int

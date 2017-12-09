@@ -14,13 +14,13 @@ class VoiceManager {
   // MARK: Properties
 
   /// Object of connections mapped by guildId
-  var connections = [GuildID: VoiceConnection]()
+  var connections = [Snowflake: VoiceConnection]()
 
   /// Used to determine whether or not voiceServerUpdate is us needing to connect
-  var guilds = [GuildID: PotentialConnection]()
+  var guilds = [Snowflake: PotentialConnection]()
 
   /// Object of completion handlers mapped by guildId
-  var handlers = [GuildID: (VoiceConnection) -> ()]()
+  var handlers = [Snowflake: (VoiceConnection) -> ()]()
 
   // MARK: Functions
 
@@ -31,7 +31,7 @@ class VoiceManager {
    - parameter endpoint: URL for voice server
    - parameter identify: Identify payload to send once we're ready
   */
-  func join(_ guildId: GuildID, _ gatewayUrl: String, _ identify: Payload) {
+  func join(_ guildId: Snowflake, _ gatewayUrl: String, _ identify: Payload) {
     guard self.connections[guildId] == nil else {
       self.connections[guildId]!.moveChannels(
         gatewayUrl,
@@ -58,7 +58,7 @@ class VoiceManager {
 
    - parameter guildId: Guild to leave from
   */
-  func leave(_ guildId: GuildID) {
+  func leave(_ guildId: Snowflake) {
     guard let connection = self.connections[guildId] else {
       return
     }
@@ -76,10 +76,10 @@ struct PotentialConnection {
   // MARK: Properties
   
   /// id of potential voice channel
-  let channelId: ChannelID
+  let channelId: Snowflake
     
   /// id of bot user joining
-  let userId: UserID
+  let userId: Snowflake
     
   /// id of potential session
   let sessionId: String

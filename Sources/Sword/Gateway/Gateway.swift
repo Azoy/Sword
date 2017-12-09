@@ -37,6 +37,8 @@ protocol Gateway: class {
   
   func reconnect()
   
+  func send(_ text: String, presence: Bool)
+  
   func start()
 
   func stop()

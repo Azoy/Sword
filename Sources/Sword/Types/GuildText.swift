@@ -31,13 +31,13 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
   }
 
   /// ID of the channel
-  public let id: ChannelID
+  public let id: Snowflake
 
   /// Whether or not this channel is NSFW
   public internal(set) var isNsfw: Bool
 
   /// Last message sent's ID
-  public internal(set) var lastMessageId: MessageID?
+  public internal(set) var lastMessageId: Snowflake?
 
   /// Last Pin's timestamp
   public internal(set) var lastPinTimestamp: Date?
@@ -46,10 +46,10 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
   public internal(set) var name: String?
   
   /// Parent Category ID of this channel
-  public internal(set) var parentId: ChannelID?
+  public internal(set) var parentId: Snowflake?
   
   /// Array of Overwrite strcuts for channel
-  public internal(set) var permissionOverwrites = [OverwriteID: Overwrite]()
+  public internal(set) var permissionOverwrites = [Snowflake: Overwrite]()
 
   /// Position of channel
   public internal(set) var position: Int?
@@ -73,9 +73,9 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
     
-    self.id = ChannelID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
     
-    self.lastMessageId = MessageID(json["last_message_id"] as? String)
+    self.lastMessageId = Snowflake(json["last_message_id"])
 
     if let lastPinTimestamp = json["last_pin_timestamp"] as? String {
       self.lastPinTimestamp = lastPinTimestamp.date
@@ -94,7 +94,7 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
       self.isNsfw = false
     }
 
-    self.parentId = ChannelID(json["parent_id"] as? String)
+    self.parentId = Snowflake(json["parent_id"])
     
     if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
       for overwrite in overwrites {
@@ -106,7 +106,7 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
     self.position = json["position"] as? Int
     self.topic = json["topic"] as? String
     
-    if let guildId = GuildID(json["guild_id"] as? String) {
+    if let guildId = Snowflake(json["guild_id"]) {
       sword.guilds[guildId]!.channels[self.id] = self
     }
   }
@@ -114,7 +114,7 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
   // MARK: Functions
 
   func update(_ json: [String : Any]) {
-    self.lastMessageId = MessageID(json["last_message_id"] as? String)
+    self.lastMessageId = Snowflake(json["last_message_id"])
     
     if let lastPinTimestamp = json["last_pin_timestamp"] as? String {
       self.lastPinTimestamp = lastPinTimestamp.date
@@ -133,7 +133,7 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
       self.isNsfw = false
     }
     
-    self.parentId = ChannelID(json["parent_id"] as? String)
+    self.parentId = Snowflake(json["parent_id"])
     
     if let overwrites = json["permission_overwrites"] as? [[String: Any]] {
       for overwrite in overwrites {
@@ -170,7 +170,7 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
    - parameter messageId: Message to delete all reactions from
   */
   public func deleteReactions(
-    from messageId: MessageID,
+    from messageId: Snowflake,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     guard self.type != .guildVoice else { return }
@@ -199,7 +199,7 @@ public struct Overwrite {
   public let deny: Int
 
   /// ID of overwrite
-  public let id: OverwriteID
+  public let id: Snowflake
 
   /// Either "role" or "member"
   public let type: String
@@ -214,7 +214,7 @@ public struct Overwrite {
   init(_ json: [String: Any]) {
     self.allow = json["allow"] as! Int
     self.deny = json["deny"] as! Int
-    self.id = OverwriteID(json["id"] as! String)!
+    self.id = Snowflake(json["id"])!
     self.type = json["type"] as! String
   }
 

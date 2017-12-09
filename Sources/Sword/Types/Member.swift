@@ -61,7 +61,7 @@ public struct Member {
     self.isMuted = json["mute"] as? Bool
     self.nick = json["nick"] as? String
 
-    let roles = (json["roles"] as! [String]).map({ RoleID($0)! })
+    let roles = (json["roles"] as! [String]).map({ Snowflake($0)! })
     for role in roles {
       self.roles.append(guild.roles[role]!)
 

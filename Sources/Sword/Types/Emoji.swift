@@ -12,7 +12,7 @@ public struct Emoji {
   // MARK: Properties
   
   /// ID of custom emoji
-  public let id: EmojiID?
+  public let id: Snowflake?
   
   /// Whether or not this emoji is managed
   public let managed: Bool?
@@ -43,7 +43,7 @@ public struct Emoji {
    - parameter json: JSON representable as a dictionary
   */
   init(_ json: [String: Any]) {
-    self.id = EmojiID(json["id"] as? String)
+    self.id = Snowflake(json["id"])
     self.managed = json["managed"] as? Bool
     self.name = json["name"] as! String
     self.requireColons = json["require_colons"] as? Bool
@@ -61,7 +61,7 @@ public struct Emoji {
    - parameter name: Emoji unicode character or name (if custom)
    - parameter id: Emoji snowflake ID if custom (nil if unicode)
   */
-  public init(_ name: String, id: EmojiID? = nil) {
+  public init(_ name: String, id: Snowflake? = nil) {
     self.id = id
     self.name = name
     self.managed = nil

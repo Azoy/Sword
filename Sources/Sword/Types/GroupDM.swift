@@ -15,13 +15,13 @@ public struct GroupDM: TextChannel {
   public internal(set) weak var sword: Sword?
 
   /// ID of DM
-  public let id: ChannelID
+  public let id: Snowflake
 
   /// The recipient of this DM
   public internal(set) var recipients = [User]()
 
   /// The last message's ID
-  public let lastMessageId: MessageID?
+  public let lastMessageId: Snowflake?
   
   /// Indicates what kind of channel this is
   public let type = ChannelType.groupDM
@@ -37,14 +37,14 @@ public struct GroupDM: TextChannel {
   init(_ sword: Sword, _ json: [String: Any]) {
     self.sword = sword
 
-    self.id = ChannelID(json["id"] as? String)!
+    self.id = Snowflake(json["id"])!
 
     let recipients = json["recipients"] as! [[String: Any]]
     for recipient in recipients {
       self.recipients.append(User(sword, recipient))
     }
 
-    self.lastMessageId = MessageID(json["last_message_id"] as? String)
+    self.lastMessageId = Snowflake(json["last_message_id"])
     
     sword.groups[self.id] = self
   }

@@ -73,7 +73,7 @@ extension AuditLog {
     public let targetId: Snowflake
     
     /// User ID that made this change
-    public let userId: UserID
+    public let userId: Snowflake
     
     // MARK: Initializer
     
@@ -92,11 +92,11 @@ extension AuditLog {
         self.changes.append(AuditLog.Entry.Change(change))
       }
       
-      self.id = Snowflake(json["id"] as! String)!
+      self.id = Snowflake(json["id"])!
       self.options = json["options"] as! [String: Any]
       self.reason = json["reason"] as! String
-      self.targetId = Snowflake(json["target_id"] as! String)!
-      self.userId = UserID(json["user_id"] as! String)!
+      self.targetId = Snowflake(json["target_id"])!
+      self.userId = Snowflake(json["user_id"])!
     }
     
   }

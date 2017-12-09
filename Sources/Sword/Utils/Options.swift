@@ -94,15 +94,15 @@ public struct CommandOptions {
 public struct CommandRequirements {
 
   /// Array of channels that can use this command
-  public var channels = [ChannelID]()
+  public var channels = [Snowflake]()
   
   /// Array of guilds that can use this command
-  public var guilds = [GuildID]()
+  public var guilds = [Snowflake]()
   
   /// Array of required permissions in order to use command
   public var permissions = [Permission]()
 
   /// Array of users that can use this command
-  public var users = [UserID]()
+  public var users = [Snowflake]()
 
 }
