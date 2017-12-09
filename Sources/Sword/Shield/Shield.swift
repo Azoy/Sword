@@ -107,22 +107,7 @@ open class Shield: Sword {
       guard msg.content.hasPrefix(prefix) else { continue }
 
       let content = String(msg.content[msg.content.range(of: prefix)!.upperBound...])
-      var arguments: [String]!
-      
-      commandLoop: for (name, command) in self.commands {
-        if command.options.aliases.count > 0 {
-          aliasLoop: for alias in command.options.aliases {
-            if content.hasPrefix(alias) {
-              arguments = content.components(separatedBy: command.options.separator)
-              break commandLoop
-            }
-          }
-        }
-        
-        guard content.hasPrefix(name) else { continue }
-        arguments = content.components(separatedBy: command.options.separator)
-        break
-      }
+      var arguments = content.components(separatedBy: " ")
 
       var commandString = arguments.remove(at: 0)
 

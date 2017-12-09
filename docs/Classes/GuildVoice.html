@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Webhook Struct Reference</title>
+    <title>GuildVoice Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/Webhook" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Class/GuildVoice" class="dashAnchor"></a>
 
-    <a title="Webhook Struct Reference"></a>
+    <a title="GuildVoice Class Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Sword Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Webhook Struct Reference
+      GuildVoice Class Reference
     </p>
 
     <div class="content-wrapper">
@@ -223,14 +223,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Webhook</h1>
+            <h1>GuildVoice</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Webhook</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">GuildVoice</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GuildChannel.html">GuildChannel</a></span><span class="p">,</span> <span class="kt">Updatable</span></code></pre>
 
                 </div>
               </div>
-            <p>Webhook structure</p>
+            <p>Representation of a guild voice channel</p>
 
           </div>
         </section>
@@ -249,9 +249,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword7WebhookV5swordA2ACSgXwv"></a>
+                    <a name="/s:5Sword10GuildVoiceC5swordA2ACSgXwv"></a>
                     <a name="//apple_ref/swift/Property/sword" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV5swordA2ACSgXwv">sword</a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC5swordA2ACSgXwv">sword</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -259,7 +259,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parent class</p>
+                        <p>Parent Class</p>
 
                       </div>
                       <div class="declaration">
@@ -276,9 +276,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword7WebhookV6avatarSSSgv"></a>
-                    <a name="//apple_ref/swift/Property/avatar" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV6avatarSSSgv">avatar</a>
+                    <a name="/s:5Sword10GuildVoiceC7bitrateSiSgv"></a>
+                    <a name="//apple_ref/swift/Property/bitrate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC7bitrateSiSgv">bitrate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -286,14 +286,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Avatar for the webhook in base64</p>
+                        <p>Bitrate (in bits) for channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">avatar</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">bitrate</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -303,9 +303,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword7WebhookV7channelAA9GuildTextCv"></a>
-                    <a name="//apple_ref/swift/Property/channel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV7channelAA9GuildTextCv">channel</a>
+                    <a name="/s:5Sword10GuildVoiceC8categoryAA0B8CategoryCSgv"></a>
+                    <a name="//apple_ref/swift/Property/category" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC8categoryAA0B8CategoryCSgv">category</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -313,14 +313,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code><a href="../Classes/GuildText.html">GuildText</a></code> this webhook messages to</p>
+                        <p>Channel Category this channel belongs to</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">channel</span><span class="p">:</span> <span class="kt"><a href="../Classes/GuildText.html">GuildText</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">category</span><span class="p">:</span> <span class="kt"><a href="../Classes/GuildCategory.html">GuildCategory</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -330,9 +330,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword7WebhookV5guildAA5GuildCSgXwv"></a>
+                    <a name="/s:5Sword10GuildVoiceC5guildAA0B0CSgv"></a>
                     <a name="//apple_ref/swift/Property/guild" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV5guildAA5GuildCSgXwv">guild</a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC5guildAA0B0CSgv">guild</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -340,14 +340,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The Guild this webhook is located in</p>
+                        <p>Guild object for this channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">guild</span><span class="p">:</span> <span class="kt"><a href="../Classes/Guild.html">Guild</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">guild</span><span class="p">:</span> <span class="kt"><a href="../Classes/Guild.html">Guild</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -357,9 +357,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword7WebhookV2idAA9SnowflakeVv"></a>
+                    <a name="/s:5Sword10GuildVoiceC2idAA9SnowflakeVv"></a>
                     <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV2idAA9SnowflakeVv">id</a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC2idAA9SnowflakeVv">id</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -367,7 +367,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The id of the webhook</p>
+                        <p>ID of the channel</p>
 
                       </div>
                       <div class="declaration">
@@ -384,9 +384,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword7WebhookV4nameSSv"></a>
+                    <a name="/s:5Sword10GuildVoiceC4nameSSSgv"></a>
                     <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV4nameSSv">name</a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC4nameSSSgv">name</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -394,14 +394,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The display name of the webhook</p>
+                        <p>Name of channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -411,9 +411,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword7WebhookV4userAA4UserVSgv"></a>
-                    <a name="//apple_ref/swift/Property/user" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV4userAA4UserVSgv">user</a>
+                    <a name="/s:5Sword10GuildVoiceC8parentIdAA9SnowflakeVSgv"></a>
+                    <a name="//apple_ref/swift/Property/parentId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC8parentIdAA9SnowflakeVSgv">parentId</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -421,14 +421,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The user account for this webhook</p>
+                        <p>Parent Category ID of this channel</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">user</span><span class="p">:</span> <span class="kt"><a href="../Structs/User.html">User</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">parentId</span><span class="p">:</span> <span class="kt"><a href="../Structs/Snowflake.html">Snowflake</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -438,9 +438,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword7WebhookV5tokenSSv"></a>
-                    <a name="//apple_ref/swift/Property/token" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV5tokenSSv">token</a>
+                    <a name="/s:5Sword10GuildVoiceC20permissionOverwritess10DictionaryVyAA9SnowflakeVAA9OverwriteVGv"></a>
+                    <a name="//apple_ref/swift/Property/permissionOverwrites" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC20permissionOverwritess10DictionaryVyAA9SnowflakeVAA9OverwriteVGv">permissionOverwrites</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -448,14 +448,95 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The token for this webhook</p>
+                        <p>Collection of Overwrites mapped by <code>OverwriteID</code></p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">permissionOverwrites</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Structs/Snowflake.html">Snowflake</a></span> <span class="p">:</span> <span class="kt"><a href="../Structs/Overwrite.html">Overwrite</a></span><span class="p">]()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword10GuildVoiceC8positionSiSgv"></a>
+                    <a name="//apple_ref/swift/Property/position" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC8positionSiSgv">position</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Position of channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword10GuildVoiceC4typeAA11ChannelTypeOv"></a>
+                    <a name="//apple_ref/swift/Property/type" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC4typeAA11ChannelTypeOv">type</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates what type of channel this is (.guildVoice)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">type</span> <span class="o">=</span> <span class="kt"><a href="../Enums/ChannelType.html">ChannelType</a></span><span class="o">.</span><span class="n">guildVoice</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword10GuildVoiceC9userLimitSiSgv"></a>
+                    <a name="//apple_ref/swift/Property/userLimit" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC9userLimitSiSgv">userLimit</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>(Voice) User limit for voice channel</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">userLimit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -466,19 +547,19 @@
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Initializer"></a>
-                <a name="//apple_ref/swift/Section/Initializer" class="dashAnchor"></a>
-                <a href="#/Initializer">
-                  <h3 class="section-name">Initializer</h3>
+                <a name="/Functions"></a>
+                <a name="//apple_ref/swift/Section/Functions" class="dashAnchor"></a>
+                <a href="#/Functions">
+                  <h3 class="section-name">Functions</h3>
                 </a>
               </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword7WebhookV6deleteyyAA12RequestErrorVSgc4then_tF"></a>
-                    <a name="//apple_ref/swift/Method/delete(then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV6deleteyyAA12RequestErrorVSgc4then_tF">delete(then:)</a>
+                    <a name="/s:5Sword10GuildVoiceC10moveMemberyAA9SnowflakeV_yAA12RequestErrorVSgcSg4thentF"></a>
+                    <a name="//apple_ref/swift/Method/moveMember(_:then:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword10GuildVoiceC10moveMemberyAA9SnowflakeV_yAA12RequestErrorVSgcSg4thentF">moveMember(_:then:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -486,122 +567,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Deletes the current webhook from its guild</p>
+                        <p>Moves a member in this voice channel to another voice channel (if they are in it)</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5Sword7WebhookV7executeyyp4with_yAA12RequestErrorVSgcSg4thentF"></a>
-                    <a name="//apple_ref/swift/Method/execute(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV7executeyyp4with_yAA12RequestErrorVSgcSg4thentF">execute(with:then:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Executes a webhook</p>
-<h4 id='content-dictionary-params' class='heading'>Content Dictionary Params</h4>
-
-<ul>
-<li><strong>content</strong>: Message to send</li>
-<li><strong>username</strong>: The username the webhook will send with the message</li>
-<li><strong>avatar_url</strong>: The url of the user the webhook will send</li>
-<li><strong>tts</strong>: Whether or not this message is tts</li>
-<li><strong>file</strong>: The url of the image to send</li>
-<li><p><strong>embed</strong>: The embed object to send. Refer to <a href="https://discordapp.com/developers/docs/resources/channel#embed-object">Embed structure</a></p></li>
-</ul>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">execute</span><span class="p">(</span>
-    <span class="n">with</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span><span class="p">,</span>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">moveMember</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt"><a href="../Structs/Snowflake.html">Snowflake</a></span><span class="p">,</span>
     <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">((</span><span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">())?</span> <span class="o">=</span> <span class="kc">nil</span>
-  <span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5Sword7WebhookV12executeSlackys10DictionaryVySSypG4with_yAA12RequestErrorVSgcSg4thentF"></a>
-                    <a name="//apple_ref/swift/Method/executeSlack(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV12executeSlackys10DictionaryVySSypG4with_yAA12RequestErrorVSgcSg4thentF">executeSlack(with:then:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Executs a slack style webhook</p>
-<h4 id='content-params' class='heading'>Content Params</h4>
-
-<p>Refer to the <a href="https://api.slack.com/incoming-webhooks">slack documentation</a> for their webhook structure</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">executeSlack</span><span class="p">(</span>
-    <span class="n">with</span> <span class="nv">content</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span>
-    <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">((</span><span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">())?</span> <span class="o">=</span> <span class="kc">nil</span>
-  <span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5Sword7WebhookV6modifyys10DictionaryVyS2SG4with_yACSg_AA12RequestErrorVSgtcSg4thentF"></a>
-                    <a name="//apple_ref/swift/Method/modify(with:then:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword7WebhookV6modifyys10DictionaryVyS2SG4with_yACSg_AA12RequestErrorVSgtcSg4thentF">modify(with:then:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Modifies the current Webhook</p>
-<h4 id='option-params' class='heading'>Option Params</h4>
-
-<ul>
-<li><strong>name</strong>: The name of the webhook</li>
-<li><p><strong>avatar</strong>: The avatar for this webhook in base64 string</p></li>
-</ul>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modify</span><span class="p">(</span>
-    <span class="n">with</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
-    <span class="n">then</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">((</span><span class="kt">Webhook</span><span class="p">?,</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="p">())?</span> <span class="o">=</span> <span class="kc">nil</span>
   <span class="p">)</span></code></pre>
 
                         </div>

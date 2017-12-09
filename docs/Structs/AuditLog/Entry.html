@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Feature Enum Reference</title>
+    <title>Entry Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/Feature" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/Entry" class="dashAnchor"></a>
 
-    <a title="Feature Enum Reference"></a>
+    <a title="Entry Struct Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../../index.html">Sword Reference</a>
       <img class="carat" src="../../img/carat.png" />
-      Feature Enum Reference
+      Entry Struct Reference
     </p>
 
     <div class="content-wrapper">
@@ -223,14 +223,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Feature</h1>
+            <h1>Entry</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Feature</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Entry</span></code></pre>
 
                 </div>
               </div>
-            <p>Guild features</p>
+            <p>Representation of an individual entry in audit logs</p>
 
           </div>
         </section>
@@ -238,13 +238,20 @@
         <section class="section">
           <div class="section-content">
             <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Properties"></a>
+                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
+                <a href="#/Properties">
+                  <h3 class="section-name">Properties</h3>
+                </a>
+              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword5GuildC7FeatureO12inviteSplashA2EmF"></a>
-                    <a name="//apple_ref/swift/Element/inviteSplash" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword5GuildC7FeatureO12inviteSplashA2EmF">inviteSplash</a>
+                    <a name="/s:5Sword8AuditLogV5EntryV10actionTypeAE5EventOv"></a>
+                    <a name="//apple_ref/swift/Property/actionType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword8AuditLogV5EntryV10actionTypeAE5EventOv">actionType</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -252,30 +259,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Custom image for invites</p>
+                        <p>Type of action that occurred</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">inviteSplash</span> <span class="o">=</span> <span class="s">"INVITE_SPLASH"</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">actionType</span><span class="p">:</span> <span class="kt"><a href="../../Structs/AuditLog.html">AuditLog</a></span><span class="o">.</span><span class="kt">Entry</span><span class="o">.</span><span class="kt"><a href="../../Structs/AuditLog/Event.html">Event</a></span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword5GuildC7FeatureO9vanityUrlA2EmF"></a>
-                    <a name="//apple_ref/swift/Element/vanityUrl" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword5GuildC7FeatureO9vanityUrlA2EmF">vanityUrl</a>
+                    <a name="/s:5Sword8AuditLogV5EntryV7changesSayAE6ChangeVGv"></a>
+                    <a name="//apple_ref/swift/Property/changes" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword8AuditLogV5EntryV7changesSayAE6ChangeVGv">changes</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -283,30 +286,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Custom url to join the guild with</p>
+                        <p>Array of changes made to targetId</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">vanityUrl</span> <span class="o">=</span> <span class="s">"VANITY_URL"</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">changes</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../../Structs/AuditLog.html">AuditLog</a></span><span class="o">.</span><span class="kt">Entry</span><span class="o">.</span><span class="kt"><a href="../../Structs/AuditLog/Change.html">Change</a></span><span class="p">]()</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Sword5GuildC7FeatureO10vipRegionsA2EmF"></a>
-                    <a name="//apple_ref/swift/Element/vipRegions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Sword5GuildC7FeatureO10vipRegionsA2EmF">vipRegions</a>
+                    <a name="/s:5Sword8AuditLogV5EntryV2idAA9SnowflakeVv"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword8AuditLogV5EntryV2idAA9SnowflakeVv">id</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -314,14 +313,122 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>VIP voice channels for crisp audio</p>
+                        <p>ID of the audit log entry</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">vipRegions</span> <span class="o">=</span> <span class="s">"VIP_REGIONS"</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../../Structs/Snowflake.html">Snowflake</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword8AuditLogV5EntryV7optionss10DictionaryVySSypGv"></a>
+                    <a name="//apple_ref/swift/Property/options" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword8AuditLogV5EntryV7optionss10DictionaryVySSypGv">options</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Optional entry information for certain action types</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword8AuditLogV5EntryV6reasonSSv"></a>
+                    <a name="//apple_ref/swift/Property/reason" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword8AuditLogV5EntryV6reasonSSv">reason</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>User provided reason for this entry</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">reason</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword8AuditLogV5EntryV8targetIdAA9SnowflakeVv"></a>
+                    <a name="//apple_ref/swift/Property/targetId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword8AuditLogV5EntryV8targetIdAA9SnowflakeVv">targetId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ID of the affected entity</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">targetId</span><span class="p">:</span> <span class="kt"><a href="../../Structs/Snowflake.html">Snowflake</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Sword8AuditLogV5EntryV6userIdAA9SnowflakeVv"></a>
+                    <a name="//apple_ref/swift/Property/userId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Sword8AuditLogV5EntryV6userIdAA9SnowflakeVv">userId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>User ID that made this change</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">userId</span><span class="p">:</span> <span class="kt"><a href="../../Structs/Snowflake.html">Snowflake</a></span></code></pre>
 
                         </div>
                       </div>
