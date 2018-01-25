@@ -1,8 +1,3 @@
 .DS_Store
 /.build
 /*.xcodeproj
-/build
-/docs/undocumented.json
-/docs/docsets
-/Tests
-.swift-version
