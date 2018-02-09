@@ -3,7 +3,7 @@ import XCTest
 
 class SwordTests: XCTestCase {
   func testExample() {
-    XCTAssertEqual(Sword().text, "Hello, World!")
+    // More to come
   }
   
   
