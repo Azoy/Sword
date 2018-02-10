@@ -21,5 +21,6 @@ let package = Package(
       name: "SwordTests",
       dependencies: ["Sword"]
     ),
-  ]
+  ],
+  swiftLanguageVersions: [4]
 )
