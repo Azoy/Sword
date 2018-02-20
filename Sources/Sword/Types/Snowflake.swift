@@ -3,7 +3,7 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2017 Alejandro Alonso. All rights reserved.
+//  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
 
 import Foundation
@@ -48,6 +48,26 @@ extension Sword {
     public init(rawValue: UInt64) {
       self.rawValue = rawValue
     }
+  }
+}
+
+extension Sword.Snowflake: Encodable {
+  /// Encode to JSON
+  ///
+  /// - parameter encoder: JSONEncoder
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.singleValueContainer()
+    try container.encode(rawValue)
+  }
+}
+
+extension Sword.Snowflake: Decodable {
+  /// Decode from JSON
+  ///
+  /// - parameter decoder: JSONDecoder
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    self.rawValue = try container.decode(UInt64.self)
   }
 }
 

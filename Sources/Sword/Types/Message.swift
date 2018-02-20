@@ -3,18 +3,20 @@
 //  Sword
 //
 //  Created by Alejandro Alonso
-//  Copyright © 2017 Alejandro Alonso. All rights reserved.
+//  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
+
+import Foundation
 
 extension Sword {
   public struct Message: Codable {
-    // o_O
+    public let id: Sword.Snowflake
   }
 }
 
 extension Sword.Message {
   /// Message content to send to a channel
-  public struct Content: Codable {
+  public struct Content: Encodable {
     /// The message
     public var content: String
     
@@ -22,7 +24,7 @@ extension Sword.Message {
     public var embed: String?
     
     /// Used for optimistic message sending
-    public var nonce: String?
+    public var nonce: Sword.Snowflake?
     
     /// Whether or not this message speaks to you
     public var tts: Bool?

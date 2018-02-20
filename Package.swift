@@ -11,11 +11,15 @@ let package = Package(
     ),
   ],
   dependencies: [
+    .package(
+      url: "https://github.com/vapor/engine.git",
+      "3.0.0-beta.2" ..< "3.0.0-beta.3"
+    )
   ],
   targets: [
     .target(
       name: "Sword",
-      dependencies: []
+      dependencies: ["WebSocket"]
     ),
     .testTarget(
       name: "SwordTests",
