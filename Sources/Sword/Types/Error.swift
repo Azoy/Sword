@@ -10,7 +10,7 @@ import Foundation
 
 extension Sword {
   /// Custom Error type for quick details on why a request failed
-  public struct RequestError {
+  public struct Error: Swift.Error {
     /// Discord custom error code
     public let code: Int
     
@@ -44,8 +44,8 @@ extension Sword {
         self.code = response["code"] as? Int ?? 0
         self.message = response["message"] as! String
         
-        if let error = response["errors"] as? [String: Any] {
-          self.error = Sword.RequestError.getSpecificError(for: error)
+        if let error = response["errors"] as? [String: String] {
+          self.error = error
         }else {
           self.error = [:]
         }
@@ -54,39 +54,6 @@ extension Sword {
         self.error = [:]
         self.message = response as! String
       }
-    }
-    
-    /// Generates a specific error message from Discord's v7 error responses
-    ///
-    /// - parameter error: Error response
-    /// - parameter key: Dictionary key
-    static func getSpecificError(
-      for error: [String: Any],
-      _ key: String = ""
-    ) -> [String: String] {
-      var items = [String: String]()
-      
-      for (k, v) in error {
-        let newKey = key.isEmpty ? k : key + "." + k
-        
-        if let value = v as? [String: Any] {
-          if let _errors = value["_errors"] as? [[String: String]] {
-            for _error in _errors {
-              if let errorMessage = _error["message"] {
-                items[newKey] = errorMessage
-              } else {
-                items[newKey] = ""
-              }
-            }
-          } else {
-            items = Sword.RequestError.getSpecificError(for: value, newKey)
-          }
-        } else {
-          items[newKey] = v as? String
-        }
-      }
-      
-      return items
     }
   }
 }

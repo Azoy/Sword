@@ -11,6 +11,9 @@ import Dispatch
 
 /// Swift meets Discord
 open class Sword {
+  /// Mappings from command names/aliases to base command
+  var commandMap = [String: Command]()
+  
   /// Used to encode stuff to send off to Discord
   static let encoder = JSONEncoder()
   
@@ -19,9 +22,6 @@ open class Sword {
   
   /// Customizable options used when setting up the bot
   public var options: Options
-  
-  /// Used to block thread to complete url request
-  let requestSema = DispatchSemaphore(value: 0)
   
   /// Shared URLSession
   let session = URLSession.shared
@@ -38,6 +38,7 @@ open class Sword {
     self.token = token
   }
   
+  /// Starts the bot
   public func connect() {
     getGateway { info, error in
       guard let info = info else {
@@ -48,7 +49,8 @@ open class Sword {
     }
   }
   
-  public func getGateway(then: @escaping (GatewayInfo?, RequestError?) -> ()) {
+  /// Get's the bot's initial gateway information for the websocket
+  public func getGateway(then: @escaping (GatewayInfo?, Sword.Error?) -> ()) {
     request(.gateway()) { data, error in
       guard let data = data else {
         then(nil, error)
@@ -58,7 +60,7 @@ open class Sword {
       do {
         try then(Sword.decoder.decode(GatewayInfo.self, from: data), nil)
       } catch {
-        then(nil, RequestError(error.localizedDescription))
+        then(nil, Sword.Error(error.localizedDescription))
       }
     }
   }

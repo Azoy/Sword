@@ -10,7 +10,7 @@ import Foundation
 
 extension Sword {
   public struct Message: Codable {
-    public let id: Sword.Snowflake
+    public let id: Snowflake
   }
 }
 
