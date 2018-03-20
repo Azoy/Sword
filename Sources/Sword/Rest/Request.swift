@@ -14,8 +14,11 @@ extension Sword {
   /// - parameter endpoint: The specific endpoint to request
   func request(
     _ endpoint: Endpoint,
-    then: @escaping (Data?, RequestError?) -> ()
+    then: @escaping (Data?, Sword.Error?) -> ()
   ) {
+    /// Used to block thread to complete request
+    let requestSema = DispatchSemaphore(value: 0)
+    
     /// Setup request
     var request = URLRequest(url: URL(string: endpoint.url)!)
     request.httpMethod = endpoint.method.rawValue
@@ -33,15 +36,15 @@ extension Sword {
       
       /// Handle any errors that happened during the request
       guard error == nil else {
-        then(nil, RequestError(error!.localizedDescription))
-        self.requestSema.signal()
+        then(nil, Sword.Error(error!.localizedDescription))
+        requestSema.signal()
         return
       }
       
       /// Handle the response first to do things like rate limiting
       guard let response = response as? HTTPURLResponse else {
-        then(nil, RequestError("Unable to get a correct HTTP response."))
-        self.requestSema.signal()
+        then(nil, Sword.Error("Unable to get a correct HTTP response."))
+        requestSema.signal()
         return
       }
       
@@ -49,13 +52,13 @@ extension Sword {
       
       /// Make sure we can safely unwrap the data
       guard let data = data else {
-        then(nil, RequestError("Unable to safely extract received data."))
-        self.requestSema.signal()
+        then(nil, Sword.Error("Unable to safely extract received data."))
+        requestSema.signal()
         return
       }
       
       then(data, nil)
-      self.requestSema.signal()
+      requestSema.signal()
     }
     
     task.resume()
@@ -68,7 +71,7 @@ extension Sword {
   /// - parameter response: The http response from the Discord
   func handleRequestResponse(
     _ response: HTTPURLResponse,
-    _ then: @escaping (Data?, RequestError?) -> ()) {
+    _ then: @escaping (Data?, Sword.Error?) -> ()) {
     print("Get pranked")
   }
   

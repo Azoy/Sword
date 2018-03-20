@@ -16,7 +16,7 @@ extension Sword {
     ///
     /// - parameter method: The HTTP method used for this endpoint
     /// - parameter url: The API URL for this endpoint
-    init(method: HTTPMethod, url: String) {
+    init(_ method: HTTPMethod, _ url: String) {
       self.method = method
       self.url = "https://discordapp.com/api/v7\(url)"
     }
@@ -25,12 +25,12 @@ extension Sword {
     ///
     /// - parameter channelId: The channel to create message in
     static func createMessage(in channelId: String) -> Endpoint {
-      return Endpoint(method: .post, url: "/channels/\(channelId)/messages")
+      return Endpoint(.post, "/channels/\(channelId)/messages")
     }
     
     /// Gateway
     static func gateway() -> Endpoint {
-      return Endpoint(method: .get, url: "/gateway/bot")
+      return Endpoint(.get, "/gateway/bot")
     }
   }
 }
