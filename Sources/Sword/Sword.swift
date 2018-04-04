@@ -26,6 +26,9 @@ open class Sword {
   /// Shared URLSession
   let session = URLSession.shared
   
+  /// Shard Manager
+  lazy var shardManager = Shard.Manager()
+  
   /// Bot's Chuck E Cheese token to the magical world of Discord's API
   let token: String
   
@@ -38,15 +41,25 @@ open class Sword {
     self.token = token
   }
   
-  /// Starts the bot
+  /// Connects the bot
   public func connect() {
-    getGateway { info, error in
-      guard let info = info else {
+    getGateway { [weak self] info, error in
+      guard let info = info,
+            let this = self else {
         return
       }
       
-      print(info)
+      this.shardManager.sword = this
+      
+      for i in 0 ..< info.shards {
+        this.shardManager.spawn(i, to: info.url.absoluteString)
+      }
     }
+  }
+  
+  /// Disconnects the bot
+  public func disconnect() {
+    shardManager.disconnect()
   }
   
   /// Get's the bot's initial gateway information for the websocket

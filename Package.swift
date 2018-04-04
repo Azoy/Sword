@@ -12,14 +12,14 @@ let package = Package(
   ],
   dependencies: [
     .package(
-      url: "https://github.com/vapor/engine.git",
-      "3.0.0-beta.2" ..< "3.0.0-beta.3"
+      url: "https://github.com/Azoy/Starscream.git",
+      from: "3.0.5"
     )
   ],
   targets: [
     .target(
       name: "Sword",
-      dependencies: ["WebSocket"]
+      dependencies: ["Starscream"]
     ),
     .testTarget(
       name: "SwordTests",

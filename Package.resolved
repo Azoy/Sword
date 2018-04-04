@@ -2,66 +2,30 @@
   "object": {
     "pins": [
       {
-        "package": "Async",
-        "repositoryURL": "https://github.com/vapor/async.git",
+        "package": "SSCommonCrypto",
+        "repositoryURL": "https://github.com/Azoy/common-crypto-spm.git",
         "state": {
           "branch": null,
-          "revision": "aedcf25634ed6b4b0b5352e19d36fdf92a1675a3",
-          "version": "1.0.0-beta.1.1"
+          "revision": "7e9904a0d0c0024a86ab6fe5698ffc8f7799efb4",
+          "version": "1.2.0"
         }
       },
       {
-        "package": "Core",
-        "repositoryURL": "https://github.com/vapor/core.git",
+        "package": "Starscream",
+        "repositoryURL": "https://github.com/Azoy/Starscream.git",
         "state": {
           "branch": null,
-          "revision": "06ff4d12cf4db04d821fb7fdaee3f431663b3577",
-          "version": "3.0.0-beta.1.1"
+          "revision": "a21fca8e9dc83cf3a88a3ba9be15ff17a7e4e8d6",
+          "version": "3.0.5"
         }
       },
       {
-        "package": "Crypto",
-        "repositoryURL": "https://github.com/vapor/crypto.git",
+        "package": "SSCZLib",
+        "repositoryURL": "https://github.com/Azoy/zlib-spm.git",
         "state": {
           "branch": null,
-          "revision": "2164339fe61bbd8668253546dda51aa3a385d1b1",
-          "version": "3.0.0-beta.1.1"
-        }
-      },
-      {
-        "package": "Engine",
-        "repositoryURL": "https://github.com/vapor/engine.git",
-        "state": {
-          "branch": null,
-          "revision": "a81f4565a2a2c3dc99c059180c317be6c6b71134",
-          "version": "3.0.0-beta.2.3"
-        }
-      },
-      {
-        "package": "Service",
-        "repositoryURL": "https://github.com/vapor/service.git",
-        "state": {
-          "branch": null,
-          "revision": "e02507adb39bf48b202ae180e823d793c625e427",
-          "version": "1.0.0-beta.1.1"
-        }
-      },
-      {
-        "package": "Sockets",
-        "repositoryURL": "https://github.com/vapor/sockets.git",
-        "state": {
-          "branch": null,
-          "revision": "f4bd75b36858f2a560d482fcfab920074c17d7df",
-          "version": "3.0.0-beta.2.1"
-        }
-      },
-      {
-        "package": "TLS",
-        "repositoryURL": "https://github.com/vapor/tls.git",
-        "state": {
-          "branch": null,
-          "revision": "d2bf9da1ef8ac1aef910d40d48e4088462767d00",
-          "version": "3.0.0-beta.2.1"
+          "revision": "f92fc0658af4cd9b11f233e9c02786ecbf75f1ee",
+          "version": "1.2.0"
         }
       }
     ]
