@@ -15,6 +15,8 @@ protocol GatewayHandler : AnyObject {
   var session: WebSocket? { get set }
 
   /// Connects the handler to a specific gateway URL
+  ///
+  /// - parameter host: The gateway URL that this shard needs to connect to
   func connect(to host: String)
   
   /// Disconnects the handler from the gateway
@@ -30,9 +32,9 @@ protocol GatewayHandler : AnyObject {
 }
 
 extension GatewayHandler {
-  /// Defines what to do when data is received as text
+  /// Connects the handler to a specific gateway URL
   ///
-  /// - parameter text: The String that was received from the gateway
+  /// - parameter host: The gateway URL that this shard needs to connect to
   func connect(to host: String) {
     session = WebSocket(url: URL(string: host)!)
     
