@@ -72,7 +72,7 @@ extension Sword {
   func handleRequestResponse(
     _ response: HTTPURLResponse,
     _ then: @escaping (Data?, Sword.Error?) -> ()) {
-    print("Get pranked")
+    Sword.log(.warning, "Get pranked")
   }
   
 }

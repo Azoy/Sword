@@ -35,7 +35,17 @@ extension Sword {
     ///
     /// - parameter text: String that was sent through the gateway
     func handleText(_ text: String) {
-      print(text)
+      guard let data = text.data(using: .utf8) else {
+        Sword.log(.error, "Unable to convert payload text to data")
+        return
+      }
+      
+      do {
+        let payload = try Sword.decoder.decode(Payload.self, from: data)
+        print(payload)
+      } catch {
+        Sword.log(.error, "Unable to correctly decode payload data. Error: \(error)")
+      }
     }
     
     /// Reconnects the shard to Discord

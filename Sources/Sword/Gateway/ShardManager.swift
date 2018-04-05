@@ -20,6 +20,8 @@ extension Sword.Shard {
     /// - parameter id: The shard ID
     /// - parameter host: The gateway URL that this shard needs to connect to
     func spawn(_ id: UInt8, to host: String) {
+      Sword.log(.info, "Spawning shard \(id) connected to \(host)")
+      
       let shard = Sword.Shard(id: id, sword)
       shard.connect(to: host)
       shards.append(shard)

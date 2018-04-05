@@ -14,13 +14,13 @@ extension Sword {
     /// Different forms of a logged message
     #if !os(Linux)
     enum LogType: String {
-      case info    = "Info:"
+      case info    = ""
       case warning = "\u{001B}[1;93mWarning: \u{001B}[0m"
       case error   = "\u{001B}[1;91mError: \u{001B}[0m"
     }
     #else
     enum LogType: String {
-      case info    = "Info:"
+      case info    = ""
       case warning = "\\e[38;1;93mWarning: \\e[0m"
       case error   = "\\e[38;1;31mError: \\e[0m"
     }
@@ -36,6 +36,6 @@ extension Sword {
       return
     }
     
-    print(type.rawValue + msg)
+    print("[Sword] " + type.rawValue + msg)
   }
 }

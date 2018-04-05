@@ -40,7 +40,7 @@ extension GatewayHandler {
     
     session?.onText = { [weak self] text in
       guard let this = self else {
-        print("[Sword] Unable to capture self.")
+        Sword.log(.error, "Unable to capture gateway handler after receiving data.")
         return
       }
       

@@ -14,11 +14,14 @@ open class Sword {
   /// Mappings from command names/aliases to base command
   var commandMap = [String: Command]()
   
+  /// Used to decode stuff from Discord
+  static let decoder = JSONDecoder()
+  
   /// Used to encode stuff to send off to Discord
   static let encoder = JSONEncoder()
   
-  /// Used to decode stuff from Discord
-  static let decoder = JSONDecoder()
+  /// Used to determine if the bot is disconnected
+  static var isDisconnected = false
   
   /// Customizable options used when setting up the bot
   public var options: Options
@@ -39,6 +42,10 @@ open class Sword {
   public init(token: String, options: Options = Options()) {
     self.options = options
     self.token = token
+    
+    if options.willLog {
+      Sword.Logger.isEnabled = true
+    }
   }
   
   /// Connects the bot
@@ -55,11 +62,15 @@ open class Sword {
         this.shardManager.spawn(i, to: info.url.absoluteString)
       }
     }
+    
+    while !Sword.isDisconnected
+      && RunLoop.main.run(mode: .defaultRunLoopMode, before: .distantFuture) {}
   }
   
   /// Disconnects the bot
   public func disconnect() {
     shardManager.disconnect()
+    Sword.isDisconnected = true
   }
   
   /// Get's the bot's initial gateway information for the websocket

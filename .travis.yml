@@ -2,14 +2,14 @@ language: generic
 
 matrix:
   include:
-    - os: linux
-      dist: trusty
-      sudo: required
-      before_install:
-        - sudo -E add-apt-repository -y ppa:chris-lea/libsodium
-        - sudo apt-get update && sudo apt-get install -y libsodium-dev
-      install:
-        - eval "$(curl -sL https://gist.githubusercontent.com/Azoy/a723677c6cdc891e9b0ab2df1fc1d018/raw/728798938707727afc75706cd2e1babe12990acd/swift-4.0-travis.sh)"
+#    - os: linux
+#      dist: trusty
+#      sudo: required
+#      before_install:
+#        - sudo -E add-apt-repository -y ppa:chris-lea/libsodium
+#        - sudo apt-get update && sudo apt-get install -y libsodium-dev
+#      install:
+#        - eval "$(curl -sL https://gist.githubusercontent.com/Azoy/a723677c6cdc891e9b0ab2df1fc1d018/raw/728798938707727afc75706cd2e1babe12990acd/swift-4.0-travis.sh)"
     - os: osx
       osx_image: xcode9
       before_install:
