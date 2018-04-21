@@ -42,6 +42,29 @@ extension Sword {
       return UInt8((rawValue & 0x3E0000) >> 17)
     }
     
+    /// Produces a fake Snowflake with the given time and process ID
+    public init() {
+      let now = Date()
+      let difference = UInt64(now.timeIntervalSince(Snowflake.epoch) * 1000)
+      
+      // Setup timestamp (42 bits)
+      var rawValue: UInt64 = difference
+      rawValue <<= 22
+      
+      // Setup worker id (5 bits)
+      rawValue += 16
+      rawValue <<= 17
+      
+      // Setup process id (6 bits)
+      rawValue += 1
+      rawValue <<= 12
+      
+      // Setup incremented id (11 bits)
+      rawValue += 128
+      
+      self.rawValue = rawValue
+    }
+    
     /// Init for rawValue conformance
     ///
     /// - parameter rawValue: The raw snowflake number
