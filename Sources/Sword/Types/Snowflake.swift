@@ -44,20 +44,18 @@ extension Sword {
     
     /// Produces a fake Snowflake with the given time and process ID
     public init() {
-      let now = Date()
-      let difference = UInt64(now.timeIntervalSince(Snowflake.epoch) * 1000)
+      var rawValue: UInt64 = 0
       
       // Setup timestamp (42 bits)
-      var rawValue: UInt64 = difference
-      rawValue <<= 22
+      let now = Date()
+      let difference = UInt64(now.timeIntervalSince(Snowflake.epoch) * 1000)
+      rawValue &= difference << 22
       
       // Setup worker id (5 bits)
-      rawValue += 16
-      rawValue <<= 17
+      rawValue &= 16 << 17
       
       // Setup process id (6 bits)
-      rawValue += 1
-      rawValue <<= 12
+      rawValue &= 1 << 12
       
       // Setup incremented id (11 bits)
       rawValue += 128
