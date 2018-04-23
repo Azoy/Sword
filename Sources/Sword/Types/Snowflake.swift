@@ -49,13 +49,13 @@ extension Sword {
       // Setup timestamp (42 bits)
       let now = Date()
       let difference = UInt64(now.timeIntervalSince(Snowflake.epoch) * 1000)
-      rawValue &= difference << 22
+      rawValue |= difference << 22
       
       // Setup worker id (5 bits)
-      rawValue &= 16 << 17
+      rawValue |= 16 << 17
       
       // Setup process id (6 bits)
-      rawValue &= 1 << 12
+      rawValue |= 1 << 12
       
       // Setup incremented id (11 bits)
       rawValue += 128
