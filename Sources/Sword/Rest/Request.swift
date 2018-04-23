@@ -16,9 +16,6 @@ extension Sword {
     _ endpoint: Endpoint,
     then: @escaping (Data?, Sword.Error?) -> ()
   ) {
-    /// Used to block thread to complete request
-    let requestSema = DispatchSemaphore(value: 0)
-    
     /// Setup request
     var request = URLRequest(url: URL(string: endpoint.url)!)
     request.httpMethod = endpoint.method.rawValue
@@ -33,18 +30,15 @@ extension Sword {
     /// Setup data task
     let task = session.dataTask(with: request) {
       [unowned self] data, response, error in
-      
       /// Handle any errors that happened during the request
       guard error == nil else {
         then(nil, Sword.Error(error!.localizedDescription))
-        requestSema.signal()
         return
       }
       
       /// Handle the response first to do things like rate limiting
       guard let response = response as? HTTPURLResponse else {
         then(nil, Sword.Error("Unable to get a correct HTTP response."))
-        requestSema.signal()
         return
       }
       
@@ -53,17 +47,13 @@ extension Sword {
       /// Make sure we can safely unwrap the data
       guard let data = data else {
         then(nil, Sword.Error("Unable to safely extract received data."))
-        requestSema.signal()
         return
       }
       
       then(data, nil)
-      requestSema.signal()
     }
     
     task.resume()
-    
-    requestSema.wait()
   }
   
   /// Handles what to do when a request is complete (rate limiting)

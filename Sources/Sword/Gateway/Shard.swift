@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Starscream
+import WebSocket
 
 extension Sword {
   /// Shard - Represents a unique session to a portion of the guilds a bot is
@@ -22,6 +22,9 @@ extension Sword {
     /// The parent class
     weak var sword: Sword?
     
+    /// Event loop to handle payloads on
+    var worker: Worker
+    
     /// Instantiates a Shard
     ///
     /// - parameter id: The shard id
@@ -29,12 +32,23 @@ extension Sword {
     init(id: UInt8, _ sword: Sword?) {
       self.id = id
       self.sword = sword
+      self.worker = MultiThreadedEventLoopGroup(numThreads: 1)
+    }
+    
+    /// Handles deinitialization of a shard
+    deinit {
+      do {
+        try worker.syncShutdownGracefully()
+      } catch {
+        Sword.log(.warning, "Unable to shutdown event loop for shard: \(id).")
+      }
     }
     
     /// Handles text being sent through the gateway
     ///
+    /// - parameter ws: WebSocket session to prevent cycles
     /// - parameter text: String that was sent through the gateway
-    func handleText(_ text: String) {
+    func handleText(_ ws: WebSocket, _ text: String) {
       guard let data = text.data(using: .utf8) else {
         Sword.log(.error, "Unable to convert payload text to data")
         return
@@ -42,7 +56,7 @@ extension Sword {
       
       do {
         let payload = try Sword.decoder.decode(Payload.self, from: data)
-        print(payload)
+        Sword.log(.info, "\(payload)")
       } catch {
         Sword.log(.error, "Unable to correctly decode payload data. Error: \(error)")
       }

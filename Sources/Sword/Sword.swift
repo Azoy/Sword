@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Dispatch
+import Async
 
 /// Swift meets Discord
 open class Sword {
@@ -20,8 +20,8 @@ open class Sword {
   /// Used to encode stuff to send off to Discord
   static let encoder = JSONEncoder()
   
-  /// Used to determine if the bot is disconnected
-  static var isDisconnected = false
+  /// Application blocker
+  let promise: Promise<Void>
   
   /// Customizable options used when setting up the bot
   public var options: Options
@@ -35,6 +35,9 @@ open class Sword {
   /// Bot's Chuck E Cheese token to the magical world of Discord's API
   let token: String
   
+  /// Application event loop
+  let worker = MultiThreadedEventLoopGroup(numThreads: 1)
+  
   /// Instantiates a Sword instance
   ///
   /// - parameter token: The bot token used to connect to Discord's API
@@ -42,49 +45,58 @@ open class Sword {
   public init(token: String, options: Options = Options()) {
     self.options = options
     self.token = token
+    self.promise = worker.eventLoop.newPromise(Void.self)
     
     if options.willLog {
       Sword.Logger.isEnabled = true
     }
   }
   
+  /// Blocks application for shards to run
+  func block() {
+    do {
+      try promise.futureResult.wait()
+    } catch {
+      Sword.log(.error, "Unable to block Sword.")
+    }
+  }
+  
   /// Connects the bot
   public func connect() {
-    getGateway { [weak self] info, error in
-      guard let info = info,
-            let this = self else {
+    getGateway { sword, info, error in
+      guard let info = info else {
         return
       }
       
-      this.shardManager.sword = this
+      sword?.shardManager.sword = sword
       
       for i in 0 ..< info.shards {
-        this.shardManager.spawn(i, to: info.url.absoluteString)
+        sword?.shardManager.spawn(i, to: info.url.absoluteString)
       }
     }
     
-    while !Sword.isDisconnected
-      && RunLoop.main.run(mode: .defaultRunLoopMode, before: .distantFuture) {}
+    block()
   }
   
   /// Disconnects the bot
   public func disconnect() {
-    shardManager.disconnect()
-    Sword.isDisconnected = true
+    unblock()
   }
   
   /// Get's the bot's initial gateway information for the websocket
-  public func getGateway(then: @escaping (GatewayInfo?, Sword.Error?) -> ()) {
-    request(.gateway()) { data, error in
+  public func getGateway(
+    then: @escaping (Sword?, GatewayInfo?, Sword.Error?) -> ()
+  ) {
+    request(.gateway()) { [weak self] data, error in
       guard let data = data else {
-        then(nil, error)
+        then(self, nil, error)
         return
       }
       
       do {
-        try then(Sword.decoder.decode(GatewayInfo.self, from: data), nil)
+        try then(self, Sword.decoder.decode(GatewayInfo.self, from: data), nil)
       } catch {
-        then(nil, Sword.Error(error.localizedDescription))
+        then(self, nil, Sword.Error(error.localizedDescription))
       }
     }
   }
@@ -99,6 +111,11 @@ open class Sword {
     then: ((Message?, Error?) -> ())? = nil
   ) {
     print("Get pranked")
+  }
+  
+  /// Unblocks application from keeping shards alive, you're on your own
+  func unblock() {
+    promise.succeed()
   }
   
 }

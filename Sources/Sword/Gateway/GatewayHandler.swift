@@ -7,13 +7,16 @@
 //
 
 import Foundation
-import Starscream
+import WebSocket
 
 /// Represents a WebSocket session for Discord
 protocol GatewayHandler : AnyObject {
   /// Internal WebSocket session
   var session: WebSocket? { get set }
 
+  /// Event loop to handle payloads on
+  var worker: Worker { get set }
+  
   /// Connects the handler to a specific gateway URL
   ///
   /// - parameter host: The gateway URL that this shard needs to connect to
@@ -24,8 +27,9 @@ protocol GatewayHandler : AnyObject {
   
   /// Defines what to do when data is received as text
   ///
+  /// - parameter ws: WebSocket session to prevent cycles
   /// - parameter text: The String that was received from the gateway
-  func handleText(_ text: String)
+  func handleText(_ ws: WebSocket, _ text: String)
   
   /// Reconnects the handler to the gateway
   func reconnect()
@@ -36,22 +40,45 @@ extension GatewayHandler {
   ///
   /// - parameter host: The gateway URL that this shard needs to connect to
   func connect(to host: String) {
-    session = WebSocket(url: URL(string: host)!)
+    let url = URL(string: host)!
     
-    session?.onText = { [weak self] text in
-      guard let this = self else {
-        Sword.log(.error, "Unable to capture gateway handler after receiving data.")
-        return
-      }
-      
-      this.handleText(text)
+    guard let host = url.host else {
+      Sword.log(.error, "Unable to find host in url: \(url)")
+      return
     }
     
-    session?.connect()
+    let path = url.path.isEmpty ? "/" : url.path
+    
+    do {
+      session = try HTTPClient.webSocket(
+        scheme: .wss,
+        hostname: host,
+        port: url.port,
+        path: path,
+        on: worker
+      ).wait()
+      
+      session?.onText { [weak self] ws, text in
+        guard let this = self else {
+          Sword.log(
+            .warning,
+            "Unable to capture a gateway handler to handle a text payload."
+          )
+          return
+        }
+        
+        this.handleText(ws, text)
+      }
+    } catch {
+      Sword.log(
+        .error,
+        "Unable to connect to gateway: \(error.localizedDescription)"
+      )
+    }
   }
   
   /// Disconnects the handler from the gateway
   func disconnect() {
-    session?.disconnect()
+    session?.close()
   }
 }
