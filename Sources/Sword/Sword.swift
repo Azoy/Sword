@@ -20,11 +20,11 @@ open class Sword {
   /// Used to encode stuff to send off to Discord
   static let encoder = JSONEncoder()
   
-  /// Application blocker
-  let promise: Promise<Void>
-  
   /// Customizable options used when setting up the bot
   public var options: Options
+  
+  /// Application blocker
+  var promise: Promise<Void>?
   
   /// Shared URLSession
   let session = URLSession.shared
@@ -45,7 +45,6 @@ open class Sword {
   public init(token: String, options: Options = Options()) {
     self.options = options
     self.token = token
-    self.promise = worker.eventLoop.newPromise(Void.self)
     
     if options.willLog {
       Sword.Logger.isEnabled = true
@@ -54,8 +53,12 @@ open class Sword {
   
   /// Blocks application for shards to run
   func block() {
+    if promise == nil {
+      promise = worker.eventLoop.newPromise(Void.self)
+    }
+    
     do {
-      try promise.futureResult.wait()
+      try promise?.futureResult.wait()
     } catch {
       Sword.log(.error, "Unable to block Sword.")
     }
@@ -63,23 +66,41 @@ open class Sword {
   
   /// Connects the bot
   public func connect() {
-    getGateway { sword, info, error in
+    let promise = worker.eventLoop.newPromise(GatewayInfo.self)
+    
+    getGateway { _, info, error in
       guard let info = info else {
+        Sword.log(.error, error!.message)
+        promise.fail(error: error!)
         return
       }
       
-      sword?.shardManager.sword = sword
-      
-      for i in 0 ..< info.shards {
-        sword?.shardManager.spawn(i, to: info.url.absoluteString)
-      }
+      promise.succeed(result: info)
     }
     
-    block()
+    promise.futureResult.whenFailure { error in
+      Sword.log(.error, error.localizedDescription)
+    }
+    
+    do {
+      let info = try promise.futureResult.wait()
+      
+      shardManager.shardCount = info.shards
+      shardManager.sword = self
+      
+      for i in 0 ..< info.shards {
+        shardManager.spawn(i, to: info.url.absoluteString)
+      }
+      
+      block()
+    } catch {
+      Sword.log(.error, error.localizedDescription)
+    }
   }
   
   /// Disconnects the bot
   public func disconnect() {
+    shardManager.disconnect()
     unblock()
   }
   
@@ -115,7 +136,7 @@ open class Sword {
   
   /// Unblocks application from keeping shards alive, you're on your own
   func unblock() {
-    promise.succeed()
+    promise?.succeed()
   }
   
 }

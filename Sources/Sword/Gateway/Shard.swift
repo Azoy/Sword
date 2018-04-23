@@ -16,6 +16,9 @@ extension Sword {
     /// The shard ID
     let id: UInt8
     
+    /// The last sequence number for this shard
+    var lastSeq: Int?
+    
     /// The WebSocket session
     var session: WebSocket?
     
@@ -57,8 +60,58 @@ extension Sword {
       do {
         let payload = try Sword.decoder.decode(Payload.self, from: data)
         Sword.log(.info, "\(payload)")
+        
+        switch payload.op {
+        case .dispatch:
+          lastSeq = payload.s
+        case .hello:
+          identify(from: payload)
+        default:
+          break
+        }
+        
       } catch {
         Sword.log(.error, "Unable to correctly decode payload data. Error: \(error)")
+      }
+    }
+    
+    func handleClose(_ ws: WebSocket, _ error: Swift.Error) {
+      print(error.localizedDescription)
+    }
+    
+    /// Sends identify payload
+    ///
+    /// - parameter payload: Hello payload to identify to
+    func identify(from payload: Payload) {
+      guard let sword = sword else {
+        Sword.log(.error, "Unable to capture Sword to identify on shard: \(id)")
+        return
+      }
+      
+      #if os(macOS)
+      let os = "macOS"
+      #endif
+      
+      let identify = GatewayIdentify(
+        largeThreshold: 50,
+        properties: GatewayIdentify.Properties(
+          browser: "Sword",
+          device: "Sword",
+          os: os
+        ),
+        shard: [id, sword.shardManager.shardCount],
+        token: sword.token,
+        willCompress: false
+      )
+      
+      do {
+        let identifyData = try Sword.encoder.encode(identify)
+        let json = try Sword.decoder.decode(JSON.self, from: identifyData)
+        let payload = Payload(d: json, op: .identify, s: nil, t: nil)
+        let data = try Sword.encoder.encode(payload)
+        session?.send(data)
+      } catch {
+        Sword.log(.error, error.localizedDescription)
       }
     }
     

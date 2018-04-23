@@ -14,6 +14,9 @@ protocol GatewayHandler : AnyObject {
   /// Internal WebSocket session
   var session: WebSocket? { get set }
 
+  /// Sword class
+  var sword: Sword? { get set }
+  
   /// Event loop to handle payloads on
   var worker: Worker { get set }
   
@@ -31,6 +34,9 @@ protocol GatewayHandler : AnyObject {
   /// - parameter text: The String that was received from the gateway
   func handleText(_ ws: WebSocket, _ text: String)
   
+  /// Defines what to do when the gateway closes on us
+  func handleClose(_ ws: WebSocket, _ error: Error)
+  
   /// Reconnects the handler to the gateway
   func reconnect()
 }
@@ -39,11 +45,12 @@ extension GatewayHandler {
   /// Connects the handler to a specific gateway URL
   ///
   /// - parameter host: The gateway URL that this shard needs to connect to
-  func connect(to host: String) {
-    let url = URL(string: host)!
-    
-    guard let host = url.host else {
-      Sword.log(.error, "Unable to find host in url: \(url)")
+  func connect(to urlString: String) {
+    guard let url = URL(string: urlString), let host = url.host else {
+      Sword.log(
+        .error,
+        "Unable to form proper url to connect gateway handler: \(urlString)"
+      )
       return
     }
     

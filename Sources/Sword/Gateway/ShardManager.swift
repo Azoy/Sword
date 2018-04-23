@@ -9,6 +9,9 @@
 extension Sword.Shard {
   /// Handles multiple shards
   class Manager {
+    /// Amount of shards allocated for this bot
+    var shardCount: UInt8 = 0
+    
     /// Array of shards this bot is in
     var shards = [Sword.Shard]()
     
