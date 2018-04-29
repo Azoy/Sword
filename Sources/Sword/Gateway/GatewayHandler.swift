@@ -35,7 +35,7 @@ protocol GatewayHandler : AnyObject {
   func handleText(_ ws: WebSocket, _ text: String)
   
   /// Defines what to do when the gateway closes on us
-  func handleClose(_ ws: WebSocket, _ error: Error)
+  func handleClose(_ error: WebSocketErrorCode)
   
   /// Reconnects the handler to the gateway
   func reconnect()
@@ -75,6 +75,18 @@ extension GatewayHandler {
         }
         
         this.handleText(ws, text)
+      }
+      
+      session?.onCloseCode { [weak self] code in
+        guard let this = self else {
+          Sword.log(
+            .warning,
+            "Unable to capture a gateway handler to handle a text payload."
+          )
+          return
+        }
+        
+        this.handleClose(code)
       }
     } catch {
       Sword.log(

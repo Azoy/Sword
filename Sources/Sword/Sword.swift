@@ -47,7 +47,7 @@ open class Sword {
     self.token = token
     
     if options.willLog {
-      Sword.Logger.isEnabled = true
+      Logger.isEnabled = true
     }
   }
   

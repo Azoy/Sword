@@ -8,13 +8,11 @@
 
 import Foundation
 
-extension Sword {
-  public struct Message: Codable {
-    public let id: Snowflake
-  }
+public struct Message: Codable {
+  public let id: Snowflake
 }
 
-extension Sword.Message {
+extension Message {
   /// Message content to send to a channel
   public struct Content: Encodable {
     /// The message
@@ -24,14 +22,14 @@ extension Sword.Message {
     public var embed: String?
     
     /// Used for optimistic message sending
-    public var nonce: Sword.Snowflake?
+    public var nonce: Snowflake?
     
     /// Whether or not this message speaks to you
     public var tts: Bool?
   }
 }
 
-extension Sword.Message.Content: ExpressibleByStringLiteral {
+extension Message.Content: ExpressibleByStringLiteral {
   public typealias StringLiteralType = String
   
   /// Init from a string literal

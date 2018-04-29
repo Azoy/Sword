@@ -12,11 +12,11 @@ public protocol Command {
   var name: String { get }
   
   /// Customizable options used to change the command
-  var options: Sword.CommandOptions { get set }
+  var options: CommandOptions { get set }
   
   /// Executes the command once it has been validated
   ///
   /// - parameter msg: The message which triggered this command
   /// - parameter args: The arguments that followed this command
-  func execute(msg: Sword.Message, args: [String])
+  func execute(msg: Message, args: [String])
 }

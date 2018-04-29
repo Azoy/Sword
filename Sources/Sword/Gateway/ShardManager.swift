@@ -6,14 +6,14 @@
 //  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
 
-extension Sword.Shard {
+extension Shard {
   /// Handles multiple shards
   class Manager {
     /// Amount of shards allocated for this bot
     var shardCount: UInt8 = 0
     
     /// Array of shards this bot is in
-    var shards = [Sword.Shard]()
+    var shards = [Shard]()
     
     /// The parent class
     weak var sword: Sword?
@@ -23,10 +23,13 @@ extension Sword.Shard {
     /// - parameter id: The shard ID
     /// - parameter host: The gateway URL that this shard needs to connect to
     func spawn(_ id: UInt8, to host: String) {
-      Sword.log(.info, "Spawning shard \(id) connected to \(host)")
+      Sword.log(
+        .info,
+        "Spawning shard \(id) connected to \(host)/?v=6&encoding=json"
+      )
       
-      let shard = Sword.Shard(id: id, sword)
-      shard.connect(to: host)
+      let shard = Shard(id: id, sword)
+      shard.connect(to: host + "/?v=6&encoding=json")
       shards.append(shard)
     }
     
