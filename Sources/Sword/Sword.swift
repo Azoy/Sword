@@ -104,6 +104,17 @@ open class Sword {
     unblock()
   }
   
+  /// Used to debug the bot's current _trace for its shards
+  public func dumpTraces() {
+    Logger.isEnabled = !Logger.isEnabled
+    
+    for shard in shardManager.shards {
+      Sword.log(.info, "Shard \(shard.id): \(shard.trace)")
+    }
+    
+    Logger.isEnabled = !Logger.isEnabled
+  }
+  
   /// Get's the bot's initial gateway information for the websocket
   public func getGateway(
     then: @escaping (Sword?, GatewayInfo?, Sword.Error?) -> ()
@@ -120,6 +131,16 @@ open class Sword {
         then(self, nil, Sword.Error(error.localizedDescription))
       }
     }
+  }
+  
+  /// Used to to the bot's current _trace for its shards
+  public func getTraces() -> [UInt8: [String]] {
+    var traces = [UInt8: [String]]()
+    for shard in shardManager.shards {
+      traces[shard.id] = shard.trace
+    }
+    
+    return traces
   }
   
   /// Sends a message to a channel

@@ -8,6 +8,9 @@
 
 /// Used in situations where the type is not known when decoding JSON
 public enum JSON {
+  /// Represents a JSON null
+  case null
+  
   /// Represents a JSON boolean
   case bool(Bool)
   
@@ -155,6 +158,9 @@ extension JSON: Encodable {
     var container = encoder.singleValueContainer()
     
     switch self {
+    case .null:
+      try container.encodeNil()
+      
     case let .bool(bool):
       try container.encode(bool)
       
@@ -182,6 +188,11 @@ extension JSON: Decodable {
   /// - parameter decoder: JSONDecoder
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
+    
+    if container.decodeNil() {
+      self = .null
+      return
+    }
     
     if let bool = try? container.decode(Bool.self) {
       self = .bool(bool)

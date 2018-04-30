@@ -68,7 +68,7 @@ extension GatewayHandler {
       session?.onText { [weak self] ws, text in
         guard let this = self else {
           Sword.log(
-            .warning,
+            .error,
             "Unable to capture a gateway handler to handle a text payload."
           )
           return
@@ -80,8 +80,8 @@ extension GatewayHandler {
       session?.onCloseCode { [weak self] code in
         guard let this = self else {
           Sword.log(
-            .warning,
-            "Unable to capture a gateway handler to handle a text payload."
+            .error,
+            "Unable to capture a gateway handler to handle closing the connection."
           )
           return
         }

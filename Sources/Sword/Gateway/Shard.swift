@@ -12,8 +12,19 @@ import WebSocket
 /// Shard - Represents a unique session to a portion of the guilds a bot is
 ///         connected to.
 class Shard : GatewayHandler {
+  /// Number of missed heartbeat acks
+  var ackMissed = 0
+  
   /// The shard ID
   let id: UInt8
+  
+  /// The current heartbeat payload
+  var heartbeatPayload: Payload<Int?> {
+    return Payload(d: lastSeq, op: .heartbeat, s: nil, t: nil)
+  }
+  
+  /// Dispatch queue to manage sending heartbeats
+  let heartbeatQueue: DispatchQueue
   
   /// The last sequence number for this shard
   var lastSeq: Int?
@@ -24,8 +35,11 @@ class Shard : GatewayHandler {
   /// The parent class
   weak var sword: Sword?
   
+  /// Debugging purposes, array of servers we're connected to
+  var trace = [String]()
+  
   /// Event loop to handle payloads on
-  var worker: Worker
+  var worker: Worker = MultiThreadedEventLoopGroup(numThreads: 1)
   
   /// Instantiates a Shard
   ///
@@ -34,7 +48,7 @@ class Shard : GatewayHandler {
   init(id: UInt8, _ sword: Sword?) {
     self.id = id
     self.sword = sword
-    self.worker = MultiThreadedEventLoopGroup(numThreads: 1)
+    self.heartbeatQueue = DispatchQueue(label: "sword.shard.\(id).heartbeat")
   }
   
   /// Handles deinitialization of a shard
@@ -51,37 +65,75 @@ class Shard : GatewayHandler {
   /// - parameter ws: WebSocket session to prevent cycles
   /// - parameter text: String that was sent through the gateway
   func handleText(_ ws: WebSocket, _ text: String) {
-    guard let data = text.data(using: .utf8) else {
-      Sword.log(.error, "Unable to convert payload text to data")
-      return
-    }
+    let data = text.convertToData()
     
     do {
       let payload = try Sword.decoder.decode(Payload<JSON>.self, from: data)
-      Sword.log(.info, "\(payload)")
       
-      switch payload.op {
-      case .dispatch:
-        lastSeq = payload.s
-      case .hello:
-        identify(from: payload, with: ws)
-      default:
-        break
-      }
-      
+      handlePayload(payload, with: ws)
     } catch {
-      Sword.log(.error, "Unable to correctly decode payload data. Error: \(error)")
+      Sword.log(
+        .error,
+        "Unable to correctly decode payload data. Error: \(error.localizedDescription)"
+      )
     }
   }
   
+  /// Handles a sudden gateway close
+  ///
+  /// - parameter error: The op close code
   func handleClose(_ error: WebSocketErrorCode) {
+    // Ideally here is where I would reconnect
     print(error)
+  }
+  
+  /// Initiates the heartbeating mode
+  func heartbeat(to ms: Int, on ws: WebSocket) {
+    guard !ws.isClosed else {
+      Sword.log(.warning, "Tried to heartbeat on closed shard \(id)")
+      return
+    }
+    
+    guard ackMissed < 3 else {
+      Sword.log(
+        .error,
+        "Shard \(id) has missed 3 heartbeat acks from Discord. Reconnecting..."
+      )
+      
+      reconnect()
+      return
+    }
+    
+    ackMissed += 1
+    send(heartbeatPayload, through: ws)
+    
+    heartbeatQueue.asyncAfter(
+      deadline: .now() + .milliseconds(ms)
+    ) { [weak self, weak ws] in
+      guard let this = self else {
+        Sword.log(
+          .error,
+          "Unable to capture shard to handle heartbeating"
+        )
+        return
+      }
+      
+      guard let ws = ws else {
+        Sword.log(
+          .error,
+          "Unable to capture shard \(this.id)'s websocket to handle heartbeating"
+        )
+        return
+      }
+      
+      this.heartbeat(to: ms, on: ws)
+    }
   }
   
   /// Sends identify payload
   ///
   /// - parameter payload: Hello payload to identify to
-  func identify(from payload: Payload<JSON>, with ws: WebSocket) {
+  func identify(from payload: Payload<JSON>, on ws: WebSocket) {
     guard let sword = sword else {
       Sword.log(.error, "Unable to capture Sword to identify on shard: \(id)")
       return
@@ -103,18 +155,25 @@ class Shard : GatewayHandler {
       willCompress: false
     )
     
-    do {
-      let payload = Payload(d: identify, op: .identify, s: nil, t: nil)
-      let data = try Sword.encoder.encode(payload)
-      print(data.convert(to: String.self))
-      ws.send(data.convert(to: String.self))
-    } catch {
-      Sword.log(.error, error.localizedDescription)
-    }
+    let payload = Payload(d: identify, op: .identify, s: nil, t: nil)
+    send(payload, through: ws)
   }
   
   /// Reconnects the shard to Discord
   func reconnect() {
     // Ideally there would be code here
+  }
+  
+  /// Sends a payload through a websocket session
+  func send<T : Codable>(_ payload: Payload<T>, through ws: WebSocket) {
+    do {
+      let data = try Sword.encoder.encode(payload)
+      ws.send(data.convert(to: String.self))
+    } catch {
+      Sword.log(
+        .warning,
+        "Unable to send payload on shard \(id). Error: \(error.localizedDescription)"
+      )
+    }
   }
 }
