@@ -12,6 +12,7 @@ extension Shard {
   /// Operates on a given received payload
   ///
   /// - parameter payload: Received payload from gateway
+  /// - parameter ws: WebSocket session
   func handlePayload(_ payload: Payload<JSON>, with ws: WebSocket) {
     switch payload.op {
     // Dispatch (OP = 0)
@@ -33,26 +34,17 @@ extension Shard {
         return
       }
       
-      //heartbeat(to: heartbeatMS, on: ws)
+      // Start heartbeating
+      heartbeat(to: heartbeatMS, on: ws)
+      
+      // Identify
       identify(from: payload, on: ws)
       
       /// Append _trace
-      if let _trace = payload.d["_trace"], case let .array(traces) = _trace {
-        for trace in traces {
-          guard let traceString = trace.string else {
-            Sword.log(.warning, "Received a deformed trace: \(trace)")
-            return
-          }
-          
-          self.trace.append(traceString)
-        }
-      } else {
-        Sword.log(.warning, "Did not receive _trace during hello")
-      }
+      addTrace(from: payload.d)
       
     // Heartbeat Acknowledgement (OP = 11)
     case .ack:
-      print("Received heartbeat ack")
       ackMissed -= 1
 
     // Unhandled

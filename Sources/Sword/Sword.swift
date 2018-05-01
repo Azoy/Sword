@@ -35,6 +35,9 @@ open class Sword {
   /// Bot's Chuck E Cheese token to the magical world of Discord's API
   let token: String
   
+  /// The Bot's Discord user
+  public internal(set) var user: User?
+  
   /// Application event loop
   let worker = MultiThreadedEventLoopGroup(numThreads: 1)
   

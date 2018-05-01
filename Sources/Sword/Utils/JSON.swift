@@ -44,6 +44,10 @@ public enum JSON {
       return Int8(exactly: int)
     }
     
+    if case let .string(string) = self {
+      return Int8(string)
+    }
+    
     return nil
   }
   
@@ -51,6 +55,10 @@ public enum JSON {
   var int16: Int16? {
     if case let .int(int) = self {
       return Int16(exactly: int)
+    }
+    
+    if case let .string(string) = self {
+      return Int16(string)
     }
     
     return nil
@@ -62,6 +70,23 @@ public enum JSON {
       return Int32(exactly: int)
     }
     
+    if case let .string(string) = self {
+      return Int32(string)
+    }
+    
+    return nil
+  }
+  
+  /// Tries to get a 64 bit integer from the current JSON
+  var int64: Int64? {
+    if case let .int(int) = self {
+      return Int64(exactly: int)
+    }
+    
+    if case let .string(string) = self {
+      return Int64(string)
+    }
+    
     return nil
   }
   
@@ -69,6 +94,10 @@ public enum JSON {
   var int: Int? {
     if case let .int(int) = self {
       return int
+    }
+    
+    if case let .string(string) = self {
+      return Int(string)
     }
     
     return nil
@@ -84,6 +113,10 @@ public enum JSON {
       return UInt8(exactly: int)
     }
     
+    if case let .string(string) = self {
+      return UInt8(string)
+    }
+    
     return nil
   }
   
@@ -95,6 +128,10 @@ public enum JSON {
     
     if case let .uint(int) = self {
       return UInt16(exactly: int)
+    }
+    
+    if case let .string(string) = self {
+      return UInt16(string)
     }
     
     return nil
@@ -110,13 +147,42 @@ public enum JSON {
       return UInt32(exactly: int)
     }
     
+    if case let .string(string) = self {
+      return UInt32(string)
+    }
+    
+    return nil
+  }
+  
+  /// Tries to get a 64 bit unsigned integer from the current JSON
+  var uint64: UInt64? {
+    if case let .int(int) = self {
+      return UInt64(exactly: int)
+    }
+    
+    if case let .uint(int) = self {
+      return UInt64(exactly: int)
+    }
+    
+    if case let .string(string) = self {
+      return UInt64(string)
+    }
+    
     return nil
   }
   
   /// Tries to get an unsigned integer value from the current JSON
   var uint: UInt? {
+    if case let .int(int) = self {
+      return UInt(exactly: int)
+    }
+    
     if case let .uint(int) = self {
       return int
+    }
+    
+    if case let .string(string) = self {
+      return UInt(string)
     }
     
     return nil
@@ -126,6 +192,24 @@ public enum JSON {
   var string: String? {
     if case let .string(string) = self {
       return string
+    }
+    
+    return nil
+  }
+  
+  /// Tries to get an array value from the current JSON
+  var array: [JSON]? {
+    if case let .array(array) = self {
+      return array
+    }
+    
+    return nil
+  }
+  
+  /// Tries to get a dictionary value from the current JSON
+  var dict: [String: JSON]? {
+    if case let .dictionary(dict) = self {
+      return dict
     }
     
     return nil

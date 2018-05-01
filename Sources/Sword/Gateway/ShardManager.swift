@@ -6,6 +6,11 @@
 //  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
 
+extension Sword {
+  /// Version of Discord's gateway this implementation uses
+  static let gatewayVersion = 6
+}
+
 extension Shard {
   /// Handles multiple shards
   class Manager {
@@ -25,11 +30,11 @@ extension Shard {
     func spawn(_ id: UInt8, to host: String) {
       Sword.log(
         .info,
-        "Spawning shard \(id) connected to \(host)/?v=6&encoding=json"
+        "Spawning shard \(id) connected to \(host)/?v=\(Sword.gatewayVersion)&encoding=json"
       )
       
       let shard = Shard(id: id, sword)
-      shard.connect(to: host + "/?v=6&encoding=json")
+      shard.connect(to: host + "/?v=\(Sword.gatewayVersion)&encoding=json")
       shards.append(shard)
     }
     

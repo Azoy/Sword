@@ -32,6 +32,9 @@ class Shard : GatewayHandler {
   /// The WebSocket session
   var session: WebSocket?
   
+  /// Used to resume connections
+  var sessionId: String?
+  
   /// The parent class
   weak var sword: Sword?
   
@@ -57,6 +60,22 @@ class Shard : GatewayHandler {
       try worker.syncShutdownGracefully()
     } catch {
       Sword.log(.warning, "Unable to shutdown event loop for shard: \(id).")
+    }
+  }
+  
+  /// Adds _trace to current list of _trace
+  func addTrace(from json: JSON) {
+    if let _trace = json["_trace"], let traces = _trace.array {
+      for trace in traces {
+        guard let traceString = trace.string else {
+          Sword.log(.warning, "Received a deformed trace: \(trace)")
+          return
+        }
+        
+        self.trace.append(traceString)
+      }
+    } else {
+      Sword.log(.warning, "Did not receive _trace")
     }
   }
   
