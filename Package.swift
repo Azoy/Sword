@@ -12,8 +12,8 @@ let package = Package(
   ],
   dependencies: [
     .package(
-      url: "https://github.com/vapor/websocket.git",
-      from: "1.0.0"
+      url: "https://github.com/Azoy/websocket.git",
+      from: "1.0.1"
     )
   ],
   targets: [

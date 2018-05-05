@@ -52,6 +52,7 @@ public struct User: Codable {
     
     guard let discrim = json["discriminator"]?.string else {
       Sword.log(.warning, "Received user object without a discriminator")
+      Sword.log(.info, "\(json)")
       return nil
     }
     

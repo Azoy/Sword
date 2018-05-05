@@ -51,7 +51,15 @@ extension Shard {
       }
       
       self.sessionId = sessionId
-      let user = User(data)
+      
+      // Make sure we got the bot's user object
+      guard let userData = data["user"]?.dict else {
+        Sword.log(.error, "Shard \(id) did not receive a user object after READY")
+        disconnect()
+        return
+      }
+      
+      let user = User(userData)
       sword?.user = user
       
       /// Append _trace
