@@ -15,7 +15,7 @@ extension Shard {
   /// - parameter ws: WebSocket session
   func handleDispatch(_ payload: Payload<JSON>, with ws: WebSocket) {
     // Make sure event data is actual data we can use
-    guard case let .dictionary(data) = payload.d else {
+    guard let data = payload.d.dict else {
       Sword.log(.warning, "Was expecting a JSON object while handling dispatch event")
       return
     }
@@ -37,14 +37,14 @@ extension Shard {
     // READY
     case .ready:
       // Make sure version we're connected to is the same as the version we requested
-      guard let v = data["v"]?.int, v == Sword.gatewayVersion else {
+      guard let v = data.v?.int, v == Sword.gatewayVersion else {
         Sword.log(.error, "Shard \(id) connected to wrong version of the gateway")
         disconnect()
         return
       }
       
       // Make sure we got a session id for resuming
-      guard let sessionId = data["session_id"]?.string else {
+      guard let sessionId = data.session_id?.string else {
         Sword.log(.error, "Shard \(id) did not receive a session id after READY")
         disconnect()
         return
@@ -53,7 +53,7 @@ extension Shard {
       self.sessionId = sessionId
       
       // Make sure we got the bot's user object
-      guard let userData = data["user"]?.dict else {
+      guard let userData = data.user?.dict else {
         Sword.log(.error, "Shard \(id) did not receive a user object after READY")
         disconnect()
         return

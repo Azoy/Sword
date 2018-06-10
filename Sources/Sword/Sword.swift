@@ -39,7 +39,7 @@ open class Sword {
   public internal(set) var user: User?
   
   /// Application event loop
-  let worker = MultiThreadedEventLoopGroup(numThreads: 1)
+  let worker = MultiThreadedEventLoopGroup(numberOfThreads: 1)
   
   /// Instantiates a Sword instance
   ///

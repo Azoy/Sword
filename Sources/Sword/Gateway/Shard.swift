@@ -42,7 +42,7 @@ class Shard : GatewayHandler {
   var trace = [String]()
   
   /// Event loop to handle payloads on
-  var worker: Worker = MultiThreadedEventLoopGroup(numThreads: 1)
+  var worker: Worker = MultiThreadedEventLoopGroup(numberOfThreads: 1)
   
   /// Instantiates a Shard
   ///
@@ -65,7 +65,7 @@ class Shard : GatewayHandler {
   
   /// Adds _trace to current list of _trace
   func addTrace(from json: JSON) {
-    if let _trace = json["_trace"], let traces = _trace.array {
+    if let _trace = json._trace, let traces = _trace.array {
       for trace in traces {
         guard let traceString = trace.string else {
           Sword.log(.warning, "Received a deformed trace: \(trace)")

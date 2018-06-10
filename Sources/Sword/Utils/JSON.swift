@@ -7,6 +7,7 @@
 //
 
 /// Used in situations where the type is not known when decoding JSON
+@dynamicMemberLookup
 public enum JSON {
   /// Represents a JSON null
   case null
@@ -207,9 +208,9 @@ public enum JSON {
   }
   
   /// Tries to get a dictionary value from the current JSON
-  var dict: [String: JSON]? {
-    if case let .dictionary(dict) = self {
-      return dict
+  var dict: JSON? {
+    if case .dictionary(_) = self {
+      return self
     }
     
     return nil
@@ -225,7 +226,7 @@ public enum JSON {
   }
   
   /// Tries to access a dictionary's key->value from the current JSON
-  subscript(member: String) -> JSON? {
+  subscript(dynamicMember member: String) -> JSON? {
     if case let .dictionary(dict) = self {
       return dict[member]
     }

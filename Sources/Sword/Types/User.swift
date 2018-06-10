@@ -33,7 +33,7 @@ public struct User: Codable {
   public let username: String
   
   /// Used to map json keys to swift keys
-  enum CodingKeys: CodingKey, String {
+  enum CodingKeys: String, CodingKey {
     case avatar
     case discriminator
     case email
@@ -47,29 +47,29 @@ public struct User: Codable {
   /// Instantiates a User structure from the given json object
   ///
   /// - parameter json: JSON object representing User
-  init?(_ json: [String: JSON]) {
-    self.avatar = json["avatar"]?.string
+  init?(_ json: JSON) {
+    self.avatar = json.avatar?.string
     
-    guard let discrim = json["discriminator"]?.string else {
+    guard let discrim = json.discriminator?.string else {
       Sword.log(.warning, "Received user object without a discriminator")
       Sword.log(.info, "\(json)")
       return nil
     }
     
     self.discriminator = discrim
-    self.email = json["email"]?.string
+    self.email = json.email?.string
     
-    guard let id = json["id"]?.uint64 else {
+    guard let id = json.id?.uint64 else {
       Sword.log(.warning, "Received user object without an id")
       return nil
     }
     
     self.id = Snowflake(rawValue: id)
-    self.isBot = json["bot"]?.bool
-    self.isMfaEnabled = json["mfa_enabled"]?.bool
-    self.isVerified = json["verified"]?.bool
+    self.isBot = json.bot?.bool
+    self.isMfaEnabled = json.mfa_enabled?.bool
+    self.isVerified = json.verified?.bool
     
-    guard let username = json["username"]?.string else {
+    guard let username = json.username?.string else {
       Sword.log(.warning, "Received user object without a username")
       return nil
     }

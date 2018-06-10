@@ -26,7 +26,7 @@ extension Shard {
       
     // HELLO (OP = 10)
     case .hello:
-      guard let heartbeatMS = payload.d["heartbeat_interval"]?.int else {
+      guard let heartbeatMS = payload.d.heartbeat_interval?.int else {
         Sword.log(
           .error,
           "Did not receive heartbeat_interval during hello"
