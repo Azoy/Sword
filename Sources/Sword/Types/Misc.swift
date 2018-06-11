@@ -64,3 +64,22 @@ public struct GatewayInfo: Decodable {
   /// The number of recommended shards
   public let shards: UInt8
 }
+
+/// Represents a resume structure sent through the gateway
+struct GatewayResume: Codable {
+  /// Authentication token
+  let token: String
+  
+  /// Id of current session
+  let sessionId: String
+  
+  /// Sequence number of last dispatch event
+  let seq: Int?
+  
+  /// Used to map json keys to swift keys
+  enum CodingKeys: String, CodingKey {
+    case token
+    case sessionId = "session_id"
+    case seq
+  }
+}

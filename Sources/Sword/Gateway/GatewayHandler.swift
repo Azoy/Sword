@@ -47,10 +47,7 @@ extension GatewayHandler {
   /// - parameter host: The gateway URL that this shard needs to connect to
   func connect(to urlString: String) {
     guard let url = URL(string: urlString), let host = url.host else {
-      Sword.log(
-        .error,
-        "Unable to form proper url to connect gateway handler: \(urlString)"
-      )
+      Sword.log(.error, .invalidURL(urlString))
       return
     }
     
@@ -67,10 +64,6 @@ extension GatewayHandler {
       
       session?.onText { [weak self] ws, text in
         guard let this = self else {
-          Sword.log(
-            .error,
-            "Unable to capture a gateway handler to handle a text payload."
-          )
           return
         }
         
@@ -79,20 +72,13 @@ extension GatewayHandler {
       
       session?.onCloseCode { [weak self] code in
         guard let this = self else {
-          Sword.log(
-            .error,
-            "Unable to capture a gateway handler to handle closing the connection."
-          )
           return
         }
         
         this.handleClose(code)
       }
     } catch {
-      Sword.log(
-        .error,
-        "Unable to connect to gateway: \(error.localizedDescription)"
-      )
+      Sword.log(.error, .gatewayConnectFailure(error.localizedDescription))
     }
   }
   

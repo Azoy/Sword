@@ -22,23 +22,31 @@ extension Shard {
       
     // Heartbeat (OP = 1)
     case .heartbeat:
+      ackMissed -= 1
       send(heartbeatPayload, through: ws)
+      
+    // Invalid session (OP = 9)
+    case .invalidSession:
+      if let canResume = payload.d.bool, !canResume {
+        sessionId = nil
+      }
+      
+      reconnect()
       
     // HELLO (OP = 10)
     case .hello:
       guard let heartbeatMS = payload.d.heartbeat_interval?.int else {
-        Sword.log(
-          .error,
-          "Did not receive heartbeat_interval during hello"
-        )
+        Sword.log(.error, .missing(id, "heartbeat_interval", "HELLO"))
         return
       }
       
       // Start heartbeating
       heartbeat(to: heartbeatMS, on: ws)
       
-      // Identify
-      identify(from: payload, on: ws)
+      if !isReconnecting {
+        // Identify
+        identify(from: payload, on: ws)
+      }
       
       /// Append _trace
       addTrace(from: payload.d)
@@ -49,10 +57,7 @@ extension Shard {
 
     // Unhandled
     default:
-      Sword.log(
-        .warning,
-        "Received unhandled payload event: \(payload)"
-      )
+      Sword.log(.warning, .unhandledEvent(id, payload.op.rawValue))
     }
   }
 }

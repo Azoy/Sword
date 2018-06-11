@@ -26,6 +26,9 @@ class Shard : GatewayHandler {
   /// Dispatch queue to manage sending heartbeats
   let heartbeatQueue: DispatchQueue
   
+  /// Whether or not the shard is currently trying to reconnect
+  var isReconnecting = false
+  
   /// The last sequence number for this shard
   var lastSeq: Int?
   
@@ -75,7 +78,7 @@ class Shard : GatewayHandler {
         self.trace.append(traceString)
       }
     } else {
-      Sword.log(.warning, "Did not receive _trace")
+      Sword.log(.warning, .missing(id, "_trace", nil))
     }
   }
   
@@ -102,8 +105,37 @@ class Shard : GatewayHandler {
   ///
   /// - parameter error: The op close code
   func handleClose(_ error: WebSocketErrorCode) {
-    // Ideally here is where I would reconnect
-    print(error)
+    if case .normalClosure = error {
+      reconnect()
+      return
+    }
+    
+    guard case let .unknown(code) = error else {
+      Sword.log(.warning, "Received unhandled websocket close code: \(error)")
+      return
+    }
+    
+    switch code {
+    case 4000 ... 4003, 4005 ... 4009:
+      reconnect()
+      
+    case 4004:
+      guard let token = sword?.token else {
+        Sword.log(.error, "Shard \(id) has a missing token")
+        return
+      }
+      
+      Sword.log(.error, "Shard \(id) has an incorrect token: \(token)")
+      
+    case 4010:
+      Sword.log(.error, "Shard \(id) sent invalid shard information")
+      
+    case 4011:
+      Sword.log(.error, "Shard \(id) has too many guilds, more shards are required")
+      
+    default:
+      break
+    }
   }
   
   /// Initiates the heartbeating mode
@@ -130,18 +162,10 @@ class Shard : GatewayHandler {
       deadline: .now() + .milliseconds(ms)
     ) { [weak self, weak ws] in
       guard let this = self else {
-        Sword.log(
-          .error,
-          "Unable to capture shard to handle heartbeating"
-        )
         return
       }
       
       guard let ws = ws else {
-        Sword.log(
-          .error,
-          "Unable to capture shard \(this.id)'s websocket to handle heartbeating"
-        )
         return
       }
       
@@ -154,7 +178,6 @@ class Shard : GatewayHandler {
   /// - parameter payload: Hello payload to identify to
   func identify(from payload: Payload<JSON>, on ws: WebSocket) {
     guard let sword = sword else {
-      Sword.log(.error, "Unable to capture Sword to identify on shard: \(id)")
       return
     }
     
@@ -180,11 +203,51 @@ class Shard : GatewayHandler {
   
   /// Reconnects the shard to Discord
   func reconnect() {
-    // Ideally there would be code here
+    if let session = session, !session.isClosed {
+      disconnect()
+    }
+    
+    guard let sword = sword else {
+      // Assume the bot is dead somehow and just kill this shard instance
+      disconnect()
+      return
+    }
+    
+    isReconnecting = true
+    
+    guard let host = sword.shardManager.shardHosts[id] else {
+      // Unable to get host for this shard for some reason, silently kill this
+      return
+    }
+    
+    guard let sessionId = sessionId else {
+      // There was no session to begin with (?)
+      isReconnecting = false
+      connect(to: host)
+      return
+    }
+    
+    // Get last sequence number before reconnecting, just in case
+    let seq = lastSeq
+    
+    connect(to: host)
+    
+    guard let session = session else {
+      return
+    }
+    
+    let resume = GatewayResume(
+      token: sword.token,
+      sessionId: sessionId,
+      seq: seq
+    )
+    
+    let payload = Payload(d: resume, op: .resume, s: nil, t: nil)
+    send(payload, through: session)
   }
   
   /// Sends a payload through a websocket session
-  func send<T : Codable>(_ payload: Payload<T>, through ws: WebSocket) {
+  func send<T: Codable>(_ payload: Payload<T>, through ws: WebSocket) {
     do {
       let data = try Sword.encoder.encode(payload)
       ws.send(data.convert(to: String.self))

@@ -7,7 +7,13 @@
 //
 
 /// Represents Discord events
-enum Event: String {
+public enum Event: String {
+  /// Indicates that a guild is now available
+  case guildCreate = "GUILD_CREATE"
+  
   /// Initial state information
   case ready = "READY"
+  
+  /// Indicates that we successfully resumed the session
+  case resumed = "RESUMED"
 }

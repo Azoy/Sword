@@ -10,7 +10,7 @@ import Foundation
 import Async
 
 /// Swift meets Discord
-open class Sword {
+open class Sword: EventHandler {
   /// Mappings from command names/aliases to base command
   var commandMap = [String: Command]()
   
@@ -19,6 +19,9 @@ open class Sword {
   
   /// Used to encode stuff to send off to Discord
   static let encoder = JSONEncoder()
+  
+  /// Mappings from event to array of listeners
+  public var listeners = [Event : [Any]]()
   
   /// Customizable options used when setting up the bot
   public var options: Options
@@ -109,13 +112,15 @@ open class Sword {
   
   /// Used to debug the bot's current _trace for its shards
   public func dumpTraces() {
-    Logger.isEnabled = !Logger.isEnabled
+    if !Logger.isEnabled {
+      Logger.isEnabled = true
+      
+      defer { Logger.isEnabled = false }
+    }
     
     for shard in shardManager.shards {
       Sword.log(.info, "Shard \(shard.id): \(shard.trace)")
     }
-    
-    Logger.isEnabled = !Logger.isEnabled
   }
   
   /// Get's the bot's initial gateway information for the websocket

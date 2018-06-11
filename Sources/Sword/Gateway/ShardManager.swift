@@ -8,7 +8,7 @@
 
 extension Sword {
   /// Version of Discord's gateway this implementation uses
-  static let gatewayVersion = 6
+  static let gatewayVersion: UInt8 = 6
 }
 
 extension Shard {
@@ -16,6 +16,9 @@ extension Shard {
   class Manager {
     /// Amount of shards allocated for this bot
     var shardCount: UInt8 = 0
+    
+    /// Maps shard ids to their connected host
+    var shardHosts = [UInt8: String]()
     
     /// Array of shards this bot is in
     var shards = [Shard]()
@@ -28,13 +31,13 @@ extension Shard {
     /// - parameter id: The shard ID
     /// - parameter host: The gateway URL that this shard needs to connect to
     func spawn(_ id: UInt8, to host: String) {
-      Sword.log(
-        .info,
-        "Spawning shard \(id) connected to \(host)/?v=\(Sword.gatewayVersion)&encoding=json"
-      )
+      let host = host + "/?v=\(Sword.gatewayVersion)&encoding=json"
+      shardHosts[id] = host
+      
+      Sword.log(.info, "Spawning shard \(id) connected to \(host)")
       
       let shard = Shard(id: id, sword)
-      shard.connect(to: host + "/?v=\(Sword.gatewayVersion)&encoding=json")
+      shard.connect(to: host)
       shards.append(shard)
     }
     
