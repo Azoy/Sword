@@ -134,7 +134,7 @@ class Shard : GatewayHandler {
       Sword.log(.error, "Shard \(id) has too many guilds, more shards are required")
       
     default:
-      break
+      Sword.log(.warning, "Received unhandled websocket close code: \(code)")
     }
   }
   

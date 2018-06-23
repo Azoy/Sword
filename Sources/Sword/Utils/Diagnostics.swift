@@ -13,6 +13,7 @@ enum Diagnostic {
   case invalidURL(String)
   case invalidVersion(UInt8)
   case missing(UInt8, String, String?)
+  case missingKey(String, String)
   case unhandledEvent(UInt8, Int)
   case unknownEvent(String)
 }
@@ -41,6 +42,9 @@ extension Diagnostic {
       }
       
       return "Shard \(shardId) did not receive \(key) during \(eventName)"
+      
+    case let .missingKey(type, key):
+      return "Received \(type) object without \(key)"
       
     case let .unhandledEvent(shardId, opCode):
       return "Shard \(shardId) received unhandled payload event: \(opCode)"

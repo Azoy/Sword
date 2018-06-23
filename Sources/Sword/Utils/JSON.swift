@@ -189,6 +189,11 @@ public enum JSON {
     return nil
   }
   
+  /// Tries to get a snowflake value from the current JSON
+  var snowflake: Snowflake? {
+    return Snowflake(self)
+  }
+  
   /// Tries to get a string value from the current JSON
   var string: String? {
     if case let .string(string) = self {
@@ -233,6 +238,102 @@ public enum JSON {
     
     return nil
   }
+  
+  /// Tries to form an enum member from current JSON
+  func raw<T: RawRepresentable>(_ type: T.Type) -> T? {
+    let value: Any
+    
+    switch type.RawValue.self {
+    case is Bool.Type:
+      guard let bool = bool else {
+        return nil
+      }
+      
+      value = bool
+      
+    case is Int8.Type:
+      guard let int8 = int8 else {
+        return nil
+      }
+      
+      value = int8
+      
+    case is Int16.Type:
+      guard let int16 = int16 else {
+        return nil
+      }
+      
+      value = int16
+      
+    case is Int32.Type:
+      guard let int32 = int32 else {
+        return nil
+      }
+      
+      value = int32
+      
+    case is Int64.Type:
+      guard let int64 = int64 else {
+        return nil
+      }
+      
+      value = int64
+      
+    case is Int.Type:
+      guard let int = int else {
+        return nil
+      }
+      
+      value = int
+      
+    case is UInt8.Type:
+      guard let uint8 = uint8 else {
+        return nil
+      }
+      
+      value = uint8
+      
+    case is UInt16.Type:
+      guard let uint16 = uint16 else {
+        return nil
+      }
+      
+      value = uint16
+      
+    case is UInt32.Type:
+      guard let uint32 = uint32 else {
+        return nil
+      }
+      
+      value = uint32
+      
+    case is UInt64.Type:
+      guard let uint64 = uint64 else {
+        return nil
+      }
+      
+      value = uint64
+      
+    case is UInt.Type:
+      guard let uint = uint else {
+        return nil
+      }
+      
+      value = uint
+      
+    case is String.Type:
+      guard let string = string else {
+        return nil
+      }
+      
+      value = string
+      
+    default:
+      return nil
+    }
+    
+    return T.init(rawValue: value as! T.RawValue)
+  }
 }
 
 extension JSON: Encodable {
@@ -252,8 +353,8 @@ extension JSON: Encodable {
     case let .int(int):
       try container.encode(int)
       
-    case let .uint(int):
-      try container.encode(int)
+    case let .uint(uint):
+      try container.encode(uint)
       
     case let .string(string):
       try container.encode(string)
@@ -289,8 +390,8 @@ extension JSON: Decodable {
       return
     }
     
-    if let int = try? container.decode(UInt.self) {
-      self = .uint(int)
+    if let uint = try? container.decode(UInt.self) {
+      self = .uint(uint)
       return
     }
     

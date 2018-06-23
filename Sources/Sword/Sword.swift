@@ -20,6 +20,9 @@ open class Sword: EventHandler {
   /// Used to encode stuff to send off to Discord
   static let encoder = JSONEncoder()
   
+  /// Mappings from guild id to guild
+  public internal(set) var guilds = [Snowflake: Guild]()
+  
   /// Mappings from event to array of listeners
   public var listeners = [Event : [Any]]()
   

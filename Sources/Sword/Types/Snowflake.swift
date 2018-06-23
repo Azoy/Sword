@@ -68,6 +68,17 @@ public struct Snowflake {
   public init(rawValue: UInt64) {
     self.rawValue = rawValue
   }
+  
+  /// Init from a json value
+  ///
+  /// - parameter json: Initial JSON value for snowflake
+  public init?(_ json: JSON?) {
+    guard let snowflake = json?.uint64 else {
+      return nil
+    }
+    
+    self.init(rawValue: snowflake)
+  }
 }
 
 extension Snowflake: Encodable {

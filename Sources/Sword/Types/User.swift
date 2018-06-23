@@ -51,26 +51,25 @@ public struct User: Codable {
     self.avatar = json.avatar?.string
     
     guard let discrim = json.discriminator?.string else {
-      Sword.log(.warning, "Received user object without a discriminator")
-      Sword.log(.info, "\(json)")
+      Sword.log(.warning, .missingKey("user", "discriminator"))
       return nil
     }
     
     self.discriminator = discrim
     self.email = json.email?.string
     
-    guard let id = json.id?.uint64 else {
-      Sword.log(.warning, "Received user object without an id")
+    guard let id = json.id?.snowflake else {
+      Sword.log(.warning, .missingKey("user", "id"))
       return nil
     }
     
-    self.id = Snowflake(rawValue: id)
+    self.id = id
     self.isBot = json.bot?.bool
     self.isMfaEnabled = json.mfa_enabled?.bool
     self.isVerified = json.verified?.bool
     
     guard let username = json.username?.string else {
-      Sword.log(.warning, "Received user object without a username")
+      Sword.log(.warning, .missingKey("user", "username"))
       return nil
     }
     
