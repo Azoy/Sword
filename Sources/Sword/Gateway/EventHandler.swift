@@ -24,10 +24,29 @@ extension EventHandler {
     
     listeners[event]?.append(function)
   }
+}
+
+extension EventHandler where Self == Sword {
+  /// Listens for GUILD_CREATE events
+  public func onGuildCreate(do function: @escaping (Guild) -> ()) {
+    on(.guildCreate, do: function)
+  }
   
   /// Listens for READY events
   public func onReady(do function: @escaping (User) -> ()) {
     on(.ready, do: function)
+  }
+  
+  /// Emits all listeners for GUILD_CREATE
+  ///
+  /// - parameter guild: Guild to emit listener with
+  public func emitGuildCreate(_ guild: Guild) {
+    guard let listeners = listeners[.guildCreate] else { return }
+    
+    for listener in listeners {
+      let listener = listener as! (Guild) -> ()
+      listener(guild)
+    }
   }
   
   /// Emits all listeners for READY

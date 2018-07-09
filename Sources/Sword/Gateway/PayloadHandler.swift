@@ -13,12 +13,16 @@ extension Shard {
   ///
   /// - parameter payload: Received payload from gateway
   /// - parameter ws: WebSocket session
-  func handlePayload(_ payload: Payload<JSON>, with ws: WebSocket) {
+  func handlePayload(
+    _ payload: PayloadSinData,
+    with ws: WebSocket,
+    _ data: Data
+  ) {
     switch payload.op {
     // Dispatch (OP = 0)
     case .dispatch:
       lastSeq = payload.s
-      handleDispatch(payload, with: ws)
+      handleDispatch(payload, with: ws, data)
       
     // Heartbeat (OP = 1)
     case .heartbeat:
@@ -27,7 +31,14 @@ extension Shard {
       
     // Invalid session (OP = 9)
     case .invalidSession:
-      if let canResume = payload.d.bool, !canResume {
+      guard let canReconnect = decodePayload(Bool.self, from: data) else {
+        Sword.log(.warning, "Unable to handle invalid session, reconnecting...")
+        sessionId = nil
+        reconnect()
+        return
+      }
+      
+      if !canReconnect {
         sessionId = nil
       }
       
@@ -35,21 +46,22 @@ extension Shard {
       
     // HELLO (OP = 10)
     case .hello:
-      guard let heartbeatMS = payload.d.heartbeat_interval?.int else {
-        Sword.log(.error, .missing(id, "heartbeat_interval", "HELLO"))
+      guard let hello = decodePayload(GatewayHello.self, from: data) else {
+        Sword.log(.error, "Unable to handle HELLO, shutting shard down...")
+        disconnect()
         return
       }
       
       // Start heartbeating
-      heartbeat(to: heartbeatMS, on: ws)
+      heartbeat(to: hello.heartbeatInterval, on: ws)
       
       if !isReconnecting {
         // Identify
-        identify(from: payload, on: ws)
+        identify(on: ws)
       }
       
       /// Append _trace
-      addTrace(from: payload.d)
+      addTrace(from: hello)
       
     // Heartbeat Acknowledgement (OP = 11)
     case .ack:

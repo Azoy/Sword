@@ -6,6 +6,7 @@
 //  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
 
+import Foundation
 import WebSocket
 
 extension Shard {
@@ -13,13 +14,11 @@ extension Shard {
   ///
   /// - parameter payload: Payload received from gateway
   /// - parameter ws: WebSocket session
-  func handleDispatch(_ payload: Payload<JSON>, with ws: WebSocket) {
-    // Make sure event data is actual data we can use
-    guard let data = payload.d.dict else {
-      Sword.log(.warning, .dispatchJSON)
-      return
-    }
-    
+  func handleDispatch(
+    _ payload: PayloadSinData,
+    with ws: WebSocket,
+    _ data: Data
+  ) {
     // Make sure we got an event name
     guard let t = payload.t else {
       Sword.log(.warning, .dispatchName(id))
@@ -36,45 +35,33 @@ extension Shard {
     switch event {
     // READY
     case .ready:
+      guard let ready = decodePayload(GatewayReady.self, from: data) else {
+        Sword.log(.warning, "Unable to handle ready, disconnect")
+        disconnect()
+        return
+      }
+      
       // Make sure version we're connected to is the same as the version we requested
-      guard let v = data.v?.int, v == Sword.gatewayVersion else {
+      guard ready.version == Sword.gatewayVersion else {
         Sword.log(.error, .invalidVersion(id))
         disconnect()
         return
       }
       
-      // Make sure we got a session id for resuming
-      guard let sessionId = data.session_id?.string else {
-        Sword.log(.error, .missing(id, "session_id", "READY"))
-        disconnect()
-        return
-      }
+      sessionId = ready.sessionId
+      sword?.user = ready.user
       
-      self.sessionId = sessionId
+      addTrace(from: ready)
       
-      // Make sure we got the bot's user object
-      guard let userData = data.user?.dict else {
-        Sword.log(.error, .missing(id, "user", "READY"))
-        disconnect()
-        return
-      }
-      
-      let user = User(userData)
-      sword?.user = user
-      
-      /// Append _trace
-      addTrace(from: payload.d)
-      
-      // Make sure there wasn't a problem in creating the user so we can emit
-      guard let userEmit = user else {
-        return
-      }
-      
-      sword?.emitReady(userEmit)
+      sword?.emitReady(ready.user)
       
     case .resumed:
-      /// Append _trace
-      addTrace(from: payload.d)
+      guard let resumed = decodePayload(GatewayResumed.self, from: data) else {
+        Sword.log(.warning, "Unable to retreive _trace from resumed, resuming anyways")
+        return
+      }
+      
+      addTrace(from: resumed)
       
       isReconnecting = false
       

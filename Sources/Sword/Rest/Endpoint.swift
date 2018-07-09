@@ -25,12 +25,12 @@ extension Sword {
     ///
     /// - parameter channelId: The channel to create message in
     static func createMessage(in channelId: String) -> Endpoint {
-      return Endpoint(.post, "/channels/\(channelId)/messages")
+      return .init(.post, "/channels/\(channelId)/messages")
     }
     
     /// Gateway
     static func gateway() -> Endpoint {
-      return Endpoint(.get, "/gateway/bot")
+      return .init(.get, "/gateway/bot")
     }
   }
 }

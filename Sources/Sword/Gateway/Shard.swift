@@ -67,18 +67,9 @@ class Shard : GatewayHandler {
   }
   
   /// Adds _trace to current list of _trace
-  func addTrace(from json: JSON) {
-    if let _trace = json._trace, let traces = _trace.array {
-      for trace in traces {
-        guard let traceString = trace.string else {
-          Sword.log(.warning, "Received a deformed trace: \(trace)")
-          return
-        }
-        
-        self.trace.append(traceString)
-      }
-    } else {
-      Sword.log(.warning, .missing(id, "_trace", nil))
+  func addTrace(from th: TraceHolder) {
+    for trace in th.trace {
+      self.trace.append(trace)
     }
   }
   
@@ -90,9 +81,9 @@ class Shard : GatewayHandler {
     let data = text.convertToData()
     
     do {
-      let payload = try Sword.decoder.decode(Payload<JSON>.self, from: data)
+      let payload = try Sword.decoder.decode(PayloadSinData.self, from: data)
       
-      handlePayload(payload, with: ws)
+      handlePayload(payload, with: ws, data)
     } catch {
       Sword.log(
         .error,
@@ -176,13 +167,17 @@ class Shard : GatewayHandler {
   /// Sends identify payload
   ///
   /// - parameter payload: Hello payload to identify to
-  func identify(from payload: Payload<JSON>, on ws: WebSocket) {
+  func identify(on ws: WebSocket) {
     guard let sword = sword else {
       return
     }
     
     #if os(macOS)
     let os = "macOS"
+    #elseif os(iOS)
+    let os = "iOS"
+    #elseif os(Linux)
+    let os = "Linux"
     #endif
     
     let identify = GatewayIdentify(
