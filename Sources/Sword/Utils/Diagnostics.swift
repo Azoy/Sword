@@ -14,7 +14,7 @@ enum Diagnostic {
   case invalidVersion(UInt8)
   case missing(UInt8, String, String?)
   case missingKey(String, String)
-  case unhandledEvent(UInt8, Int)
+  case unhandledEvent(UInt8, UInt8)
   case unknownEvent(String)
 }
 

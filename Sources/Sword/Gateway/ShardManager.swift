@@ -7,6 +7,12 @@
 //
 
 extension Sword {
+  /// Compression of Discord's gateway this implementation uses
+  //static let gatewayCompression = "zlib-stream"
+  
+  /// Encoding of Discord's gateway this implementation uses
+  static let gatewayEncoding = "json"
+  
   /// Version of Discord's gateway this implementation uses
   static let gatewayVersion: UInt8 = 6
 }
@@ -24,14 +30,29 @@ extension Shard {
     var shards = [Shard]()
     
     /// The parent class
-    weak var sword: Sword?
+    let sword: Sword
+    
+    /// Instantiates a Shard.Manager instance
+    ///
+    /// - parameter sword: Parent class
+    init(_ sword: Sword) {
+      self.sword = sword
+    }
     
     /// Spawns a specific shard connected to an initial host
     ///
     /// - parameter id: The shard ID
     /// - parameter host: The gateway URL that this shard needs to connect to
     func spawn(_ id: UInt8, to host: String) {
-      let host = host + "/?v=\(Sword.gatewayVersion)&encoding=json"
+      // Append version
+      var host = "\(host)/?v=\(Sword.gatewayVersion)"
+      
+      // Append encoding
+      host += "&encoding=\(Sword.gatewayEncoding)"
+      
+      // Append compression
+      //host += "&compress=\(Sword.gatewayCompression)"
+      
       shardHosts[id] = host
       
       Sword.log(.info, "Spawning shard \(id) connected to \(host)")

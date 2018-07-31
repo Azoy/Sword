@@ -16,7 +16,6 @@ extension Shard {
   /// - parameter ws: WebSocket session
   func handleDispatch(
     _ payload: PayloadSinData,
-    with ws: WebSocket,
     _ data: Data
   ) {
     // Make sure we got an event name
@@ -33,9 +32,36 @@ extension Shard {
     
     // Handle the event
     switch event {
+    // GUILD_CREATE
+    case .guildCreate:
+      Sword.decoder.dateDecodingStrategy = .custom(decodeISO8601)
+      guard let guild = decode(Guild.self, from: data) else {
+        Sword.log(.warning, "Could not decode guild")
+        return
+      }
+      
+      sword.guilds[guild.id] = guild
+      
+      if sword.unavailableGuilds.keys.contains(guild.id) {
+        sword.unavailableGuilds.removeValue(forKey: guild.id)
+        sword.emitGuildAvailable(guild)
+      } else {
+        sword.emitGuildCreate(guild)
+      }
+      
+    // PRESENCE_UPDATE
+    case .presenceUpdate:
+      Sword.decoder.dateDecodingStrategy = .millisecondsSince1970
+      guard let presence = decode(Presence.self, from: data) else {
+        Sword.log(.warning, "Invalid presence structure received")
+        return
+      }
+      
+      sword.emitPresenceUpdate(presence)
+      
     // READY
     case .ready:
-      guard let ready = decodePayload(GatewayReady.self, from: data) else {
+      guard let ready = decode(GatewayReady.self, from: data) else {
         Sword.log(.warning, "Unable to handle ready, disconnect")
         disconnect()
         return
@@ -49,14 +75,20 @@ extension Shard {
       }
       
       sessionId = ready.sessionId
-      sword?.user = ready.user
+      sword.user = ready.user
+      
+      // Append unavailable guilds
+      for ug in ready.unavailableGuilds {
+        sword.unavailableGuilds[ug.id] = ug
+      }
       
       addTrace(from: ready)
       
-      sword?.emitReady(ready.user)
+      sword.emitReady(ready.user)
       
+    // RESUMED
     case .resumed:
-      guard let resumed = decodePayload(GatewayResumed.self, from: data) else {
+      guard let resumed = decode(GatewayResumed.self, from: data) else {
         Sword.log(.warning, "Unable to retreive _trace from resumed, resuming anyways")
         return
       }

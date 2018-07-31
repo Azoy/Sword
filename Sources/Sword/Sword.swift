@@ -17,6 +17,11 @@ open class Sword: EventHandler {
   /// Used to decode stuff from Discord
   static let decoder = JSONDecoder()
   
+  /// Used to provide sword to children
+  static var decodingInfo: CodingUserInfoKey {
+    return CodingUserInfoKey(rawValue: "sword")!
+  }
+  
   /// Used to encode stuff to send off to Discord
   static let encoder = JSONEncoder()
   
@@ -36,10 +41,13 @@ open class Sword: EventHandler {
   let session = URLSession.shared
   
   /// Shard Manager
-  lazy var shardManager = Shard.Manager()
+  lazy var shardManager = Shard.Manager(self)
   
   /// Bot's Chuck E Cheese token to the magical world of Discord's API
   let token: String
+  
+  /// Mappings from guild id to unavailable guild
+  public internal(set) var unavailableGuilds = [Snowflake: UnavailableGuild]()
   
   /// The Bot's Discord user
   public internal(set) var user: User?
@@ -58,6 +66,8 @@ open class Sword: EventHandler {
     if options.willLog {
       Logger.isEnabled = true
     }
+    
+    Sword.decoder.userInfo[Sword.decodingInfo] = self
   }
   
   /// Blocks application for shards to run
@@ -95,7 +105,6 @@ open class Sword: EventHandler {
       let info = try promise.futureResult.wait()
       
       shardManager.shardCount = info.shards
-      shardManager.sword = self
       
       for i in 0 ..< info.shards {
         shardManager.spawn(i, to: info.url.absoluteString)
@@ -142,6 +151,27 @@ open class Sword: EventHandler {
         then(self, nil, Sword.Error(error.localizedDescription))
       }
     }
+  }
+  
+  public func getGuild(
+    from id: Snowflake,
+    type: Guild.SearchQualifier
+  ) -> Guild? {
+    switch type {
+    case .role:
+      for guild in guilds.values {
+        for role in guild.roles {
+          if role.id == id {
+            return guild
+          }
+        }
+      }
+      
+    default:
+      return nil
+    }
+    
+    return nil
   }
   
   /// Used to to the bot's current _trace for its shards

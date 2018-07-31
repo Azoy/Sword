@@ -78,7 +78,7 @@ extension GatewayIdentify {
 }
 
 /// Represents the info received from /gateway/bot
-public struct GatewayInfo: Decodable {
+public struct GatewayInfo: Codable {
   /// The websocket url to connect the bot
   public let url: URL
   
@@ -94,6 +94,9 @@ struct GatewayReady: TraceHolder, Codable {
   /// Array of server we're connected to
   let trace: [String]
   
+  /// Array of unavailable guilds the user is in
+  let unavailableGuilds: [UnavailableGuild]
+  
   /// Bot user that connected to gateway
   let user: User
   
@@ -103,6 +106,7 @@ struct GatewayReady: TraceHolder, Codable {
   enum CodingKeys: String, CodingKey {
     case sessionId = "session_id"
     case trace = "_trace"
+    case unavailableGuilds = "guilds"
     case user
     case version = "v"
   }

@@ -7,12 +7,15 @@
 //
 
 /// Represents a Discord user
-public struct User: Codable {
+public struct User: Codable, _SwordChild {
+  /// Parent class
+  public internal(set) weak var sword: Sword?
+  
   /// User's avatar hash
   public let avatar: String?
   
   /// User's 4 digit discord-tag
-  public let discriminator: String
+  public let discriminator: String?
   
   /// User's email
   public let email: String?
@@ -30,7 +33,7 @@ public struct User: Codable {
   public let isVerified: Bool?
   
   /// User's username, not unique across Discord
-  public let username: String
+  public let username: String?
   
   /// Used to map json keys to swift keys
   enum CodingKeys: String, CodingKey {

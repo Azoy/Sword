@@ -15,7 +15,7 @@ protocol GatewayHandler : AnyObject {
   var session: WebSocket? { get set }
 
   /// Sword class
-  var sword: Sword? { get set }
+  var sword: Sword { get }
   
   /// Event loop to handle payloads on
   var worker: Worker { get set }
@@ -28,14 +28,18 @@ protocol GatewayHandler : AnyObject {
   /// Disconnects the handler from the gateway
   func disconnect()
   
-  /// Defines what to do when data is received as text
+  /// Defines what to when data is received as binary
   ///
-  /// - parameter ws: WebSocket session to prevent cycles
-  /// - parameter text: The String that was received from the gateway
-  func handleText(_ ws: WebSocket, _ text: String)
+  /// - parameter data: The data that was received from the gateway
+  //func handleBinary(_ data: Data)
   
   /// Defines what to do when the gateway closes on us
   func handleClose(_ error: WebSocketErrorCode)
+  
+  /// Defines what to do when data is received as text
+  ///
+  /// - parameter text: The String that was received from the gateway
+  func handleText(_ text: String)
   
   /// Reconnects the handler to the gateway
   func reconnect()
@@ -51,39 +55,51 @@ extension GatewayHandler {
       return
     }
     
-    let path = url.path.isEmpty ? "/" : url.path
+    let path = url.path.isEmpty ? "/" : url.path + "?" + url.query!
     
-    do {
-      session = try HTTPClient.webSocket(
-        scheme: .wss,
-        hostname: host,
-        port: url.port,
-        path: path,
-        on: worker
-      ).wait()
-      
-      session?.onText { [weak self] ws, text in
-        guard let this = self else {
-          return
-        }
-        
-        this.handleText(ws, text)
+    let futureWs = HTTPClient.webSocket(
+      scheme: .wss,
+      hostname: host,
+      port: url.port,
+      path: path,
+      on: worker
+    )
+    
+    futureWs.whenSuccess { [weak self] ws in
+      guard let this = self else {
+        return
       }
       
-      session?.onCloseCode { [weak self] code in
-        guard let this = self else {
-          return
-        }
-        
+      this.session = ws
+      
+      /*
+      ws.onBinary { _, data in
+        this.handleBinary(data)
+      }
+      */
+      
+      ws.onCloseCode { code in
         this.handleClose(code)
       }
-    } catch {
-      Sword.log(.error, .gatewayConnectFailure(error.localizedDescription))
+      
+      ws.onText { _, text in
+        this.handleText(text)
+      }
+    }
+    
+    // Makes sure we aren't in an event loop when we try to reconnect in the future
+    DispatchQueue.main.async {
+      do {
+        _ = try futureWs.wait()
+      } catch {
+        Sword.log(.error, .gatewayConnectFailure(error.localizedDescription))
+      }
     }
   }
   
   /// Disconnects the handler from the gateway
   func disconnect() {
     session?.close()
+    session = nil
   }
 }

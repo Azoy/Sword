@@ -7,7 +7,7 @@
 //
 
 /// Represents a payload's opcode
-enum OP: Int, Codable {
+enum OP: UInt8, Codable {
   /// Opcode 0 (Discord event)
   case dispatch
   

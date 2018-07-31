@@ -25,7 +25,7 @@ public struct Options {
     commandRequirements: [CommandRequirement] = [],
     prefixes: [String] = ["@bot"],
     willLog: Bool = false
-    ) {
+  ) {
     self.commandRequirements = commandRequirements
     self.prefixes = prefixes
     self.willLog = willLog
@@ -51,7 +51,7 @@ public struct CommandOptions {
     aliases: [String] = [],
     isCaseSensitive: Bool = false,
     requirements: [CommandRequirement] = []
-    ) {
+  ) {
     self.aliases = aliases
     self.isCaseSensitive = isCaseSensitive
     self.requirements = requirements
