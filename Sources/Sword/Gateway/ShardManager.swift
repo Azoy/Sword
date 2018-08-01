@@ -50,8 +50,10 @@ extension Shard {
       // Append encoding
       host += "&encoding=\(Sword.gatewayEncoding)"
       
-      // Append compression
-      host += "&compress=\(Sword.gatewayCompression)"
+      if sword.options.transportCompression {
+        // Append compression
+        host += "&compress=\(Sword.gatewayCompression)"
+      }
       
       shardHosts[id] = host
       

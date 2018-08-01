@@ -63,7 +63,7 @@ open class Sword: EventHandler {
     self.options = options
     self.token = token
     
-    if options.willLog {
+    if options.logging {
       Logger.isEnabled = true
     }
     

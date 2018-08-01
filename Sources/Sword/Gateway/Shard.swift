@@ -105,6 +105,9 @@ class Shard: GatewayHandler {
     }
   }
   
+  /// Handles binary being sent through the gateway
+  ///
+  /// - parameter data: Data that was sent through the gateway
   func handleBinary(_ data: Data) {
     if buffer == nil {
       buffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: data.count)
@@ -211,7 +214,6 @@ class Shard: GatewayHandler {
   
   /// Handles text being sent through the gateway
   ///
-  /// - parameter ws: WebSocket session to prevent cycles
   /// - parameter text: String that was sent through the gateway
   func handleText(_ text: String) {
     guard session != nil else {
@@ -280,7 +282,7 @@ class Shard: GatewayHandler {
     #endif
     
     let identify = GatewayIdentify(
-      largeThreshold: 50,
+      largeThreshold: 250,
       properties: GatewayIdentify.Properties(
         browser: "Sword",
         device: "Sword",
@@ -288,7 +290,7 @@ class Shard: GatewayHandler {
       ),
       shard: [id, sword.shardManager.shardCount],
       token: sword.token,
-      willCompress: true
+      willCompress: sword.options.payloadCompression
     )
     
     let payload = Payload(d: identify, op: .identify, s: nil, t: nil)
