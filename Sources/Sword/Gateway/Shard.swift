@@ -8,7 +8,7 @@
 
 import Foundation
 import WebSocket
-//import CNIOZlib
+import CNIOZlib
 
 /// Shard - Represents a unique session to a portion of the guilds a bot is
 ///         connected to.
@@ -17,7 +17,7 @@ class Shard: GatewayHandler {
   var ackMissed = 0
   
   /// Buffer to hold gateway messages
-  //var buffer = [UInt8]()
+  var buffer: UnsafeMutableBufferPointer<UInt8>? = nil
   
   /// The shard ID
   let id: UInt8
@@ -31,16 +31,14 @@ class Shard: GatewayHandler {
   let heartbeatQueue: DispatchQueue
   
   /// Determines whether or not the current buffer is ready to be unpacked
-  /*
   var isBufferComplete: Bool {
-    guard buffer.count >= 4 else {
+    guard let buffer = buffer, buffer.count >= 4 else {
       return false
     }
     
     let suffix = buffer.dropFirst(buffer.count - 4)
     return suffix.elementsEqual([0x0, 0x0, 0xFF, 0xFF])
   }
-  */
   
   /// Whether or not the shard is currently trying to reconnect
   var isReconnecting = false
@@ -63,7 +61,7 @@ class Shard: GatewayHandler {
   /// Event loop to handle payloads on
   var worker: Worker = MultiThreadedEventLoopGroup(numberOfThreads: 1)
   
-  //var zlib = z_stream()
+  var stream = z_stream()
   
   /// Instantiates a Shard
   ///
@@ -74,27 +72,25 @@ class Shard: GatewayHandler {
     self.sword = sword
     self.heartbeatQueue = DispatchQueue(label: "sword.shard.\(id).heartbeat")
     
-    /*
     // Setup inflater
-    zlib.opaque = nil
-    zlib.zalloc = nil
-    zlib.zfree = nil
+    stream.avail_in = 0
+    stream.next_in = nil
+    stream.total_out = 0
+    stream.zalloc = nil
+    stream.zfree = nil
     
-    // Setup inflater
     inflateInit2_(
-      &zlib,
+      &stream,
       MAX_WBITS,
       ZLIB_VERSION,
       Int32(MemoryLayout<z_stream>.size)
     )
-    */
   }
   
   /// Handles deinitialization of a shard
   deinit {
-    /*
-    inflateEnd(&zlib)
-    */
+    inflateEnd(&stream)
+    
     do {
       try worker.syncShutdownGracefully()
     } catch {
@@ -109,37 +105,75 @@ class Shard: GatewayHandler {
     }
   }
   
-  /*
   func handleBinary(_ data: Data) {
-    buffer.append(contentsOf: data)
-    print(buffer)
+    if buffer == nil {
+      buffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: data.count)
+      _ = buffer!.initialize(from: data)
+    } else {
+      let backIndex = buffer!.endIndex
+      buffer!.realloc(size: buffer!.count + data.count)
+      
+      // Append new data after old data
+      for index in data.indices {
+        buffer![backIndex + index] = data[index]
+      }
+    }
+    
+    defer {
+      buffer!.deallocate()
+      buffer = nil
+    }
     
     guard isBufferComplete else {
       return
     }
     
-    zlib.avail_in = UInt32(buffer.count)
+    stream.next_in = buffer!.baseAddress
+    stream.avail_in = UInt32(buffer!.count)
     
-    buffer.withUnsafeMutableBufferPointer {
-      zlib.next_in = $0.baseAddress
+    var inflated = UnsafeMutableBufferPointer<UInt8>.allocate(
+      capacity: buffer!.count * 2
+    )
+    
+    defer {
+      inflated.deallocate()
     }
     
-    var result = [UInt8]()
-    
-    result.withUnsafeMutableBufferPointer {
-      zlib.next_out = $0.baseAddress
-    }
+    stream.total_out = 0
     
     var status: Int32 = 0
     
-    repeat {
-      status = inflate(&zlib, Z_FINISH)
-    } while status == Z_OK
+    while true {
+      stream.next_out = inflated.baseAddress?.advanced(by: Int(stream.total_out))
+      stream.avail_out = UInt32(inflated.count) - UInt32(stream.total_out)
+      
+      status = inflate(&stream, Z_SYNC_FLUSH)
+
+      if status == Z_BUF_ERROR && stream.avail_in > 0 {
+        inflated.realloc(
+          size: inflated.count + min(inflated.count * 2, maxBufSize)
+        )
+        continue
+      } else if status != Z_OK {
+        break
+      }
+    }
     
-    print(result)
-    print(String(bytes: result, encoding: .utf8) as Any)
+    let result = String(
+      bytesNoCopy: inflated.baseAddress!,
+      length: Int(stream.total_out),
+      encoding: .utf8,
+      freeWhenDone: false
+    )
+    
+    guard let text = result else {
+      // Need a better error message here
+      Sword.log(.error, "Failed to generate string from binary message")
+      return
+    }
+    
+    handleText(text)
   }
- */
   
   /// Handles a sudden gateway close
   ///
@@ -264,7 +298,6 @@ class Shard: GatewayHandler {
   /// Reconnects the shard to Discord
   func reconnect() {
     if let session = session, !session.isClosed {
-      Sword.log(.info, "Disconnecting first...")
       disconnect()
     }
     

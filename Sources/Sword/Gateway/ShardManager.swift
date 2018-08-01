@@ -8,7 +8,7 @@
 
 extension Sword {
   /// Compression of Discord's gateway this implementation uses
-  //static let gatewayCompression = "zlib-stream"
+  static let gatewayCompression = "zlib-stream"
   
   /// Encoding of Discord's gateway this implementation uses
   static let gatewayEncoding = "json"
@@ -51,7 +51,7 @@ extension Shard {
       host += "&encoding=\(Sword.gatewayEncoding)"
       
       // Append compression
-      //host += "&compress=\(Sword.gatewayCompression)"
+      host += "&compress=\(Sword.gatewayCompression)"
       
       shardHosts[id] = host
       
