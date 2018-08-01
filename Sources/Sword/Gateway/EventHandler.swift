@@ -47,6 +47,11 @@ extension EventHandler where Self == Sword {
     on(.ready, do: function)
   }
   
+  /// Listens for TYPING_START events
+  public func onTypingStart(do function: @escaping (Typing) -> ()) {
+    on(.typingStart, do: function)
+  }
+  
   /// Emits all listeners for when a guild is available
   ///
   /// - parameter guild: Guild to emit listener with
@@ -92,6 +97,18 @@ extension EventHandler where Self == Sword {
     for listener in listeners {
       let listener = listener as! (User) -> ()
       listener(user)
+    }
+  }
+  
+  /// Emits all listeners for TYPING_START
+  ///
+  /// - parameter typing: Typing structure to emit listener with
+  public func emitTypingStart(_ typing: Typing) {
+    guard let listeners = listeners[.typingStart] else { return }
+    
+    for listener in listeners {
+      let listener = listener as! (Typing) -> ()
+      listener(typing)
     }
   }
 }

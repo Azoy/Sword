@@ -9,6 +9,10 @@
 import Foundation
 
 extension Sword {
+  static let version = "1.0.0"
+}
+
+extension Sword {
   /// Makes an HTTP Request to the land of Discord's API
   ///
   /// - parameter endpoint: The specific endpoint to request
@@ -20,7 +24,7 @@ extension Sword {
     var request = URLRequest(url: URL(string: endpoint.url)!)
     request.httpMethod = endpoint.method.rawValue
     request.addValue(
-      "DiscordBot (https://github.com/Azoy/Sword, 1.0.0)",
+      "DiscordBot (https://github.com/Azoy/Sword, \(Sword.version))",
       forHTTPHeaderField: "User-Agent"
     )
     

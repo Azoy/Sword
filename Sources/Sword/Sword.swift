@@ -53,7 +53,7 @@ open class Sword: EventHandler {
   public internal(set) var user: User?
   
   /// Application event loop
-  let worker = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+  let worker = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)
   
   /// Instantiates a Sword instance
   ///

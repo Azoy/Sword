@@ -6,6 +6,8 @@
 //  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
 
+import Foundation
+
 public struct Emoji: Codable, _SwordChild {
   public internal(set) weak var sword: Sword?
   
@@ -25,5 +27,19 @@ public struct Emoji: Codable, _SwordChild {
     case requiresColons = "require_colons"
     case roleIds = "roles"
     case user
+  }
+}
+
+public struct Typing: Codable, _SwordChild {
+  public internal(set) weak var sword: Sword?
+  
+  public let channelId: Snowflake
+  public let timestamp: Date
+  public let userId: Snowflake
+  
+  enum CodingKeys: String, CodingKey {
+    case channelId = "channel_id"
+    case timestamp
+    case userId = "user_id"
   }
 }

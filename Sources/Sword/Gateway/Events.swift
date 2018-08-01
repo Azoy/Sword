@@ -22,4 +22,7 @@ public enum Event: String {
   
   /// Indicates that we successfully resumed the session
   case resumed = "RESUMED"
+  
+  /// Indicates that a user has started typing in a channel
+  case typingStart = "TYPING_START"
 }

@@ -97,6 +97,16 @@ extension Shard {
       
       isReconnecting = false
       
+    // TYPING_START
+    case .typingStart:
+      Sword.decoder.dateDecodingStrategy = .secondsSince1970
+      guard let typing = decode(Typing.self, from: data) else {
+        Sword.log(.warning, "Unable to handle TYPING_START")
+        return
+      }
+      
+      sword.emitTypingStart(typing)
+      
     default:
       break
     }

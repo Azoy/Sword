@@ -17,7 +17,7 @@ class Shard: GatewayHandler {
   var ackMissed = 0
   
   /// Buffer to hold gateway messages
-  var buffer: UnsafeMutableBufferPointer<UInt8>? = nil
+  var buffer = Bytes()
   
   /// The shard ID
   let id: UInt8
@@ -32,7 +32,7 @@ class Shard: GatewayHandler {
   
   /// Determines whether or not the current buffer is ready to be unpacked
   var isBufferComplete: Bool {
-    guard let buffer = buffer, buffer.count >= 4 else {
+    guard buffer.count >= 4 else {
       return false
     }
     
@@ -61,6 +61,7 @@ class Shard: GatewayHandler {
   /// Event loop to handle payloads on
   var worker: Worker = MultiThreadedEventLoopGroup(numberOfThreads: 1)
   
+  /// Zlib stream
   var stream = z_stream()
   
   /// Instantiates a Shard
@@ -109,33 +110,28 @@ class Shard: GatewayHandler {
   ///
   /// - parameter data: Data that was sent through the gateway
   func handleBinary(_ data: Data) {
-    if buffer == nil {
-      buffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: data.count)
-      _ = buffer!.initialize(from: data)
-    } else {
-      let backIndex = buffer!.endIndex
-      buffer!.realloc(size: buffer!.count + data.count)
-      
-      // Append new data after old data
-      for index in data.indices {
-        buffer![backIndex + index] = data[index]
-      }
-    }
-    
-    defer {
-      buffer!.deallocate()
-      buffer = nil
-    }
+    buffer.append(contentsOf: data)
     
     guard isBufferComplete else {
       return
     }
     
-    stream.next_in = buffer!.baseAddress
-    stream.avail_in = UInt32(buffer!.count)
+    let deflated = UnsafeMutableBufferPointer<UInt8>.allocate(
+      capacity: buffer.count
+    )
+    
+    _ = deflated.initialize(from: buffer)
+    
+    defer {
+      deflated.deallocate()
+      buffer.removeAll()
+    }
+    
+    stream.next_in = deflated.baseAddress
+    stream.avail_in = UInt32(deflated.count)
     
     var inflated = UnsafeMutableBufferPointer<UInt8>.allocate(
-      capacity: buffer!.count * 2
+      capacity: deflated.count * 2
     )
     
     defer {
