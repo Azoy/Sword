@@ -1,5 +1,5 @@
 //
-//  QoL.swift
+//  Memory.swift
 //  Sword
 //
 //  Created by Alejandro Alonso

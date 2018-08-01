@@ -288,7 +288,7 @@ class Shard: GatewayHandler {
       ),
       shard: [id, sword.shardManager.shardCount],
       token: sword.token,
-      willCompress: false
+      willCompress: true
     )
     
     let payload = Payload(d: identify, op: .identify, s: nil, t: nil)
