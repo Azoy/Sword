@@ -35,7 +35,7 @@ open class Sword: EventHandler {
   public var options: Options
   
   /// Application blocker
-  var promise: Promise<Void>?
+  var promise: Promise<()>?
   
   /// Shared URLSession
   let session = URLSession.shared
