@@ -8,7 +8,8 @@
 
 /// Customizable options used when setting up the bot
 public struct Options {
-  /// Customizable requirements that must be met in order to execute command
+  /// Customizable requirements that must be met in order to execute all
+  /// commands
   public var commandRequirements: [CommandRequirement]
   
   /// Whether Sword will log messages concerning information about bot

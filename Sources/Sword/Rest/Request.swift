@@ -29,7 +29,7 @@ extension Sword {
     )
     
     /// Authorize this request with the bot's token
-    request.addValue("Bot " + token, forHTTPHeaderField: "Authorization")
+    request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
     
     /// Setup data task
     let task = session.dataTask(with: request) {
@@ -68,5 +68,4 @@ extension Sword {
     _ then: @escaping (Data?, Sword.Error?) -> ()) {
     Sword.log(.warning, "Get pranked")
   }
-  
 }

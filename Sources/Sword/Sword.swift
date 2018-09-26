@@ -10,7 +10,7 @@ import Foundation
 import Async
 
 /// Swift meets Discord
-open class Sword: EventHandler {
+open class Sword {
   /// Mappings from command names/aliases to base command
   var commandMap = [String: Command]()
   
@@ -30,6 +30,9 @@ open class Sword: EventHandler {
   
   /// Mappings from event to array of listeners
   public var listeners = [Event : [Any]]()
+  
+  /// Interface to events
+  public let on = EventHandler.self
   
   /// Customizable options used when setting up the bot
   public var options: Options

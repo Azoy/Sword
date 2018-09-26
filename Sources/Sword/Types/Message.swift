@@ -6,8 +6,6 @@
 //  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
 
-import Foundation
-
 public struct Message: Codable {
   public let id: Snowflake
 }

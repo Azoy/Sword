@@ -44,9 +44,9 @@ extension Shard {
       
       if sword.unavailableGuilds.keys.contains(guild.id) {
         sword.unavailableGuilds.removeValue(forKey: guild.id)
-        sword.emitGuildAvailable(guild)
+        sword.on.guildAvailable(guild)
       } else {
-        sword.emitGuildCreate(guild)
+        sword.on.guildCreate(guild)
       }
       
     // PRESENCE_UPDATE
@@ -57,7 +57,7 @@ extension Shard {
         return
       }
       
-      sword.emitPresenceUpdate(presence)
+      sword.on.presenceUpdate(presence)
       
     // READY
     case .ready:
@@ -84,7 +84,7 @@ extension Shard {
       
       addTrace(from: ready)
       
-      sword.emitReady(ready.user)
+      sword.on.ready(ready.user)
       
     // RESUMED
     case .resumed:
@@ -105,7 +105,7 @@ extension Shard {
         return
       }
       
-      sword.emitTypingStart(typing)
+      sword.on.typingStart(typing)
       
     default:
       break
