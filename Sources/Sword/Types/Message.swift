@@ -151,8 +151,8 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji to add to this message
   */
-  public func add(
-    reaction: String,
+  public func addReaction(
+    _ reaction: String,
     then completion: ((RequestError?) -> ())? = nil
   ) {
     self.channel.addReaction(reaction, to: self.id, then: completion)
@@ -169,8 +169,8 @@ public struct Message {
    - parameter reaction: Either unicode or custom emoji reaction to remove
    - parameter userId: If nil, delete from self else delete from userId
   */
-  public func delete(
-    reaction: String,
+  public func deleteReaction(
+    _ reaction: String,
     from userId: Snowflake? = nil,
     then completion: ((RequestError?) -> ())? = nil
   ) {
@@ -209,8 +209,8 @@ public struct Message {
 
    - parameter reaction: Either unicode or custom emoji reaction to get users from
   */
-  public func get(
-    reaction: String,
+  public func getReaction(
+    _ reaction: String,
     then completion: @escaping ([User]?, RequestError?) -> ()
   ) {
     self.channel.getReaction(reaction, from: self.id, then: completion)
@@ -346,7 +346,7 @@ public struct Embed {
   // MARK: Properties
   
   /// Author dictionary from embed
-  public var author: [String: Any]?
+  public var author: Author?
   
   /// Side panel color of embed
   public var color: Int?
@@ -355,19 +355,19 @@ public struct Embed {
   public var description: String?
   
   /// Fields for the embed
-  public var fields: [[String: Any]]?
+  public var fields: [Field]?
   
   /// Footer dictionary from embed
-  public var footer: [String: Any]?
+  public var footer: Footer?
   
   /// Image data from embed
-  public var image: [String: Any]?
+  public var image: Image?
   
   /// Provider from embed
-  public let provider: [String: Any]?
+  public let provider: Provider?
   
   /// Thumbnail data from embed
-  public var thumbnail: [String: Any]?
+  public var thumbnail: Thumbnail?
   
   /// Title of the embed
   public var title: String?
@@ -379,7 +379,7 @@ public struct Embed {
   public var url: String?
   
   /// Video data from embed
-  public let video: [String: Any]?
+  public let video: Video?
   
   // MARK: Initializers
   
@@ -396,18 +396,34 @@ public struct Embed {
    - parameter json: JSON representable as a dictionary
   */
   init(_ json: [String: Any]) {
-    self.author = json["author"] as? [String: Any]
+    self.author = json.keys.contains("author")
+      ? Author(json["author"] as! [String: Any]) : nil
     self.color = json["color"] as? Int
     self.description = json["description"] as? String
-    self.fields = json["fields"] as? [[String: Any]]
-    self.footer = json["footer"] as? [String: Any]
-    self.image = json["image"] as? [String: Any]
-    self.provider = json["provider"] as? [String: Any]
-    self.thumbnail = json["thumbnail"] as? [String: Any]
+    
+    if json.keys.contains("fields") {
+      self.fields = [Field]()
+      let fields = json["fields"] as! [[String: Any]]
+      for field in fields {
+        self.fields?.append(Field(field))
+      }
+    }else {
+      self.fields = nil
+    }
+    
+    self.footer = json.keys.contains("footer")
+      ? Footer(json["footer"] as! [String: Any]) : nil
+    self.image = json.keys.contains("image")
+      ? Image(json["image"] as! [String: Any]) : nil
+    self.provider = json.keys.contains("provider")
+      ? Provider(json["provider"] as! [String: Any]) : nil
+    self.thumbnail = json.keys.contains("thumbnail")
+      ? Thumbnail(json["thumbnail"] as! [String: Any]) : nil
     self.title = json["title"] as? String
     self.type = json["type"] as! String
     self.url = json["url"] as? String
-    self.video = json["video"] as? [String: Any]
+    self.video = json.keys.contains("video")
+      ? Video(json["video"] as! [String: Any]) : nil
   }
   
   /**
@@ -420,13 +436,13 @@ public struct Embed {
   public mutating func addField(
     _ name: String,
     value: String,
-    inline: Bool = false
+    isInline: Bool = false
   ) {
     if self.fields == nil {
-      self.fields = [[String: Any]]()
+      self.fields = [Field]()
     }
     
-    self.fields?.append(["name": name, "value": value, "inline": inline])
+    self.fields?.append(Field(isInline: isInline, name: name, value: value))
   }
   
   /// Converts embed to dictionary
@@ -446,4 +462,96 @@ public struct Embed {
     return embed
   }
   
+}
+
+extension Embed {
+  public struct Author {
+    public var name: String
+    public var url: String
+    
+    init(_ json: [String: Any]) {
+      self.name = json["name"] as! String
+      self.url = json["url"] as! String
+    }
+  }
+  
+  public struct Field {
+    public var isInline: Bool
+    public var name: String
+    public var value: String
+    
+    public init(isInline: Bool = true, name: String = "", value: String = "") {
+      self.isInline = true
+      self.name = ""
+      self.value = ""
+    }
+    
+    init(_ json: [String: Any]) {
+      self.isInline = json["inline"] as! Bool
+      self.name = json["name"] as! String
+      self.value = json["value"] as! String
+    }
+  }
+  
+  public struct Footer {
+    public var iconUrl: String
+    public var proxyIconUrl: String
+    public var text: String
+    
+    init(_ json: [String: Any]) {
+      self.iconUrl = json["icon_url"] as! String
+      self.proxyIconUrl = json["proxy_icon_url"] as! String
+      self.text = json["text"] as! String
+    }
+  }
+  
+  public struct Image {
+    public var height: Int
+    public var proxyUrl: String
+    public var url: String
+    public var width: Int
+    
+    init(_ json: [String: Any]) {
+      self.height = json["height"] as! Int
+      self.proxyUrl = json["proxy_url"] as! String
+      self.url = json["url"] as! String
+      self.width = json["width"] as! Int
+    }
+  }
+  
+  public struct Provider {
+    public var name: String
+    public var url: String
+    
+    init(_ json: [String: Any]) {
+      self.name = json["name"] as! String
+      self.url = json["url"] as! String
+    }
+  }
+  
+  public struct Thumbnail {
+    public var height: Int
+    public var proxyUrl: String
+    public var url: String
+    public var width: Int
+    
+    init(_ json: [String: Any]) {
+      self.height = json["height"] as! Int
+      self.proxyUrl = json["proxy_url"] as! String
+      self.url = json["url"] as! String
+      self.width = json["width"] as! Int
+    }
+  }
+  
+  public struct Video {
+    public var height: Int
+    public var url: String
+    public var width: Int
+    
+    init(_ json: [String: Any]) {
+      self.height = json["height"] as! Int
+      self.url = json["url"] as! String
+      self.width = json["width"] as! Int
+    }
+  }
 }

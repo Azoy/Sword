@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Dispatch
 
 #if !os(Linux)
 import Starscream
@@ -21,19 +22,21 @@ protocol Gateway: class {
 
   var gatewayUrl: String { get set }
 
-  var heartbeat: Heartbeat? { get set }
-
+  var heartbeatPayload: Payload { get }
+  
+  var heartbeatQueue: DispatchQueue! { get }
+  
   var isConnected: Bool { get set }
   
   var session: WebSocket? { get set }
   
-  #if os(macOS) || os(Linux)
-  func handleConnect()
-  #endif
+  var wasAcked: Bool { get set }
   
   func handleDisconnect(for code: Int)
   
   func handlePayload(_ payload: Payload)
+  
+  func heartbeat(at interval: Int)
   
   func reconnect()
   
@@ -47,11 +50,6 @@ protocol Gateway: class {
 
 extension Gateway {
   
-  /// Handles what to do on connect to gateway
-  #if !os(iOS)
-  func handleConnect() {}
-  #endif
-  
   /// Starts the gateway connection
   func start() {
     #if !os(Linux)
@@ -60,10 +58,6 @@ extension Gateway {
       
       self.session?.onConnect = { [unowned self] in
         self.isConnected = true
-        
-        #if os(macOS) || os(Linux)
-        self.handleConnect()
-        #endif
       }
       
       self.session?.onText = { [unowned self] text in
@@ -71,7 +65,6 @@ extension Gateway {
       }
       
       self.session?.onDisconnect = { [unowned self] error in
-        self.heartbeat = nil
         self.isConnected = false
         
         guard let error = error else { return }
@@ -103,7 +96,6 @@ extension Gateway {
         }
 
         ws.onClose = { _, code, _, _ in
-          self.heartbeat = nil
           self.isConnected = false
 
           guard let code = code else { return }

@@ -29,45 +29,27 @@ extension Shard {
 
     /// OP: 1
     case .heartbeat:
-      self.heartbeat?.received = true
-      let heartbeat = Payload(
-        op: .heartbeat,
-        data: self.lastSeq ?? NSNull()
-      ).encode()
-      self.send(heartbeat)
+      self.send(self.heartbeatPayload.encode())
 
     /// OP: 11
     case .heartbeatACK:
-      self.heartbeat?.received = true
+      self.wasAcked = true
 
     /// OP: 10
     case .hello:
-      self.heartbeat = Heartbeat(
-        self,
-        "heartbeat.shard.\(self.id)",
-        interval: (payload.d as! [String: Any])["heartbeat_interval"] as! Int
-      )
-      self.heartbeat?.received = true
-      self.heartbeat?.send()
+      self.heartbeat(at: (payload.d as! [String: Any])["heartbeat_interval"] as! Int)
 
       guard !self.isReconnecting else {
         self.isReconnecting = false
-        var data: [String: Any] = [
+        let data: [String: Any] = [
           "token": self.sword.token,
           "session_id": self.sessionId!,
-          "seq": NSNull()
+          "seq": self.lastSeq ?? NSNull()
         ]
           
-        if let lastSeq = self.lastSeq {
-          data["seq"] = lastSeq
-        }
-          
-        let payload = Payload(
-          op: .resume,
-          data: data
-        ).encode()
+        let payload = Payload(op: .resume, data: data)
 
-        self.send(payload)
+        self.send(payload.encode())
         return
       }
 

@@ -9,7 +9,7 @@
 
 ## Installing libsodium
 ### macOS
-Installing libsodium is really easy on mac as long as you have [hombrew](https://brew.sh). After that is installed, all you have to do is `brew update && brew install libsodium`. That's it!
+Installing libsodium is really easy on mac as long as you have [homebrew](https://brew.sh). After that is installed, all you have to do is `brew install libsodium`. That's it!
 
 ### Linux
 This depends on the version of Ubuntu you are running, so I made a nice table here:

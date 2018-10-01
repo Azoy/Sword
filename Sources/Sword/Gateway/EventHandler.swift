@@ -27,10 +27,6 @@ extension Shard {
       return
     }
 
-    guard !self.sword.options.disabledEvents.contains(event) else {
-      return
-    }
-
     switch event {
 
     /// CHANNEL_CREATE
@@ -379,7 +375,6 @@ extension Shard {
         return
       }
       let channelId = Snowflake(data["channel_id"])
-      let sessionId = data["session_id"] as! String
       let userId = Snowflake(data["user_id"])!
 
       if channelId != nil {
@@ -398,47 +393,8 @@ extension Shard {
 
       self.sword.emit(.voiceStateUpdate, with: userId)
 
-      
-      #if os(macOS) || os(Linux)
-      guard userId == self.sword.user!.id else { return }
-
-      if let channelId = channelId {
-        self.sword.voiceManager.guilds[guildId] =
-          PotentialConnection(
-            channelId: channelId,
-            userId: userId,
-            sessionId: sessionId
-        )
-      }else {
-        self.sword.voiceManager.leave(guildId)
-      }
-      #endif
-
-    /// VOICE_SERVER_UPDATE
     case .voiceServerUpdate:
-      #if os(macOS) || os(Linux)
-      let guildId = Snowflake(data["guild_id"])!
-      let token = data["token"] as! String
-      let endpoint = data["endpoint"] as! String
-
-      guard let guild = self.sword.voiceManager.guilds[guildId] else { return }
-        
-      let payload = Payload(
-        voiceOP: .identify,
-        data: [
-          "server_id": guildId.description,
-          "user_id": self.sword.user!.id.description,
-          "session_id": guild.sessionId,
-          "token": token
-        ]
-      )
-
-      self.sword.voiceManager.join(guildId, endpoint, payload)
-      #else
       return
-      #endif
-
-      
     case .audioData:
       return
     case .connectionClose:

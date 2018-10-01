@@ -2,28 +2,19 @@
 
 import PackageDescription
 
-var dependencies: [Package.Dependency] = [
-  .package(
-    url: "https://github.com/Azoy/Sodium",
-    .upToNextMajor(from: "1.0.0")
-  )
-]
+var dependencies: [Package.Dependency] = []
 
 var targetDeps: [Target.Dependency] = []
 
 #if !os(Linux)
 dependencies += [
   .package(
-    url: "https://github.com/daltoniam/Starscream.git",
+    url: "https://github.com/Azoy/Starscream.git",
     .upToNextMajor(from: "3.0.0")
-  ),
-  .package(
-    url: "https://github.com/vapor/sockets.git",
-    .upToNextMajor(from: "2.0.0")
   )
 ]
   
-targetDeps += ["Starscream", "Sockets"]
+targetDeps += ["Starscream"]
 #else
 dependencies += [
   .package(

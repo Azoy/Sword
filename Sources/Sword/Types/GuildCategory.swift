@@ -29,7 +29,7 @@ public class GuildCategory: GuildChannel {
   
   /// Guild this channel belongs to
   public var guild: Guild? {
-    return sword?.getGuild(for: id)
+    return self.sword?.getGuild(for: id)
   }
   
   /// Name of the channel

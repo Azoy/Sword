@@ -1,9 +1,10 @@
 import Sword
 
-var options = ShieldOptions()
-options.prefixes = ["!"]
+let options = ShieldOptions(
+  prefixes: ["!"]
+)
 
-let bot = Shield(token: "Super secret token here", and: options)
+let bot = Shield(token: "Super secret token here", shieldOptions: options)
 
 bot.register("ping", message: "Pong!")
 

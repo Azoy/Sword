@@ -113,6 +113,12 @@ public struct RequestError: Error {
   
 }
 
+extension RequestError: CustomStringConvertible {
+  public var description: String {
+    return self.message
+  }
+}
+
 /// Simple enum error case for voice
 enum VoiceError: Error {
   case encryptionFail, decryptionFail

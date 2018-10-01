@@ -91,18 +91,6 @@ open class Sword: Eventable {
   /// The user account for the bot
   public internal(set) var user: User?
 
-  #if os(macOS) || os(Linux)
-
-  /// Object of voice connections the bot is currently connected to. Mapped by guildId
-  public var voiceConnections: [Snowflake: VoiceConnection] {
-    return self.voiceManager.connections
-  }
-
-  /// Voice handler
-  lazy var voiceManager = VoiceManager()
-
-  #endif
-
   // MARK: Initializer
 
   /**
@@ -111,7 +99,7 @@ open class Sword: Eventable {
    - parameter token: The bot token
    - parameter options: Options to give bot (sharding, offline members, etc)
   */
-  public init(token: String, with options: SwordOptions = SwordOptions()) {
+  public init(token: String, options: SwordOptions = SwordOptions()) {
     self.options = options
     self.token = token
   }
@@ -774,7 +762,7 @@ open class Sword: Eventable {
   }
   
   /**
-   Executs a slack style webhook
+   Executes a slack style webhook
 
    #### Content Params ####
 
@@ -926,7 +914,12 @@ open class Sword: Eventable {
     then completion: @escaping (Channel?, RequestError?) -> ()
   ) {
     guard rest else {
-      completion(self.getChannel(for: channelId), nil)
+      guard let channel = self.getChannel(for: channelId) else {
+        completion(nil, RequestError("Could not get channel locally"))
+        return
+      }
+      
+      completion(channel, nil)
       return
     }
 
@@ -984,7 +977,7 @@ open class Sword: Eventable {
   ) {
     guard rest else {
       guard let guild = self.guilds[guildId] else {
-        completion(nil, nil)
+        completion(nil, RequestError("Could not get guild locally"))
         return
       }
 
@@ -1103,7 +1096,11 @@ open class Sword: Eventable {
     then completion: @escaping (Guild?, RequestError?) -> ()
   ) {
     guard rest else {
-      completion(self.guilds[guildId], nil)
+      guard let guild = self.guilds[guildId] else {
+        return completion(nil, RequestError("Could not get guild locally"))
+      }
+      
+      completion(guild, nil)
       return
     }
 
@@ -1526,37 +1523,6 @@ open class Sword: Eventable {
     }
   }
 
-  #if os(macOS) || os(Linux)
-
-  /**
-   Joins a voice channel
-
-   - parameter channelId: Channel to connect to
-  */
-  public func joinVoiceChannel(
-    _ channelId: Snowflake,
-    then completion: @escaping (VoiceConnection) -> ()
-  ) {
-
-    guard let guild = self.getGuild(for: channelId) else { return }
-
-    guard let shardId = guild.shard else { return }
-
-    guard let channel = guild.channels[channelId] else { return }
-    
-    guard channel.type == .guildVoice else { return }
-
-    let shard = self.shardManager.shards.filter {
-      $0.id == shardId
-    }[0]
-
-    self.voiceManager.handlers[guild.id] = completion
-
-    shard.joinVoiceChannel(channelId, in: guild.id)
-  }
-
-  #endif
-
   /**
    Kicks a member from a guild
 
@@ -1600,34 +1566,6 @@ open class Sword: Eventable {
       completion?(error)
     }
   }
-
-  #if os(macOS) || os(Linux)
-
-  /**
-   Leaves a voice channel
-
-   - parameter channelId: Channel to disconnect from
-  */
-  public func leaveVoiceChannel(_ channelId: Snowflake) {
-
-    guard let guild = self.getGuild(for: channelId) else { return }
-
-    guard self.voiceManager.guilds[guild.id] != nil else { return }
-
-    guard let shardId = guild.shard else { return }
-
-    guard let channel = guild.channels[channelId] else { return }
-
-    guard channel.type == .guildVoice else { return }
-
-    let shard = self.shardManager.shards.filter {
-      $0.id == shardId
-    }[0]
-
-    shard.leaveVoiceChannel(in: guild.id)
-  }
-
-  #endif
 
   /**
    Modifies a guild channel

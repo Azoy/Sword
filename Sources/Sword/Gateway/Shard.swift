@@ -26,9 +26,14 @@ class Shard: Gateway {
   /// Global Event Rate Limiter
   let globalBucket: Bucket
 
-  /// Heartbeat worker
-  var heartbeat: Heartbeat?
-
+  /// Heartbeat to send
+  var heartbeatPayload: Payload {
+    return Payload(op: .heartbeat, data: self.lastSeq ?? NSNull())
+  }
+  
+  /// The dispatch queue to handle sending heartbeats
+  let heartbeatQueue: DispatchQueue!
+  
   /// ID of shard
   let id: Int
 
@@ -56,6 +61,9 @@ class Shard: Gateway {
   /// Parent class
   unowned let sword: Sword
 
+  /// Whether or not this shard was last acked
+  var wasAcked = true
+  
   // MARK: Initializer
 
   /**
@@ -71,14 +79,19 @@ class Shard: Gateway {
     self.shardCount = shardCount
     self.gatewayUrl = gatewayUrl
 
+    self.heartbeatQueue = DispatchQueue(
+      label: "me.azoy.sword.shard.\(id).heartbeat",
+      qos: .userInitiated
+    )
+    
     self.globalBucket = Bucket(
-      name: "me.azoy.sword.gateway.global",
+      name: "me.azoy.sword.shard.\(id).global",
       limit: 120,
       interval: 60
     )
 
     self.presenceBucket = Bucket(
-      name: "me.azoy.sword.gateway.presence",
+      name: "me.azoy.sword.shard.\(id).presence",
       limit: 5,
       interval: 60
     )
@@ -93,7 +106,6 @@ class Shard: Gateway {
   */
   func handlePayload(_ payload: Payload) {
     if let sequenceNumber = payload.s {
-      self.heartbeat?.sequence = sequenceNumber
       self.lastSeq = sequenceNumber
     }
 
@@ -247,7 +259,6 @@ class Shard: Gateway {
     #endif
     
     self.isConnected = false
-    self.heartbeat = nil
     
     self.sword.log("Disconnected from gateway... Resuming session")
     
@@ -294,7 +305,6 @@ class Shard: Gateway {
     try? self.session?.close()
     #endif
     
-    self.heartbeat = nil
     self.isConnected = false
     self.isReconnecting = false
 

@@ -27,7 +27,7 @@ public class GuildVoice: GuildChannel, Updatable {
   
   /// Guild object for this channel
   public var guild: Guild? {
-    return sword?.getGuild(for: id)
+    return self.sword?.getGuild(for: id)
   }
   
   /// ID of the channel

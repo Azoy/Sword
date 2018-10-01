@@ -9,7 +9,7 @@
 import Foundation
 
 /// Guild Type
-public class Guild: Updatable {
+public class Guild: Updatable, Imageable {
 
   // MARK: Properties
 
@@ -21,6 +21,15 @@ public class Guild: Updatable {
 
   /// AFK timeout in seconds (if there is any)
   public internal(set) var afkTimeout: Int?
+
+  /// The member type for the bot user
+  public var botMember: Member? {
+    guard let user = self.sword?.user else {
+      return nil
+    }		
+
+    return self.members[user.id]
+  }
 
   /// Collection of channels mapped by channel ID
   public internal(set) var channels = [Snowflake: GuildChannel]()
@@ -453,6 +462,19 @@ public class Guild: Updatable {
     self.sword?.getGuildWebhooks(from: self.id, then: completion)
   }
 
+  /**
+   Gets the link of the guild's icon
+   
+   - parameter format: File extension of the avatar (default png)
+  */
+  public func imageUrl(format: FileExtension = .png) -> URL? {
+    guard let icon = self.icon else {
+      return nil
+    }
+    
+    return URL(string: "https://cdn.discordapp.com/icons/\(self.id)/\(icon).\(format)")
+  }
+  
   /**
    Kicks member from this guild
 

@@ -16,9 +16,6 @@ public struct SwordOptions {
 
   /// Whether or not this bot will distribute it's shards across multiple process/machines
   public var isDistributed = false
-  
-  /// Array of event names to disable
-  public var disabledEvents = [Event]()
 
   /// Whether or not caching offline members is allowed
   public var willCacheAllMembers = false
@@ -26,13 +23,25 @@ public struct SwordOptions {
   /// Whether or not the bot will log to console
   public var willLog = false
 
-  /// Whether or not this bot is sharded
+  /// Whether or not to shard this bot
   public var willShard = true
 
   /// MARK: Initializer
 
   /// Creates a default SwordOptions
-  public init() {}
+  public init(
+    isBot: Bool = true,
+    isDistributed: Bool = false,
+    willCacheAllMembers: Bool = false,
+    willLog: Bool = false,
+    willShard: Bool = true
+  ) {
+    self.isBot = isBot
+    self.isDistributed = isDistributed
+    self.willCacheAllMembers = willCacheAllMembers
+    self.willLog = willLog
+    self.willShard = willShard
+  }
 
 }
 
@@ -59,8 +68,19 @@ public struct ShieldOptions {
   // MARK: Initializer
 
   /// Creates a default ShieldOptions
-  public init() {}
-
+  public init(
+    prefixes: [String] = ["@bot"],
+    requirements: CommandRequirements = CommandRequirements(),
+    willBeCaseSensitive: Bool = true,
+    willDefaultHelp: Bool = true,
+    willIgnoreBots: Bool = true
+  ) {
+    self.prefixes = prefixes
+    self.requirements = requirements
+    self.willBeCaseSensitive = willBeCaseSensitive
+    self.willDefaultHelp = willDefaultHelp
+    self.willIgnoreBots = willIgnoreBots
+  }
 }
 
 /// Command Options structure
@@ -86,7 +106,17 @@ public struct CommandOptions {
   // MARK: Initializer
 
   /// Creates a default CommandOptions
-  public init() {}
+  public init(
+    aliases: [String] = [],
+    description: String = "No description",
+    isCaseSensitive: Bool? = nil,
+    requirements: CommandRequirements = CommandRequirements()
+  ) {
+    self.aliases = aliases
+    self.description = description
+    self.isCaseSensitive = isCaseSensitive
+    self.requirements = requirements
+  }
 
 }
 
@@ -105,4 +135,19 @@ public struct CommandRequirements {
   /// Array of users that can use this command
   public var users = [Snowflake]()
 
+  // MARK: Initializer
+  
+  /// Creates a default CommandRequirements
+  public init(
+    channels: [Snowflake] = [],
+    guilds: [Snowflake] = [],
+    permissions: [Permission] = [],
+    users: [Snowflake] = []
+  ) {
+    self.channels = channels
+    self.guilds = guilds
+    self.permissions = permissions
+    self.users = users
+  }
+  
 }

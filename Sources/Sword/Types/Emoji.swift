@@ -6,22 +6,27 @@
 //  Copyright © 2017 Alejandro Alonso. All rights reserved.
 //
 
+import Foundation
+
 /// Emoji Type
-public struct Emoji {
+public struct Emoji: Imageable {
   
   // MARK: Properties
   
   /// ID of custom emoji
   public let id: Snowflake?
   
+  /// Whether or not this emoji is animted
+  public let isAnimated: Bool?
+  
   /// Whether or not this emoji is managed
-  public let managed: Bool?
+  public let isManaged: Bool?
   
   /// Name of the emoji
   public let name: String
   
   /// Whether this emoji requires colons to use
-  public let requireColons: Bool?
+  public let requiresColons: Bool?
   
   /// Array of roles that can use this emoji
   public internal(set) var roles = [Role]()
@@ -44,9 +49,10 @@ public struct Emoji {
   */
   init(_ json: [String: Any]) {
     self.id = Snowflake(json["id"])
-    self.managed = json["managed"] as? Bool
+    self.isAnimated = json["animated"] as? Bool
+    self.isManaged = json["managed"] as? Bool
     self.name = json["name"] as! String
-    self.requireColons = json["require_colons"] as? Bool
+    self.requiresColons = json["require_colons"] as? Bool
     
     if let roles = json["roles"] as? [[String: Any]] {
       for role in roles {
@@ -63,8 +69,22 @@ public struct Emoji {
   */
   public init(_ name: String, id: Snowflake? = nil) {
     self.id = id
+    self.isAnimated = nil
+    self.isManaged = nil
     self.name = name
-    self.managed = nil
-    self.requireColons = nil
+    self.requiresColons = nil
+  }
+  
+  /**
+   Gets the link of the emoji's image
+   
+   - parameter format: File extension of the avatar (default png)
+  */
+  public func imageUrl(format: FileExtension = .png) -> URL? {
+    guard let id = self.id else {
+      return nil
+    }
+    
+    return URL(string: "https://cdn.discordapp.com/emojis/\(id).\(format)")
   }
 }
