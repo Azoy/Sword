@@ -27,6 +27,12 @@ func decode<T: Codable>(
       return data as? T
     }
     
+    // This is somewhat of a hack because Channel can't conform to _SwordChild
+    if var data = payload.d as? Channel {
+      data.sword = Sword.decoder.userInfo[Sword.decodingInfo] as? Sword
+      return data as? T
+    }
+    
     return payload.d
   } catch {
     print(error)
