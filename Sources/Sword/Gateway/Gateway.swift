@@ -89,8 +89,6 @@ extension Gateway {
         self.session = ws
         self.isConnected = true
         
-        self.handleConnect()
-        
         ws.onText = { _, text in
           self.handlePayload(Payload(with: text))
         }
