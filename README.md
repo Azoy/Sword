@@ -32,7 +32,7 @@ import PackageDescription
 let package = Package(
     name: "yourswiftexecutablehere",
     dependencies: [
-        .package(url: "https://github.com/Azoy/Sword", from: "0.9.0")
+        .package(url: "https://github.com/Azoy/Sword", .branch("master"))
     ],
     targets: [
       .target(
