@@ -37,7 +37,7 @@ class Shard: GatewayHandler {
     }
     
     let suffix = buffer.dropFirst(buffer.count - 4)
-    return suffix.elementsEqual([0x0, 0x0, 0xFF, 0xFF])
+    return suffix == [0x0, 0x0, 0xFF, 0xFF]
   }
   
   /// Whether or not the shard is currently trying to reconnect

@@ -33,9 +33,14 @@ public struct Role: Codable, _SwordChild {
   public let color: UInt32
   
   public var guild: Guild? {
-    return sword?.getGuild(from: id, type: .role)
+    guard let guildId = guildId else {
+      return nil
+    }
+    
+    return sword?.guilds[guildId]
   }
   
+  public internal(set) var guildId: Snowflake?
   public let id: Snowflake
   public let isHoisted: Bool
   public let isManaged: Bool

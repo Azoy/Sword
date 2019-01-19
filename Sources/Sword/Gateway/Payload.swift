@@ -23,10 +23,13 @@ struct Payload<T: Codable>: Codable {
 
 /// Represents a message received from the gateway used to retreive data after
 /// inspecting payload without data
-struct PayloadData<T : Codable>: Codable {
+struct PayloadData<T> {
   /// Contains the data for the payload
   let d: T
 }
+
+extension PayloadData: Encodable where T: Encodable {}
+extension PayloadData: Decodable where T: Decodable {}
 
 /// Represents a message received from the gateway used to inspect payload
 /// before decoding all keys

@@ -60,7 +60,7 @@ extension Presence {
     public let state: String?
     public let timestamps: Timestamps?
     public let type: Kind
-    public let url: URL?
+    public let url: String?
     
     enum CodingKeys: String, CodingKey {
       case applicationId = "application_id"

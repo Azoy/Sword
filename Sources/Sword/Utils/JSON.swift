@@ -13,7 +13,7 @@ protocol _SwordChild {
 }
 
 /// Used to grab data from message received from gateway
-func decode<T: Codable>(
+func decode<T: Decodable>(
   _ type: T.Type,
   from data: Data
 ) -> T? {
@@ -23,12 +23,6 @@ func decode<T: Codable>(
     Sword.decoder.dateDecodingStrategy = .deferredToDate
     
     if var data = payload.d as? _SwordChild {
-      data.sword = Sword.decoder.userInfo[Sword.decodingInfo] as? Sword
-      return data as? T
-    }
-    
-    // This is somewhat of a hack because Channel can't conform to _SwordChild
-    if var data = payload.d as? Channel {
       data.sword = Sword.decoder.userInfo[Sword.decodingInfo] as? Sword
       return data as? T
     }

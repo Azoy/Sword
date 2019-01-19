@@ -62,6 +62,7 @@ extension GatewayHandler {
       hostname: host,
       port: url.port,
       path: path,
+      maxFrameSize: 1 << 31,
       on: worker
     )
     

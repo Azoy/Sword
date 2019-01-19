@@ -28,9 +28,6 @@ open class Sword {
   /// Mappings from guild id to guild
   public internal(set) var guilds = [Snowflake: Guild]()
   
-  /// Mappings from event to array of listeners
-  public var listeners = [Event : [Any]]()
-  
   /// Interface to events
   public let on = EventHandler.self
   
@@ -154,27 +151,6 @@ open class Sword {
         then(self, nil, Sword.Error(error.localizedDescription))
       }
     }
-  }
-  
-  public func getGuild(
-    from id: Snowflake,
-    type: Guild.SearchQualifier
-  ) -> Guild? {
-    switch type {
-    case .role:
-      for guild in guilds.values {
-        for role in guild.roles {
-          if role.id == id {
-            return guild
-          }
-        }
-      }
-      
-    default:
-      return nil
-    }
-    
-    return nil
   }
   
   /// Used to to the bot's current _trace for its shards

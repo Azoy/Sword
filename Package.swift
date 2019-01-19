@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:4.2
 
 import PackageDescription
 
@@ -13,7 +13,7 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/vapor/websocket.git",
-      from: "1.0.2"
+      from: "1.1.1"
     )
   ],
   targets: [
@@ -26,5 +26,5 @@ let package = Package(
       dependencies: ["Sword"]
     ),
   ],
-  swiftLanguageVersions: [4]
+  swiftLanguageVersions: [.v4_2]
 )

@@ -8,10 +8,13 @@
 
 /// Represents Discord events
 public enum Event: String {
+  /// Indicates that a channel was created
+  case channelCreate = "CHANNEL_CREATE"
+  
   /// Indicates a guild was unavailable, but is now available
   case guildAvailable
   
-  /// Indicates that a guild is now available
+  /// Indicates that the bot has joined a guild
   case guildCreate = "GUILD_CREATE"
   
   /// Indicates that a user's presence has been updated

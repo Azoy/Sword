@@ -14,7 +14,14 @@ public class Guild: Codable, _SwordChild {
   public let afkChannelId: Snowflake?
   public let afkTimeout: UInt64
   public let applicationId: Snowflake?
-  public let channels: [GuildChannel]
+  
+  public var categoryChannels: [Channel.Category] {
+    return channels.values.filter {
+      $0 is Channel.Category
+    } as! [Channel.Category]
+  }
+  
+  public internal(set) var channels: [Snowflake: GuildChannel]
   public let defaultMessageNotificationLevel: DefaultMessageNotification
   public let embedChannelId: Snowflake?
   public let emojis: [Emoji]
@@ -34,22 +41,22 @@ public class Guild: Codable, _SwordChild {
   public let ownerId: Snowflake
   public let permissions: UInt64?
   public let region: Voice.Region.ID
-  public let roles: [Role]
+  public internal(set) var roles: [Role]
   public let splash: String?
   public let systemChannelId: Snowflake?
   
-  public var textChannels: [GuildText] {
-    return channels.filter {
-      $0 is GuildText
-    } as! [GuildText]
+  public var textChannels: [Channel.Text] {
+    return channels.values.filter {
+      $0 is Channel.Text
+    } as! [Channel.Text]
   }
   
   public let verificationLevel: Verification
   
-  public var voiceChannels: [GuildVoice] {
-    return channels.filter {
-      $0 is GuildVoice
-    } as! [GuildVoice]
+  public var voiceChannels: [Channel.Voice] {
+    return channels.values.filter {
+      $0 is Channel.Voice
+    } as! [Channel.Voice]
   }
   
   public let voiceStates: [Voice.State]?
@@ -90,6 +97,7 @@ public class Guild: Codable, _SwordChild {
   
   public required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.id = try container.decode(Snowflake.self, forKey: .id)
     self.afkChannelId = try container.decodeIfPresent(
       Snowflake.self,
       forKey: .afkChannelId
@@ -101,22 +109,15 @@ public class Guild: Codable, _SwordChild {
     )
     
     let channelHolders = try container.decode(
-      [GuildChannelHolder].self,
+      [ChannelHolder].self,
       forKey: .channels
     )
     
-    self.channels = channelHolders.map {
-      if case let .category(category) = $0 {
-        return category
-      }
-      
-      if case let .text(text) = $0 {
-        return text
-      }
-      
-      if case let .voice(voice) = $0 {
-        return voice
-      }
+    self.channels = [Snowflake: GuildChannel]()
+    
+    for holder in channelHolders {
+      holder.setGuildId(id)
+      self.channels[holder.channel.id] = holder.channel
     }
     
     self.defaultMessageNotificationLevel = try container.decode(
@@ -134,7 +135,6 @@ public class Guild: Codable, _SwordChild {
     )
     self.features = try container.decode([Feature].self, forKey: .features)
     self.icon = try container.decodeIfPresent(String.self, forKey: .icon)
-    self.id = try container.decode(Snowflake.self, forKey: .id)
     self.isEmbedEnabled = try container.decodeIfPresent(
       Bool.self,
       forKey: .isEmbedEnabled
@@ -164,8 +164,17 @@ public class Guild: Codable, _SwordChild {
       UInt64.self,
       forKey: .permissions
     )
-    self.region = try container.decode(Voice.Region.ID.self, forKey: .region)
+    self.region = try container.decode(
+      Voice.Region.ID.self,
+      forKey: .region
+    )
     self.roles = try container.decode([Role].self, forKey: .roles)
+    
+    // After we decode roles, insert guild id into each one
+    for i in roles.indices {
+      roles[i].guildId = id
+    }
+    
     self.splash = try container.decodeIfPresent(String.self, forKey: .splash)
     self.systemChannelId = try container.decodeIfPresent(
       Snowflake.self,
@@ -187,44 +196,49 @@ public class Guild: Codable, _SwordChild {
   
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(self.afkChannelId, forKey: .afkChannelId)
-    try container.encode(self.afkTimeout, forKey: .afkTimeout)
-    try container.encode(self.applicationId, forKey: .applicationId)
+    try container.encode(afkChannelId, forKey: .afkChannelId)
+    try container.encode(afkTimeout, forKey: .afkTimeout)
+    try container.encode(applicationId, forKey: .applicationId)
     
-    let channelHolders: [GuildChannelHolder] = self.channels.map {
-      if let category = $0 as? GuildCategory {
+    let channelHolders: [ChannelHolder] = try channels.values.map {
+      switch $0 {
+      case let category as Channel.Category:
         return .category(category)
-      }
-      
-      if let text = $0 as? GuildText {
+      case let text as Channel.Text:
         return .text(text)
-      }
-      
-      if let voice = $0 as? GuildVoice {
+      case let voice as Channel.Voice:
         return .voice(voice)
+      default:
+        throw EncodingError.invalidValue(
+          $0,
+          EncodingError.Context(
+            codingPath: container.codingPath,
+            debugDescription: "Unknown guild channel type"
+          )
+        )
       }
     }
     
     try container.encode(channelHolders, forKey: .channels)
     try container.encode(
-      self.defaultMessageNotificationLevel,
+      defaultMessageNotificationLevel,
       forKey: .defaultMessageNotificationLevel
     )
-    try container.encode(self.embedChannelId, forKey: .embedChannelId)
-    try container.encode(self.emojis, forKey: .emojis)
+    try container.encode(embedChannelId, forKey: .embedChannelId)
+    try container.encode(emojis, forKey: .emojis)
     try container.encode(
-      self.explicitContentFilterLevel,
+      explicitContentFilterLevel,
       forKey: .explicitContentFilterLevel
     )
-    try container.encode(self.features, forKey: .features)
-    try container.encode(self.icon, forKey: .icon)
-    try container.encode(self.id, forKey: .id)
-    try container.encode(self.isEmbedEnabled, forKey: .isEmbedEnabled)
-    try container.encode(self.isLarge, forKey: .isLarge)
-    try container.encode(self.isOwner, forKey: .isOwner)
-    try container.encode(self.isUnavailable, forKey: .isUnavailable)
-    try container.encode(self.isWidgetEnabled, forKey: .isWidgetEnabled)
-    try container.encode(self.joinedAt, forKey: .joinedAt)
+    try container.encode(features, forKey: .features)
+    try container.encode(icon, forKey: .icon)
+    try container.encode(id, forKey: .id)
+    try container.encode(isEmbedEnabled, forKey: .isEmbedEnabled)
+    try container.encode(isLarge, forKey: .isLarge)
+    try container.encode(isOwner, forKey: .isOwner)
+    try container.encode(isUnavailable, forKey: .isUnavailable)
+    try container.encode(isWidgetEnabled, forKey: .isWidgetEnabled)
+    try container.encode(joinedAt, forKey: .joinedAt)
   }
 }
 
@@ -251,7 +265,15 @@ extension Guild {
   public struct Member: Codable, _SwordChild {
     public internal(set) weak var sword: Sword?
     
-    public let guildId: Snowflake
+    public weak var guild: Guild? {
+      guard let guildId = guildId else {
+        return nil
+      }
+      
+      return sword?.guilds[guildId]
+    }
+    
+    public internal(set) var guildId: Snowflake?
     public let isDeafened: Bool
     public let isMuted: Bool
     public let joinedAt: Date
@@ -260,7 +282,6 @@ extension Guild {
     public let user: User
     
     enum CodingKeys: String, CodingKey {
-      case guildId
       case isDeafened = "deaf"
       case isMuted = "mute"
       case joinedAt = "joined_at"
@@ -299,45 +320,65 @@ public struct UnavailableGuild: Codable {
   }
 }
 
-enum GuildChannelHolder: Codable {
-  case category(GuildCategory)
-  case text(GuildText)
-  case voice(GuildVoice)
-  
-  init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
+extension Guild {
+  enum ChannelHolder: Codable {
+    case category(Channel.Category)
+    case text(Channel.Text)
+    case voice(Channel.Voice)
     
-    if let category = try? container.decode(GuildCategory.self) {
-      self = .category(category)
+    var channel: GuildChannel {
+      switch self {
+      case let .category(category):
+        return category
+      case let .text(text):
+        return text
+      case let .voice(voice):
+        return voice
+      }
     }
     
-    if let text = try? container.decode(GuildText.self) {
-      self = .text(text)
+    init(from decoder: Decoder) throws {
+      let container = try decoder.singleValueContainer()
+      
+      let channelDecoding = try container.decode(ChannelDecoding.self)
+      
+      switch channelDecoding.type {
+      case .guildCategory:
+        self = .category(try container.decode(Channel.Category.self))
+      case .guildText:
+        self = .text(try container.decode(Channel.Text.self))
+      case .guildVoice:
+        self = .voice(try container.decode(Channel.Voice.self))
+      default:
+        throw DecodingError.dataCorruptedError(
+          in: container,
+          debugDescription: "Unknown guild channel type"
+        )
+      }
     }
     
-    if let voice = try? container.decode(GuildVoice.self) {
-      self = .voice(voice)
+    func encode(to encoder: Encoder) throws {
+      var container = encoder.singleValueContainer()
+      
+      switch self {
+      case let .category(category):
+        try container.encode(category)
+      case let .text(text):
+        try container.encode(text)
+      case let .voice(voice):
+        try container.encode(voice)
+      }
     }
     
-    throw DecodingError.dataCorruptedError(
-      in: container,
-      debugDescription: "Unknown guild channel type"
-    )
-  }
-  
-  func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    
-    if case let .category(category) = self {
-      try container.encode(category)
-    }
-    
-    if case let .text(text) = self {
-      try container.encode(text)
-    }
-    
-    if case let .voice(voice) = self {
-      try container.encode(voice)
+    func setGuildId(_ guildId: Snowflake) {
+      switch self {
+      case let .category(category):
+        category.guildId = guildId
+      case let .text(text):
+        text.guildId = guildId
+      case let .voice(voice):
+        voice.guildId = guildId
+      }
     }
   }
 }

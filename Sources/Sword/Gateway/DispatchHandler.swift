@@ -32,6 +32,48 @@ extension Shard {
     
     // Handle the event
     switch event {
+    // CHANNEL_CREATE
+    case .channelCreate:
+      guard let channelDecoding
+          = decode(ChannelDecoding.self, from: data) else {
+        Sword.log(.warning, "Could not decode channel")
+        return
+      }
+      
+      let channel: Channel
+      
+      switch channelDecoding.type {
+      case .guildCategory:
+        guard let tmp = decode(Guild.Channel.Category.self, from: data) else {
+          Sword.log(.warning, "Could not decode channel")
+          return
+        }
+        
+        channel = tmp
+        
+      case .guildText:
+        guard let tmp = decode(Guild.Channel.Text.self, from: data) else {
+          Sword.log(.warning, "Could not decode channel")
+          return
+        }
+        
+        channel = tmp
+        
+      case .guildVoice:
+        guard let tmp = decode(Guild.Channel.Voice.self, from: data) else {
+          Sword.log(.warning, "Could not decode channel")
+          return
+        }
+        
+        channel = tmp
+        
+      default:
+        // FIXME: When I implement the other channel types decode them here
+        return
+      }
+      
+      sword.on.channelCreate(channel)
+      
     // GUILD_CREATE
     case .guildCreate:
       Sword.decoder.dateDecodingStrategy = .custom(decodeISO8601)

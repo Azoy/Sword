@@ -7,6 +7,8 @@
 //
 
 public enum EventHandler {
+  public static var channelCreate: (Channel) -> () = { _ in }
+  
   public static var guildAvailable: (Guild) -> () = { _ in }
   
   public static var guildCreate: (Guild) -> () = { _ in }
