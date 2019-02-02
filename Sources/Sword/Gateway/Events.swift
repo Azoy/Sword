@@ -17,6 +17,9 @@ public enum Event: String {
   /// Indicates that the bot has joined a guild
   case guildCreate = "GUILD_CREATE"
   
+  /// Indicates that a message was created
+  case messageCreate = "MESSAGE_CREATE"
+  
   /// Indicates that a user's presence has been updated
   case presenceUpdate = "PRESENCE_UPDATE"
   

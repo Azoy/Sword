@@ -6,8 +6,6 @@
 //  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
 
-import Foundation
-
 /// Indicates that a message contains _trace
 protocol TraceHolder {
   /// Array of servers we're connected to
@@ -80,7 +78,7 @@ extension GatewayIdentify {
 /// Represents the info received from /gateway/bot
 public struct GatewayInfo: Codable {
   /// The websocket url to connect the bot
-  public let url: URL
+  public let url: String
   
   /// The number of recommended shards
   public let shards: UInt8

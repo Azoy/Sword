@@ -9,6 +9,8 @@
 import Foundation
 
 extension Sword {
+  static let apiVersion = "v7"
+  
   static let version = "1.0.0"
 }
 
@@ -18,11 +20,11 @@ extension Sword {
   /// - parameter endpoint: The specific endpoint to request
   func request(
     _ endpoint: Endpoint,
-    then: @escaping (Data?, Sword.Error?) -> ()
+    then: @escaping (Sword, Data?, Sword.Error?) -> ()
   ) {
     /// Setup request
-    var request = URLRequest(url: URL(string: endpoint.url)!)
-    request.httpMethod = endpoint.method.rawValue
+    var request = URLRequest(url: endpoint.url!)
+    request.httpMethod = endpoint.method
     request.addValue(
       "DiscordBot (https://github.com/Azoy/Sword, \(Sword.version))",
       forHTTPHeaderField: "User-Agent"
@@ -36,13 +38,13 @@ extension Sword {
       [unowned self] data, response, error in
       /// Handle any errors that happened during the request
       guard error == nil else {
-        then(nil, Sword.Error(error!.localizedDescription))
+        then(self, nil, Sword.Error(error!.localizedDescription))
         return
       }
       
       /// Handle the response first to do things like rate limiting
       guard let response = response as? HTTPURLResponse else {
-        then(nil, Sword.Error("Unable to get a correct HTTP response."))
+        then(self, nil, Sword.Error("Unable to get a correct HTTP response."))
         return
       }
       
@@ -50,11 +52,11 @@ extension Sword {
       
       /// Make sure we can safely unwrap the data
       guard let data = data else {
-        then(nil, Sword.Error("Unable to safely extract received data."))
+        then(self, nil, Sword.Error("Unable to safely extract received data."))
         return
       }
       
-      then(data, nil)
+      then(self, data, nil)
     }
     
     task.resume()
@@ -65,7 +67,7 @@ extension Sword {
   /// - parameter response: The http response from the Discord
   func handleRequestResponse(
     _ response: HTTPURLResponse,
-    _ then: @escaping (Data?, Sword.Error?) -> ()) {
+    _ then: @escaping (Sword, Data?, Sword.Error?) -> ()) {
     Sword.log(.warning, "Get pranked")
   }
 }

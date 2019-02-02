@@ -107,7 +107,7 @@ open class Sword {
       shardManager.shardCount = info.shards
       
       for i in 0 ..< info.shards {
-        shardManager.spawn(i, to: info.url.absoluteString)
+        shardManager.spawn(i, to: info.url)
       }
       
       block()
@@ -137,18 +137,18 @@ open class Sword {
   
   /// Get's the bot's initial gateway information for the websocket
   public func getGateway(
-    then: @escaping (Sword?, GatewayInfo?, Sword.Error?) -> ()
+    then: @escaping (Sword, GatewayInfo?, Sword.Error?) -> ()
   ) {
-    request(.gateway()) { [weak self] data, error in
+    request(.gateway) { sword, data, error in
       guard let data = data else {
-        then(self, nil, error)
+        then(sword, nil, error)
         return
       }
       
       do {
-        try then(self, Sword.decoder.decode(GatewayInfo.self, from: data), nil)
+        then(sword, try Sword.decoder.decode(GatewayInfo.self, from: data), nil)
       } catch {
-        then(self, nil, Sword.Error(error.localizedDescription))
+        then(sword, nil, Sword.Error(error.localizedDescription))
       }
     }
   }
@@ -161,18 +161,6 @@ open class Sword {
     }
     
     return traces
-  }
-  
-  /// Sends a message to a channel
-  ///
-  /// - parameter content: Message content to send to channel
-  /// - parameter channelId: The channel ID to send this message to
-  public func send(
-    _ content: Message.Content,
-    to channelId: String,
-    then: ((Message?, Error?) -> ())? = nil
-  ) {
-    print("Get pranked")
   }
   
   /// Unblocks application from keeping shards alive, you're on your own

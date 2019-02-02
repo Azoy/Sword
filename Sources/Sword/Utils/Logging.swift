@@ -32,11 +32,7 @@ extension Sword {
   /// - parameter type: Kind of msg
   /// - parameter diagnostic: Diagnostic to log out
   static func log(_ type: Logger.LogType, _ diagnostic: Diagnostic) {
-    guard Logger.isEnabled else {
-      return
-    }
-    
-    print("[Sword] " + type.rawValue + diagnostic.getMsg())
+    log(type, diagnostic.getMsg())
   }
   
   /// Logs a message if logging is enabled

@@ -1,34 +1,53 @@
+//
+//  Endpoint.swift
+//  Sword
+//
+//  Created by Alejandro Alonso
+//  Copyright © 2019 Alejandro Alonso. All rights reserved.
+//
+
+import Foundation
+
 /// Organizes different http methods
 enum HTTPMethod: String {
-  case get, post, patch, delete
+  case delete, get, patch, post, put
 }
 
 /// Represents an API call
 struct Endpoint {
+  let majorParam: String
+  
   /// The http method used for this endpoint
-  let method: HTTPMethod
+  let method: String
+  
+  /// Path of endpoint
+  let path: String
+  
+  /// Query items
+  var query = [URLQueryItem]()
+  
+  /// Bucket name for this endpoint
+  var route: String {
+    return "\(method):\(path):\(majorParam)"
+  }
   
   /// The API URL
-  let url: String
+  var url: URL? {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "discordapp.com"
+    components.path = "/api/" + Sword.apiVersion + path
+    components.queryItems = query
+    return components.url
+  }
   
   /// Creates an Endpoint
   ///
   /// - parameter method: The HTTP method used for this endpoint
   /// - parameter url: The API URL for this endpoint
-  init(_ method: HTTPMethod, _ url: String) {
-    self.method = method
-    self.url = "https://discordapp.com/api/v7\(url)"
-  }
-  
-  /// Create Message
-  ///
-  /// - parameter channelId: The channel to create message in
-  static func createMessage(in channelId: String) -> Endpoint {
-    return .init(.post, "/channels/\(channelId)/messages")
-  }
-  
-  /// Gateway
-  static func gateway() -> Endpoint {
-    return .init(.get, "/gateway/bot")
+  init(_ method: HTTPMethod, _ path: String, _ majorParam: String = "") {
+    self.majorParam = majorParam
+    self.method = method.rawValue
+    self.path = path
   }
 }

@@ -13,6 +13,8 @@ public enum EventHandler {
   
   public static var guildCreate: (Guild) -> () = { _ in }
   
+  public static var messageCreate: (Message) -> () = { _ in }
+  
   public static var presenceUpdate: (Presence) -> () = { _ in }
   
   public static var ready: (User) -> () = { _ in }
