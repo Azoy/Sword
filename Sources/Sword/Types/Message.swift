@@ -495,12 +495,12 @@ extension Embed {
   
   public struct Footer {
     public var iconUrl: String?
-    public var proxyIconUrl: String
+    public var proxyIconUrl: String?
     public var text: String
     
     init(_ json: [String: Any]) {
       self.iconUrl = json["icon_url"] as? String
-      self.proxyIconUrl = json["proxy_icon_url"] as! String
+      self.proxyIconUrl = json["proxy_icon_url"] as? String
       self.text = json["text"] as! String
     }
   }
