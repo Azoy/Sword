@@ -521,11 +521,11 @@ extension Embed {
   
   public struct Provider {
     public var name: String
-    public var url: String
+    public var url: String?
     
     init(_ json: [String: Any]) {
       self.name = json["name"] as! String
-      self.url = json["url"] as! String
+      self.url = json["url"] as? String
     }
   }
   
