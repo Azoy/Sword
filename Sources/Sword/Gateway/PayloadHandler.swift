@@ -6,7 +6,7 @@
 //  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
 
-import WebSocket
+import Foundation
 
 extension Shard {
   /// Operates on a given received payload

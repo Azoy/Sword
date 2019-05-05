@@ -7,10 +7,13 @@
 //
 
 import Foundation
-import Async
+import NIO
 
 /// Swift meets Discord
 open class Sword {
+  /// Maps routes to buckets for rate limiting
+  //var buckets = [String: Bucket]()
+  
   /// Mappings from command names/aliases to base command
   var commandMap = [String: Command]()
   
@@ -33,12 +36,6 @@ open class Sword {
   
   /// Customizable options used when setting up the bot
   public var options: Options
-  
-  /// Application blocker
-  var promise: Promise<()>?
-  
-  /// Shared URLSession
-  let session = URLSession.shared
   
   /// Shard Manager
   lazy var shardManager = Shard.Manager(self)
@@ -70,65 +67,36 @@ open class Sword {
     Sword.decoder.userInfo[Sword.decodingInfo] = self
   }
   
-  /// Blocks application for shards to run
-  func block() {
-    if promise == nil {
-      promise = worker.eventLoop.newPromise(Void.self)
-    }
-    
-    do {
-      try promise?.futureResult.wait()
-    } catch {
-      Sword.log(.error, "Unable to block Sword.")
-    }
+  deinit {
+    try! worker.syncShutdownGracefully()
   }
   
   /// Connects the bot
   public func connect() {
-    let promise = worker.eventLoop.newPromise(GatewayInfo.self)
-    
-    getGateway { _, info, error in
-      guard let info = info else {
-        Sword.log(.error, error!.message)
-        promise.fail(error: error!)
-        return
+    getGateway { sword, result in
+      switch result {
+      case .failure(let error):
+        Sword.log(.error, error.message)
+      case .success(let info):
+        sword.shardManager.shardCount = info.shards
+        
+        for i in 0 ..< info.shards {
+          sword.shardManager.spawn(i, to: info.url)
+        }
       }
-      
-      promise.succeed(result: info)
-    }
-    
-    promise.futureResult.whenFailure { error in
-      Sword.log(.error, error.localizedDescription)
-    }
-    
-    do {
-      let info = try promise.futureResult.wait()
-      
-      shardManager.shardCount = info.shards
-      
-      for i in 0 ..< info.shards {
-        shardManager.spawn(i, to: info.url)
-      }
-      
-      block()
-    } catch {
-      Sword.log(.error, error.localizedDescription)
     }
   }
   
   /// Disconnects the bot
   public func disconnect() {
     shardManager.disconnect()
-    unblock()
   }
   
   /// Used to debug the bot's current _trace for its shards
   public func dumpTraces() {
-    if !Logger.isEnabled {
-      Logger.isEnabled = true
-      
-      defer { Logger.isEnabled = false }
-    }
+    Logger.isEnabled = true
+    
+    defer { Logger.isEnabled = options.logging }
     
     for shard in shardManager.shards {
       Sword.log(.info, "Shard \(shard.id): \(shard.trace)")
@@ -137,18 +105,19 @@ open class Sword {
   
   /// Get's the bot's initial gateway information for the websocket
   public func getGateway(
-    then: @escaping (Sword, GatewayInfo?, Sword.Error?) -> ()
+    then: @escaping (Sword, Result<GatewayInfo, Sword.Error>) -> ()
   ) {
-    request(.gateway) { sword, data, error in
-      guard let data = data else {
-        then(sword, nil, error)
-        return
-      }
-      
-      do {
-        then(sword, try Sword.decoder.decode(GatewayInfo.self, from: data), nil)
-      } catch {
-        then(sword, nil, Sword.Error(error.localizedDescription))
+    try? request(.gateway) { sword, result in
+      switch result {
+      case .failure(let error):
+        then(sword, .failure(error))
+      case.success(let data):
+        do {
+          let info = try Sword.decoder.decode(GatewayInfo.self, from: data)
+          then(sword, .success(info))
+        } catch {
+          then(sword, .failure(Sword.Error(error.localizedDescription)))
+        }
       }
     }
   }
@@ -162,10 +131,4 @@ open class Sword {
     
     return traces
   }
-  
-  /// Unblocks application from keeping shards alive, you're on your own
-  func unblock() {
-    promise?.succeed()
-  }
-  
 }

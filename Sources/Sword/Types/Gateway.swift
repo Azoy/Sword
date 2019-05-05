@@ -75,10 +75,25 @@ extension GatewayIdentify {
   }
 }
 
+/// Represents a bot's session start limits on the gateway
+public struct SessionStartLimit: Codable {
+  /// Remaining number of session starts the current user is allowed
+  public let remaining: UInt
+  
+  /// Number of milliseconds after which the limit resets
+  public let resetAfter: UInt
+  
+  /// Total number of session starts the current user is allowed
+  public let total: UInt
+}
+
 /// Represents the info received from /gateway/bot
 public struct GatewayInfo: Codable {
   /// The websocket url to connect the bot
   public let url: String
+  
+  /// Information on the current session start limit
+  public let sessionStartLimit: SessionStartLimit
   
   /// The number of recommended shards
   public let shards: UInt8

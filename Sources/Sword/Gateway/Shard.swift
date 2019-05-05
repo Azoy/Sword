@@ -7,8 +7,9 @@
 //
 
 import Foundation
-import WebSocket
-import CNIOZlib
+import NIOWebSocket
+import NIOWebSocketClient
+import zlib
 
 /// Shard - Represents a unique session to a portion of the guilds a bot is
 ///         connected to.
@@ -47,7 +48,7 @@ class Shard: GatewayHandler {
   var lastSeq: Int?
   
   /// The WebSocket session
-  var session: WebSocket?
+  var session: WebSocketClient.Socket?
   
   /// Used to resume connections
   var sessionId: String?
@@ -57,9 +58,6 @@ class Shard: GatewayHandler {
   
   /// Debugging purposes, array of servers we're connected to
   var trace = [String]()
-  
-  /// Event loop to handle payloads on
-  var worker: Worker = MultiThreadedEventLoopGroup(numberOfThreads: 1)
   
   /// Zlib stream
   var stream = z_stream()
@@ -91,12 +89,6 @@ class Shard: GatewayHandler {
   /// Handles deinitialization of a shard
   deinit {
     inflateEnd(&stream)
-    
-    do {
-      try worker.syncShutdownGracefully()
-    } catch {
-      Sword.log(.warning, "Unable to shutdown event loop for shard: \(id).")
-    }
   }
   
   /// Adds _trace to current list of _trace
@@ -158,20 +150,22 @@ class Shard: GatewayHandler {
       }
     }
     
-    let result = String(
+    let result = Data(
       bytesNoCopy: inflated.baseAddress!,
-      length: Int(stream.total_out),
-      encoding: .utf8,
-      freeWhenDone: false
+      count: Int(stream.total_out),
+      deallocator: .none
     )
     
-    guard let text = result else {
-      // Need a better error message here
-      Sword.log(.error, "Failed to generate string from binary message")
-      return
+    do {
+      let payload = try Sword.decoder.decode(PayloadSinData.self, from: result)
+      
+      handlePayload(payload, data)
+    } catch {
+      Sword.log(
+        .error,
+        "Unable to correctly decode payload data. Error: \(error.localizedDescription)"
+      )
     }
-    
-    handleText(text)
   }
   
   /// Handles a sudden gateway close
@@ -216,7 +210,7 @@ class Shard: GatewayHandler {
       return
     }
     
-    let data = text.convertToData()
+    let data = Data(text.utf8)
     
     do {
       let payload = try Sword.decoder.decode(PayloadSinData.self, from: data)
@@ -320,7 +314,7 @@ class Shard: GatewayHandler {
   func send<T: Codable>(_ payload: Payload<T>) {
     do {
       let data = try Sword.encoder.encode(payload)
-      session?.send(data.convert(to: String.self))
+      session?.send(raw: [UInt8](data), opcode: .text)
     } catch {
       Sword.log(
         .warning,

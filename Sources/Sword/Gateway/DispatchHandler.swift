@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import WebSocket
 
 extension Shard {
   /// Operates on a given dispatch payload

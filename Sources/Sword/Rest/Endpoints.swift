@@ -11,105 +11,102 @@
 
 extension Endpoint {
   static func addRecipient(_ userId: String, in channelId: String) -> Endpoint {
-    return .init(.put, "/channels/\(channelId)/recipients/\(userId)", channelId)
+    return .init(.PUT, "/channels/\(major: channelId)/recipients/\(userId)")
   }
   
   static func bulkDeleteMessages(in channelId: String) -> Endpoint {
-    return .init(.post, "/channels/\(channelId)/messages/bulk-delete", channelId)
+    return .init(.POST, "/channels/\(major: channelId)/messages/bulk-delete")
   }
   
   static func createInvite(in channelId: String) -> Endpoint {
-    return .init(.post, "/channels/\(channelId)/invites")
+    return .init(.POST, "/channels/\(major: channelId)/invites")
   }
   
-  /// Create Message
-  ///
-  /// - parameter channelId: The channel to create message in
   static func createMessage(in channelId: String) -> Endpoint {
-    return .init(.post, "/channels/\(channelId)/messages", channelId)
+    return .init(.POST, "/channels/\(major: channelId)/messages")
   }
   
   static func createPinnedMessage(_ messageId: String, in channelId: String) -> Endpoint {
-    return .init(.put, "/channels/\(channelId)/pins/\(messageId)", channelId)
+    return .init(.PUT, "/channels/\(major: channelId)/pins/\(messageId)")
   }
   
   static func createReaction(_ reactionId: String, for messageId: String, in channelId: String) -> Endpoint {
-    return .init(.put, "/channels/\(channelId)/messages/\(messageId)/reactions/\(reactionId)/@me", channelId)
+    return .init(.PUT, "/channels/\(major: channelId)/messages/\(messageId)/reactions/\(reactionId)/@me")
   }
   
   static func deleteChannel(_ channelId: String) -> Endpoint {
-    return .init(.delete, "/channels/\(channelId)", channelId)
+    return .init(.DELETE, "/channels/\(major: channelId)")
   }
   
   static func deleteChannelPermission(_ overwriteId: String, in channelId: String) -> Endpoint {
-    return .init(.delete, "/channels/\(channelId)/permissions/\(overwriteId)", channelId)
+    return .init(.DELETE, "/channels/\(major: channelId)/permissions/\(overwriteId)")
   }
   
   static func deleteMessage(_ messageId: String, in channelId: String) -> Endpoint {
-    return .init(.delete, "/channels/\(channelId)/messages/\(messageId)", channelId)
+    return .init(.DELETE, "/channels/\(major: channelId)/messages/\(messageId)")
   }
   
   static func deletePinnedMessage(_ messageId: String, in channelId: String) -> Endpoint {
-    return .init(.delete, "/channels/\(channelId)/pins/\(messageId)", channelId)
+    return .init(.DELETE, "/channels/\(major: channelId)/pins/\(messageId)")
   }
   
   static func deleteReaction(_ reactionId: String, by userId: String, from messageId: String, in channelId: String) -> Endpoint {
-    return .init(.delete, "/channels/\(channelId)/messages/\(messageId)/reactions/\(reactionId)/\(userId)", channelId)
+    return .init(.DELETE, "/channels/\(major: channelId)/messages/\(messageId)/reactions/\(reactionId)/\(userId)")
   }
   
   static func deleteReactions(from messageId: String, in channelId: String) -> Endpoint {
-    return .init(.delete, "/channels/\(channelId)/messages/\(messageId)/reactions", channelId)
+    return .init(.DELETE, "/channels/\(major: channelId)/messages/\(messageId)/reactions")
   }
   
   static func editChannelPermission(_ overwriteId: String, in channelId: String) -> Endpoint {
-    return .init(.put, "/channels/\(channelId)/permissions/\(overwriteId)", channelId)
+    return .init(.PUT, "/channels/\(major: channelId)/permissions/\(overwriteId)")
   }
   
   static func editMessage(_ messageId: String, in channelId: String) -> Endpoint {
-    return .init(.patch, "/channels/\(channelId)/messages/\(messageId)", channelId)
+    return .init(.PATCH, "/channels/\(major: channelId)/messages/\(messageId)")
   }
   
   static var gateway: Endpoint {
-    return .init(.get, "/gateway/bot")
+    return .init(.GET, "/gateway/bot")
   }
   
   static func getAuditLog(in guildId: String) -> Endpoint {
-    return .init(.get, "/guilds/\(guildId)/audit-logs", guildId)
+    return .init(.GET, "/guilds/\(major: guildId)/audit-logs")
   }
   
   static func getChannel(_ channelId: String) -> Endpoint {
-    return .init(.get, "/channels/\(channelId)", channelId)
+    return .init(.GET, "/channels/\(major: channelId)")
   }
   
   static func getInvites(in channelId: String) -> Endpoint {
-    return .init(.get, "/channels/\(channelId)/invites", channelId)
+    return .init(.GET, "/channels/\(major: channelId)/invites")
   }
   
   static func getMessage(_ messageId: String, in channelId: String) -> Endpoint {
-    return .init(.get, "/channels/\(channelId)/messages/\(messageId)", channelId)
+    return .init(.GET, "/channels/\(major: channelId)/messages/\(messageId)")
   }
   
   static func getMessages(in channelId: String) -> Endpoint {
-    return .init(.get, "/channels/\(channelId)/messages", channelId)
+    return .init(.GET, "/channels/\(major: channelId)/messages")
   }
   
   static func getPinnedMessages(in channelId: String) -> Endpoint {
-    return .init(.get, "/channels/\(channelId)/pins", channelId)
+    return .init(.GET, "/channels/\(major: channelId)/pins")
   }
   
   static func getReaction(_ reactionId: String, from messageId: String, in channelId: String) -> Endpoint {
-    return .init(.get, "/channels/\(channelId)/messages/\(messageId)/reactions/\(reactionId)", channelId)
+    return .init(.GET, "/channels/\(major: channelId)/messages/\(messageId)/reactions/\(reactionId)")
   }
   
   static func modifyChannel(_ channelId: String) -> Endpoint {
-    return .init(.patch, "/channels/\(channelId)", channelId)
+    return .init(.PATCH, "/channels/\(major: channelId)")
   }
   
   static func removeRecipient(_ userId: String, in channelId: String) -> Endpoint {
-    return .init(.delete, "/channels/\(channelId)/recipients/\(userId)", channelId)
+    return .init(.DELETE, "/channels/\(major: channelId)/recipients/\(userId)")
   }
   
   static func triggerTyping(in channelId: String) -> Endpoint {
-    return .init(.post, "/channels/\(channelId)/typing", channelId)
+    return .init(.POST, "/channels/\(major: channelId)/typing")
   }
 }

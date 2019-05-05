@@ -36,34 +36,48 @@ func decode<T: Decodable>(
 
 // Used to decode iso8601 timestamps
 extension DateFormatter {
-  static var isoFormatter: ISO8601DateFormatter {
-    let fmt = ISO8601DateFormatter()
-    fmt.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-    return fmt
-  }
+  static let isoFormatterLong: DateFormatter = {
+    let df = DateFormatter()
+    df.locale = Locale(identifier: "en_US")
+    df.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
+    return df
+  }()
   
-  static var isoFormatter2: ISO8601DateFormatter {
-    let fmt = ISO8601DateFormatter()
-    fmt.formatOptions = [.withInternetDateTime]
-    return fmt
-  }
+  static let isoFormatterShort: DateFormatter = {
+    let df = DateFormatter()
+    df.locale = Locale(identifier: "en_US")
+    df.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+    return df
+  }()
+  
+  static let http: DateFormatter = {
+    let df = DateFormatter()
+    df.locale = Locale(identifier: "en_US")
+    df.dateFormat = "E, dd MMM yyyy HH:mm:ss zzzz"
+    return df
+  }()
 }
 
 func decodeISO8601(_ decoder: Decoder) throws -> Date {
   let container = try decoder.singleValueContainer()
   let dateString = try container.decode(String.self)
   
-  // This doesn't look great, but you'd still have to append/remove fractionalSeconds
-  guard let date = DateFormatter.isoFormatter.date(from: dateString) else {
-    guard let date = DateFormatter.isoFormatter2.date(from: dateString) else {
-      throw DecodingError.dataCorruptedError(
-        in: container,
-        debugDescription: "ISO8601 format is incorrect"
-      )
-    }
-    
+  if let date = DateFormatter.isoFormatterLong.date(from: dateString) {
     return date
   }
   
-  return date
+  if let date = DateFormatter.isoFormatterShort.date(from: dateString) {
+    return date
+  }
+  
+  throw DecodingError.dataCorruptedError(
+    in: container,
+    debugDescription: "ISO8601 format is incorrect"
+  )
+}
+
+extension String {
+  var httpDate: Date? {
+    return DateFormatter.http.date(from: self)
+  }
 }

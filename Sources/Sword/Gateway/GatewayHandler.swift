@@ -7,18 +7,16 @@
 //
 
 import Foundation
-import WebSocket
+import NIOWebSocket
+import NIOWebSocketClient
 
 /// Represents a WebSocket session for Discord
 protocol GatewayHandler : AnyObject {
   /// Internal WebSocket session
-  var session: WebSocket? { get set }
+  var session: WebSocketClient.Socket? { get set }
 
   /// Sword class
   var sword: Sword { get }
-  
-  /// Event loop to handle payloads on
-  var worker: Worker { get set }
   
   /// Connects the handler to a specific gateway URL
   ///
@@ -55,41 +53,35 @@ extension GatewayHandler {
       return
     }
     
-    let path = url.path.isEmpty ? "/" : url.path + "?" + url.query!
-    
-    let futureWs = HTTPClient.webSocket(
-      scheme: .wss,
-      hostname: host,
-      port: url.port,
-      path: path,
-      maxFrameSize: 1 << 31,
-      on: worker
+    let config = WebSocketClient.Configuration(maxFrameSize: 1 << 31)
+    let client = WebSocketClient(
+      eventLoopGroupProvider: .shared(sword.worker),
+      configuration: config
     )
     
-    futureWs.whenSuccess { [weak self] ws in
-      guard let this = self else {
-        return
-      }
-      
-      this.session = ws
+    let ws = client.connect(
+      host: host,
+      port: url.port ?? 443
+    ) { [unowned self] ws in
+      self.session = ws
       
       ws.onBinary { _, data in
-        this.handleBinary(data)
+        self.handleBinary(Data(data))
       }
       
       ws.onCloseCode { code in
-        this.handleClose(code)
+        self.handleClose(code)
       }
       
       ws.onText { _, text in
-        this.handleText(text)
+        self.handleText(text)
       }
     }
     
     // Makes sure we aren't in an event loop when we try to reconnect in the future
     DispatchQueue.main.async {
       do {
-        _ = try futureWs.wait()
+        try ws.wait()
       } catch {
         Sword.log(.error, .gatewayConnectFailure(error.localizedDescription))
       }
@@ -98,7 +90,7 @@ extension GatewayHandler {
   
   /// Disconnects the handler from the gateway
   func disconnect() {
-    session?.close()
+    session?.close(promise: nil)
     session = nil
   }
 }

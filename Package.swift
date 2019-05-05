@@ -1,9 +1,12 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.0
 
 import PackageDescription
 
 let package = Package(
   name: "Sword",
+  platforms: [
+    .macOS(.v10_14)
+  ],
   products: [
     .library(
       name: "Sword",
@@ -12,19 +15,26 @@ let package = Package(
   ],
   dependencies: [
     .package(
-      url: "https://github.com/vapor/websocket.git",
-      from: "1.1.1"
+      url: "https://github.com/vapor/swift-nio-websocket-client.git",
+      .branch("master")
+    ),
+    .package(
+      url: "https://github.com/swift-server/swift-nio-http-client.git",
+      .branch("master")
     )
   ],
   targets: [
     .target(
       name: "Sword",
-      dependencies: ["WebSocket"]
+      dependencies: [
+        "NIOWebSocketClient",
+        "NIOHTTPClient"
+      ]
     ),
     .testTarget(
       name: "SwordTests",
       dependencies: ["Sword"]
     ),
   ],
-  swiftLanguageVersions: [.v4_2]
+  swiftLanguageVersions: [.v5]
 )
