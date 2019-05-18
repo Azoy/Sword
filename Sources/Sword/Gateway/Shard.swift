@@ -159,7 +159,7 @@ class Shard: GatewayHandler {
     do {
       let payload = try Sword.decoder.decode(PayloadSinData.self, from: result)
       
-      handlePayload(payload, data)
+      handlePayload(payload, result)
     } catch {
       Sword.log(
         .error,

@@ -85,6 +85,12 @@ public struct SessionStartLimit: Codable {
   
   /// Total number of session starts the current user is allowed
   public let total: UInt
+  
+  enum CodingKeys : String, CodingKey {
+    case remaining = "remaining"
+    case resetAfter = "reset_after"
+    case total = "total"
+  }
 }
 
 /// Represents the info received from /gateway/bot
@@ -97,6 +103,12 @@ public struct GatewayInfo: Codable {
   
   /// The number of recommended shards
   public let shards: UInt8
+    
+  enum CodingKeys : String, CodingKey {
+    case url = "url"
+    case sessionStartLimit = "session_start_limit"
+    case shards = "shards"
+  }
 }
 
 /// Represents a ready message received from the gateway
