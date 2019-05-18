@@ -6,18 +6,48 @@
 //  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
 
+enum EventEmitter {
+  static var channelCreate: (Channel) -> () = { _ in }
+  
+  static var guildAvailable: (Guild) -> () = { _ in }
+  
+  static var guildCreate: (Guild) -> () = { _ in }
+  
+  static var messageCreate: (Message) -> () = { _ in }
+  
+  static var presenceUpdate: (Presence) -> () = { _ in }
+  
+  static var ready: (User) -> () = { _ in }
+  
+  static var typingStart: (Typing) -> () = { _ in }
+}
+
 public enum EventHandler {
-  public static var channelCreate: (Channel) -> () = { _ in }
+  public static func channelCreate(_ handler: @escaping (Channel) -> ()) {
+    EventEmitter.channelCreate = handler
+  }
   
-  public static var guildAvailable: (Guild) -> () = { _ in }
+  public static func guildAvailable(_ handler: @escaping (Guild) -> ()) {
+    EventEmitter.guildAvailable = handler
+  }
   
-  public static var guildCreate: (Guild) -> () = { _ in }
+  public static func guildCreate(_ handler: @escaping (Guild) -> ()) {
+    EventEmitter.guildCreate = handler
+  }
   
-  public static var messageCreate: (Message) -> () = { _ in }
+  public static func messageCreate(_ handler: @escaping (Message) -> ()) {
+    EventEmitter.messageCreate = handler
+  }
   
-  public static var presenceUpdate: (Presence) -> () = { _ in }
+  public static func presenceUpdate(_ handler: @escaping (Presence) -> ()) {
+    EventEmitter.presenceUpdate = handler
+  }
   
-  public static var ready: (User) -> () = { _ in }
+  public static func ready(_ handler: @escaping (User) -> ()) {
+    EventEmitter.ready = handler
+  }
   
-  public static var typingStart: (Typing) -> () = { _ in }
+  public static func typingStart(_ handler: @escaping (Typing) -> ()) {
+    EventEmitter.typingStart = handler
+  }
 }

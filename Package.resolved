@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/apple/swift-nio.git",
         "state": {
           "branch": null,
-          "revision": "c07fea1aa5fa8147a4f43929fff6d71ec17f01fb",
-          "version": "2.0.1"
+          "revision": "b2be49ada3d2cf3824e038505be32230d6e62893",
+          "version": "2.1.1"
         }
       },
       {
@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/swift-server/swift-nio-http-client.git",
         "state": {
           "branch": "master",
-          "revision": "23dd98416b4be724894294e89cd8e6a7a462cff7",
+          "revision": "317f4fa6654aa19112583d40f8bb8295c3f0eeec",
           "version": null
         }
       },
@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/vapor/swift-nio-websocket-client.git",
         "state": {
           "branch": "master",
-          "revision": "5bbe62bc77bfdebab3a5819deeafd3fe607b3b1d",
+          "revision": "2c6475a5c576117e55f283b67427d95fd545c0a3",
           "version": null
         }
       }

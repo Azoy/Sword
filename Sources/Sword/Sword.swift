@@ -8,6 +8,8 @@
 
 import Foundation
 import NIO
+import NIOHTTPClient
+import NIOWebSocketClient
 
 /// Swift meets Discord
 open class Sword {
@@ -25,11 +27,20 @@ open class Sword {
     return CodingUserInfoKey(rawValue: "sword")!
   }
   
+  /// Interface to event storage
+  let emit = EventEmitter.self
+  
   /// Used to encode stuff to send off to Discord
   static let encoder = JSONEncoder()
   
+  /// WebSocket CLient to execute websocket requests
+  let gateway: WebSocketClient
+  
   /// Mappings from guild id to guild
   public internal(set) var guilds = [Snowflake: Guild]()
+  
+  /// HTTP Client to execute rest requests
+  let http: HTTPClient
   
   /// Interface to events
   public let on = EventHandler.self
@@ -64,10 +75,27 @@ open class Sword {
       Logger.isEnabled = true
     }
     
+    let httpConfig = HTTPClient.Configuration(tlsConfiguration: .clientDefault)
+    http = HTTPClient(
+      eventLoopGroupProvider: .shared(worker),
+      configuration: httpConfig
+    )
+    
+    let webSocketConfig = WebSocketClient.Configuration(
+      tlsConfiguration: .clientDefault,
+      maxFrameSize: 1 << 31
+    )
+    gateway = WebSocketClient(
+      eventLoopGroupProvider: .shared(worker),
+      configuration: webSocketConfig
+    )
+    
     Sword.decoder.userInfo[Sword.decodingInfo] = self
   }
   
   deinit {
+    try! http.syncShutdown()
+    try! gateway.syncShutdown()
     try! worker.syncShutdownGracefully()
   }
   
@@ -78,6 +106,7 @@ open class Sword {
       case .failure(let error):
         Sword.log(.error, error.message)
       case .success(let info):
+        print(info)
         sword.shardManager.shardCount = info.shards
         
         for i in 0 ..< info.shards {
@@ -85,11 +114,19 @@ open class Sword {
         }
       }
     }
+    
+    if options.blocking {
+      RunLoop.main.run()
+    }
   }
   
   /// Disconnects the bot
   public func disconnect() {
     shardManager.disconnect()
+    
+    if options.blocking {
+      CFRunLoopStop(RunLoop.main.getCFRunLoop())
+    }
   }
   
   /// Used to debug the bot's current _trace for its shards

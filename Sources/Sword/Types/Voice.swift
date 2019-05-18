@@ -65,7 +65,7 @@ extension Voice {
 }
 
 extension Voice.Region {
-  public enum ID: String, Codable, CaseIterable {
+  public enum ID: String, Codable {
     case amsterdam
     case brazil
     case euCentral = "eu-central"
@@ -86,13 +86,7 @@ extension Voice.Region {
     case vipAmsterdam = "vip-amsterdam"
     
     public var isVip: Bool {
-      for region in Voice.Region.ID.allCases {
-        if region.rawValue.hasPrefix("vip") {
-          return true
-        }
-      }
-      
-      return false
+      return self.rawValue.hasPrefix("vip")
     }
   }
 }

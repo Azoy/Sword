@@ -12,7 +12,7 @@ extension Shard {
   /// Operates on a given dispatch payload
   ///
   /// - parameter payload: Payload received from gateway
-  /// - parameter ws: WebSocket session
+  /// - parameter data: Full payload data to decode after we figure out type
   func handleDispatch(
     _ payload: PayloadSinData,
     _ data: Data
@@ -71,7 +71,7 @@ extension Shard {
         return
       }
       
-      sword.on.channelCreate(channel)
+      sword.emit.channelCreate(channel)
       
     // GUILD_CREATE
     case .guildCreate:
@@ -85,9 +85,9 @@ extension Shard {
       
       if sword.unavailableGuilds.keys.contains(guild.id) {
         sword.unavailableGuilds.removeValue(forKey: guild.id)
-        sword.on.guildAvailable(guild)
+        sword.emit.guildAvailable(guild)
       } else {
-        sword.on.guildCreate(guild)
+        sword.emit.guildCreate(guild)
       }
       
     // PRESENCE_UPDATE
@@ -98,7 +98,7 @@ extension Shard {
         return
       }
       
-      sword.on.presenceUpdate(presence)
+      sword.emit.presenceUpdate(presence)
       
     // READY
     case .ready:
@@ -125,7 +125,7 @@ extension Shard {
       
       addTrace(from: ready)
       
-      sword.on.ready(ready.user)
+      sword.emit.ready(ready.user)
       
     // RESUMED
     case .resumed:
@@ -146,7 +146,7 @@ extension Shard {
         return
       }
       
-      sword.on.typingStart(typing)
+      sword.emit.typingStart(typing)
       
     default:
       break

@@ -49,7 +49,7 @@ extension Sword {
         }else {
           self.error = [:]
         }
-      }else {
+      } else {
         self.code = 0
         self.error = [:]
         self.message = response as! String

@@ -8,6 +8,9 @@
 
 /// Customizable options used when setting up the bot
 public struct Options {
+  /// Whether Sword will take block execute of the process
+  public var blocking: Bool
+  
   /// Customizable requirements that must be met in order to execute all
   /// commands
   public var commandRequirements: [CommandRequirement]
@@ -34,12 +37,14 @@ public struct Options {
   /// - parameter prefixes: An array of command prefixes
   /// - parameter transportCompression: `&compress=zlib-stream` or not in ws url
   public init(
+    blocking: Bool = true,
     commandRequirements: [CommandRequirement] = [],
     logging: Bool = false,
     payloadCompression: Bool = true,
     prefixes: [String] = ["@bot"],
     transportCompression: Bool = true
   ) {
+    self.blocking = blocking
     self.commandRequirements = commandRequirements
     self.logging = logging
     self.payloadCompression = payloadCompression

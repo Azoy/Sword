@@ -29,7 +29,7 @@ func decode<T: Decodable>(
     
     return payload.d
   } catch {
-    print(error)
+    Sword.log(.error, error.localizedDescription)
     return nil
   }
 }
