@@ -10,11 +10,7 @@ matrix:
 #      install:
 #        - eval "$(curl -sL https://gist.githubusercontent.com/Azoy/a723677c6cdc891e9b0ab2df1fc1d018/raw/c945e8e94a9d72d32a1a91b797d06f29bf47e30f/swift-4.2-travis.sh)"
     - os: osx
-      osx_image: xcode10
-      before_install:
-        - brew update
-        - brew install libsodium
-        - brew install openssl
+      osx_image: xcode10.2
 
 script:
   - swift build
