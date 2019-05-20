@@ -101,22 +101,27 @@ open class Sword {
   
   /// Connects the bot
   public func connect() {
-    getGateway { sword, result in
-      switch result {
-      case .failure(let error):
-        Sword.log(.error, error.message)
-      case .success(let info):
-        print(info)
-        sword.shardManager.shardCount = info.shards
-        
-        for i in 0 ..< info.shards {
-          sword.shardManager.spawn(i, to: info.url)
-        }
+    do {
+      let info = try getGateway().wait()
+      shardManager.shardCount = info.shards
+      
+      // Default is to handle all shards
+      var shards = Array(0 ..< info.shards)
+      
+      // If we have specific shards to handle, use those
+      if !options.shards.isEmpty {
+        shards = options.shards
       }
-    }
-    
-    if options.blocking {
-      RunLoop.main.run()
+      
+      for i in shards {
+        shardManager.spawn(i, to: info.url)
+      }
+      
+      if options.blocking {
+        RunLoop.main.run()
+      }
+    } catch {
+      print(error.localizedDescription)
     }
   }
   
@@ -137,25 +142,6 @@ open class Sword {
     
     for shard in shardManager.shards {
       Sword.log(.info, "Shard \(shard.id): \(shard.trace)")
-    }
-  }
-  
-  /// Get's the bot's initial gateway information for the websocket
-  public func getGateway(
-    then: @escaping (Sword, Result<GatewayInfo, Sword.Error>) -> ()
-  ) {
-    try? request(.gateway) { sword, result in
-      switch result {
-      case .failure(let error):
-        then(sword, .failure(error))
-      case.success(let data):
-        do {
-          let info = try Sword.decoder.decode(GatewayInfo.self, from: data)
-          then(sword, .success(info))
-        } catch {
-          then(sword, .failure(Sword.Error(error.localizedDescription)))
-        }
-      }
     }
   }
   

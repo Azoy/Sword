@@ -8,7 +8,7 @@
 
 /// Customizable options used when setting up the bot
 public struct Options {
-  /// Whether Sword will take block execute of the process
+  /// Whether Sword will block execution of the process
   public var blocking: Bool
   
   /// Customizable requirements that must be met in order to execute all
@@ -25,16 +25,21 @@ public struct Options {
   /// An array of command prefixes
   public var prefixes: [String]
   
+  /// Array indicating which shards this process will handle
+  public var shards: [UInt8]
+  
   /// Whether or not Shards will ask for `&compress=zlib-stream` in initial
   /// gateway handshake
   public var transportCompression: Bool
   
   /// Creates an Options structure
   ///
+  /// - parameter blocking: Whether to block whole application
   /// - parameter commandRequirements: An array of command requirements
   /// - parameter logging: Whether or not Sword will log messages
   /// - parameter payloadCompression: `"compress: true"` or not in identify
   /// - parameter prefixes: An array of command prefixes
+  /// - parameter shards: Array of shards to handle
   /// - parameter transportCompression: `&compress=zlib-stream` or not in ws url
   public init(
     blocking: Bool = true,
@@ -42,6 +47,7 @@ public struct Options {
     logging: Bool = false,
     payloadCompression: Bool = true,
     prefixes: [String] = ["@bot"],
+    shards: [UInt8] = [],
     transportCompression: Bool = true
   ) {
     self.blocking = blocking
@@ -49,6 +55,7 @@ public struct Options {
     self.logging = logging
     self.payloadCompression = payloadCompression
     self.prefixes = prefixes
+    self.shards = shards
     self.transportCompression = transportCompression
   }
 }

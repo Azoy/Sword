@@ -86,7 +86,7 @@ extension Voice.Region {
     case vipAmsterdam = "vip-amsterdam"
     
     public var isVip: Bool {
-      return self.rawValue.hasPrefix("vip")
+      return rawValue.hasPrefix("vip")
     }
   }
 }
