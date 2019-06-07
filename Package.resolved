@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "SSCZLib",
-        "repositoryURL": "https://github.com/Azoy/zlib-spm.git",
-        "state": {
-          "branch": null,
-          "revision": "f92fc0658af4cd9b11f233e9c02786ecbf75f1ee",
-          "version": "1.2.0"
-        }
-      },
-      {
         "package": "SSCommonCrypto",
         "repositoryURL": "https://github.com/Azoy/common-crypto-spm.git",
         "state": {
@@ -24,8 +15,17 @@
         "repositoryURL": "https://github.com/Azoy/Starscream.git",
         "state": {
           "branch": null,
-          "revision": "83df56fefe4217104329a875a84aa0460b412543",
+          "revision": "a21fca8e9dc83cf3a88a3ba9be15ff17a7e4e8d6",
           "version": "3.0.5"
+        }
+      },
+      {
+        "package": "SSCZLib",
+        "repositoryURL": "https://github.com/Azoy/zlib-spm.git",
+        "state": {
+          "branch": null,
+          "revision": "f92fc0658af4cd9b11f233e9c02786ecbf75f1ee",
+          "version": "1.2.0"
         }
       }
     ]

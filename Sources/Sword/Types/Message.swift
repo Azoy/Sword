@@ -449,13 +449,13 @@ public struct Embed {
   public func encode() -> [String: Any] {
     var embed = [String: Any]()
     
-    if self.author != nil { embed["author"] = self.author! }
+    if self.author != nil { embed["author"] = self.author!.encode() }
     if self.color != nil { embed["color"] = self.color! }
     if self.description != nil { embed["description"] = self.description! }
-    if self.fields != nil { embed["fields"] = self.fields! }
-    if self.footer != nil { embed["footer"] = self.footer! }
-    if self.image != nil { embed["image"] = self.image! }
-    if self.thumbnail != nil { embed["thumbnail"] = self.thumbnail! }
+    if self.fields != nil { embed["fields"] = self.fields!.map { $0.encode() } }
+    if self.footer != nil { embed["footer"] = self.footer!.encode() }
+    if self.image != nil { embed["image"] = self.image!.encode() }
+    if self.thumbnail != nil { embed["thumbnail"] = self.thumbnail!.encode() }
     if self.title != nil { embed["title"] = self.title! }
     if self.url != nil { embed["url"] = self.url! }
     
@@ -469,9 +469,23 @@ extension Embed {
     public var name: String
     public var url: String?
     
+    public init(name: String, url: String? = nil) {
+      self.name = name
+      self.url = url
+    }
+    
     init(_ json: [String: Any]) {
       self.name = json["name"] as! String
       self.url = json["url"] as? String
+    }
+    
+    func encode() -> [String: Any] {
+      var author = [String: Any]()
+      
+      author["name"] = self.name
+      if self.url != nil { author["url"] = self.url! }
+      
+      return author
     }
   }
   
@@ -491,6 +505,16 @@ extension Embed {
       self.name = json["name"] as! String
       self.value = json["value"] as! String
     }
+    
+    func encode() -> [String: Any] {
+      var field = [String: Any]()
+      
+      field["inline"] = self.isInline
+      field["name"] = self.name
+      field["value"] = self.value
+      
+      return field
+    }
   }
   
   public struct Footer {
@@ -498,10 +522,30 @@ extension Embed {
     public var proxyIconUrl: String?
     public var text: String
     
+    public init(
+      text: String,
+      iconUrl: String? = nil,
+      proxyIconUrl: String? = nil
+    ) {
+      self.text = text
+      self.iconUrl = iconUrl
+      self.proxyIconUrl = proxyIconUrl
+    }
+    
     init(_ json: [String: Any]) {
       self.iconUrl = json["icon_url"] as? String
       self.proxyIconUrl = json["proxy_icon_url"] as? String
       self.text = json["text"] as! String
+    }
+    
+    func encode() -> [String: Any] {
+      var footer = [String: Any]()
+      
+      footer["text"] = self.text
+      if self.iconUrl != nil { footer["icon_url"] = self.iconUrl! }
+      if self.proxyIconUrl != nil { footer["proxy_icon_url"] = self.proxyIconUrl! }
+      
+      return footer
     }
   }
   
@@ -511,11 +555,29 @@ extension Embed {
     public var url: String
     public var width: Int
     
+    public init(height: Int, proxyUrl: String, url: String, width: Int) {
+      self.height = height
+      self.proxyUrl = proxyUrl
+      self.url = url
+      self.width = width
+    }
+    
     init(_ json: [String: Any]) {
       self.height = json["height"] as! Int
       self.proxyUrl = json["proxy_url"] as! String
       self.url = json["url"] as! String
       self.width = json["width"] as! Int
+    }
+    
+    func encode() -> [String: Any] {
+      var image = [String: Any]()
+      
+      image["height"] = self.height
+      image["proxy_url"] = self.proxyUrl
+      image["url"] = self.url
+      image["width"] = self.width
+      
+      return image
     }
   }
   
@@ -523,9 +585,23 @@ extension Embed {
     public var name: String
     public var url: String?
     
+    public init(name: String, url: String? = nil) {
+      self.name = name
+      self.url = url
+    }
+    
     init(_ json: [String: Any]) {
       self.name = json["name"] as! String
       self.url = json["url"] as? String
+    }
+    
+    func encode() -> [String: Any] {
+      var provider = [String: Any]()
+      
+      provider["name"] = self.name
+      if self.url != nil { provider["url"] = self.url! }
+      
+      return provider
     }
   }
   
@@ -535,11 +611,29 @@ extension Embed {
     public var url: String
     public var width: Int
     
+    public init(height: Int, proxyUrl: String, url: String, width: Int) {
+      self.height = height
+      self.proxyUrl = proxyUrl
+      self.url = url
+      self.width = width
+    }
+    
     init(_ json: [String: Any]) {
       self.height = json["height"] as! Int
       self.proxyUrl = json["proxy_url"] as! String
       self.url = json["url"] as! String
       self.width = json["width"] as! Int
+    }
+    
+    func encode() -> [String: Any] {
+      var thumbnail = [String: Any]()
+      
+      thumbnail["height"] = self.height
+      thumbnail["proxy_url"] = self.proxyUrl
+      thumbnail["url"] = self.url
+      thumbnail["width"] = self.width
+      
+      return thumbnail
     }
   }
   
