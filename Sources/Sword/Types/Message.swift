@@ -482,8 +482,8 @@ extension Embed {
     
     public init(isInline: Bool = true, name: String = "", value: String = "") {
       self.isInline = true
-      self.name = ""
-      self.value = ""
+      self.name = name
+      self.value = value
     }
     
     init(_ json: [String: Any]) {
