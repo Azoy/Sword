@@ -481,7 +481,7 @@ extension Embed {
     public var value: String
     
     public init(isInline: Bool = true, name: String = "", value: String = "") {
-      self.isInline = true
+      self.isInline = isInline
       self.name = name
       self.value = value
     }
