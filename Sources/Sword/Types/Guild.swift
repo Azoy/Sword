@@ -148,7 +148,9 @@ public class Guild: Updatable, Imageable {
 
     if let features = json["features"] as? [String] {
       for feature in features {
-        self.features.append(Feature(rawValue: feature)!)
+        if let selectedFeature = Feature(rawValue: feature) {
+          self.features.append(selectedFeature)
+        }
       }
     }
 
@@ -225,7 +227,9 @@ public class Guild: Updatable, Imageable {
     
     if let features = json["features"] as? [String] {
       for feature in features {
-        self.features.append(Feature(rawValue: feature)!)
+        if let selectedFeature = Feature(rawValue: feature) {
+          self.features.append(selectedFeature)
+        }
       }
     }
     
@@ -719,6 +723,9 @@ extension Guild {
     
     /// VIP voice channels for crisp audio
     case vipRegions = "VIP_REGIONS"
+    
+    /// Is a verified discord
+    case verified = "VERIFIED"
   }
   
   /// Level of verification for admisitrative actions for guild
