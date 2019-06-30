@@ -63,9 +63,9 @@ public struct Member {
 
     let roles = (json["roles"] as! [String]).map({ Snowflake($0)! })
     for role in roles {
-      self.roles.append(guild.roles[role]!)
-
-      self.permissions |= guild.roles[role]!.permissions
+      guard let role = guild.roles[role] else { continue }
+      self.roles.append(role)
+      self.permissions |= role.permissions
     }
 
     self.user = User(sword, json["user"] as! [String: Any])
