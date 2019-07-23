@@ -9,8 +9,8 @@ var targetDeps: [Target.Dependency] = []
 #if !os(Linux)
 dependencies += [
   .package(
-    url: "https://github.com/Azoy/Starscream.git",
-    .upToNextMajor(from: "3.0.0")
+    url: "https://github.com/daltoniam/Starscream.git",
+    .branch("master")
   )
 ]
   
