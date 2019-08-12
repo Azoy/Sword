@@ -466,15 +466,18 @@ public struct Embed {
 
 extension Embed {
   public struct Author {
+    public var iconUrl: String?
     public var name: String
     public var url: String?
     
-    public init(name: String, url: String? = nil) {
+    public init(iconUrl: String? = nil, name: String, url: String? = nil) {
+      self.iconUrl = iconUrl
       self.name = name
       self.url = url
     }
     
     init(_ json: [String: Any]) {
+      self.iconUrl = json["icon_url"] as? String
       self.name = json["name"] as! String
       self.url = json["url"] as? String
     }
@@ -482,6 +485,7 @@ extension Embed {
     func encode() -> [String: Any] {
       var author = [String: Any]()
       
+      if self.iconUrl != nil { author["icon_url"] = self.iconUrl! }
       author["name"] = self.name
       if self.url != nil { author["url"] = self.url! }
       
