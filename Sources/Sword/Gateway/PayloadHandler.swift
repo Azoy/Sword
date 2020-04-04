@@ -54,9 +54,6 @@ extension Shard {
       // Start heartbeating
       heartbeat(to: hello.heartbeatInterval)
       
-      // Append _trace
-      addTrace(from: hello)
-      
       // Make sure we had a session before
       guard isReconnecting, let sessionId = sessionId, let seq = lastSeq else {
         identify()

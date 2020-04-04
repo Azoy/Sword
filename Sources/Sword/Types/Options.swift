@@ -15,6 +15,9 @@ public struct Options {
   /// commands
   public var commandRequirements: [CommandRequirement]
   
+  /// Whether Sword will receive presence and typing events for guilds.
+  public var guildSubscriptions: Bool
+  
   /// Whether Sword will log messages concerning information about bot
   public var logging: Bool
   
@@ -44,6 +47,7 @@ public struct Options {
   public init(
     blocking: Bool = true,
     commandRequirements: [CommandRequirement] = [],
+    guildSubscriptions: Bool = false,
     logging: Bool = false,
     payloadCompression: Bool = true,
     prefixes: [String] = ["@bot"],
@@ -52,6 +56,7 @@ public struct Options {
   ) {
     self.blocking = blocking
     self.commandRequirements = commandRequirements
+    self.guildSubscriptions = guildSubscriptions
     self.logging = logging
     self.payloadCompression = payloadCompression
     self.prefixes = prefixes

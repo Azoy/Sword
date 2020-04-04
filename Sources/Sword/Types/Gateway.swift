@@ -6,29 +6,22 @@
 //  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
 
-/// Indicates that a message contains _trace
-protocol TraceHolder {
-  /// Array of servers we're connected to
-  var trace: [String] { get }
-}
-
 /// Represents a hello message received from the gateway
-struct GatewayHello: TraceHolder, Codable {
+struct GatewayHello: Codable {
   /// Interval in ms that we need to heartbeat to gateway
   let heartbeatInterval: Int
-  
-  /// Array of servers we're connected to
-  let trace: [String]
   
   /// Used to map json keys to swift keys
   enum CodingKeys: String, CodingKey {
     case heartbeatInterval = "heartbeat_interval"
-    case trace = "_trace"
   }
 }
 
 /// Represents an identify structure sent through the gateway
 struct GatewayIdentify: Codable {
+  /// Whether we will receive presence and typing events.
+  let guildSubscriptions: Bool
+  
   /// Total number of members where gateway will stop sending offline members
   let largeThreshold: UInt8
   
@@ -46,6 +39,7 @@ struct GatewayIdentify: Codable {
   
   /// Used to map json keys to swift keys
   enum CodingKeys: String, CodingKey {
+    case guildSubscriptions = "guild_subscriptions"
     case largeThreshold = "large_threshold"
     case properties
     case shard
@@ -112,12 +106,9 @@ public struct GatewayInfo: Codable {
 }
 
 /// Represents a ready message received from the gateway
-struct GatewayReady: TraceHolder, Codable {
+struct GatewayReady: Codable {
   /// Id of current session
   let sessionId: String
-  
-  /// Array of server we're connected to
-  let trace: [String]
   
   /// Array of unavailable guilds the user is in
   let unavailableGuilds: [UnavailableGuild]
@@ -130,7 +121,6 @@ struct GatewayReady: TraceHolder, Codable {
   
   enum CodingKeys: String, CodingKey {
     case sessionId = "session_id"
-    case trace = "_trace"
     case unavailableGuilds = "guilds"
     case user
     case version = "v"
@@ -153,16 +143,5 @@ struct GatewayResume: Codable {
     case token
     case sessionId = "session_id"
     case seq
-  }
-}
-
-/// Represents a resumed message received from the gateway
-struct GatewayResumed: TraceHolder, Codable {
-  /// Array of servers we're connected to
-  let trace: [String]
-  
-  /// Used to map json keys to swift keys
-  enum CodingKeys: String, CodingKey {
-    case trace = "_trace"
   }
 }

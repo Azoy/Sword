@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import NIOHTTPClient
+import AsyncHTTPClient
+import NIO
 
 extension Sword {
   static let apiVersion = "v7"
@@ -16,13 +17,9 @@ extension Sword {
 }
 
 extension Sword {
-  /// Makes an HTTP Request to the land of Discord's API
-  ///
-  /// - parameter endpoint: The specific endpoint to request
-  func request(
-    _ endpoint: Endpoint,
-    then: @escaping (Sword, Result<Data, Sword.Error>) -> ()
-  ) throws {
+  func request<T: Decodable>(
+    _ endpoint: Endpoint
+  ) throws -> EventLoopFuture<T> {
     var request = try HTTPClient.Request(
       url: endpoint.url,
       method: endpoint.method
@@ -30,28 +27,41 @@ extension Sword {
     
     request.headers.add(
       name: "User-Agent",
-      value: "DiscordBot (https://github.com/Azoy/Sword, \(Sword.version))"
+      value: "DiscordBot (https://github.com/Azoy/Sword, \(Sword.version)"
     )
     
     request.headers.add(name: "Authorization", value: "Bot \(token)")
     
-    let client = HTTPClient(eventLoopGroupProvider: .shared(worker))
+    let result = http.execute(request: request)
     
-    client.execute(request: request).whenComplete { [unowned self] result in
-      switch result {
-      case .failure(let error):
-        self.handleRequestError(error)
-      case .success(let response):
-        self.handleRequestResponse(response)
-      }
+    result.whenFailure {
+      Sword.log(.error, $0.localizedDescription)
     }
-  }
-  
-  func handleRequestError(_ error: Swift.Error) {
     
-  }
-  
-  func handleRequestResponse(_ response: HTTPClient.Response) {
-    
+    return result.flatMapThrowing {
+      let statusCode = $0.status.code
+      
+      // NO CONTENT
+      if statusCode == 204 {
+        throw Failure("")
+      }
+      
+      let data = $0.body!.withUnsafeReadableBytes {
+        Data(bytes: $0.baseAddress!, count: $0.count)
+      }
+      
+      // Check status code for rate limit, permission issues, server problems...
+      switch statusCode {
+      case 200, // OK
+           201, // CREATED
+           304: // NOT MODIFIED
+        break
+      default:
+        throw try Sword.decoder.decode(Failure.self, from: data)
+      }
+      
+      // We can get the response data now
+      return try Sword.decoder.decode(T.self, from: data)
+    }
   }
 }

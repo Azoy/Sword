@@ -1,11 +1,11 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.1
 
 import PackageDescription
 
 let package = Package(
   name: "Sword",
   platforms: [
-    .macOS(.v10_14)
+    .macOS(.v10_15)
   ],
   products: [
     .library(
@@ -15,11 +15,11 @@ let package = Package(
   ],
   dependencies: [
     .package(
-      url: "https://github.com/vapor/swift-nio-websocket-client.git",
+      url: "https://github.com/daltoniam/starscream.git",
       .branch("master")
     ),
     .package(
-      url: "https://github.com/swift-server/swift-nio-http-client.git",
+      url: "https://github.com/swift-server/async-http-client.git",
       .branch("master")
     )
   ],
@@ -27,8 +27,8 @@ let package = Package(
     .target(
       name: "Sword",
       dependencies: [
-        "NIOWebSocketClient",
-        "NIOHTTPClient"
+        "Starscream",
+        "AsyncHTTPClient"
       ]
     ),
     .testTarget(
@@ -36,5 +36,5 @@ let package = Package(
       dependencies: ["Sword"]
     ),
   ],
-  swiftLanguageVersions: [.v5]
+  swiftLanguageVersions: [.version("5.1")]
 )

@@ -2,21 +2,30 @@
   "object": {
     "pins": [
       {
+        "package": "async-http-client",
+        "repositoryURL": "https://github.com/swift-server/async-http-client.git",
+        "state": {
+          "branch": "master",
+          "revision": "80cd7ce40bdd9f402495f1a2512be81dee585a79",
+          "version": null
+        }
+      },
+      {
+        "package": "Starscream",
+        "repositoryURL": "https://github.com/daltoniam/starscream.git",
+        "state": {
+          "branch": "master",
+          "revision": "a2ed45c0b2f996cb8c335c4f270ecc68c3bd4c0f",
+          "version": null
+        }
+      },
+      {
         "package": "swift-nio",
         "repositoryURL": "https://github.com/apple/swift-nio.git",
         "state": {
           "branch": null,
-          "revision": "b2be49ada3d2cf3824e038505be32230d6e62893",
-          "version": "2.1.1"
-        }
-      },
-      {
-        "package": "swift-nio-http-client",
-        "repositoryURL": "https://github.com/swift-server/swift-nio-http-client.git",
-        "state": {
-          "branch": "master",
-          "revision": "317f4fa6654aa19112583d40f8bb8295c3f0eeec",
-          "version": null
+          "revision": "d9dc73592b0409026afc0e59531f7f84cb5fcf8a",
+          "version": "2.5.0"
         }
       },
       {
@@ -24,17 +33,17 @@
         "repositoryURL": "https://github.com/apple/swift-nio-ssl.git",
         "state": {
           "branch": null,
-          "revision": "f9ac0c3486f8e9333e791caf135e3fe067e0e66c",
-          "version": "2.0.2"
+          "revision": "16de4b45c7cbe9815f995dd1539e6b7c4f0980a5",
+          "version": "2.2.0"
         }
       },
       {
-        "package": "nio-websocket-client",
-        "repositoryURL": "https://github.com/vapor/swift-nio-websocket-client.git",
+        "package": "swift-nio-zlib-support",
+        "repositoryURL": "https://github.com/apple/swift-nio-zlib-support.git",
         "state": {
-          "branch": "master",
-          "revision": "2c6475a5c576117e55f283b67427d95fd545c0a3",
-          "version": null
+          "branch": null,
+          "revision": "37760e9a52030bb9011972c5213c3350fa9d41fd",
+          "version": "1.0.0"
         }
       }
     ]

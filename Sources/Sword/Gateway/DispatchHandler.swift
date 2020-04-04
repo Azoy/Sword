@@ -123,19 +123,10 @@ extension Shard {
         sword.unavailableGuilds[ug.id] = ug
       }
       
-      addTrace(from: ready)
-      
       sword.emit.ready(ready.user)
       
     // RESUMED
     case .resumed:
-      guard let resumed = decode(GatewayResumed.self, from: data) else {
-        Sword.log(.warning, "Unable to retreive _trace from resumed, resuming anyways")
-        return
-      }
-      
-      addTrace(from: resumed)
-      
       isReconnecting = false
       
     // TYPING_START

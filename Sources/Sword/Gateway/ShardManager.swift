@@ -45,7 +45,7 @@ extension Shard {
     /// - parameter host: The gateway URL that this shard needs to connect to
     func spawn(_ id: UInt8, to host: String) {
       // Append version
-      var host = "\(host)/?v=\(Sword.gatewayVersion)"
+      var host = "\(host)?v=\(Sword.gatewayVersion)"
       
       // Append encoding
       host += "&encoding=\(Sword.gatewayEncoding)"

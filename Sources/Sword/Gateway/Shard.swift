@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import NIOWebSocket
-import NIOWebSocketClient
+import NIO
+import Starscream
 import zlib
 
 /// Shard - Represents a unique session to a portion of the guilds a bot is
@@ -18,7 +18,7 @@ class Shard: GatewayHandler {
   var ackMissed = 0
   
   /// Buffer to hold gateway messages
-  var buffer = Bytes()
+  var buffer: ByteBuffer
   
   /// The shard ID
   let id: UInt8
@@ -33,12 +33,7 @@ class Shard: GatewayHandler {
   
   /// Determines whether or not the current buffer is ready to be unpacked
   var isBufferComplete: Bool {
-    guard buffer.count >= 4 else {
-      return false
-    }
-    
-    let suffix = buffer.dropFirst(buffer.count - 4)
-    return suffix == [0x0, 0x0, 0xFF, 0xFF]
+    buffer.readableBytesView.suffix(4) == [0x0, 0x0, 0xFF, 0xFF]
   }
   
   /// Whether or not the shard is currently trying to reconnect
@@ -56,9 +51,6 @@ class Shard: GatewayHandler {
   /// The parent class
   let sword: Sword
   
-  /// Debugging purposes, array of servers we're connected to
-  var trace = [String]()
-  
   /// Zlib stream
   var stream = z_stream()
   
@@ -71,6 +63,18 @@ class Shard: GatewayHandler {
     self.sword = sword
     self.heartbeatQueue = DispatchQueue(label: "sword.shard.\(id).heartbeat")
     
+    let allocator = ByteBufferAllocator()
+    self.buffer = allocator.buffer(capacity: 250)
+    
+    initStream()
+  }
+  
+  /// Handles deinitialization of a shard
+  deinit {
+    deinitStream()
+  }
+  
+  func initStream() {
     // Setup inflater
     stream.avail_in = 0
     stream.next_in = nil
@@ -86,37 +90,30 @@ class Shard: GatewayHandler {
     )
   }
   
-  /// Handles deinitialization of a shard
-  deinit {
+  func deinitStream() {
     inflateEnd(&stream)
-  }
-  
-  /// Adds _trace to current list of _trace
-  func addTrace(from th: TraceHolder) {
-    for trace in th.trace {
-      self.trace.append(trace)
-    }
   }
   
   /// Handles binary being sent through the gateway
   ///
   /// - parameter data: Data that was sent through the gateway
-  func handleBinary(_ data: Data) {
-    buffer.append(contentsOf: data)
+  func handleBinary(_ data: ByteBuffer) {
+    var data = data
+    buffer.writeBuffer(&data)
     
     guard isBufferComplete else {
       return
     }
     
     let deflated = UnsafeMutableBufferPointer<UInt8>.allocate(
-      capacity: buffer.count
+      capacity: buffer.readableBytes
     )
     
-    _ = deflated.initialize(from: buffer)
+    _ = deflated.initialize(from: buffer.readableBytesView)
     
     defer {
       deflated.deallocate()
-      buffer.removeAll()
+      buffer.clear()
     }
     
     stream.next_in = deflated.baseAddress
@@ -206,10 +203,6 @@ class Shard: GatewayHandler {
   ///
   /// - parameter text: String that was sent through the gateway
   func handleText(_ text: String) {
-    guard session != nil else {
-      return
-    }
-    
     let data = Data(text.utf8)
     
     do {
@@ -272,6 +265,7 @@ class Shard: GatewayHandler {
     #endif
     
     let identify = GatewayIdentify(
+      guildSubscriptions: sword.options.guildSubscriptions,
       largeThreshold: 250,
       properties: GatewayIdentify.Properties(
         browser: "Sword",
@@ -298,16 +292,17 @@ class Shard: GatewayHandler {
       return
     }
     
-    defer {
-      connect(to: host)
-    }
-    
     guard sessionId != nil else {
       // There was no session to begin with (?). Don't resume.
       return
     }
     
     isReconnecting = true
+    
+    deinitStream()
+    initStream()
+    
+    connect(to: host)
   }
   
   /// Sends a payload through a websocket session

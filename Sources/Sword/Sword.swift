@@ -8,8 +8,7 @@
 
 import Foundation
 import NIO
-import NIOHTTPClient
-import NIOWebSocketClient
+import AsyncHTTPClient
 
 /// Swift meets Discord
 open class Sword {
@@ -103,6 +102,7 @@ open class Sword {
   public func connect() {
     do {
       let info = try getGateway().wait()
+      print(info)
       shardManager.shardCount = info.shards
       
       // Default is to handle all shards
@@ -132,26 +132,5 @@ open class Sword {
     if options.blocking {
       CFRunLoopStop(RunLoop.main.getCFRunLoop())
     }
-  }
-  
-  /// Used to debug the bot's current _trace for its shards
-  public func dumpTraces() {
-    Logger.isEnabled = true
-    
-    defer { Logger.isEnabled = options.logging }
-    
-    for shard in shardManager.shards {
-      Sword.log(.info, "Shard \(shard.id): \(shard.trace)")
-    }
-  }
-  
-  /// Used to to the bot's current _trace for its shards
-  public func getTraces() -> [UInt8: [String]] {
-    var traces = [UInt8: [String]]()
-    for shard in shardManager.shards {
-      traces[shard.id] = shard.trace
-    }
-    
-    return traces
   }
 }

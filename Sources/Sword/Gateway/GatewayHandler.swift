@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import NIOWebSocket
-import NIOWebSocketClient
-import NIOSSL
+import NIO
+import Starscream
 
 /// Represents a WebSocket session for Discord
 protocol GatewayHandler : AnyObject {
@@ -30,7 +29,7 @@ protocol GatewayHandler : AnyObject {
   /// Defines what to when data is received as binary
   ///
   /// - parameter data: The data that was received from the gateway
-  func handleBinary(_ data: Data)
+  func handleBinary(_ data: ByteBuffer)
   
   /// Defines what to do when the gateway closes on us
   func handleClose(_ error: WebSocketErrorCode)
@@ -49,43 +48,31 @@ extension GatewayHandler {
   ///
   /// - parameter host: The gateway URL that this shard needs to connect to
   func connect(to urlString: String) {
-    guard let url = URL(string: urlString), let host = url.host else {
+    guard let url = URL(string: urlString) else {
       Sword.log(.error, .invalidURL(urlString))
       return
     }
     
-    let config = WebSocketClient.Configuration(tlsConfiguration: .forClient(),
-                                               maxFrameSize: 1 << 31)
-
-    let client = WebSocketClient(
-      eventLoopGroupProvider: .shared(sword.worker),
-      configuration: config
-    )
-    
-    let ws = client.connect(
-      host: host,
-      port: url.port ?? 443,
-      uri: url.absoluteString
-    ) { [unowned self] ws in
-      self.session = ws
-      
-      ws.onBinary { _, data in
-        self.handleBinary(Data(data))
-      }
-      
-      ws.onCloseCode { code in
-        self.handleClose(code)
-      }
-      
-      ws.onText { _, text in
-        self.handleText(text)
-      }
-    }
-    
-    // Makes sure we aren't in an event loop when we try to reconnect in the future
-    DispatchQueue.main.async {
+    DispatchQueue.global().async {
       do {
-        try ws.wait()
+        try self.sword.gateway.connect(
+          host: url.absoluteString,
+          port: url.port ?? 443
+        ) { [unowned self] ws in
+          self.session = ws
+          
+          ws.onBinary {
+            self.handleBinary($1)
+          }
+          
+          ws.onCloseCode {
+            self.handleClose($0)
+          }
+          
+          ws.onText {
+            self.handleText($1)
+          }
+        }.wait()
       } catch {
         Sword.log(.error, .gatewayConnectFailure(error.localizedDescription))
       }

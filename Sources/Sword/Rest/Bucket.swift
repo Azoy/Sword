@@ -5,7 +5,7 @@
 //  Created by Alejandro Alonso
 //  Copyright © 2018 Alejandro Alonso. All rights reserved.
 //
-
+/*
 import Foundation
 import Dispatch
 
@@ -15,13 +15,13 @@ class Bucket {
   let worker: DispatchQueue
   
   /// Array of DispatchWorkItems to execute
-  var queue = [DispatchWorkItem]()
+  var queue = [() -> ()]()
   
   /// Limit on token count
   var limit: Int
   
-  /// Interval at which tokens reset
-  var interval: Int
+  /// Token reset
+  var reset: Int
   
   /// Current token count
   var tokens: Int
@@ -36,11 +36,11 @@ class Bucket {
   /// - parameter name: Name of bucket
   /// - parameter limit: Token limit
   /// - parameter interval: Interval at which tokens reset
-  init(name: String, limit: Int, interval: Int) {
+  init(name: String, limit: Int, reset: Int) {
     self.worker = DispatchQueue(label: name, qos: .userInitiated)
     self.limit = limit
-    self.tokens = limit
-    self.interval = interval
+    self.tokens = limit - 1
+    self.reset = reset
   }
   
   /// Check for token renewal and amount of tokens in bucket.
@@ -49,15 +49,17 @@ class Bucket {
   func check() {
     let now = Date()
     
-    if now.timeIntervalSince(lastReset) > Double(interval) {
+    if now.timeIntervalSince1970 > Double(reset) {
       tokens = limit
       lastReset = now
-      lastResetDispatch = DispatchTime.now()
+      lastResetDispatch = .now()
     }
     
     guard tokens > 0 else {
+      let interval: DispatchTimeInterval = .seconds(Double(reset) -
+                                           lastReset.timeIntervalSince1970)
       worker.asyncAfter(
-        deadline: lastResetDispatch + .seconds(interval + 1)
+        deadline: lastResetDispatch + DispatchTimeInterval.seconds(Double(reset) - lastReset.timeIntervalSince1970)
       ) { [unowned self] in
         self.check()
       }
@@ -71,7 +73,7 @@ class Bucket {
   /// Executes the first DispatchWorkItem in self.queue and removes
   /// a token from the bucket.
   func execute() {
-    let item = queue.remove(at: 0)
+    let item = queue.removeFirst()
     tokens -= 1
     worker.async(execute: item)
   }
@@ -79,15 +81,9 @@ class Bucket {
   /// Queues the given item
   ///
   /// - parameter item: Code block to execute
-  func queue(_ item: DispatchWorkItem) {
+  func queue(_ item: @escaping () -> ()) {
     queue.append(item)
     check()
   }
-  
-  /// Used to take x amount of tokens from bucket (initial http request for route)
-  /// - parameter num: Amount of tokens to take
-  func take(_ num: Int) {
-    tokens -= num
-  }
-  
 }
+*/
