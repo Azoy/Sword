@@ -691,7 +691,7 @@ open class Sword: Eventable {
   public func editStatus(to status: String, listening song: String) {
     let game: [String: Any] = [
       "name": song,
-      "type": 0
+      "type": 2
     ]
     
     self.editStatus(to: status, playing: game)
@@ -753,9 +753,10 @@ open class Sword: Eventable {
    - parameter video: A string containing the video the bot is watching
    */
   public func editStatus(to status: String, watching video: String) {
+    // Discord no longer supports watching, so make a custom one.
     let game: [String: Any] = [
-      "name": video,
-      "type": 0
+      "name": "Watching \(video)",
+      "type": 4
     ]
     
     self.editStatus(to: status, playing: game)
