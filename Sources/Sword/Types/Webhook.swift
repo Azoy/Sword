@@ -82,7 +82,7 @@ public struct Webhook {
    - **avatar_url**: The url of the user the webhook will send
    - **tts**: Whether or not this message is tts
    - **file**: The url of the image to send
-   - **embed**: The embed object to send. Refer to [Embed structure](https://discordapp.com/developers/docs/resources/channel#embed-object)
+   - **embed**: The embed object to send. Refer to [Embed structure](https://discord.com/developers/docs/resources/channel#embed-object)
 
    - parameter content: String or dictionary containing message content
   */

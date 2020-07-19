@@ -79,7 +79,7 @@ public struct User: Imageable {
         let discriminator = Int(discrim) else {
         return nil
       }
-      
+      // as of 7/18/20, the CDN domain is still cdn.discordapp.com
       return URL(string: "https://cdn.discordapp.com/embed/avatars/\(discriminator % 5).\(format)")
     }
     

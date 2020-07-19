@@ -375,7 +375,7 @@ public class Guild: Updatable, Imageable {
    #### Options Params ####
    
    - **user_id**: String of user to look for logs of
-   - **action_type**: Integer of Audit Log Event. Refer to [Audit Log Events](https://discordapp.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events)
+   - **action_type**: Integer of Audit Log Event. Refer to [Audit Log Events](https://discord.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events)
    - **before**: String of entry id to look before
    - **limit**: Integer of how many entries to return (default 50, minimum 1, maximum 100)
    
@@ -475,7 +475,7 @@ public class Guild: Updatable, Imageable {
     guard let icon = self.icon else {
       return nil
     }
-    
+    // as of 7/18/20, the CDN domain is still cdn.discordapp.com
     return URL(string: "https://cdn.discordapp.com/icons/\(self.id)/\(icon).\(format)")
   }
   
@@ -562,7 +562,7 @@ public class Guild: Updatable, Imageable {
 
    #### Option Params ####
 
-   - **expire_behavior**: The behavior when an integration subscription lapses (see the [integration](https://discordapp.com/developers/docs/resources/guild#integration-object) object documentation)
+   - **expire_behavior**: The behavior when an integration subscription lapses (see the [integration](https://discord.com/developers/docs/resources/guild#integration-object) object documentation)
    - **expire_grace_period**: Period (in seconds) where the integration will ignore lapsed subscriptions
    - **enable_emoticons**: Whether emoticons should be synced for this integration (twitch only currently), true or false
 

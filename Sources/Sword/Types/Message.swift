@@ -238,7 +238,7 @@ public struct Message {
    
    #### Message Options ####
    
-   Refer to Discord's documentation on the message body https://discordapp.com/developers/docs/resources/channel#create-message-json-params
+   Refer to Discord's documentation on the message body https://discord.com/developers/docs/resources/channel#create-message-json-params
    
    - parameter message: Dictionary containing information on the message
   */

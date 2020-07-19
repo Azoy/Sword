@@ -265,7 +265,7 @@ open class Sword: Eventable {
   /**
    Creates a guild
 
-   - parameter options: Refer to [discord docs](https://discordapp.com/developers/docs/resources/guild#create-guild) for guild options
+   - parameter options: Refer to [discord docs](https://discord.com/developers/docs/resources/guild#create-guild) for guild options
   */
   public func createGuild(
     with options: [String: Any],
@@ -797,7 +797,7 @@ open class Sword: Eventable {
    - **avatar_url**: The url of the user the webhook will send
    - **tts**: Whether or not this message is tts
    - **file**: The url of the image to send
-   - **embeds**: Array of embed objects to send. Refer to [Embed structure](https://discordapp.com/developers/docs/resources/channel#embed-object)
+   - **embeds**: Array of embed objects to send. Refer to [Embed structure](https://discord.com/developers/docs/resources/channel#embed-object)
 
    - parameter webhookId: Webhook to execute
    - parameter webhookToken: Token for auth to execute
@@ -842,7 +842,7 @@ open class Sword: Eventable {
    #### Options Params ####
    
    - **user_id**: String of user to look for logs of
-   - **action_type**: Integer of Audit Log Event. Refer to [Audit Log Events](https://discordapp.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events)
+   - **action_type**: Integer of Audit Log Event. Refer to [Audit Log Events](https://discord.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events)
    - **before**: String of entry id to look before
    - **limit**: Integer of how many entries to return (default 50, minimum 1, maximum 100)
    
@@ -1719,7 +1719,7 @@ open class Sword: Eventable {
 
    #### Option Params ####
 
-   - **expire_behavior**: The behavior when an integration subscription lapses (see the [integration](https://discordapp.com/developers/docs/resources/guild#integration-object) object documentation)
+   - **expire_behavior**: The behavior when an integration subscription lapses (see the [integration](https://discord.com/developers/docs/resources/guild#integration-object) object documentation)
    - **expire_grace_period**: Period (in seconds) where the integration will ignore lapsed subscriptions
    - **enable_emoticons**: Whether emoticons should be synced for this integration (twitch only currently), true or false
 
@@ -1983,7 +1983,7 @@ open class Sword: Eventable {
    - **avatar_url**: The url of the user the webhook will send
    - **tts**: Whether or not this message is tts
    - **file**: The url of the image to send
-   - **embed**: The embed object to send. Refer to [Embed structure](https://discordapp.com/developers/docs/resources/channel#embed-object)
+   - **embed**: The embed object to send. Refer to [Embed structure](https://discord.com/developers/docs/resources/channel#embed-object)
 
    - parameter content: Dictionary containing info on message
    - parameter channelId: Channel to send message to

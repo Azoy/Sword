@@ -84,7 +84,7 @@ public struct Emoji: Imageable {
     guard let id = self.id else {
       return nil
     }
-    
+    // as of 7/18/20, the CDN domain is still cdn.discordapp.com
     return URL(string: "https://cdn.discordapp.com/emojis/\(id).\(format)")
   }
 }
