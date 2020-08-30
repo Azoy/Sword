@@ -22,19 +22,19 @@ extension Gateway {
       return
     }
     
+    guard self.acksMissed < 3 else {
+      print("[Sword] Did not receive ACK from server, reconnecting...")
+      self.reconnect()
+      return
+    }
+    
+    self.acksMissed += 1
+    
+    self.send(self.heartbeatPayload.encode(), presence: false)
+    
     self.heartbeatQueue.asyncAfter(
       deadline: .now() + .milliseconds(interval)
     ) { [unowned self] in
-      guard self.wasAcked else {
-        print("[Sword] Did not receive ACK from server, reconnecting...")
-        self.reconnect()
-        return
-      }
-      
-      self.wasAcked = false
-      
-      self.send(self.heartbeatPayload.encode(), presence: false)
-      
       self.heartbeat(at: interval)
     }
   }

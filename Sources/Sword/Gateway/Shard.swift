@@ -61,8 +61,8 @@ class Shard: Gateway {
   /// Parent class
   unowned let sword: Sword
 
-  /// Whether or not this shard was last acked
-  var wasAcked = true
+  /// Number of missed heartbeat ACKs
+  var acksMissed = 0
   
   // MARK: Initializer
 
@@ -259,6 +259,7 @@ class Shard: Gateway {
     #endif
     
     self.isConnected = false
+    self.acksMissed = 0
     
     self.sword.log("Disconnected from gateway... Resuming session")
     
@@ -307,6 +308,7 @@ class Shard: Gateway {
     
     self.isConnected = false
     self.isReconnecting = false
+    self.acksMissed = 0
 
     self.sword.log("Stopping gateway connection...")
   }

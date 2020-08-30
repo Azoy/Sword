@@ -33,7 +33,7 @@ extension Shard {
 
     /// OP: 11
     case .heartbeatACK:
-      self.wasAcked = true
+      self.heartbeatQueue.sync { self.acksMissed = 0 }
 
     /// OP: 10
     case .hello:
