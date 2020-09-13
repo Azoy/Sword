@@ -20,6 +20,8 @@ import WebSockets
 
 protocol Gateway: class {
 
+  var acksMissed: Int { get set }
+  
   var gatewayUrl: String { get set }
 
   var heartbeatPayload: Payload { get }
@@ -29,8 +31,6 @@ protocol Gateway: class {
   var isConnected: Bool { get set }
   
   var session: WebSocket? { get set }
-  
-  var wasAcked: Bool { get set }
   
   func handleDisconnect(for code: Int)
   
@@ -73,6 +73,7 @@ extension Gateway {
       }
     }
 
+    self.acksMissed = 0
     self.session?.connect()
     #else
     do {
