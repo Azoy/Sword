@@ -90,6 +90,6 @@ To run the bot in Xcode, you first have to compile the libraries with `swift bui
 Then click the play button!
 
 ## Links
-[Documentation](http://sword.azoy.me) - (created with [Jazzy](https://github.com/Realm/Jazzy))
+[Documentation](https://azoy.github.io/Sword/) - (created with [Jazzy](https://github.com/Realm/Jazzy))
 
 Join the [API Channel](https://discord.gg/99a3xNk) to ask questions!
